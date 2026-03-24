@@ -1,0 +1,485 @@
+[{
+  "_id": {
+    "$oid": "698409f03a4a259d9c3cd3c3"
+  },
+  "info": {
+    "name": "name 1",
+    "description": "description",
+    "price": 275000,
+    "sale": 1,
+    "category": {
+      "name": "Shoes",
+      "slug": "shoes"
+    },
+    "brand": "Generic Brand",
+    "origin": "Viet Nam"
+  },
+  "owner": {
+    "seller_id": "415de432-f0ac-42be-8783-6b424aadb06e",
+    "store_id": "stored-id-1"
+  },
+  "images": {
+    "thumbnail": "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+    "details": [
+      "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+      "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+      "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
+    ]
+  },
+  "tags": [
+    "#tag1",
+    "#ecommerce",
+    "#sample"
+  ],
+  "options": [
+    {
+      "key": "color",
+      "label": "Màu sắc",
+      "values": [
+        {
+          "value": "white",
+          "display": "Trắng",
+          "image": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
+        },
+        {
+          "value": "red",
+          "display": "Đỏ",
+          "image": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
+        },
+        {
+          "value": "yellow",
+          "display": "Vàng",
+          "image": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
+        }
+      ]
+    },
+    {
+      "key": "size",
+      "label": "Kích thước",
+      "values": [
+        {
+          "value": "39",
+          "display": "39"
+        },
+        {
+          "value": "40",
+          "display": "40"
+        },
+        {
+          "value": "41",
+          "display": "41"
+        }
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "sku": "NIKE-WHITE-39",
+      "stock": 50,
+      "options": {
+        "color": "white",
+        "size": "39"
+      },
+      "price_extra": 0
+    },
+    {
+      "sku": "NIKE-WHITE-40",
+      "stock": 30,
+      "options": {
+        "color": "white",
+        "size": "40"
+      },
+      "price_extra": 10000
+    },
+    {
+      "sku": "NIKE-WHITE-41",
+      "stock": 20,
+      "options": {
+        "color": "white",
+        "size": "41"
+      },
+      "price_extra": 5000
+    },
+    {
+      "sku": "NIKE-RED-39",
+      "stock": 20,
+      "options": {
+        "color": "red",
+        "size": "39"
+      },
+      "price_extra": 5000
+    },
+    {
+      "sku": "NIKE-RED-40",
+      "stock": 20,
+      "options": {
+        "color": "red",
+        "size": "40"
+      },
+      "price_extra": 5000
+    },
+    {
+      "sku": "NIKE-RED-41",
+      "stock": 20,
+      "options": {
+        "color": "red",
+        "size": "41"
+      },
+      "price_extra": 5000
+    },
+    {
+      "sku": "NIKE-YELLOW-39",
+      "stock": 50,
+      "options": {
+        "color": "yellow",
+        "size": "39"
+      },
+      "price_extra": 0
+    },
+    {
+      "sku": "NIKE-YELLOW-40",
+      "stock": 50,
+      "options": {
+        "color": "yellow",
+        "size": "40"
+      },
+      "price_extra": 0
+    },
+    {
+      "sku": "NIKE-YELLOW-41",
+      "stock": 50,
+      "options": {
+        "color": "yellow",
+        "size": "41"
+      },
+      "price_extra": 0
+    }
+  ],
+  "shipping": {
+    "flash": true,
+    "normal": true
+  },
+  "rating_sumary": {
+    "avg": 5,
+    "total": 3
+  },
+  "reviews": [
+    {
+      "name": "REVIEWER SAMPLE",
+      "email": "reviewersample@gmail.com",
+      "comment": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Id rem voluptatum minima iusto eligendi dolorum enim. Harum, ex. Fugit cum at quae explicabo doloremque exercitationem, praesentium esse est iusto porro!",
+      "comment_at": "2026-01-31",
+      "rating": 5,
+      "imgs": [
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
+      ]
+    }
+  ],
+  "status": "active|inactive|zero",
+  "createdAt": "2026-01-31",
+  "updatedAt": "2026-01-31"
+},
+{
+  "_id": {
+    "$oid": "698409f03a4a259d9c3cd3c4"
+  },
+  "info": {
+    "name": "name 2",
+    "description": "description",
+    "price": 275000,
+    "sale": 1,
+    "category": {
+      "name": "Shoes",
+      "slug": "shoes"
+    },
+    "brand": "Generic Brand",
+    "origin": "Viet Nam"
+  },
+  "owner": {
+    "seller_id": "415de432-f0ac-42be-8783-6b424aadb06e",
+    "store_id": "stored-id-1"
+  },
+  "images": {
+    "thumbnail": "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+    "details": [
+      "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+      "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+      "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
+    ]
+  },
+  "tags": [
+    "#tag1",
+    "#ecommerce",
+    "#sample"
+  ],
+  "options": [
+    {
+      "key": "color",
+      "label": "Màu sắc",
+      "values": [
+        {
+          "value": "white",
+          "display": "Trắng",
+          "image": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
+        },
+        {
+          "value": "red",
+          "display": "Đỏ",
+          "image": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
+        }
+      ]
+    },
+    {
+      "key": "size",
+      "label": "Kích thước",
+      "values": [
+        {
+          "value": "39",
+          "display": "39"
+        },
+        {
+          "value": "40",
+          "display": "40"
+        },
+        {
+          "value": "41",
+          "display": "41"
+        }
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "sku": "NIKE-WHITE-39",
+      "stock": 50,
+      "options": {
+        "color": "white",
+        "size": "39"
+      },
+      "price_extra": 0
+    },
+    {
+      "sku": "NIKE-WHITE-40",
+      "stock": 30,
+      "options": {
+        "color": "white",
+        "size": "40"
+      },
+      "price_extra": 10000
+    },
+    {
+      "sku": "NIKE-WHITE-41",
+      "stock": 20,
+      "options": {
+        "color": "white",
+        "size": "41"
+      },
+      "price_extra": 5000
+    },
+    {
+      "sku": "NIKE-RED-41",
+      "stock": 20,
+      "options": {
+        "color": "red",
+        "size": "39"
+      },
+      "price_extra": 5000
+    },
+    {
+      "sku": "NIKE-RED-41",
+      "stock": 20,
+      "options": {
+        "color": "red",
+        "size": "40"
+      },
+      "price_extra": 5000
+    },
+    {
+      "sku": "NIKE-RED-41",
+      "stock": 20,
+      "options": {
+        "color": "red",
+        "size": "41"
+      },
+      "price_extra": 5000
+    }
+  ],
+  "shipping": {
+    "flash": true,
+    "normal": true
+  },
+  "rating_sumary": {
+    "avg": 5,
+    "total": 3
+  },
+  "reviews": [
+    {
+      "name": "REVIEWER SAMPLE",
+      "email": "reviewersample@gmail.com",
+      "comment": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Id rem voluptatum minima iusto eligendi dolorum enim. Harum, ex. Fugit cum at quae explicabo doloremque exercitationem, praesentium esse est iusto porro!",
+      "comment_at": "2026-01-31",
+      "rating": 5,
+      "imgs": [
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
+      ]
+    }
+  ],
+  "status": "active|inactive|zero",
+  "createdAt": "2026-01-31",
+  "updatedAt": "2026-01-31"
+},
+{
+  "_id": {
+    "$oid": "698409f03a4a259d9c3cd3c5"
+  },
+  "info": {
+    "name": "name 3",
+    "description": "description",
+    "price": 275000,
+    "sale": 1,
+    "category": {
+      "name": "Fashion",
+      "slug": "fashion"
+    },
+    "brand": "Generic Brand",
+    "origin": "Viet Nam"
+  },
+  "owner": {
+    "seller_id": "415de432-f0ac-42be-8783-6b424aadb06e",
+    "store_id": "stored-id-1"
+  },
+  "images": {
+    "thumbnail": "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+    "details": [
+      "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+      "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+      "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
+    ]
+  },
+  "tags": [
+    "#tag1",
+    "#ecommerce",
+    "#sample"
+  ],
+  "options": [
+    {
+      "key": "color",
+      "label": "Màu sắc",
+      "values": [
+        {
+          "value": "white",
+          "display": "Trắng",
+          "image": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
+        },
+        {
+          "value": "red",
+          "display": "Đỏ",
+          "image": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
+        }
+      ]
+    },
+    {
+      "key": "size",
+      "label": "Kích thước",
+      "values": [
+        {
+          "value": "39",
+          "display": "39"
+        },
+        {
+          "value": "40",
+          "display": "40"
+        },
+        {
+          "value": "41",
+          "display": "41"
+        }
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "sku": "NIKE-WHITE-39",
+      "stock": 50,
+      "options": {
+        "color": "white",
+        "size": "39"
+      },
+      "price_extra": 0
+    },
+    {
+      "sku": "NIKE-WHITE-40",
+      "stock": 30,
+      "options": {
+        "color": "white",
+        "size": "40"
+      },
+      "price_extra": 10000
+    },
+    {
+      "sku": "NIKE-WHITE-41",
+      "stock": 20,
+      "options": {
+        "color": "white",
+        "size": "41"
+      },
+      "price_extra": 5000
+    },
+    {
+      "sku": "NIKE-RED-41",
+      "stock": 20,
+      "options": {
+        "color": "red",
+        "size": "39"
+      },
+      "price_extra": 5000
+    },
+    {
+      "sku": "NIKE-RED-41",
+      "stock": 20,
+      "options": {
+        "color": "red",
+        "size": "40"
+      },
+      "price_extra": 5000
+    },
+    {
+      "sku": "NIKE-RED-41",
+      "stock": 20,
+      "options": {
+        "color": "red",
+        "size": "41"
+      },
+      "price_extra": 5000
+    }
+  ],
+  "shipping": {
+    "flash": true,
+    "normal": true
+  },
+  "rating_sumary": {
+    "avg": 5,
+    "total": 3
+  },
+  "reviews": [
+    {
+      "name": "REVIEWER SAMPLE",
+      "email": "reviewersample@gmail.com",
+      "comment": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Id rem voluptatum minima iusto eligendi dolorum enim. Harum, ex. Fugit cum at quae explicabo doloremque exercitationem, praesentium esse est iusto porro!",
+      "comment_at": "2026-01-31",
+      "rating": 5,
+      "imgs": [
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
+      ]
+    }
+  ],
+  "status": "active|inactive|zero",
+  "createdAt": "2026-01-31",
+  "updatedAt": "2026-01-31"
+}]

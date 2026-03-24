@@ -1,0 +1,44 @@
+{
+  "info": {
+    "firstName": "Quang",
+    "lastName": "Khit",
+    "fullName": "Quang Dai Khit",
+    "avatar": "",
+    "dateOfBirth": "2005-09-14"
+  },
+  "emailAddress": "khitquangdai1409@gmail.com",
+  "currentPassword": "140905@Kidnine",
+  "addresses": [
+    {
+      "province": "Khánh Hòa",
+      "ward": "Phước Hữu",
+      "addressDetail": "Hữu Đức"
+    },
+    {
+      "province": "TP Hồ Chí Minh",
+      "ward": "Phú Thạnh",
+      "addressDetail": "205/34 Thoại Ngọc Hầu"
+    }
+  ],
+  "phones": [
+    {
+      "phoneNumber": "0793844821",
+      "type": "individual"
+    },
+    {
+      "phoneNumber": "0794893642",
+      "type": "individual"
+    }
+  ],
+  "store": {
+    "storeCode": "140905",
+    "info": {
+      "name": "Kidnine Store",
+      "avatar": "",
+      "thumbnail": "",
+      "phoneNumber": "0793844821",
+      "emailAddress": "kidninestore1409@gmail.com",
+      "description": "Store of kidnine, wellcome"
+    }
+  }
+}

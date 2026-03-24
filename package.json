@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "scripts": {
+    "start:server": "npm run start:dev --prefix server",
+    "start:client": "npm run dev --prefix client",
+    "dev": "concurrently -n \"NEXT,NEST\" -c \"blue,red\" --prefix \"[{name}]\" --kill-others-on-fail \"npm run start:client\" \"npm run start:server\""
+  }
+}

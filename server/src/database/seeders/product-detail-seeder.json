@@ -1,0 +1,254 @@
+[
+  {
+    "info": {
+      "name": "name 1",
+      "description": "description",
+      "price": 275000,
+      "sale": 1,
+      "category": {
+        "id": "69833c31721b907b100daa69",
+        "name": "Shose"
+      },
+      "brand": "Generic Brand",
+      "origin": "Viet Nam"
+    },
+    "owner": {
+      "sellerId": "415de432-f0ac-42be-8783-6b424aadb06e",
+      "storeId": "stored-id-1"
+    },
+    "images": {
+      "thumbnail": "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+      "details": [
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
+      ]
+    },
+    "tags": ["#tag1", "#ecommerce", "#sample"],
+    "classification": [
+      {
+        "name": "color",
+        "values": [
+          {
+            "name": "White",
+            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+            "stock": 50,
+            "extraPrice": 10000
+          },
+          {
+            "name": "Yellow",
+            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+            "stock": 50,
+            "extraPrice": 10000
+          },
+          {
+            "name": "Red",
+            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+            "stock": 50,
+            "extraPrice": 10000
+          }
+        ]
+      },
+      {
+        "name": "size",
+        "values": [
+          {
+            "name": "39",
+            "extraPrice": 10000,
+            "img": "",
+            "stock": 50
+          },
+          {
+            "name": "40",
+            "extraPrice": 10000,
+            "img": "",
+            "stock": 50
+          },
+          {
+            "name": "41",
+            "extraPrice": 10000,
+            "img": "",
+            "stock": 50
+          }
+        ]
+      }
+    ],
+    "shipping": {
+      "flash": true,
+      "normal": true
+    },
+    "ratingSumary": {
+      "avg": 5,
+      "total": 3
+    },
+    "status": "active"
+  },
+  {
+    "info": {
+      "name": "name 1",
+      "description": "description",
+      "price": 275000,
+      "sale": 1,
+      "category": {
+        "id": "69833c31721b907b100daa69",
+        "name": "Shose"
+      },
+      "brand": "Generic Brand",
+      "origin": "Viet Nam"
+    },
+    "owner": {
+      "sellerId": "415de432-f0ac-42be-8783-6b424aadb06e",
+      "storeId": "stored-id-1"
+    },
+    "images": {
+      "thumbnail": "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+      "details": [
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
+      ]
+    },
+    "tags": ["#tag1", "#ecommerce", "#sample"],
+    "classification": [
+      {
+        "name": "color",
+        "values": [
+          {
+            "name": "White",
+            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+            "stock": 50,
+            "extraPrice": 10000
+          },
+          {
+            "name": "Yellow",
+            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+            "stock": 50,
+            "extraPrice": 10000
+          },
+          {
+            "name": "Red",
+            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+            "stock": 50,
+            "extraPrice": 10000
+          }
+        ]
+      },
+      {
+        "name": "size",
+        "values": [
+          {
+            "name": "39",
+            "extraPrice": 10000,
+            "img": "",
+            "stock": 50
+          },
+          {
+            "name": "40",
+            "extraPrice": 10000,
+            "img": "",
+            "stock": 50
+          },
+          {
+            "name": "41",
+            "extraPrice": 10000,
+            "img": "",
+            "stock": 50
+          }
+        ]
+      }
+    ],
+    "shipping": {
+      "flash": true,
+      "normal": true
+    },
+    "ratingSumary": {
+      "avg": 5,
+      "total": 3
+    },
+    "status": "active"
+  },
+  {
+    "info": {
+      "name": "name 1",
+      "description": "description",
+      "price": 275000,
+      "sale": 1,
+      "category": {
+        "id": "69833c31721b907b100daa69",
+        "name": "Shose"
+      },
+      "brand": "Generic Brand",
+      "origin": "Viet Nam"
+    },
+    "owner": {
+      "sellerId": "415de432-f0ac-42be-8783-6b424aadb06e",
+      "storeId": "stored-id-1"
+    },
+    "images": {
+      "thumbnail": "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+      "details": [
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
+      ]
+    },
+    "tags": ["#tag1", "#ecommerce", "#sample"],
+    "classification": [
+      {
+        "name": "color",
+        "values": [
+          {
+            "name": "White",
+            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+            "stock": 50,
+            "extraPrice": 10000
+          },
+          {
+            "name": "Yellow",
+            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+            "stock": 50,
+            "extraPrice": 10000
+          },
+          {
+            "name": "Red",
+            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
+            "stock": 50,
+            "extraPrice": 10000
+          }
+        ]
+      },
+      {
+        "name": "size",
+        "values": [
+          {
+            "name": "39",
+            "extraPrice": 10000,
+            "img": "",
+            "stock": 50
+          },
+          {
+            "name": "40",
+            "extraPrice": 10000,
+            "img": "",
+            "stock": 50
+          },
+          {
+            "name": "41",
+            "extraPrice": 10000,
+            "img": "",
+            "stock": 50
+          }
+        ]
+      }
+    ],
+    "shipping": {
+      "flash": true,
+      "normal": true
+    },
+    "ratingSumary": {
+      "avg": 5,
+      "total": 3
+    },
+    "status": "active"
+  }
+]

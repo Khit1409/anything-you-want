@@ -1,0 +1,43 @@
+{
+  "id": "order-uuid-1",
+  "items": {
+    "product_id": "product-id-1",
+    "product_name": "Ao Thun Nam",
+    "quantity": 2,
+    "total_price": 10000,
+    "origin_price": 20000,
+    "variant": {
+      "sku": "NIKE-WHITE-39",
+      "options": {
+        "color": "white",
+        "size": "39"
+      }
+    }
+  },
+  "owner": {
+    "user_id": "user-id-1",
+    "seller_id": "seller-id-1",
+    "store_id": "store-id-1"
+  },
+  "user_info": {
+    "address": {
+      "ward": "Ninh Phuoc",
+      "address_detail": "Huu Duc",
+      "province": "Khanh Hoa"
+    },
+    "contact_info": {
+      "phone_number": "0987654321",
+      "email_address": "abc@gmail.com"
+    },
+    "full_name": "Quang Dai Khit"
+  },
+  "rating": {
+    "comment": "Good",
+    "star": 5,
+    "image": ""
+  },
+  "shipping": "flash",
+  "status": "['accepted','pending','failed','recived']",
+  "createdAt": "",
+  "updatedAt": ""
+}
