@@ -12,56 +12,56 @@ import { RoleDto } from '../../common/dto/response.common.dto';
 
 class RegisterUserAccountAddress {
   @IsString()
-  province: string;
+  province!: string;
   @IsString()
-  ward: string;
+  ward!: string;
   @IsString()
-  addressDetail: string;
+  addressDetail!: string;
 }
 
 class RegisterUserAccountPhone {
   @IsString()
   @Length(10)
-  phoneNumber: string;
+  phoneNumber!: string;
 }
 
 export class RegisterUserAccountRequestDto {
   @IsString()
   @IsNotEmpty()
-  emailAddress: string;
+  emailAddress!: string;
   @IsString()
   @IsNotEmpty()
-  currentPassword: string;
+  currentPassword!: string;
   @IsString()
   @IsNotEmpty()
-  lastName: string;
+  lastName!: string;
   @IsString()
   @IsNotEmpty()
-  fullName: string;
+  fullName!: string;
   @IsString()
   @IsNotEmpty()
-  firstName: string;
+  firstName!: string;
   @IsDateString()
   @IsNotEmpty()
-  dateOfBirth: string;
+  dateOfBirth!: string;
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => RegisterUserAccountAddress)
-  address: Array<RegisterUserAccountAddress>;
+  address!: Array<RegisterUserAccountAddress>;
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => RegisterUserAccountPhone)
-  phones: Array<RegisterUserAccountPhone>;
+  phones!: Array<RegisterUserAccountPhone>;
 }
 
 export class LoginRequestDto {
   @IsString()
   @IsNotEmpty()
-  emailAddress: string;
+  emailAddress!: string;
   @IsString()
   @IsNotEmpty()
-  currentPassword: string;
+  currentPassword!: string;
   @IsEnum(RoleDto)
   @IsNotEmpty()
-  loginRole: RoleDto;
+  loginRole!: RoleDto;
 }

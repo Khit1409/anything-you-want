@@ -19,8 +19,8 @@ import {
 
 import type { Request } from 'express';
 import { StoreService } from '../stores/stores.service';
-import { Roles } from '@/src/common/decorators/role.decorator';
-import { Role } from '@/src/common/enums/role.enum';
+import { Roles } from '@/src/common/decorators/roles.decorator';
+import { Role } from '@/src/common/enums/roles.enum';
 import { RolesGuard } from '@/src/guards/role.guard';
 import { AuthGuard } from '@/src/guards/auth.guard';
 

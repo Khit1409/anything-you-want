@@ -11,14 +11,14 @@ export class CartCategory {
 }
 
 export class CartInfo {
-  @Prop({ type: String, required: true })
-  brand: string;
+  @Prop({ type: String, required: false, default: '' })
+  brand?: string;
   @Prop({ type: String, required: true })
   name: string;
   @Prop({ type: CartCategory, required: true })
   category: CartCategory;
-  @Prop({ type: String, required: true })
-  origin: string;
+  @Prop({ type: String, required: false, default: '' })
+  origin?: string;
   @Prop({ type: Number, required: true })
   originPrice: number;
   @Prop({ type: Number, required: true })
@@ -59,7 +59,7 @@ export class CartClassificationValue {
   @Prop({ type: Number, required: true })
   extraPrice: number;
   @Prop({ type: String, required: false, default: '' })
-  img: string;
+  img?: string;
 }
 
 export class CartClassification {

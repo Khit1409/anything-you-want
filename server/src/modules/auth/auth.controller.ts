@@ -12,7 +12,7 @@ import type { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { LoginRequestDto } from './dto/auth.request.dto';
 import { RoleDto } from '../common/dto/response.common.dto';
-import { CookieMap } from 'src/interfaces/cookies.interface';
+import { CookieMap } from '@/src/interfaces/cookies.interface';
 import { authCookieConfig } from '@/src/lib/cookie.config';
 
 @Controller('auth')

@@ -1,0 +1,25 @@
+{
+  "userId": "abc1239495afjgsgkdab69",
+  "productId": "abc1239495afjgsgkdab69",
+  "quantity": 20,
+  "classification": [
+    {
+      "name": "Mau Sac",
+      "values": {
+        "name": "Trắng",
+        "extraPrice": 0,
+        "stock": 100,
+        "img": ""
+      }
+    },
+    {
+      "name": "Dung Luong Bo Nho",
+      "values": {
+        "name": "256GB",
+        "extraPrice": 0,
+        "stock": 100,
+        "img": ""
+      }
+    }
+  ]
+}

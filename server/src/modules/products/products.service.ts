@@ -15,6 +15,8 @@ import {
   ProductShipping,
   ProductStatus,
 } from './schemas/products.schema';
+import { plainToInstance } from 'class-transformer';
+import { ProductResponseDto } from './dto/products.response.dto';
 
 @Injectable()
 export class ProductService {
@@ -32,9 +34,9 @@ export class ProductService {
     const limit = query.limit ?? 30;
     const page = query.page ?? 1;
     const skip = page * limit - limit;
-    const select = 'info ratingSumary shipping images';
+    const select = 'info ratingSumary shipping images tags';
     const products = await this.repo.getProductList(skip, limit, select);
-    const data = { products };
+    const data = { products: plainToInstance(ProductResponseDto, products) };
     return this.httpHelper.success('Products api is ready using!', data);
   }
   /**
@@ -49,11 +51,11 @@ export class ProductService {
     }
     const categoryId = product.info.category.id;
     const neId = product._id;
-    const select = 'info ratingSumary shipping images';
+    const select = 'info ratingSumary shipping images tags';
     const related = await this.repo.getRelated(categoryId, neId, select);
     const data = {
       product,
-      related,
+      related: plainToInstance(ProductResponseDto, related),
     };
     return {
       ...this.httpHelper.success('Product api is ready using!'),

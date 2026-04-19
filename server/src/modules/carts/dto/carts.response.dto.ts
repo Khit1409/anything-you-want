@@ -4,86 +4,86 @@ import mongoose from 'mongoose';
 
 export class CartCategoryResponseDto {
   @Expose()
-  name: string;
+  name!: string;
   @Expose()
-  slug: string;
+  slug!: string;
 }
 
 export class CartItemResponseDto {
   @Expose()
-  brand: string;
+  brand!: string;
   @Expose()
-  name: string;
+  name!: string;
   @Expose()
-  origin: string;
+  origin!: string;
   @Expose({ name: 'origin_price' })
-  originPrice: string;
+  originPrice!: string;
   @Expose({ name: 'product_id' })
-  productId: string;
+  productId!: string;
   @Expose({ name: 'total_price' })
-  totalPrice: number;
+  totalPrice!: number;
   @Expose()
-  quantity: number;
+  quantity!: number;
   @Expose()
-  sale: number;
+  sale!: number;
   @Expose()
-  thumbnail: string;
+  thumbnail!: string;
   @Expose()
   @Type(() => CartCategoryResponseDto)
-  category: CartCategoryResponseDto;
+  category!: CartCategoryResponseDto;
 }
 
 export class CartShippingResponseDto {
   @Expose()
-  flash: boolean;
+  flash!: boolean;
   @Expose()
-  normal: boolean;
+  normal!: boolean;
 }
 
 export class CartRatingResponseDto {
   @Expose()
-  avg: number;
+  avg!: number;
   @Expose()
-  total: number;
+  total!: number;
 }
 
 export class CartVariantResponseDto {
   @Expose()
-  sku: string;
+  sku!: string;
   @Expose()
-  stock: number;
+  stock!: number;
   @Expose({ name: 'price_extra' })
-  priceExtra: number;
+  priceExtra!: number;
   @Expose()
-  options: Record<string, string>;
+  options!: Record<string, string>;
 }
 
 export class CartOptionValueResponseDto {
   @Expose()
-  value: string;
+  value!: string;
   @Expose()
-  display: string;
+  display!: string;
   @Expose()
-  image: string | null;
+  image!: string | null;
 }
 
 export class CartOptionResponseDto {
   @Expose()
-  key: string;
+  key!: string;
   @Expose()
-  label: string;
+  label!: string;
   @Expose()
   @Type(() => CartOptionValueResponseDto)
-  values: Array<CartOptionValueResponseDto>;
+  values!: Array<CartOptionValueResponseDto>;
 }
 
 export class CartApiResponseDto extends ResponseDto {
-  status: number;
-  data: CartApiDataResponseDto;
+  status!: number;
+  data!: CartApiDataResponseDto;
 }
 
 export class CartApiDataResponseDto {
-  carts: Array<CartResponseDto>;
+  carts!: Array<CartResponseDto>;
 }
 
 export class CartResponseDto {
@@ -91,27 +91,27 @@ export class CartResponseDto {
   @Transform(({ obj }: { obj: { _id: mongoose.Types.ObjectId } }) =>
     obj._id.toString(),
   )
-  id: string;
+  id!: string;
   @Expose()
   @Type(() => CartItemResponseDto)
-  items: CartItemResponseDto;
+  items!: CartItemResponseDto;
   @Expose()
   @Type(() => CartOptionResponseDto)
-  options: Array<CartOptionResponseDto>;
+  options!: Array<CartOptionResponseDto>;
   @Expose({ name: 'other_variants' })
   @Type(() => CartVariantResponseDto)
-  otherVaritants: Array<CartVariantResponseDto>;
+  otherVaritants!: Array<CartVariantResponseDto>;
   @Expose({ name: 'variant_chosen' })
   @Type(() => CartVariantResponseDto)
-  variantChosen: CartVariantResponseDto;
+  variantChosen!: CartVariantResponseDto;
   @Expose({ name: 'rating_sumary' })
   @Type(() => CartRatingResponseDto)
-  ratingSumary: CartRatingResponseDto;
+  ratingSumary!: CartRatingResponseDto;
   @Expose()
   @Type(() => CartShippingResponseDto)
-  shipping: CartShippingResponseDto;
+  shipping!: CartShippingResponseDto;
   @Expose()
-  createdAt: string;
+  createdAt!: string;
   @Expose()
-  updatedAt: string;
+  updatedAt!: string;
 }

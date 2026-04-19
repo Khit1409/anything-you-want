@@ -25,7 +25,6 @@ export async function getProductService({
     const api = res.data as ProductPreviewApiResponse;
 
     const products = api.data.products;
-    console.log("Product api response: ", products[0]);
     return products;
   } catch (error) {
     if (axios.isAxiosError(error)) {

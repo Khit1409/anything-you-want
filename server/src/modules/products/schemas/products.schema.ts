@@ -19,9 +19,9 @@ export class ProductInfo {
   @Prop({ type: ProductCategory, required: true })
   category: ProductCategory;
   @Prop({ type: String, required: false })
-  brand: string;
+  brand?: string;
   @Prop({ type: String, required: false })
-  origin: string;
+  origin?: string;
 }
 export class ProductOwner {
   @Prop({ type: String, required: true })
@@ -40,12 +40,12 @@ export class ProductImages {
 export class ProductClassificationValue {
   @Prop({ type: String, required: true })
   name: string;
-  @Prop({ type: String, required: true })
+  @Prop({ type: Number, required: true })
   stock: number;
-  @Prop({ type: String, required: true })
+  @Prop({ type: Number, required: true })
   extraPrice: number;
-  @Prop({ type: String, required: false, default: '' })
-  img: string;
+  @Prop({ type: String, required: false })
+  img?: string;
 }
 
 export class ProductClassification {
@@ -79,7 +79,11 @@ export enum ProductStatus {
 /**
  *
  */
-@Schema({ collection: 'products', timestamps: true })
+@Schema({
+  collection: 'products',
+  timestamps: true,
+  versionKey: false,
+})
 export class Product {
   @Prop({ type: ProductInfo, required: true })
   info: ProductInfo;

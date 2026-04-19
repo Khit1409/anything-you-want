@@ -10,35 +10,35 @@ export enum ProductStatus {
 
 export class ProductCategoryResponseDto {
   @Expose()
-  id: string;
+  id!: string;
   @Expose()
-  name: string;
+  name!: string;
 }
 
 export class ProductInfoResponseDto {
   @Expose()
-  name: string;
+  name!: string;
   @Expose()
-  price: number;
+  price!: number;
   @Expose()
-  sale: number;
+  sale!: number;
   @Expose()
   @Type(() => ProductCategoryResponseDto)
-  category: ProductCategoryResponseDto;
+  category!: ProductCategoryResponseDto;
   @Expose()
-  description: string;
+  description!: string;
   @Expose()
-  brand: string;
+  brand!: string;
   @Expose()
-  origin: string;
+  origin!: string;
 }
 
 export class ProductImageResponseDto {
   @Expose()
-  thumbnail: string;
+  thumbnail!: string;
   @Expose()
   @Type(() => String)
-  details: Array<string>;
+  details!: Array<string>;
 }
 
 export class ProductApi extends ResponseDto {
@@ -47,65 +47,65 @@ export class ProductApi extends ResponseDto {
 
 export class ProductOwnerReponseDto {
   @Expose()
-  sellerId: string;
+  sellerId!: string;
   @Expose()
-  storeId: string;
+  storeId!: string;
 }
 
 export class ProductClassificationValueResponseDto {
   @Expose()
-  name: string;
+  name!: string;
   @Expose()
-  extraPrice: number;
+  extraPrice!: number;
   @Expose()
   img?: string;
   @Expose()
-  stock: number;
+  stock!: number;
 }
 
 export class ProductClassificationResponseDto {
   @Expose()
-  name: string;
+  name!: string;
   @Expose()
   @Type(() => ProductClassificationValueResponseDto)
-  values: Array<ProductClassificationValueResponseDto>;
+  values!: Array<ProductClassificationValueResponseDto>;
 }
 
 export class ProductRatingResponseDto {
   @Expose()
-  avg: number;
+  avg!: number;
   @Expose()
-  total: number;
+  total!: number;
 }
 
 export class ProductShippingResponseDto {
   @Expose()
-  flash: boolean;
+  flash!: boolean;
   @Expose()
-  normal: boolean;
+  normal!: boolean;
 }
 export class ProductResponseDto {
   @Expose({ name: '_id' })
   @Transform(({ obj }: { obj: { _id: mongoose.Types.ObjectId } }) =>
     obj._id.toString(),
   )
-  id: string;
+  id!: string;
   @Expose()
   @Type(() => ProductInfoResponseDto)
-  info: ProductInfoResponseDto;
+  info!: ProductInfoResponseDto;
   @Expose()
   @Type(() => String)
-  tags: Array<string>;
+  tags!: Array<string>;
   @Expose()
   @Type(() => ProductRatingResponseDto)
-  ratingSumary: ProductRatingResponseDto;
+  ratingSumary!: ProductRatingResponseDto;
   @Expose()
-  shipping: ProductShippingResponseDto;
+  shipping!: ProductShippingResponseDto;
   @Expose()
   @Type(() => ProductImageResponseDto)
-  images: ProductImageResponseDto;
+  images!: ProductImageResponseDto;
   @Expose()
-  status: ProductStatus;
+  status!: ProductStatus;
 }
 
 export class ProductRelatedReponseDto extends ProductResponseDto {
@@ -115,11 +115,11 @@ export class ProductRelatedReponseDto extends ProductResponseDto {
 export class ProductDetailResponseDto extends ProductResponseDto {
   @Expose()
   @Type(() => ProductClassificationResponseDto)
-  classification: Array<ProductClassificationResponseDto>;
+  classification!: Array<ProductClassificationResponseDto>;
   @Expose()
-  brand: string;
+  brand!: string;
   @Expose()
-  createdAt: Date | string;
+  createdAt!: Date | string;
   @Expose()
-  updatedAt: Date | string;
+  updatedAt!: Date | string;
 }

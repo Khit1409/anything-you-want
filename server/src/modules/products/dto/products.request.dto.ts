@@ -27,72 +27,72 @@ export class GetProductQueryDto {
 
 export class CreateProductImageDto {
   @IsString()
-  thumbnail: string;
+  thumbnail!: string;
   @IsArray()
   @Type(() => String)
-  details: string[];
+  details!: string[];
 }
 
 export class CreateProductClassificationValueDto {
   @IsString()
-  name: string;
+  name!: string;
   @IsNumber()
-  stock: number;
+  stock!: number;
   @IsNumber()
-  extraPrice: number;
+  extraPrice!: number;
   @IsOptional()
   @IsString()
-  img: string;
+  img?: string;
 }
 export class CreateProductClassificationDto {
   @IsString()
-  name: string;
+  name!: string;
   @IsArray()
   @Type(() => CreateProductClassificationValueDto)
-  values: CreateProductClassificationValueDto[];
+  values!: CreateProductClassificationValueDto[];
 }
 
 export class CreateProductInfoDto {
   @IsString()
-  name: string;
+  name!: string;
   @IsString()
-  description: string;
+  description!: string;
   @IsNumber()
-  price: number;
+  price!: number;
   @IsNumber()
   @Max(100)
   @Min(0)
-  sale: number;
+  sale!: number;
   @IsOptional()
   @IsString()
-  brand: string;
+  brand?: string;
   @IsOptional()
   @IsString()
-  origin: string;
+  origin?: string;
   @IsString()
-  category: string;
+  category!: string;
 }
 
 export class CreateProductShipping {
   @IsBoolean()
-  normal: boolean;
+  normal!: boolean;
   @IsBoolean()
-  flash: boolean;
+  flash!: boolean;
 }
 export class CreateProductDto {
   @ValidateNested()
   @Type(() => CreateProductInfoDto)
-  info: CreateProductInfoDto;
+  info!: CreateProductInfoDto;
   @IsArray()
   @Type(() => CreateProductClassificationDto)
-  classification: CreateProductClassificationDto[];
+  classification!: CreateProductClassificationDto[];
   @IsArray()
   @Type(() => String)
-  tags: string[];
+  tags!: string[];
   @ValidateNested()
   @Type(() => CreateProductImageDto)
-  images: CreateProductImageDto;
+  images!: CreateProductImageDto;
   @ValidateNested()
   @Type(() => CreateProductShipping)
-  shipping: CreateProductShipping;
+  shipping!: CreateProductShipping;
 }

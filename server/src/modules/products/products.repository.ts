@@ -10,7 +10,7 @@ export class ProductRepository {
     private readonly productModel: Model<Product>,
   ) {}
   /**
-   *
+   * Get product list by query
    * @param skip
    * @param limit
    * @param select
@@ -26,7 +26,7 @@ export class ProductRepository {
     return products;
   }
   /**
-   *
+   * Get product detail by id
    * @param id
    * @returns
    */

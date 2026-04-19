@@ -19,27 +19,27 @@ export class CreateSeller {}
  */
 export class CreateSellerInfoDto {
   @IsString()
-  firstName: string;
+  firstName!: string;
   @IsString()
-  lastName: string;
+  lastName!: string;
   @IsString()
-  fullName: string;
+  fullName!: string;
   @IsOptional()
   @IsString()
-  avatar: string;
+  avatar?: string;
   @IsString()
-  dateOfBirth: string;
+  dateOfBirth!: string;
 }
 /**
  *
  */
 export class CreateSellerAddressDto {
   @IsString()
-  province: string;
+  province!: string;
   @IsString()
-  ward: string;
+  ward!: string;
   @IsString()
-  addressDetail: string;
+  addressDetail!: string;
 }
 /**
  *
@@ -47,32 +47,32 @@ export class CreateSellerAddressDto {
 export class CreateSellerPhoneDto {
   @IsString()
   @Length(10)
-  phoneNumber: string;
+  phoneNumber!: string;
   @IsEnum(SellerPhoneType)
-  type: SellerPhoneType;
+  type!: SellerPhoneType;
 }
 /**
  * all register dto
  */
 export class CreateSellerDto {
   @IsEmail()
-  emailAddress: string;
+  emailAddress!: string;
   @IsString()
   @MaxLength(255)
   @MinLength(6)
-  currentPassword: string;
+  currentPassword!: string;
   @ValidateNested()
   @Type(() => CreateSellerInfoDto)
-  info: CreateSellerInfoDto;
+  info!: CreateSellerInfoDto;
   @ValidateNested()
   @IsArray()
   @Type(() => CreateSellerAddressDto)
-  addresses: CreateSellerAddressDto[];
+  addresses!: CreateSellerAddressDto[];
   @ValidateNested()
   @IsArray()
   @Type(() => CreateSellerPhoneDto)
-  phones: CreateSellerPhoneDto[];
+  phones!: CreateSellerPhoneDto[];
   @ValidateNested()
   @Type(() => CreateStoreDto)
-  store: CreateStoreDto;
+  store!: CreateStoreDto;
 }

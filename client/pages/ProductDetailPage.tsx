@@ -18,7 +18,11 @@ export default function ProductDetailPage() {
     finalPrice,
     minusSale,
     quantity,
+    classificationSelected,
+    onchangeClassification,
+    addToCartHandle,
     setQuantity,
+    getMaxQuantity,
   } = useProductDetail();
 
   if (isLoading) return <SectionShowDataLoading />;
@@ -33,7 +37,11 @@ export default function ProductDetailPage() {
       <div className="flex gap-4 bg-white">
         <div className="flex-1">
           <ProductImage images={product.images} />
-          <ProductClassification classification={product.classification} />
+          <ProductClassification
+            classificationSelected={classificationSelected}
+            classification={product.classification}
+            onchangeClassification={onchangeClassification}
+          />
         </div>
         <div className="flex-1">
           <ProductInformation
@@ -42,8 +50,9 @@ export default function ProductDetailPage() {
             minusSale={minusSale}
           />
           <ProductAction
+            addToCart={addToCartHandle}
             quantity={quantity}
-            maxQuantity={100}
+            maxQuantity={getMaxQuantity()}
             setQuantity={setQuantity}
           />
         </div>

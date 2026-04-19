@@ -2,18 +2,18 @@ import { IsNumber, IsString } from 'class-validator';
 
 export class ResponseDto {
   @IsString()
-  message: string;
+  message!: string;
   @IsNumber()
-  success: boolean;
+  success!: boolean;
   @IsString()
-  timestamp: Date | string;
+  timestamp!: Date | string;
 }
 
 export class TimestampResponseDto {
   @IsString()
-  createdAt: string;
+  createdAt!: string;
   @IsString()
-  updatedAt: string;
+  updatedAt!: string;
 }
 
 export enum RoleDto {

@@ -1,14 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model, Connection } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import mongoose, { Model } from 'mongoose';
 import { Cart } from './schemas/carts.schema';
 
 @Injectable()
 export class CartRepository {
-  constructor(
-    @InjectConnection() private readonly cartConnection: Connection,
-    @InjectModel('Cart') private readonly cartModel: Model<Cart>,
-  ) {}
+  constructor(@InjectModel('Cart') private readonly cartModel: Model<Cart>) {}
 
   /**
    *
@@ -26,8 +23,11 @@ export class CartRepository {
    * @param productId
    * @returns
    */
-  async getByProductId(productId: string) {
-    return await this.cartModel.findOne({ 'items.product_id': productId });
+  async getByProductId(productId: string, userId: string) {
+    return await this.cartModel.findOne({
+      'info.productId': productId,
+      'owner.userId': userId,
+    });
   }
   /**
    *
@@ -41,7 +41,7 @@ export class CartRepository {
       },
       {
         $inc: {
-          'items.quantity': quantity,
+          'info.quantity': quantity,
         },
       },
     );
@@ -53,7 +53,7 @@ export class CartRepository {
    */
   async getByUser(uid: string) {
     const carts = await this.cartModel
-      .find({ 'owner.user_id': uid })
+      .find({ 'owner.userId': uid })
       .select('-owner -__v')
       .lean();
     return carts;
@@ -66,7 +66,7 @@ export class CartRepository {
   async getOne(id: string, uid: string) {
     return await this.cartModel.findOne({
       _id: new mongoose.Types.ObjectId(id),
-      'owner.user_id': uid,
+      'owner.userId': uid,
     });
   }
   /**
@@ -79,7 +79,7 @@ export class CartRepository {
     const updated = await this.cartModel.updateOne(
       { _id: new mongoose.Types.ObjectId(id) },
       {
-        'items.quantity': Number(quantity),
+        'info.quantity': Number(quantity),
       },
     );
     return updated;
@@ -90,7 +90,7 @@ export class CartRepository {
   async delete(id: string, uid: string) {
     return await this.cartModel.findOneAndDelete({
       _id: new mongoose.Types.ObjectId(id),
-      'owner.user_id': uid,
+      'owner.userId': uid,
     });
   }
 }

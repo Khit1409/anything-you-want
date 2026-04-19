@@ -10,10 +10,12 @@ interface Props {
   quantity: number;
   setQuantity: React.Dispatch<React.SetStateAction<number>>;
   maxQuantity: number;
+  addToCart: () => void;
 }
 
 export default function ProductAction(props: Props) {
-  const { quantity, setQuantity, maxQuantity } = props;
+  const { quantity, setQuantity, maxQuantity, addToCart } = props;
+
   const onchangeQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = Number(e.target.value);
     setQuantity(inputValue);
@@ -56,7 +58,7 @@ export default function ProductAction(props: Props) {
               name="quantity"
               onChange={(e) => onchangeQuantity(e)}
               id="quantity"
-              value={quantity}
+              value={quantity <= 0 ? 1 : quantity}
               className="w-20 h-10 border border-gray-300 rounded text-center outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500"
               min="1"
             />
@@ -77,7 +79,7 @@ export default function ProductAction(props: Props) {
         {/* Action Buttons */}
         <div className="flex gap-3">
           <button
-            onClick={() => {}}
+            onClick={() => addToCart()}
             className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded transition-colors ${
               disableAddToCartButton()
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"

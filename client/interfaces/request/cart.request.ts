@@ -1,15 +1,8 @@
-import {
-  ProductClassification,
-  ProductClassificationValue,
-} from "../response/product.response";
+import { ProductClassificationValue } from "../response/product.response";
 
-export interface CartClassificationValueRequest
-  extends ProductClassificationValue {
-  choosen: boolean;
-}
-
-export interface CartClassificationRequest extends ProductClassification {
-  values: Array<CartClassificationValueRequest>;
+export interface CartClassificationRequest {
+  name: string;
+  values: ProductClassificationValue;
 }
 
 export interface CartRequest {

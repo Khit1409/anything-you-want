@@ -1,0 +1,3 @@
+- 1 Hãy đọc các interface trong file cart.request.ts của client/interfaces/cart.request.ts
+- 2 Viết lại dto trong server/src/modules/carts/dto/carts.request.dto.ts sao cho request từ client được server nhận không lỗi.
+- 3 Đọc component ProductClassification của component ProductDetail trong client/components và viết lại các state , hàm onchange xử lý add to cart

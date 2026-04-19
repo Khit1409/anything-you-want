@@ -1,8 +1,8 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
-import { CookieMap } from 'src/interfaces/cookies.interface';
 import { AuthenticationDataDto } from '../modules/auth/dto/auth.response.dto';
+import { CookieMap } from '../interfaces/cookies.interface';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {

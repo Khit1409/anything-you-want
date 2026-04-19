@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { config } from "@fortawesome/fontawesome-svg-core";
-import "@fortawesome/fontawesome-svg-core/styles.css";
-import { Nunito } from "next/font/google";
 import "./globals.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+import { Nunito } from "next/font/google";
 import ReduxProvider from "@/redux/ReduxProvider";
 import Provider from "./Provider";
 import QueryProvider from "./query-provider";
+import AppModal from "@/components/common/AppModal";
+import Loading from "@/components/common/Loading";
 
 config.autoAddCss = true;
 
@@ -33,7 +34,11 @@ export default function RootLayout({
       <body className={nunito.className}>
         <ReduxProvider>
           <Provider>
-            <QueryProvider>{children}</QueryProvider>
+            <QueryProvider>
+              <AppModal />
+              <Loading />
+              {children}
+            </QueryProvider>
           </Provider>
         </ReduxProvider>
       </body>

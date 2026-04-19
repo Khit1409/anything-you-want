@@ -7,9 +7,9 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 
-import bcrypt from 'node_modules/bcryptjs';
+import bcrypt from '@/node_modules/bcryptjs';
 
-import { CookieMap } from 'src/interfaces/cookies.interface';
+import { CookieMap } from '@/src/interfaces/cookies.interface';
 import { LoginRequestDto } from './dto/auth.request.dto';
 import { RoleDto } from '../common/dto/response.common.dto';
 import {

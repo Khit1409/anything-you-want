@@ -9,27 +9,27 @@ import {
 
 export class CreateStoreInfoDto {
   @IsString()
-  name: string;
+  name!: string;
   @IsOptional()
   @IsString()
-  avatar: string;
+  avatar?: string;
   @IsOptional()
   @IsString()
-  thumbnail: string;
+  thumbnail?: string;
   @IsString()
-  description: string;
+  description!: string;
   @IsString()
   @Length(10)
-  phoneNumber: string;
+  phoneNumber!: string;
   @IsEmail()
-  emailAddress: string;
+  emailAddress!: string;
 }
 
 export class CreateStoreDto {
   @IsString()
   @Length(6)
-  storeCode: string;
+  storeCode!: string;
   @ValidateNested()
   @Type(() => CreateStoreInfoDto)
-  info: CreateStoreInfoDto;
+  info!: CreateStoreInfoDto;
 }

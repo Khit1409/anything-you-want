@@ -1,8 +1,8 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator';
 
 import { Type } from 'class-transformer';
-import { ResponseDto } from 'src/modules/common/dto/response.common.dto';
-import { Role } from '@/src/common/enums/role.enum';
+import { ResponseDto } from '@/src/modules/common/dto/response.common.dto';
+import { Role } from '@/src/common/enums/roles.enum';
 
 export type TokenExpire = '1d' | '1h' | number;
 
@@ -11,17 +11,17 @@ export class LoginResponseDto extends ResponseDto {
   @Type(() => LoginDataResponseDto)
   data?: LoginDataResponseDto;
   @IsString()
-  token: string;
+  token!: string;
 }
 export class LoginDataResponseDto {
   @IsEnum(Role)
-  role: Role;
+  role!: Role;
 }
 export class CookieValueLoginResponse {
   @IsString()
-  token: string;
+  token!: string;
   @IsString()
-  tokenName: string;
+  tokenName!: string;
 }
 
 export class AuthenticationResponseDto extends ResponseDto {
@@ -32,23 +32,23 @@ export class AuthenticationResponseDto extends ResponseDto {
 
 export class AuthenticationDataDto {
   @IsString()
-  email: string;
+  email!: string;
   @IsString()
-  uid: string;
+  uid!: string;
   @IsEnum(Role)
-  role: Role;
+  role!: Role;
 }
 export class ProfileDataResponseDto {
   @IsString()
-  id: string;
+  id!: string;
   @IsString()
-  firstName: string;
+  firstName!: string;
   @IsString()
-  lastName: string;
+  lastName!: string;
   @IsString()
-  fullName: string;
+  fullName!: string;
   @IsString()
-  dateOfBirth: Date | string;
+  dateOfBirth!: Date | string;
   @IsOptional()
   avatar?: string;
 }

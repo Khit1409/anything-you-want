@@ -1,5 +1,5 @@
 import 'express';
-import { Role } from '../common/enums/role.enum';
+import { Role } from '../common/enums/roles.enum';
 
 declare module 'express-serve-static-core' {
   interface Request {
