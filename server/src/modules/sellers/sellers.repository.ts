@@ -2,9 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Seller, SellerStatus } from './entities/seller.entity';
 import { Repository } from 'typeorm';
-import { SellerInfo } from './entities/seller-info.entity';
-import { SellerPhone } from './entities/seller-phone.entity';
-import { SellerAddress } from './entities/seller-address.entity';
 import { CreateSellerDto } from './dto/create-seller.dto';
 
 @Injectable()
@@ -12,12 +9,6 @@ export class SellerRepository {
   constructor(
     @InjectRepository(Seller)
     private readonly ormRepo: Repository<Seller>,
-    @InjectRepository(SellerInfo)
-    private readonly infoOrmRepo: Repository<SellerInfo>,
-    @InjectRepository(SellerPhone)
-    private readonly phoneOrmRepo: Repository<SellerPhone>,
-    @InjectRepository(SellerAddress)
-    private readonly addressOrmRepo: Repository<SellerAddress>,
   ) {}
 
   /**

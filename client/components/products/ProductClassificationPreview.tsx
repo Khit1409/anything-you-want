@@ -4,16 +4,15 @@ import { ProductClassification } from "@/interfaces/response/product.response";
 import { CartClassificationRequest } from "@/interfaces/request/cart.request";
 import ProductClassificationValue from "./ProductClassificationValue";
 
+type OnchangeClassificationType = {
+  name: string;
+  value: string;
+};
+
 interface Props {
   classification: Array<ProductClassification>;
   classificationSelected: CartClassificationRequest[];
-  onchangeClassification: ({
-    name,
-    value,
-  }: {
-    name: string;
-    value: string;
-  }) => void;
+  onchangeClassification: ({ name, value }: OnchangeClassificationType) => void;
 }
 
 export default function ProductClassificationPreview(props: Props) {

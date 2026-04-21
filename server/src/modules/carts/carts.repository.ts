@@ -31,23 +31,6 @@ export class CartRepository {
   }
   /**
    *
-   * @param id
-   * @param quantity
-   */
-  async updateExistingCart(id: mongoose.Types.ObjectId, quantity: number) {
-    await this.cartModel.updateOne(
-      {
-        _id: id,
-      },
-      {
-        $inc: {
-          'info.quantity': quantity,
-        },
-      },
-    );
-  }
-  /**
-   *
    * @param uid
    * @returns
    */

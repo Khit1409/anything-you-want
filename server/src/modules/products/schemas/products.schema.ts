@@ -1,73 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-
-export class ProductCategory {
-  @Prop({ type: String, required: true, ref: 'categories' })
-  id: string;
-  @Prop({ type: String, required: true })
-  name: string;
-}
-
-export class ProductInfo {
-  @Prop({ type: String, required: true })
-  name: string;
-  @Prop({ type: String, required: true })
-  description: string;
-  @Prop({ type: String, required: true })
-  price: number;
-  @Prop({ type: String, required: true, max: 100, min: 0 })
-  sale: number;
-  @Prop({ type: ProductCategory, required: true })
-  category: ProductCategory;
-  @Prop({ type: String, required: false })
-  brand?: string;
-  @Prop({ type: String, required: false })
-  origin?: string;
-}
-export class ProductOwner {
-  @Prop({ type: String, required: true })
-  sellerId: string;
-  @Prop({ type: String, required: true })
-  storeId: string;
-}
-
-export class ProductImages {
-  @Prop({ type: String, required: true })
-  thumbnail: string;
-  @Prop({ type: [String], required: true })
-  details: string[];
-}
-
-export class ProductClassificationValue {
-  @Prop({ type: String, required: true })
-  name: string;
-  @Prop({ type: Number, required: true })
-  stock: number;
-  @Prop({ type: Number, required: true })
-  extraPrice: number;
-  @Prop({ type: String, required: false })
-  img?: string;
-}
-
-export class ProductClassification {
-  @Prop({ type: String, required: true })
-  name: string;
-  @Prop({ type: [ProductClassificationValue], required: true })
-  values: ProductClassificationValue[];
-}
-
-export class ProductShipping {
-  @Prop({ type: Boolean, required: true })
-  flash: boolean;
-  @Prop({ type: Boolean, required: true })
-  normal: boolean;
-}
-
-export class ProductRatingSumary {
-  @Prop({ type: Number, required: true, max: 5, min: 1 })
-  avg: number;
-  @Prop({ type: Number, required: true })
-  total: number;
-}
+import { ProductInfo } from './product-info.schema';
+import { ProductOwner } from './product-owner.schema';
+import { ProductImages } from './product-images.schema';
+import { ProductClassification } from './product-classification.schema';
+import { ProductShipping } from './product-shipping.schema';
+import { ProductRatingSumary } from './product-rating-summary.schema';
 /**
  *
  */

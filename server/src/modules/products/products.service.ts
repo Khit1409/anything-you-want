@@ -10,13 +10,14 @@ import {
 import { HttpResponse } from '@/src/helpers/httpResponse';
 import { ProductRepository } from './products.repository';
 import { CategoryService } from '../categories/categories.service';
-import {
-  ProductCategory,
-  ProductShipping,
-  ProductStatus,
-} from './schemas/products.schema';
+import { ProductStatus } from './schemas/products.schema';
 import { plainToInstance } from 'class-transformer';
-import { ProductResponseDto } from './dto/products.response.dto';
+import {
+  ProductDetailResponseDto,
+  ProductResponseDto,
+} from './dto/products.response.dto';
+import { ProductShipping } from './schemas/product-shipping.schema';
+import { ProductCategory } from './schemas/product-category.schema';
 
 @Injectable()
 export class ProductService {
@@ -54,7 +55,7 @@ export class ProductService {
     const select = 'info ratingSumary shipping images tags';
     const related = await this.repo.getRelated(categoryId, neId, select);
     const data = {
-      product,
+      product: plainToInstance(ProductDetailResponseDto, product),
       related: plainToInstance(ProductResponseDto, related),
     };
     return {

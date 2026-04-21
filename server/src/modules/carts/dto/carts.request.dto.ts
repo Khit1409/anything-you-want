@@ -28,3 +28,12 @@ export class CartRequestDto {
   @Min(1)
   quantity!: number;
 }
+
+export class CartUpdateRequestDto {
+  @IsOptional()
+  @IsNumber()
+  quantity?: number;
+  @IsOptional()
+  @Type(() => CartClassificationRequestDto)
+  classification?: Array<CartClassificationRequestDto>;
+}

@@ -1,0 +1,205 @@
+import { ChangeEvent } from "react";
+
+const cartTest = [
+  {
+    id: "abc",
+    info: {
+      name: "Iphone 17 promax 512GB, 1TB, 256GB",
+      category: {
+        id: "abc-def-gkh",
+        name: "Technology",
+      },
+      originPrice: 20000000,
+      sale: 5,
+      description:
+        "Iphone 17 promax 3 phiên bản phổ biến 256GB, 512GB, 1TB , bảo hành 3 năm, miễn phí sửa chữa với các lỗi đến từ nhà phát hành",
+      brand: "Apple",
+      origin: "United State",
+      productId: "67hfab2840kfu902nd",
+      quantity: 1,
+      totalPrice: 2000000,
+    },
+    classification: [
+      {
+        name: "Màu sắc",
+        values: [
+          {
+            name: "Trắng",
+            extraPrice: 0,
+            stock: 100,
+            img: "",
+            choosen: true,
+          },
+          {
+            name: "Đen",
+            extraPrice: 0,
+            stock: 100,
+            img: "",
+            choosen: false,
+          },
+          {
+            name: "Cam",
+            extraPrice: 0,
+            stock: 100,
+            img: "",
+            choosen: false,
+          },
+          {
+            name: "Vàng",
+            extraPrice: 0,
+            stock: 100,
+            img: "",
+            choosen: false,
+          },
+        ],
+      },
+      {
+        name: "Dung lượng bộ nhớ",
+        values: [
+          {
+            name: "256GB",
+            extraPrice: 0,
+            stock: 100,
+            img: "",
+            choosen: false,
+          },
+          {
+            name: "512GB",
+            extraPrice: 10000000,
+            stock: 100,
+            img: "",
+            choosen: false,
+          },
+          {
+            name: "1TB",
+            extraPrice: 12000000,
+            stock: 100,
+            img: "",
+            choosen: true,
+          },
+        ],
+      },
+    ],
+    images: {
+      thumbnail: "iphone-17-thumbnail.jpg",
+      details: [
+        "iphone-17-detail-img-1.jpg",
+        "iphone-17-detail-img-2.jpg",
+        "iphone-17-detail-img-3.jpg",
+      ],
+    },
+    owner: {
+      sellerId: "abc-def-gkh",
+      storeId: "abc-123-gh02-11",
+      userId: "abc1239495afjgsgkdab69",
+    },
+    shipping: { flash: true, normal: true },
+  },
+  {
+    id: "abc",
+    info: {
+      name: "Iphone 17 promax 512GB, 1TB, 256GB",
+      category: {
+        id: "abc-def-gkh",
+        name: "Technology",
+      },
+      originPrice: 20000000,
+      sale: 5,
+      description:
+        "Iphone 17 promax 3 phiên bản phổ biến 256GB, 512GB, 1TB , bảo hành 3 năm, miễn phí sửa chữa với các lỗi đến từ nhà phát hành",
+      brand: "Apple",
+      origin: "United State",
+      productId: "67hfab2840kfu902nd",
+      quantity: 1,
+      totalPrice: 2000000,
+    },
+    classification: [
+      {
+        name: "Màu sắc",
+        values: [
+          {
+            name: "Trắng",
+            extraPrice: 0,
+            stock: 100,
+            img: "",
+            choosen: true,
+          },
+          {
+            name: "Đen",
+            extraPrice: 0,
+            stock: 100,
+            img: "",
+            choosen: false,
+          },
+          {
+            name: "Cam",
+            extraPrice: 0,
+            stock: 100,
+            img: "",
+            choosen: false,
+          },
+          {
+            name: "Vàng",
+            extraPrice: 0,
+            stock: 100,
+            img: "",
+            choosen: false,
+          },
+        ],
+      },
+      {
+        name: "Dung lượng bộ nhớ",
+        values: [
+          {
+            name: "256GB",
+            extraPrice: 0,
+            stock: 100,
+            img: "",
+            choosen: false,
+          },
+          {
+            name: "512GB",
+            extraPrice: 10000000,
+            stock: 100,
+            img: "",
+            choosen: false,
+          },
+          {
+            name: "1TB",
+            extraPrice: 12000000,
+            stock: 100,
+            img: "",
+            choosen: true,
+          },
+        ],
+      },
+    ],
+    images: {
+      thumbnail: "iphone-17-thumbnail.jpg",
+      details: [
+        "iphone-17-detail-img-1.jpg",
+        "iphone-17-detail-img-2.jpg",
+        "iphone-17-detail-img-3.jpg",
+      ],
+    },
+    owner: {
+      sellerId: "abc-def-gkh",
+      storeId: "abc-123-gh02-11",
+      userId: "abc1239495afjgsgkdab69",
+    },
+    shipping: { flash: true, normal: true },
+  },
+];
+
+const testState = [];
+
+const onchange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const { name, value, dataset } = e.target;
+  const id = dataset.id_update;
+  if (!id) return;
+
+  const needCart = cartTest.find((cart) => cart.id === id);
+  if (!needCart) return;
+
+  
+};

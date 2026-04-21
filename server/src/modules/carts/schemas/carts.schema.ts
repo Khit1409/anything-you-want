@@ -1,79 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { CartInfo } from './cart-info.schema';
+import { CartShipping } from './cart-shipping.schema';
+import { CartOwner } from './cart-owner.schema';
+import { CartClassification } from './cart-classification.schema';
+import { CartImages } from './cart-images.schema';
 
 export type CartDocument = HydratedDocument<Cart>;
-
-export class CartCategory {
-  @Prop({ type: String, required: true })
-  name: string;
-  @Prop({ type: String, required: true, ref: 'categories' })
-  id: string;
-}
-
-export class CartInfo {
-  @Prop({ type: String, required: false, default: '' })
-  brand?: string;
-  @Prop({ type: String, required: true })
-  name: string;
-  @Prop({ type: CartCategory, required: true })
-  category: CartCategory;
-  @Prop({ type: String, required: false, default: '' })
-  origin?: string;
-  @Prop({ type: Number, required: true })
-  originPrice: number;
-  @Prop({ type: Number, required: true })
-  totalPrice: number;
-  @Prop({ type: String, required: true, ref: 'products' })
-  productId: string;
-  @Prop({ type: Number, required: true, min: 1 })
-  quantity: number;
-  @Prop({ type: Number, required: true, min: 0, max: 100 })
-  sale: number;
-  @Prop({ type: String, required: true })
-  description: string;
-}
-
-export class CartShipping {
-  @Prop({ type: Boolean, required: true })
-  flash: boolean;
-  @Prop({ type: Boolean, required: true })
-  normal: boolean;
-}
-
-export class CartOwner {
-  @Prop({ type: String, required: true })
-  userId: string;
-  @Prop({ type: String, required: true })
-  sellerId: string;
-  @Prop({ type: String, required: true })
-  storeId: string;
-}
-
-export class CartClassificationValue {
-  @Prop({ type: Boolean, required: true, default: false })
-  choosen: boolean;
-  @Prop({ type: String, required: true })
-  name: string;
-  @Prop({ type: Number, required: true })
-  stock: number;
-  @Prop({ type: Number, required: true })
-  extraPrice: number;
-  @Prop({ type: String, required: false, default: '' })
-  img?: string;
-}
-
-export class CartClassification {
-  @Prop({ type: String, required: true })
-  name: string;
-  @Prop({ type: [CartClassificationValue], required: true })
-  values: CartClassificationValue[];
-}
-export class CartImages {
-  @Prop({ type: String, required: true })
-  thumbnail: string;
-  @Prop({ type: [String], required: true })
-  details: string[];
-}
 
 @Schema({ timestamps: true, collection: 'carts' })
 export class Cart {

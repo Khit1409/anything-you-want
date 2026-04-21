@@ -1,6 +1,5 @@
-import { Expose, Transform, Type } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { ResponseDto } from '../../common/dto/response.common.dto';
-import mongoose from 'mongoose';
 
 export enum ProductStatus {
   ACTIVE = 'active',
@@ -86,9 +85,6 @@ export class ProductShippingResponseDto {
 }
 export class ProductResponseDto {
   @Expose({ name: '_id' })
-  @Transform(({ obj }: { obj: { _id: mongoose.Types.ObjectId } }) =>
-    obj._id.toString(),
-  )
   id!: string;
   @Expose()
   @Type(() => ProductInfoResponseDto)

@@ -1,52 +1,78 @@
 import { addToCartService } from "@/api/cart.api";
-import { CartRequest } from "@/interfaces/request/cart.request";
+import { CartClassificationRequest } from "@/interfaces/request/cart.request";
+import { ProductDetail } from "@/interfaces/response/product.response";
+import { openModal, startLoadingAnimation } from "@/redux/slice/app.slice";
+import { ModalState } from "@/redux/state/app.state";
+import { AppDispatch } from "@/redux/store";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-interface CartValidateData {
-  productId: string;
+interface AddToCartHandleParam {
+  isLoggedIn: boolean;
+  product: ProductDetail | null;
+  router: AppRouterInstance;
+  classificationSelected: CartClassificationRequest[];
+  dispatch: AppDispatch;
   quantity: number;
-  classificationChoosenLenght: number;
-  productClassificationLenght: number;
 }
+
 /**
- *
- * @param data
- * @returns
+ * add to cart service
+ * 1 - Quantity mặc định đã là 1 và đã config không thể nhập số nhỏ hơn 1 nên không cần check.
+ * 2 - Tự động chuyển hướng nếu users đang ở trạng thái logout.
+ * 3 - Không thể thực hiện khi người dùng chưa chọn phân loại sản phẩm.
+ * 4 - Không thể thực hiện khi số lượng phân loại đã chọn khác số lượng phâm loại sản phẩm.
+ * @params 0
  */
-export const handleValidateCartFormData = (
-  data: CartValidateData
-): { correct: boolean; mess?: string } => {
+export const addToCartFeature = async (params: AddToCartHandleParam) => {
   const {
-    classificationChoosenLenght,
-    productClassificationLenght,
-    productId,
+    isLoggedIn,
+    product,
+    router,
+    classificationSelected,
+    dispatch,
     quantity,
-  } = data;
-  if (!productId) return { correct: false, mess: "Id sản phẩm không tồn tại!" };
-  if (quantity < 1 || !quantity)
-    return { correct: false, mess: "Số lượng không phù hợp!" };
-  if (classificationChoosenLenght !== productClassificationLenght) {
-    return { correct: false, mess: "Vui lòng chọn đủ số lượng phân loại!" };
+  } = params;
+  if (!isLoggedIn) {
+    return router.replace("/login");
   }
-  return { correct: true, mess: "" };
-};
-/**
- *
- * @param data
- * @param classificationLenght
- * @returns
- */
-export const submitAddToCart = async (
-  data: CartRequest,
-  classificationLenght: number
-) => {
-  const { classification, productId, quantity } = data;
-  const validate = handleValidateCartFormData({
-    classificationChoosenLenght: classification.length,
-    productClassificationLenght: classificationLenght,
-    productId,
-    quantity,
+  if (!product) {
+    console.log("Product is not define!");
+    return;
+  }
+  if (
+    classificationSelected.length != product.classification.length ||
+    classificationSelected.length == 0
+  ) {
+    return dispatch(
+      openModal({
+        message: "Phân loại sản phẩm không được chọn đủ!",
+        state: ModalState.WARNING,
+      })
+    );
+  }
+
+  dispatch(startLoadingAnimation());
+
+  const res = await addToCartService({
+    classification: classificationSelected,
+    productId: product.id,
+    quantity: quantity <= 0 ? 1 : quantity,
   });
-  if (!validate.correct) return validate;
-  const result = await addToCartService(data);
-  console.log(result);
+
+  if (res) {
+    dispatch(startLoadingAnimation());
+    return res.success
+      ? dispatch(
+          openModal({
+            message: "Thêm giỏ hàng thành công",
+            state: ModalState.SUCCESS,
+          })
+        )
+      : dispatch(
+          openModal({
+            message: res.message,
+            state: ModalState.ERROR,
+          })
+        );
+  }
 };

@@ -1,11 +1,12 @@
 import { ApiResponse } from "../common/response";
+import { ProductImages } from "./product.response";
 
 export interface CartCategoryResponse {
   name: string;
-  slug: string;
+  id: string;
 }
 
-export interface CartItemResponse {
+export interface CartInfoResponse {
   brand: string;
   name: string;
   origin: string;
@@ -14,7 +15,6 @@ export interface CartItemResponse {
   totalPrice: number;
   quantity: number;
   sale: number;
-  thumbnail: string;
   category: CartCategoryResponse;
 }
 
@@ -23,30 +23,17 @@ export interface CartShippingResponse {
   normal: boolean;
 }
 
-export interface CartRatingResponse {
-  avg: number;
-  total: number;
-}
-
-export interface CartVariantResponse {
-  sku: string;
+export interface CartClassificationValueResponse {
+  name: string;
+  extraPrice: number;
   stock: number;
-  priceExtra: number;
-  options: {
-    [key: string]: string;
-  };
+  img?: string;
+  choosen: boolean;
 }
 
-export interface CartOptionValueResponse {
-  value: string;
-  display: string;
-  image?: string;
-}
-
-export interface CartOptionResponse {
-  key: string;
-  label: string;
-  values: Array<CartOptionValueResponse>;
+export interface CartClassificationResponse {
+  name: string;
+  values: Array<CartClassificationValueResponse>;
 }
 
 export interface CartApiResponse extends ApiResponse {
@@ -60,12 +47,10 @@ export interface CartApiDataResponse {
 
 export interface CartResponse {
   id: string;
-  items: CartItemResponse;
-  options: Array<CartOptionResponse>;
-  otherVaritants: Array<CartVariantResponse>;
-  variantChosen: CartVariantResponse;
-  ratingSumary: CartRatingResponse;
+  info: CartInfoResponse;
+  classification: Array<CartClassificationResponse>;
   shipping: CartShippingResponse;
+  images: ProductImages;
   createdAt: string;
   updatedAt: string;
 }

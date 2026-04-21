@@ -26,7 +26,8 @@
       "@/modules/*": ["./src/modules/*"],
       "@/database/*": ["./src/database/*"],
       "@/lib/*": ["./src/lib/*"],
-      "@/migration/*": ["./src/database/migrations/*"]
+      "@/migration/*": ["./src/database/migrations/*"],
+      "@/common/*": ["./src/common/*"]
     }
   }
 }

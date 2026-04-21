@@ -5,13 +5,21 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ResponseDto } from '../common/dto/response.common.dto';
-import { CartRequestDto } from '@/src/modules/carts/dto/carts.request.dto';
+import {
+  CartRequestDto,
+  CartUpdateRequestDto,
+} from '@/src/modules/carts/dto/carts.request.dto';
 import { CartResponseDto } from './dto/carts.response.dto';
 
 import { CartRepository } from './carts.repository';
 import { HttpResponse } from '@/src/helpers/httpResponse';
 import { ProductRepository } from '../products/products.repository';
-import { Cart, CartClassification, CartInfo } from './schemas/carts.schema';
+import { Cart } from './schemas/carts.schema';
+import { HydratedDocument } from 'mongoose';
+import { Product } from '../products/schemas/products.schema';
+import { plainToInstance } from 'class-transformer';
+import { CartClassification } from './schemas/cart-classification.schema';
+import { CartInfo } from './schemas/cart-info.schema';
 
 @Injectable()
 export class CartService {
@@ -34,6 +42,7 @@ export class CartService {
     const product = await this.productRepository.getProductDetail(
       dto.productId,
     );
+
     if (!product) {
       throw new UnauthorizedException(
         this.httpHelper.error('Product in cart is not define!'),
@@ -45,8 +54,7 @@ export class CartService {
     );
 
     if (existing) {
-      await this.repository.updateExistingCart(existing._id, dto.quantity);
-      return this.httpHelper.success('carts is updated!');
+      return await this.updateCart(dto, existing, product);
     }
 
     if (
@@ -95,27 +103,33 @@ export class CartService {
      * Chuyển các classification value của product có classification name bằng với classification name từ client
      * gửi lên, thêm thuộc tính choosen true hoặc false tương ứng với các value được chọn từ client.
      */
-    const cartClassification = dto.classification.reduce(
-      (result: CartClassification[], classifiDto) => {
-        product.classification.forEach((productClassifi) => {
-          if (productClassifi.name === classifiDto.name) {
-            const classifiValues = productClassifi.values.map(
-              (productClassifiValue) =>
-                productClassifiValue.name === classifiDto.values.name
-                  ? { ...productClassifiValue, choosen: true }
-                  : { ...productClassifiValue, choosen: false },
-            );
-            result.push({ ...productClassifi, values: classifiValues });
-          }
-        });
-        return result;
-      },
-      [],
-    );
+    const cartClassification: CartClassification[] = [];
 
-    if (cartClassification.length === 0) {
+    dto.classification.forEach((classifiDto) => {
+      const productClassifiNeed = product.classification.find(
+        (classifi) => classifi.name === classifiDto.name,
+      );
+      if (!productClassifiNeed) {
+        throw new UnauthorizedException(
+          'Classification name form request is not found in product classfication!',
+        );
+      }
+      cartClassification.push({
+        name: productClassifiNeed.name,
+        values: productClassifiNeed.values.map((clsvl) =>
+          clsvl.name === classifiDto.values.name
+            ? { ...clsvl, choosen: true }
+            : { ...clsvl, choosen: false },
+        ),
+      });
+    });
+
+    if (
+      cartClassification.length === 0 ||
+      cartClassification.length != product.classification.length
+    ) {
       throw new BadRequestException(
-        'Proccess handle output data for cart classifications is error because lenght of output is zero!',
+        'Proccess handle output data for cart classifications is error because length of output is zero or length not match with product classification length!',
       );
     }
 
@@ -137,8 +151,9 @@ export class CartService {
     }
     return this.httpHelper.success('Cart is created!');
   }
+
   /**
-   *
+   * get all cart of user id
    * @param userId
    */
   async getCart(userId: string): Promise<
@@ -147,65 +162,95 @@ export class CartService {
     }
   > {
     const carts = await this.repository.getByUser(userId);
-    const data = { carts };
+    const data = { carts: plainToInstance(CartResponseDto, carts) };
     return this.httpHelper.success('Carts api are ready using', data);
   }
+
   /**
    *
+   */
+  async getDetail(id: string, userId: string) {
+    return await this.repository.getOne(id, userId);
+  }
+  /**
+   * cập nhật giỏ hàng khi người dùng thay đổi 1 số thuộc tính của giỏ hàng có sẵn của
+   * giỏ hàng đã được thêm trước đó
+   * @param dto
+   * @param cartModel
+   * @param product
+   */
+  async updateCart(
+    dto: CartUpdateRequestDto,
+    cartModel: HydratedDocument<Cart>,
+    product: Product,
+  ) {
+    const { classification, quantity } = dto;
+
+    if (quantity) {
+      cartModel.info.quantity = quantity;
+    }
+
+    if (classification) {
+      let cartClassification = [...cartModel.classification];
+
+      classification.forEach((classifiDto) => {
+        cartClassification = cartClassification.map((cartCls) =>
+          cartCls.name === classifiDto.name
+            ? {
+                ...cartCls,
+                values: cartCls.values.map((cartClsVl) =>
+                  cartClsVl.name === classifiDto.values.name
+                    ? { ...cartClsVl, choosen: true }
+                    : { ...cartClsVl, choosen: false },
+                ),
+              }
+            : cartCls,
+        );
+      });
+
+      if (
+        cartClassification.length !== product.classification.length ||
+        cartClassification.length == 0
+      ) {
+        throw new BadRequestException(
+          'Proccess handle output data for cart classifications is error because length of output is zero or length not match with product classification length!',
+        );
+      }
+      cartModel.classification = cartClassification;
+    }
+
+    const updated = await cartModel.save();
+
+    if (!updated) {
+      throw new BadRequestException('Updated cart failed');
+    }
+    return this.httpHelper.success('carts is updated!');
+  }
+  /**
+   * Cập nhật giỏ hàng cụ thể qua id trong param request.
+   * @param id
+   * @param uid
    * @param dto
    */
-  // async updateCart(dto: CartUpdateDataRequestDto, uid: string) {
-  //   const cart = await this.repository.getOne(dto.id, uid);
-  //   if (!cart) {
-  //     throw new UnauthorizedException(this.httpHelper.error('Cart not found!'));
-  //   }
-  //   const product = await this.productRepository.getById(cart.items.product_id);
-  //   if (!product) {
-  //     throw new UnauthorizedException(
-  //       this.httpHelper.error('Product id in cart is not found!'),
-  //     );
-  //   }
-  //   const { variants } = product;
-  //   let updateCount = 0;
-  //   if (dto.variantOptionChosen) {
-  //     const updateOptions = {
-  //       ...cart.variant_chosen.options,
-  //       ...dto.variantOptionChosen,
-  //     };
-  //     const newVariantChosen = variants.find((variant) =>
-  //       Object.keys(variant.options).every(
-  //         (key) => variant.options[key] === updateOptions[key],
-  //       ),
-  //     );
-  //     if (!newVariantChosen) {
-  //       throw new NotFoundException(
-  //         this.httpHelper.error('Cant find new variant for this cart!'),
-  //       );
-  //     }
-  //     const newOtherVariants = variants.filter(
-  //       (variant) => variant.sku !== newVariantChosen.sku,
-  //     );
-  //     const updatedProductAttribute = await this.repository.updateProductOption(
-  //       {
-  //         id: dto.id,
-  //         newOtherVariants,
-  //         newVariantChosen,
-  //       },
-  //     );
-  //     updateCount += updatedProductAttribute.modifiedCount;
-  //   }
-  //   if (dto.quantity) {
-  //     const updatedQuantity = await this.repository.updateQuantity(
-  //       dto.id,
-  //       dto.quantity,
-  //     );
-  //     updateCount += updatedQuantity.modifiedCount;
-  //   }
-  //   const data = { updateCount };
-  //   return this.httpHelper.success('Update successfully!', data);
-  // }
+  async updateCartDetail(id: string, uid: string, dto: CartUpdateRequestDto) {
+    const cartModel = await this.getDetail(id, uid);
+
+    if (!cartModel) {
+      throw new UnauthorizedException('Cart is not define!');
+    }
+
+    const product = await this.productRepository.getProductDetail(
+      cartModel.info.productId,
+    );
+    if (!product) {
+      throw new BadRequestException('Product is not found!');
+    }
+    return await this.updateCart(dto, cartModel, product);
+  }
   /**
-   *
+   * xóa giỏ hàng bằng id và id người dùng.
+   * @param id
+   * @param uid
    */
   async deleteCart(id: string, uid: string) {
     const result = await this.repository.delete(id, uid);

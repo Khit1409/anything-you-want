@@ -29,7 +29,7 @@ export class SellerInfo {
     type: 'date',
     nullable: true,
   })
-  dateOfBirth: Date | string;
+  dateOfBirth: Date;
 
   /* ============================
      RELATION: OneToOne Seller

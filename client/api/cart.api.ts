@@ -1,5 +1,8 @@
 import { ApiResponse } from "@/interfaces/common/response";
-import { CartRequest } from "@/interfaces/request/cart.request";
+import {
+  CartRequest,
+  CartUpdateRequest,
+} from "@/interfaces/request/cart.request";
 import {
   CartApiResponse,
   CartResponse,
@@ -26,8 +29,32 @@ export async function addToCartService(
     };
   }
 }
+
 /**
- *
+ * @param data
+ * @returns
+ */
+export async function updateCart(
+  data: CartUpdateRequest
+): Promise<ApiResponse> {
+  try {
+    const { id, classification, quantity } = data;
+    const res = await axiosClient.put(`carts/${id}`, {
+      classification,
+      quantity,
+    });
+    const result = res.data as ApiResponse;
+    return result;
+  } catch (error) {
+    return {
+      message: error as string,
+      success: false,
+      timestamp: new Date().toDateString(),
+    };
+  }
+}
+/**
+ * @param 0
  * @returns
  */
 export async function getUserCartService(): Promise<Array<CartResponse>> {
@@ -35,4 +62,12 @@ export async function getUserCartService(): Promise<Array<CartResponse>> {
   const api = res.data as CartApiResponse;
   const carts = api.data.carts;
   return carts;
+}
+/**
+ *
+ */
+export async function deleteCart(id: string) {
+  const res = await axiosClient.delete(`/carts/${id}`);
+  const api = res.data as ApiResponse;
+  return api;
 }

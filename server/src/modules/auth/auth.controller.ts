@@ -33,7 +33,6 @@ export class AuthController {
     }
     const result = await this.authService.clientLogin(dto);
     const { token, data, message, success, timestamp } = result;
-    console.log(result);
     res.cookie('access_token', token, authCookieConfig);
     return { message, success, timestamp, data };
   }

@@ -10,3 +10,9 @@ export interface CartRequest {
   classification: Array<CartClassificationRequest>;
   quantity: number;
 }
+
+export interface CartUpdateRequest {
+  id: string;
+  classification?: Array<CartClassificationRequest>;
+  quantity?: number;
+}

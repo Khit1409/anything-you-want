@@ -1,36 +1,21 @@
-import { Expose, Transform, Type } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { ResponseDto } from '../../common/dto/response.common.dto';
-import mongoose from 'mongoose';
+import { ProductImageResponseDto } from '../../products/dto/products.response.dto';
 
 export class CartCategoryResponseDto {
   @Expose()
   name!: string;
   @Expose()
-  slug!: string;
+  id!: string;
 }
 
-export class CartItemResponseDto {
+export class CartOwnerResponseDto {
   @Expose()
-  brand!: string;
+  sellerId: string;
   @Expose()
-  name!: string;
+  storeId: string;
   @Expose()
-  origin!: string;
-  @Expose({ name: 'origin_price' })
-  originPrice!: string;
-  @Expose({ name: 'product_id' })
-  productId!: string;
-  @Expose({ name: 'total_price' })
-  totalPrice!: number;
-  @Expose()
-  quantity!: number;
-  @Expose()
-  sale!: number;
-  @Expose()
-  thumbnail!: string;
-  @Expose()
-  @Type(() => CartCategoryResponseDto)
-  category!: CartCategoryResponseDto;
+  userId: string;
 }
 
 export class CartShippingResponseDto {
@@ -38,43 +23,6 @@ export class CartShippingResponseDto {
   flash!: boolean;
   @Expose()
   normal!: boolean;
-}
-
-export class CartRatingResponseDto {
-  @Expose()
-  avg!: number;
-  @Expose()
-  total!: number;
-}
-
-export class CartVariantResponseDto {
-  @Expose()
-  sku!: string;
-  @Expose()
-  stock!: number;
-  @Expose({ name: 'price_extra' })
-  priceExtra!: number;
-  @Expose()
-  options!: Record<string, string>;
-}
-
-export class CartOptionValueResponseDto {
-  @Expose()
-  value!: string;
-  @Expose()
-  display!: string;
-  @Expose()
-  image!: string | null;
-}
-
-export class CartOptionResponseDto {
-  @Expose()
-  key!: string;
-  @Expose()
-  label!: string;
-  @Expose()
-  @Type(() => CartOptionValueResponseDto)
-  values!: Array<CartOptionValueResponseDto>;
 }
 
 export class CartApiResponseDto extends ResponseDto {
@@ -86,30 +34,71 @@ export class CartApiDataResponseDto {
   carts!: Array<CartResponseDto>;
 }
 
+export class CartInfoResponseDto {
+  @Expose()
+  @Type(() => CartCategoryResponseDto)
+  category: CartCategoryResponseDto;
+  @Expose()
+  name: string;
+  @Expose()
+  originPrice: number;
+  @Expose()
+  sale: number;
+  @Expose()
+  description: string;
+  @Expose()
+  brand: string;
+  @Expose()
+  origin: string;
+  @Expose()
+  quantity: string;
+  @Expose()
+  totalPrice: number;
+}
+
+export class CartClassificationValueResponseDto {
+  @Expose()
+  name: string;
+  @Expose()
+  extraPrice: number;
+  @Expose()
+  stock: number;
+  @Expose()
+  img?: string;
+  @Expose()
+  choosen: boolean;
+}
+
+export class CartClassificationResponseDto {
+  @Expose()
+  name!: string;
+  @Expose()
+  @Type(() => CartClassificationValueResponseDto)
+  values!: Array<CartClassificationValueResponseDto>;
+}
+
+export class CartImageResponseDto extends ProductImageResponseDto {
+  readonly;
+}
+
 export class CartResponseDto {
   @Expose({ name: '_id' })
-  @Transform(({ obj }: { obj: { _id: mongoose.Types.ObjectId } }) =>
-    obj._id.toString(),
-  )
   id!: string;
   @Expose()
-  @Type(() => CartItemResponseDto)
-  items!: CartItemResponseDto;
+  @Type(() => CartInfoResponseDto)
+  info!: CartInfoResponseDto;
   @Expose()
-  @Type(() => CartOptionResponseDto)
-  options!: Array<CartOptionResponseDto>;
-  @Expose({ name: 'other_variants' })
-  @Type(() => CartVariantResponseDto)
-  otherVaritants!: Array<CartVariantResponseDto>;
-  @Expose({ name: 'variant_chosen' })
-  @Type(() => CartVariantResponseDto)
-  variantChosen!: CartVariantResponseDto;
-  @Expose({ name: 'rating_sumary' })
-  @Type(() => CartRatingResponseDto)
-  ratingSumary!: CartRatingResponseDto;
+  @Type(() => CartClassificationResponseDto)
+  classification!: Array<CartClassificationValueResponseDto>;
   @Expose()
   @Type(() => CartShippingResponseDto)
   shipping!: CartShippingResponseDto;
+  @Expose()
+  @Type(() => CartImageResponseDto)
+  images: CartImageResponseDto;
+  @Expose()
+  @Type(() => CartOwnerResponseDto)
+  owner: CartOwnerResponseDto;
   @Expose()
   createdAt!: string;
   @Expose()

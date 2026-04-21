@@ -4,16 +4,15 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 
+type OnchangeClassificationType = {
+  name: string;
+  value: string;
+};
+
 interface Props {
   classifi: ProductClassification;
-  onchangeClassification: ({
-    name,
-    value,
-  }: {
-    name: string;
-    value: string;
-  }) => void;
-  classificationSelected: CartClassificationRequest[];
+  onchangeClassification: ({ name, value }: OnchangeClassificationType) => void;
+  classificationSelected: Array<CartClassificationRequest>;
 }
 
 export default function ProductClassificationValue(props: Props) {
