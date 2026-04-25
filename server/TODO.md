@@ -82,7 +82,7 @@
 ## Priority Suggestion
 
 1. Seller Register
-2. Product CRUD
+2. Product CRUD (22/4/2026)
 3. Orders
 4. Profile + Change Password
 5. Email System

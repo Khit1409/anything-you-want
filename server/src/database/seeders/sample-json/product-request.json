@@ -1,0 +1,38 @@
+{
+  "info": {
+    "name": "Giò bẫy gà rừng, giò đón và giò đá, chất liệu cáp lụa thái dây dù siêu bền ,phù hợp anh em đam mê gà rừng",
+    "price": 0,
+    "sale": 0,
+    "category": "id",
+    "brand": "",
+    "origin": "Viet Nam",
+    "description": "Giò bẫy gà rừng, giò đón và giò đá, phù hợp anh em đam mê gà rừng"
+  },
+  "classification": [
+    {
+      "name": "Loại giò",
+      "values": [
+        {
+          "name": "Giò đón",
+          "extraPrice": 1000,
+          "stock": 100,
+          "img": ""
+        },
+        {
+          "name": "Giò đá",
+          "extraPrice": 2000,
+          "stock": 100,
+          "img": ""
+        }
+      ]
+    }
+  ],
+  "shipping": {
+    "flash": true,
+    "normal": true
+  },
+  "images": {
+    "thumbnail": "",
+    "details": [""]
+  }
+}

@@ -28,5 +28,6 @@ import { SellerModule } from './modules/sellers/sellers.module';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(AuthMiddleware).forRoutes('carts');
+    consumer.apply(AuthMiddleware).forRoutes('products');
   }
 }

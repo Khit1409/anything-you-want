@@ -28,6 +28,42 @@ export class CartService {
     private readonly repository: CartRepository,
     private readonly httpHelper: HttpResponse,
   ) {}
+
+  caculatorCartTotalPrice(
+    originPrice: number,
+    sale: number,
+    quantity: number,
+    classification: CartClassification[],
+  ) {
+    const totalExtraPrice = classification.reduce((sum, acc) => {
+      acc.values.forEach((value) => {
+        console.log({
+          chosen: value.choosen,
+          extraPrice: value.extraPrice,
+          type: typeof value.extraPrice,
+          sumBefore: sum,
+        });
+
+        if (value.choosen) {
+          sum += Number(value.extraPrice);
+        }
+
+        console.log('after', sum);
+      });
+
+      return sum;
+    }, 0);
+
+    console.log({
+      originPrice,
+      sale,
+      quantity,
+      totalExtraPrice,
+    });
+
+    const finalPrice = originPrice - originPrice * (sale / 100);
+    return finalPrice * quantity + totalExtraPrice;
+  }
   /**
    *
    * @param dto
@@ -37,7 +73,7 @@ export class CartService {
   async addToCart(dto: CartRequestDto, userId: string) {
     /**
      * Check existing product and existing cart
-     * if existing this cart with use
+     * if existing this cart with user
      */
     const product = await this.productRepository.getProductDetail(
       dto.productId,
@@ -45,9 +81,10 @@ export class CartService {
 
     if (!product) {
       throw new UnauthorizedException(
-        this.httpHelper.error('Product in cart is not define!'),
+        this.httpHelper.error('Product in cart is not define or deleted!'),
       );
     }
+
     const existing = await this.repository.getByProductId(
       dto.productId,
       userId,
@@ -65,30 +102,6 @@ export class CartService {
         'Product has more classification than request sended, please check selected classification!',
       );
     }
-
-    const { brand, category, description, name, origin } = product.info;
-    /**
-     * caculator price for cart.
-     */
-    const originPrice = product.info.price;
-    const sale = product.info.sale;
-    const finalPrice = originPrice - originPrice * (sale / 100);
-    const totalPrice = finalPrice * dto.quantity;
-    /**
-     * Format cart information.
-     */
-    const cartInfoData: CartInfo = {
-      brand,
-      category,
-      description,
-      name,
-      origin,
-      originPrice,
-      productId: dto.productId,
-      quantity: dto.quantity,
-      sale,
-      totalPrice,
-    };
     /**
      * Thay vì tốn thời gian để đọc và tối ưu hàm này tôi nghĩ bạn nên dùng thời gian đó để viết 1 hàm mới dễ nhìn hơn, chân thành cảm ơn
      * Nội dung đoạn reduce là tạo 1 classification cho cart thông qua các request trong classification, chọn lựa các value đã được
@@ -132,6 +145,34 @@ export class CartService {
         'Proccess handle output data for cart classifications is error because length of output is zero or length not match with product classification length!',
       );
     }
+
+    const { brand, category, description, name, origin, price, sale } =
+      product.info;
+    /**
+     * caculator price for cart.
+     */
+
+    const totalPrice = this.caculatorCartTotalPrice(
+      price,
+      sale,
+      dto.quantity,
+      cartClassification,
+    );
+    /**
+     * Format cart information.
+     */
+    const cartInfoData: CartInfo = {
+      brand,
+      category,
+      description,
+      name,
+      origin,
+      originPrice: price,
+      productId: dto.productId,
+      quantity: dto.quantity,
+      sale,
+      totalPrice,
+    };
 
     /**
      * Finished handle output data for cart.
@@ -185,11 +226,6 @@ export class CartService {
     product: Product,
   ) {
     const { classification, quantity } = dto;
-
-    if (quantity) {
-      cartModel.info.quantity = quantity;
-    }
-
     if (classification) {
       let cartClassification = [...cartModel.classification];
 
@@ -200,8 +236,20 @@ export class CartService {
                 ...cartCls,
                 values: cartCls.values.map((cartClsVl) =>
                   cartClsVl.name === classifiDto.values.name
-                    ? { ...cartClsVl, choosen: true }
-                    : { ...cartClsVl, choosen: false },
+                    ? {
+                        name: cartClsVl.name,
+                        extraPrice: cartClsVl.extraPrice,
+                        stock: cartClsVl.stock,
+                        img: cartClsVl.img,
+                        choosen: true,
+                      }
+                    : {
+                        name: cartClsVl.name,
+                        extraPrice: cartClsVl.extraPrice,
+                        stock: cartClsVl.stock,
+                        img: cartClsVl.img,
+                        choosen: false,
+                      },
                 ),
               }
             : cartCls,
@@ -216,7 +264,27 @@ export class CartService {
           'Proccess handle output data for cart classifications is error because length of output is zero or length not match with product classification length!',
         );
       }
+      if (!quantity) {
+        const { originPrice, sale, quantity } = cartModel.info;
+        cartModel.info.totalPrice = this.caculatorCartTotalPrice(
+          originPrice,
+          sale,
+          quantity,
+          cartClassification,
+        );
+      }
       cartModel.classification = cartClassification;
+    }
+
+    if (quantity) {
+      const { price, sale } = product.info;
+      cartModel.info.quantity = quantity;
+      cartModel.info.totalPrice = this.caculatorCartTotalPrice(
+        price,
+        sale,
+        quantity,
+        cartModel.classification,
+      );
     }
 
     const updated = await cartModel.save();

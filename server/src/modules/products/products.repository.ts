@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import mongoose, { Model, Types } from 'mongoose';
 import { Product } from './schemas/products.schema';
 
 @Injectable()
@@ -33,6 +33,15 @@ export class ProductRepository {
   async getProductDetail(id: string) {
     const product = await this.productModel.findById(id).lean();
     return product;
+  }
+  /**
+   * get detail by seller for update
+   */
+  async getProductDetailBySeller(id: string, sellerId: string) {
+    return await this.productModel.findOne({
+      id: new mongoose.Types.ObjectId(id),
+      'owner.sellerId': sellerId,
+    });
   }
   /**
    *

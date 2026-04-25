@@ -13,13 +13,15 @@ export class AuthGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const req: Request = context.switchToHttp().getRequest();
-    if (!req.userId) {
+
+    if (!req.user) {
       throw new UnauthorizedException({
-        message: 'Please login!',
+        message: 'Please login for continue process!',
         success: false,
         timestamp: new Date().toLocaleDateString('vi-VN'),
       });
     }
+
     return true;
   }
 }

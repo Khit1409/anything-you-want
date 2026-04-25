@@ -28,7 +28,7 @@ export default function Navbar() {
   return (
     <div
       id="navbar"
-      className="sticky top-0 z-50 border-b border-gray-200 backdrop-blur-sm bg-white w-7xl"
+      className="sticky top-0 z-50 border-b border-gray-200 backdrop-blur-sm bg-white"
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between gap-8">

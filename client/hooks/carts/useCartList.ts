@@ -10,9 +10,9 @@ import { useDispatch } from "react-redux";
 
 export default function useCartList() {
   const dispatch = useDispatch<AppDispatch>();
-
+  const [reRender, setRerender] = useState(false);
   const { data, error, isLoading } = useQuery({
-    queryKey: ["carts"],
+    queryKey: ["carts", reRender],
     queryFn: () => {
       return getUserCartService();
     },
@@ -59,6 +59,7 @@ export default function useCartList() {
       const modalType = result.success ? ModalState.SUCCESS : ModalState.ERROR;
       dispatch(openModal({ message, state: modalType }));
     }
+    setRerender(true);
   };
 
   const onchangeClassificationSelected = (
@@ -131,6 +132,7 @@ export default function useCartList() {
       const state = result.success ? ModalState.SUCCESS : ModalState.ERROR;
       dispatch(openModal({ message: mess, state }));
     }
+    setRerender(true);
   };
 
   return {

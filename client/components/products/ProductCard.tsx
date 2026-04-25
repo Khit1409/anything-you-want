@@ -15,9 +15,10 @@ export default function ProductCard({ product }: { product: ProductPreviews }) {
         <Image
           src={product.images.thumbnail}
           alt={product.info.name}
-          fill
-          className="object-contain p-4"
+          className="object-cover p-4"
           sizes="(max-inline-size: 640px) 100vw, (max-inline-size: 1024px) 50vw, (max-inline-size: 1280px) 33vw, 25vw"
+          fill
+          objectFit="cover"
         />
         {product.info.sale > 0 && (
           <div className="absolute top-2 left-2 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-sm">

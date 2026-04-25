@@ -14,7 +14,7 @@ export class UserService {
     private readonly httpHelper: HttpResponse,
   ) {}
   /**
-   *
+   * Lấy thông tin người dùng
    * @param dto
    * @returns
    */
@@ -45,16 +45,29 @@ export class UserService {
     return this.httpHelper.success('REGISTER SUCCESSFULLY!');
   }
   /**
-   *
+   * Lấy thông tin người dùng
    * @param id
    * @returns
    */
   async getInfo(id: string) {
-    const info = await this.repository.getInfo(id);
-    if (!info)
+    const data = await this.repository.getInfo(id);
+    if (!data) {
       throw new UnauthorizedException(
         this.httpHelper.error('This user info is undefine'),
       );
-    return this.httpHelper.success('User information is ready using!', info);
+    }
+    const { addresses, phones, info } = data;
+    const formatedData = {
+      addresses,
+      phones,
+      info: {
+        ...info,
+        dateOfBirth: info.dateOfBirth.toString().split('-').reverse().join('-'), //đảo ngược chuỗi thành dd/mm/yyyy
+      },
+    };
+    return this.httpHelper.success(
+      'User information is ready using!',
+      formatedData,
+    );
   }
 }
