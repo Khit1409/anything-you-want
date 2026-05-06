@@ -29,7 +29,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      //auth
+      //authentication
       .addCase(authThunk.pending, (state) => {
         state.loading = true;
       })

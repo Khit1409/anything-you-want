@@ -18,7 +18,9 @@ import { logoutService } from "@/api/auth.api";
 import { authThunk } from "@/redux/thunk/auth.thunk";
 
 export default function Navbar() {
-  const { isLoggedIn, loading } = useSelector((state: RootState) => state.auth);
+  const { isLoggedIn, loading, authData } = useSelector(
+    (state: RootState) => state.auth
+  );
   const dispatch = useDispatch<AppDispatch>();
   const logout = async () => {
     const res = await logoutService();
@@ -99,6 +101,19 @@ export default function Navbar() {
                 <Link
                   href="/login"
                   title="go to login"
+                  className="p-2 rounded-lg text-gray-700 hover:text-red-600 hover:bg-green-50 transition-all text-center duration-200"
+                >
+                  <FontAwesomeIcon
+                    icon={faUserCircle}
+                    className="mr-2 text-lg"
+                  />
+                </Link>
+              )}
+
+              {authData && authData.role === "seller" && (
+                <Link
+                  href="/seller/dashboard"
+                  title="go to seller dashboard"
                   className="p-2 rounded-lg text-gray-700 hover:text-red-600 hover:bg-green-50 transition-all text-center duration-200"
                 >
                   <FontAwesomeIcon

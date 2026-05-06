@@ -136,7 +136,7 @@ export class AuthService {
     if (!decoded) {
       throw new NotFoundException(this.httpHelper.error("can't verify token!"));
     }
-    const data = { decoded };
+    const data = { ...decoded };
     return this.httpHelper.success('Authentication is successfully!', data);
   }
 }

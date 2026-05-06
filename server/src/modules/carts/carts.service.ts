@@ -118,9 +118,9 @@ export class CartService {
      */
     const cartClassification: CartClassification[] = [];
 
-    dto.classification.forEach((classifiDto) => {
+    dto.classification.forEach((classificationDto) => {
       const productClassifiNeed = product.classification.find(
-        (classifi) => classifi.name === classifiDto.name,
+        (classifi) => classifi.name === classificationDto.name,
       );
       if (!productClassifiNeed) {
         throw new UnauthorizedException(
@@ -130,7 +130,7 @@ export class CartService {
       cartClassification.push({
         name: productClassifiNeed.name,
         values: productClassifiNeed.values.map((clsvl) =>
-          clsvl.name === classifiDto.values.name
+          clsvl.name === classificationDto.values.name
             ? { ...clsvl, choosen: true }
             : { ...clsvl, choosen: false },
         ),
@@ -229,30 +229,32 @@ export class CartService {
     if (classification) {
       let cartClassification = [...cartModel.classification];
 
-      classification.forEach((classifiDto) => {
-        cartClassification = cartClassification.map((cartCls) =>
-          cartCls.name === classifiDto.name
+      classification.forEach((classificationDto) => {
+        cartClassification = cartClassification.map((cartClassification) =>
+          cartClassification.name === classificationDto.name
             ? {
-                ...cartCls,
-                values: cartCls.values.map((cartClsVl) =>
-                  cartClsVl.name === classifiDto.values.name
-                    ? {
-                        name: cartClsVl.name,
-                        extraPrice: cartClsVl.extraPrice,
-                        stock: cartClsVl.stock,
-                        img: cartClsVl.img,
-                        choosen: true,
-                      }
-                    : {
-                        name: cartClsVl.name,
-                        extraPrice: cartClsVl.extraPrice,
-                        stock: cartClsVl.stock,
-                        img: cartClsVl.img,
-                        choosen: false,
-                      },
+                ...cartClassification,
+                values: cartClassification.values.map(
+                  (cartClassificationValue) =>
+                    cartClassificationValue.name ===
+                    classificationDto.values.name
+                      ? {
+                          name: cartClassificationValue.name,
+                          extraPrice: cartClassificationValue.extraPrice,
+                          stock: cartClassificationValue.stock,
+                          img: cartClassificationValue.img,
+                          choosen: true,
+                        }
+                      : {
+                          name: cartClassificationValue.name,
+                          extraPrice: cartClassificationValue.extraPrice,
+                          stock: cartClassificationValue.stock,
+                          img: cartClassificationValue.img,
+                          choosen: false,
+                        },
                 ),
               }
-            : cartCls,
+            : cartClassification,
         );
       });
 

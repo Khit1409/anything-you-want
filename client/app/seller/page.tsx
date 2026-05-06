@@ -1,4 +1,7 @@
+"use client";
+
+import { redirect } from "next/navigation";
+
 export default function page() {
-  
-  return <div>ọ</div>;
+  redirect("/seller/dashboard");
 }

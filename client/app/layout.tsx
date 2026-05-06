@@ -3,10 +3,11 @@ import "./globals.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { Nunito } from "next/font/google";
 import ReduxProvider from "@/redux/ReduxProvider";
-import Provider from "./Provider";
+
 import QueryProvider from "./query-provider";
 import AppModal from "@/components/common/AppModal";
 import Loading from "@/components/common/Loading";
+import AppWapper from "./AppWapper";
 
 config.autoAddCss = true;
 
@@ -33,13 +34,13 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={nunito.className}>
         <ReduxProvider>
-          <Provider>
+          <AppWapper>
             <QueryProvider>
               <AppModal />
               <Loading />
               {children}
             </QueryProvider>
-          </Provider>
+          </AppWapper>
         </ReduxProvider>
       </body>
     </html>

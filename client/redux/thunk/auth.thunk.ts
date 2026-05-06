@@ -6,7 +6,9 @@ import {
 } from "@/api/auth.api";
 import { IAuthenticationResponse } from "@/interfaces/common/auth.interface";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-
+/**
+ *
+ */
 export const loginThunk = createAsyncThunk<
   LoginResponse,
   LoginData,
@@ -28,7 +30,9 @@ export const loginThunk = createAsyncThunk<
     return thunkAPI.rejectWithValue(("Unkwon this error!" + error) as string);
   }
 });
-
+/**
+ *
+ */
 export const authThunk = createAsyncThunk<
   IAuthenticationResponse,
   void,

@@ -1,12 +1,11 @@
-
 import { Role } from "./role.interface";
-
 
 export interface IAuthenticationData {
   uid: string;
   role: Role;
   email: string;
 }
+
 export interface IAuthenticationResponse {
   message: string;
   success: boolean;
