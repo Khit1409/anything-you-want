@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import bcrypt from 'bcrypt';
 import { SellerRepository } from './sellers.repository';
 import { CreateSellerDto, CreateSellerPhoneDto } from './dto/create-seller.dto';
@@ -91,5 +95,20 @@ export class SellerService {
       );
     });
     return hasDuplicate;
+  }
+  /**
+   * @param id
+   * @returns
+   */
+  async getSellerProfile(id: string) {
+    const seller = await this.repo.getById(id);
+    if (!seller) {
+      throw new UnauthorizedException('Seller is not found by this id!');
+    }
+
+    return this.httpHellper.success(
+      'Fetching seller profile successfully!',
+      seller,
+    );
   }
 }

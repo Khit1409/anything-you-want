@@ -19,7 +19,16 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@/style/*": ["./styles/*"],
+      "@/interfaces/*": ["./interfaces/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/redux/*": ["./redux/*"],
+      "@/pages/*": ["./pages/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/components/*": ["./components/*"],
+      "@/features/*": ["./features/*"],
+      "@/api/*": ["./api/*"]
     }
   },
   "include": [

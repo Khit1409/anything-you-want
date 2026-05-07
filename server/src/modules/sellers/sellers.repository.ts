@@ -40,4 +40,16 @@ export class SellerRepository {
 
     return await this.ormRepo.save(newRaw);
   }
+
+  /**
+   * @param id
+   * @returns
+   */
+  async getById(id: string) {
+    return await this.ormRepo.findOne({
+      where: { id },
+      select: ['id', 'emailAddress', 'lastLoginAt'],
+      relations: { info: true },
+    });
+  }
 }

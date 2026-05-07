@@ -11,6 +11,7 @@ import {
   faBars,
   faCartShopping,
   faShoppingBag,
+  faStore,
   faUser,
   faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
@@ -117,7 +118,7 @@ export default function Navbar() {
                   className="p-2 rounded-lg text-gray-700 hover:text-red-600 hover:bg-green-50 transition-all text-center duration-200"
                 >
                   <FontAwesomeIcon
-                    icon={faUserCircle}
+                    icon={faStore}
                     className="mr-2 text-lg"
                   />
                 </Link>

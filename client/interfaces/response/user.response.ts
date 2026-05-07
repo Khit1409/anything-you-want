@@ -6,6 +6,7 @@ export type UserPhone = {
 };
 
 export type UserAddresses = Array<UserAddress>;
+
 export type UserAddress = {
   id: string;
   province: string;
