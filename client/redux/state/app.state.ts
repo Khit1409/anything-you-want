@@ -1,3 +1,5 @@
+import { Theme } from "@/interfaces/common/theme.interface";
+
 export enum ModalState {
   ERROR = "error",
   SUCCESS = "success",
@@ -13,4 +15,5 @@ export type ModalActionPayload = {
 export interface IAppInitalState {
   modalState: ModalActionPayload | null;
   appLoading: null | boolean;
+  theme: Theme;
 }

@@ -1,9 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IAppInitalState, ModalActionPayload } from "../state/app.state";
+import { Theme } from "@/interfaces/common/theme.interface";
 
 const appInitialState: IAppInitalState = {
   modalState: null,
   appLoading: false,
+  theme: "light",
 };
 
 const appSlice = createSlice({
@@ -22,9 +24,15 @@ const appSlice = createSlice({
     startLoadingAnimation: (state) => {
       state.appLoading = state.appLoading ? false : true;
     },
+    changeWebMode: (state) => {
+      state.theme = state.theme === "dark" ? "light" : "dark";
+    },
+    setWebMode: (state, action: PayloadAction<Theme>) => {
+      state.theme = action.payload;
+    },
   },
 });
 
 export const appReducer = appSlice.reducer;
-export const { closeModal, openModal, startLoadingAnimation } =
+export const { closeModal,setWebMode ,openModal, startLoadingAnimation, changeWebMode } =
   appSlice.actions;

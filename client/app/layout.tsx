@@ -7,7 +7,7 @@ import ReduxProvider from "@/redux/ReduxProvider";
 import QueryProvider from "./query-provider";
 import AppModal from "@/components/common/AppModal";
 import Loading from "@/components/common/Loading";
-import AppWapper from "./AppWapper";
+import AppWrapper from "./AppWrapper";
 
 config.autoAddCss = true;
 
@@ -34,13 +34,13 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={nunito.className}>
         <ReduxProvider>
-          <AppWapper>
+          <AppWrapper>
             <QueryProvider>
               <AppModal />
               <Loading />
               {children}
             </QueryProvider>
-          </AppWapper>
+          </AppWrapper>
         </ReduxProvider>
       </body>
     </html>

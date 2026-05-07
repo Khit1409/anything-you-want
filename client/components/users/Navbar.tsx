@@ -10,18 +10,22 @@ import {
   faArrowRightFromBracket,
   faBars,
   faCartShopping,
+  faMoon,
   faShoppingBag,
   faStore,
+  faSun,
   faUser,
   faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { logoutService } from "@/api/auth.api";
 import { authThunk } from "@/redux/thunk/auth.thunk";
+import { changeWebMode } from "@/redux/slice/app.slice";
 
 export default function Navbar() {
   const { isLoggedIn, loading, authData } = useSelector(
     (state: RootState) => state.auth
   );
+  const { theme } = useSelector((state: RootState) => state.app);
   const dispatch = useDispatch<AppDispatch>();
   const logout = async () => {
     const res = await logoutService();
@@ -31,7 +35,7 @@ export default function Navbar() {
   return (
     <div
       id="navbar"
-      className="sticky top-0 z-50 border-b border-gray-200 backdrop-blur-sm bg-white"
+      className="sticky top-0 z-50 border-b border-gray-200 backdrop-blur-sm bg-white dark:bg-black"
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between gap-8">
@@ -80,6 +84,16 @@ export default function Navbar() {
             >
               <FontAwesomeIcon icon={faUser} className="text-lg" />
             </Link>
+
+            <button
+              onClick={() => {
+                dispatch(changeWebMode());
+              }}
+              className=""
+              title="Change web mode"
+            >
+              <FontAwesomeIcon className="dark:text-white" icon={theme === "dark" ? faSun : faMoon} />
+            </button>
             {/* Divider */}
             <div className="w-px h-6 bg-gray-300 mx-2"></div>
             <div className="w-[100px] flex justify-center items-center">
@@ -117,10 +131,7 @@ export default function Navbar() {
                   title="go to seller dashboard"
                   className="p-2 rounded-lg text-gray-700 hover:text-red-600 hover:bg-green-50 transition-all text-center duration-200"
                 >
-                  <FontAwesomeIcon
-                    icon={faStore}
-                    className="mr-2 text-lg"
-                  />
+                  <FontAwesomeIcon icon={faStore} className="mr-2 text-lg" />
                 </Link>
               )}
             </div>
