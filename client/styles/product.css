@@ -1,0 +1,11 @@
+:root {
+    --product-title-heading-section: black;
+}
+
+.dark {
+    --product-title-heading-section: white;
+}
+
+.product-title-heading-section {
+    color: var(--product-title-heading-section);
+}

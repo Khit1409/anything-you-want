@@ -12,39 +12,53 @@ export default function ProductPanigation({
   return (
     <section
       id="product-panigation"
-      className="p-3 w-full border border-gray-300"
+      className="p-3 w-full border border-(--border) dark:border-zinc-700 bg-(--surface) dark:bg-zinc-900"
     >
       <div className="w-full h-full flex items-center justify-center">
         <div className="flex gap-2 items-center">
           <button
             disabled={page == 1}
             onClick={() => setPage((prev) => prev - 1)}
-            className={`${page == 1 ? "text-gray-300" : ""}`}
+            className={`flex items-center gap-1 px-2 py-1 rounded transition-colors
+              ${
+                page == 1
+                  ? "text-(--muted) dark:text-zinc-600 cursor-not-allowed"
+                  : "text-(--text) dark:text-zinc-300 hover:text-orange-600 dark:hover:text-orange-400"
+              }`}
           >
-            <FontAwesomeIcon icon={faAngleLeft} className="space-x-reverse" />
+            <FontAwesomeIcon icon={faAngleLeft} />
             Previous
           </button>
+
           {Array.from({ length: 3 }).map((_, index) => (
             <button
               key={index}
-              className={`px-2 py-1 rounded ${
-                page === index + 1 ? "bg-gray-400 text-white" : ""
-              }`}
+              className={`px-2 py-1 rounded transition-colors
+                ${
+                  page === index + 1
+                    ? "bg-(--border) dark:bg-zinc-600 text-white"
+                    : "text-(--text) dark:text-zinc-300 hover:bg-(--surface-muted) dark:hover:bg-zinc-800"
+                }`}
               onClick={() => setPage(index + 1)}
             >
               {index + 1}
             </button>
           ))}
-          <span>...</span>
+
+          <span className="text-(--muted) dark:text-zinc-500">...</span>
+
           {page >= 4 && (
-            <span className="px-2 py-1 rounded bg-gray-400 text-white">
+            <span className="px-2 py-1 rounded bg-(--border) dark:bg-zinc-600 text-white">
               {page}
             </span>
           )}
 
-          <button onClick={() => setPage((prev) => prev + 1)}>
+          <button
+            onClick={() => setPage((prev) => prev + 1)}
+            className="flex items-center gap-1 px-2 py-1 rounded text-(--text) dark:text-zinc-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+          >
             Next
-            <FontAwesomeIcon icon={faAngleRight} className="" />
+            <FontAwesomeIcon icon={faAngleRight} />
           </button>
         </div>
       </div>

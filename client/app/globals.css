@@ -3,14 +3,49 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* --font-family: "Nunito", 'Open Sans', sans-serif; */
+  --font-family: "Nunito", 'Open Sans', sans-serif;
   --font-title: 'Montserrat', sans-serif;
+
+  /* Light theme colors */
+  --background: #ffffff;
+  --surface: #ffffff;
+  --surface-muted: #f3f4f6;
+  /* bg-gray-100 */
+
+  --title: #0f1724;
+  /* near gray-900 */
+  --text: #374151;
+  /* gray-700 */
+  --muted: #6b7280;
+  /* gray-500 */
+  --border: #e5e7eb;
+  /* gray-200 */
+  --accent: #7c3aed;
+  /* purple (calmer) */
+}
+
+.dark {
+  /* Dark theme colors (use calm, desaturated tones) */
+  --background: #0b1220;
+  --surface: #0f1724;
+  --surface-muted: #0b1220;
+  --title: #f8fafc;
+  /* near white */
+  --text: #d1d5db;
+  /* gray-300 */
+  --muted: #9ca3af;
+  /* gray-400 */
+  --border: #374151;
+  /* darker muted border */
+  --accent: #a78bfa;
+  /* softer purple */
 }
 
 body {
-  /* font-family: var(--font-family); */
+  font-family: var(--font-family);
   font-optical-sizing: auto;
   font-style: normal;
+  background-color: var(--background);
 }
 
 * {
@@ -21,6 +56,7 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
 
 .bg-effect {
   background-color: rgba(71, 70, 70, 0.532);
@@ -72,35 +108,6 @@ a {
   cursor: pointer;
 }
 
-.login-bg-img {
-  background-image: url('/assets/images/login-background.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.login-text-bg-img {
-  background-image: url('/assets/images/login-background.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.hero-bg-img {
-  background-image: url('/assets/images/hero-background.avif');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.register-bg-img {
-  background-image: url('/assets/images/product-hero.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-
-.seller-content-container {
-  block-size: calc(100vh - 60px);
-}
+/* Helper utility mappings were removed — components use Tailwind
+   arbitrary var syntax like text-(--text), bg-(--surface), border-(--border)
+   directly to avoid helper-class duplication. */

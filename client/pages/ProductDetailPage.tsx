@@ -30,11 +30,11 @@ export default function ProductDetailPage() {
   if (error) return <p>{error.message}</p>;
 
   return product ? (
-    <div className="w-full p-4 bg-gray-50 mt-3">
-      <div className="uppercase py-2 border-b border-gray-300">
-        <h3>Thông tin sản phẩm</h3>
+    <div className="w-full p-4 bg-(--surface-muted) mt-3 dark:bg-(--background)">
+      <div className="uppercase py-2 border-b border-(--border)">
+        <h3 className="product-title-heading-section">Thông tin sản phẩm</h3>
       </div>
-      <div className="flex gap-4 bg-white">
+      <div className="flex gap-4 bg-(--surface)">
         <div className="flex-1">
           <ProductImage images={product.images} />
           <ProductClassification

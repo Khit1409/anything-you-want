@@ -15,7 +15,10 @@ export default function CartList() {
   } = useCartList();
 
   return (
-    <div id="cart-list" className="min-h-screen bg-gray-50 px-4 py-8">
+    <div
+      id="cart-list"
+      className={`min-h-screen bg-(--surface-muted) px-4 py-8`}
+    >
       {isLoading ? (
         <SectionShowDataLoading />
       ) : carts.length == 0 ? (
@@ -25,7 +28,7 @@ export default function CartList() {
           <div className="flex flex-col gap-6">
             {carts.map((cart) => (
               <div
-                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+                className="bg-(--surface) rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
                 key={cart.id}
               >
                 {/* Top Section - Image and Info */}
@@ -44,26 +47,26 @@ export default function CartList() {
                   {/* Product Info */}
                   <div className="grow">
                     {/* Product Name */}
-                    <h3 className="text-lg font-bold uppercase text-gray-800 mb-3">
+                    <h3 className="text-lg font-bold uppercase text-(--title) mb-3">
                       {cart.info.name}
                     </h3>
 
                     {/* Product Details */}
-                    <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 mb-4">
+                    <div className="grid grid-cols-2 gap-4 text-sm text-(--muted) mb-4">
                       <div>
-                        <p className="text-gray-500 text-xs">Danh mục</p>
+                        <p className="text-(--muted) text-xs">Danh mục</p>
                         <p className="font-medium">{cart.info.category.name}</p>
                       </div>
                       <div>
-                        <p className="text-gray-500 text-xs">Thương hiệu</p>
+                        <p className="text-(--muted) text-xs">Thương hiệu</p>
                         <p className="font-medium">{cart.info.brand}</p>
                       </div>
                       <div>
-                        <p className="text-gray-500 text-xs">Xuất xứ</p>
+                        <p className="text-(--muted) text-xs">Xuất xứ</p>
                         <p className="font-medium">{cart.info.origin}</p>
                       </div>
                       <div>
-                        <p className="text-gray-500 text-xs">Ngày thêm</p>
+                        <p className="text-(--muted) text-xs">Ngày thêm</p>
                         <p className="font-medium">
                           {new Date(cart.createdAt).toLocaleDateString("vi-VN")}
                         </p>
@@ -73,7 +76,9 @@ export default function CartList() {
                     {/* Quantity and Price */}
                     <div className="flex items-center gap-6 mb-4">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm text-gray-600">Số lượng:</span>
+                        <span className="text-sm text-(--muted)">
+                          Số lượng:
+                        </span>
                         <input
                           type="number"
                           onChange={(e) => {
@@ -82,11 +87,11 @@ export default function CartList() {
                           }}
                           defaultValue={Number(cart.info.quantity)}
                           min="1"
-                          className="w-24 px-2 py-1 text-center border border-gray-300 rounded text-sm focus:outline-none focus:border-gray-400"
+                          className="w-24 px-2 py-1 text-center border border-(--border) rounded text-sm focus:outline-none focus:border-(--border)"
                         />
                       </div>
                       <div className="text-sm">
-                        <span className="text-gray-600">Giá gốc: </span>
+                        <span className="text-(--muted)">Giá gốc: </span>
                         <span className="font-medium">
                           {Number(cart.info.originPrice).toLocaleString(
                             "vi-VN"
@@ -101,7 +106,7 @@ export default function CartList() {
                       <div className="flex flex-wrap gap-4 mb-4">
                         {cart.classification.map((classifi) => (
                           <div key={classifi.name}>
-                            <label className="text-sm text-gray-600 block mb-1">
+                            <label className="text-sm text-(--muted) block mb-1">
                               {classifi.name}
                             </label>
                             <select
@@ -113,7 +118,7 @@ export default function CartList() {
                               defaultValue={
                                 classifi.values.find((f) => f.choosen)?.name
                               }
-                              className="px-3 py-1 text-sm border border-gray-300 rounded bg-white focus:outline-none focus:border-gray-400"
+                              className="px-3 py-1 text-sm border border-(--border) rounded bg-(--surface) focus:outline-none focus:border-(--border)"
                             >
                               <option value="">Chọn {classifi.name}</option>
                               {classifi.values.map((classifiValue) => (
@@ -133,7 +138,7 @@ export default function CartList() {
 
                     {/* Total Price */}
                     <div className="flex items-center gap-2">
-                      <span className="text-gray-600">Tổng tiền:</span>
+                      <span className="text-(--muted)">Tổng tiền:</span>
                       <span className="text-xl font-bold text-red-600">
                         {Number(cart.info.totalPrice).toLocaleString("vi-VN")}đ
                       </span>
@@ -142,21 +147,21 @@ export default function CartList() {
                 </div>
 
                 {/* Bottom Section - Action Buttons */}
-                <div className="flex gap-3 justify-end pt-4 border-t border-gray-200">
+                <div className="flex gap-3 justify-end pt-4 border-t border-(--border)">
                   <button
                     onClick={() => {
                       setIdToUpdate(cart.id);
                       updateCartHandle();
                     }}
                     title="cập nhật giỏ hàng"
-                    className="px-4 py-2 border border-gray-400 text-gray-700 text-sm rounded hover:bg-green-500 hover:text-white hover:border-0 transition-colors"
+                    className="px-4 py-2 border border-(--border) text-(--muted) text-sm rounded hover:bg-green-500 hover:text-white hover:border-0 transition-colors"
                   >
                     Cập nhật
                   </button>
                   <button
                     title="xóa giỏ hàng"
                     onClick={() => deleteCartHandle(cart.id)}
-                    className="px-4 py-2 border border-gray-400 text-gray-700 text-sm rounded hover:bg-red-500 hover:text-white hover:border-0 transition-colors"
+                    className="px-4 py-2 border border-(--border) text-(--muted) text-sm rounded hover:bg-red-500 hover:text-white hover:border-0 transition-colors"
                   >
                     Xóa
                   </button>

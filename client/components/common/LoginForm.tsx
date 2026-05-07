@@ -20,25 +20,27 @@ export default function LoginForm(props: LoginFormProps) {
   const [isSeller, setIsSeller] = useState<boolean>(false);
 
   return (
-    <div className="p-8 flex-1 flex items-center justify-center rounde-r-xl shadow-lg bg-white/95 backdrop-blur-sm">
+    <div
+      className={`p-8 flex-1 flex items-center justify-center rounde-r-xl shadow-lg bg-(--surface) backdrop-blur-sm`}
+    >
       <form className="w-full max-w-md" onSubmit={props.submit}>
         {/* Header */}
         <div className="mb-8 text-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Đăng Nhập</h2>
-          <p className="text-sm text-gray-500">Chào mừng bạn quay trở lại!</p>
+          <h2 className="text-2xl font-bold text-(--title) mb-2">Đăng Nhập</h2>
+          <p className="text-sm text-(--muted)">Chào mừng bạn quay trở lại!</p>
         </div>
 
         {/* Email input */}
         <div className="w-full mb-5">
           <label
-            className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
+            className="flex items-center gap-2 text-sm font-medium text-(--text) mb-2"
             htmlFor="email_address"
           >
-            <FontAwesomeIcon icon={faEnvelope} className="text-gray-500" />
+            <FontAwesomeIcon icon={faEnvelope} className="text-(--muted)" />
             <span>Email</span>
           </label>
           <input
-            className="border border-gray-300 p-3 rounded-full w-full outline-none bg-white focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all duration-200"
+            className="border border-(--border) p-3 rounded-full w-full outline-none bg-(--surface) focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all duration-200"
             type="email"
             name="email_address"
             id="email_address"
@@ -56,14 +58,14 @@ export default function LoginForm(props: LoginFormProps) {
         {/* Password input */}
         <div className="w-full mb-5">
           <label
-            className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2"
+            className="flex items-center gap-2 text-sm font-medium text-(--text) mb-2"
             htmlFor="current_password"
           >
-            <FontAwesomeIcon icon={faLock} className="text-gray-500" />
+            <FontAwesomeIcon icon={faLock} className="text-(--muted)" />
             <span>Mật khẩu</span>
           </label>
           <input
-            className="border border-gray-300 p-3 rounded-full w-full outline-none bg-white focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all duration-200"
+            className="border border-(--border) p-3 rounded-full w-full outline-none bg-(--surface) focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all duration-200"
             type="password"
             onChange={(e) =>
               props.setState((prev) => ({
@@ -88,11 +90,11 @@ export default function LoginForm(props: LoginFormProps) {
               name="is_aggree"
               required
               id="is_aggree"
-              className="w-4 h-4 text-green-500 border-gray-300 rounded focus:ring-green-500 cursor-pointer"
+              className="w-4 h-4 text-green-500 border-(--border) rounded focus:ring-green-500 cursor-pointer"
             />
             <label
               htmlFor="is_aggree"
-              className="ml-2 text-sm text-gray-600 cursor-pointer"
+              className="ml-2 text-sm text-(--muted) cursor-pointer"
             >
               Tôi đồng ý với điều khoản và dịch vụ
             </label>
@@ -110,11 +112,11 @@ export default function LoginForm(props: LoginFormProps) {
                 }));
               }}
               checked={isSeller}
-              className="w-4 h-4 text-green-500 border-gray-300 rounded focus:ring-green-500 cursor-pointer"
+              className="w-4 h-4 text-green-500 border-(--border) rounded focus:ring-green-500 cursor-pointer"
             />
             <label
               htmlFor="is_seller"
-              className="ml-2 text-sm text-gray-600 cursor-pointer"
+              className="ml-2 text-sm text-(--muted) cursor-pointer"
             >
               Đăng nhập với tư cách người bán
             </label>
@@ -142,10 +144,10 @@ export default function LoginForm(props: LoginFormProps) {
         {/* Divider */}
         <div className="relative mb-6">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300"></div>
+            <div className="w-full border-t border-(--border)"></div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-white text-gray-500">HOẶC</span>
+            <span className="px-4 bg-(--surface) text-(--muted)">HOẶC</span>
           </div>
         </div>
 
@@ -153,15 +155,15 @@ export default function LoginForm(props: LoginFormProps) {
         <div className="flex flex-col sm:flex-row gap-3 items-center justify-center text-sm">
           <Link
             href="/"
-            className="flex items-center gap-2 text-gray-600 hover:text-green-600 transition-colors duration-200"
+            className="flex items-center gap-2 text-(--muted) hover:text-green-600 transition-colors duration-200"
           >
             <FontAwesomeIcon icon={faHome} />
             <span>Quay lại trang chủ</span>
           </Link>
-          <span className="hidden sm:block text-gray-300">|</span>
+          <span className="hidden sm:block text-(--muted)">|</span>
           <Link
             href="/register"
-            className="flex items-center gap-2 text-gray-600 hover:text-green-600 transition-colors duration-200"
+            className="flex items-center gap-2 text-(--muted) hover:text-green-600 transition-colors duration-200"
           >
             <FontAwesomeIcon icon={faPen} />
             <span>Đăng ký tài khoản</span>

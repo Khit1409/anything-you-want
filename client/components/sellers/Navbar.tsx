@@ -20,7 +20,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="h-screen flex flex-col bg-white border-r border-gray-200 max-w-[300px] w-[300px] p-0 m-0">
+    <nav className="h-screen flex flex-col bg-(--surface) border-r border-(--border) max-w-[300px] w-[300px] p-0 m-0">
       {/* Scrollable Menu */}
       <div className="flex-1 overflow-y-auto scrollbar-hide px-2 py-3">
         {SELLER_NAV.map((nav) => (
@@ -28,7 +28,7 @@ export default function Navbar() {
             {/* Category Button */}
             <button
               onClick={() => toggleCategory(Number(nav.id))}
-              className="w-full flex items-center justify-start px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+              className="w-full flex items-center justify-start px-4 py-3 text-(--muted) hover:bg-(--surface-muted) rounded-lg transition-colors"
             >
               <FontAwesomeIcon
                 icon={faCaretRight}
@@ -53,7 +53,7 @@ export default function Navbar() {
                   <Link
                     key={index}
                     href={nav_child.url}
-                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors hover:text-gray-900"
+                    className="flex items-center px-4 py-2 text-sm text-(--text) hover:bg-(--surface-muted) rounded-lg transition-colors hover:text-(--title)"
                   >
                     <span>
                       <FontAwesomeIcon

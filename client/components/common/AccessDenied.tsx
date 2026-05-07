@@ -12,8 +12,8 @@ export default function AccessDenied({
   backLinkText = "Quay lại trang chủ",
 }: AccessDeniedProps) {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full text-center">
+    <div className="flex items-center justify-center min-h-screen bg-(--surface-muted)">
+      <div className="bg-(--surface) rounded-lg shadow-lg p-8 max-w-md w-full text-center">
         {/* Warning Icon */}
         <div className="mb-4 flex justify-center">
           <div className="bg-red-100 rounded-full p-4">
@@ -35,12 +35,12 @@ export default function AccessDenied({
         </div>
 
         {/* Title */}
-        <h1 className="text-2xl font-bold text-gray-900 mb-3">
+        <h1 className="text-2xl font-bold text-(--title) mb-3">
           Quyền truy cập bị từ chối
         </h1>
 
         {/* Message */}
-        <p className="text-gray-600 mb-6">{message}</p>
+        <p className="text-(--muted) mb-6">{message}</p>
 
         {/* Back Link */}
         <a

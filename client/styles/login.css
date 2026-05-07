@@ -1,0 +1,17 @@
+:root {}
+
+.dark {}
+
+.login-bg-img {
+    background-image: url('/assets/images/login-background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.login-text-bg-img {
+    background-image: url('/assets/images/login-background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

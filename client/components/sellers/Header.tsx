@@ -14,12 +14,12 @@ export default function Header() {
               type="text"
               name="search"
               id="search-menu"
-              className="w-full p-2 h-full rounded-full outline-0 border border-gray-300"
+              className="w-full p-2 h-full rounded-full outline-0 border border-(--border)"
             />
             <button
               type="submit"
               title="Search in seller system..."
-              className="absolute left-3 text-gray-600 font-sans"
+              className="absolute left-3 text-(--muted) font-sans"
             >
               <FontAwesomeIcon icon={faSearch} />
               <span className="ms-1 text-sm font-sans">Search...</span>
@@ -27,7 +27,7 @@ export default function Header() {
           </form>
         </div>
         <div className="flex-1 flex justify-end">
-          <div className="flex items-center gap-3 text-gray-600">
+          <div className="flex items-center gap-3 text-(--muted)">
             <div>
               <button title="Light mode" type="button">
                 <FontAwesomeIcon icon={faSun} />

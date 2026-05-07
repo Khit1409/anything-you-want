@@ -46,8 +46,8 @@ export default function ProductAction(props: Props) {
               onClick={() => setQuantity((prev) => prev - 1)}
               className={`w-10 h-10 border rounded flex items-center justify-center transition-colors ${
                 disableMinusButton()
-                  ? "border-gray-200 text-gray-300 cursor-not-allowed"
-                  : "border-gray-300 text-gray-700 hover:bg-gray-100 active:bg-gray-200"
+                  ? "border-(--border) text-(--muted) cursor-not-allowed"
+                  : "border-(--border) text-(--text) hover:bg-(--surface-muted) active:bg-(--border)"
               }`}
               disabled={disableMinusButton()}
             >
@@ -59,14 +59,14 @@ export default function ProductAction(props: Props) {
               onChange={(e) => onchangeQuantity(e)}
               id="quantity"
               value={quantity <= 0 ? 1 : quantity}
-              className="w-20 h-10 border border-gray-300 rounded text-center outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500"
+              className="w-20 h-10 border border-(--border) rounded text-center outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500"
               min="1"
             />
             <button
               className={`w-10 h-10 border rounded flex items-center justify-center transition-colors ${
                 disablePlusButton()
-                  ? "border-gray-200 text-gray-300 cursor-not-allowed"
-                  : "border-gray-300 text-gray-700 hover:bg-gray-100 active:bg-gray-200"
+                  ? "border-(--border) text-(--muted) cursor-not-allowed"
+                  : "border-(--border) text-(--text) hover:bg-(--surface-muted) active:bg-(--border)"
               }`}
               onClick={() => setQuantity((prev) => prev + 1)}
               disabled={disablePlusButton()}
@@ -82,7 +82,7 @@ export default function ProductAction(props: Props) {
             onClick={() => addToCart()}
             className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded transition-colors ${
               disableAddToCartButton()
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                ? "bg-(--surface-muted) text-(--muted) cursor-not-allowed"
                 : "bg-green-500 text-white hover:bg-green-600 active:bg-green-700"
             }`}
             disabled={disableAddToCartButton()}
@@ -93,7 +93,7 @@ export default function ProductAction(props: Props) {
           <button
             className={`flex items-center justify-center gap-2 py-3 px-4 rounded transition-colors ${
               disableAddToCartButton()
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                ? "bg-(--surface-muted) text-(--muted) cursor-not-allowed"
                 : "bg-orange-500 text-white hover:bg-orange-600 active:bg-orange-700"
             }`}
             disabled={disableAddToCartButton()}

@@ -21,7 +21,7 @@ export default function ProductList({ role }: { role: Role }) {
   });
 
   return (
-    <section id="product-section" className="bg-gray-50 py-6 px-4 min-h-screen">
+    <section id="product-section" className="bg-gray-50 py-6 px-4 min-h-screen dark:bg-black">
       {isLoading ? (
         <SectionShowDataLoading />
       ) : !data || data.length === 0 ? (

@@ -7,11 +7,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
+
 export default function ProductCard({ product }: { product: ProductPreviews }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-sm hover:shadow-lg transition-shadow duration-200 flex flex-col h-full">
+    <div className="bg-(--surface) dark:bg-(--surface) border border-(--border) rounded-sm hover:shadow-lg dark:hover:shadow-zinc-800 transition-shadow duration-200 flex flex-col h-full">
       {/* Image Container */}
-      <div className="relative w-full pt-[100%] bg-white overflow-hidden">
+      <div className="relative w-full pt-[100%] bg-(--surface) dark:bg-zinc-800 overflow-hidden">
         <Image
           src={product.images.thumbnail}
           alt={product.info.name}
@@ -21,7 +22,7 @@ export default function ProductCard({ product }: { product: ProductPreviews }) {
           objectFit="cover"
         />
         {product.info.sale > 0 && (
-          <div className="absolute top-2 left-2 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-sm">
+          <div className="absolute top-2 left-2 bg-red-600 dark:bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-sm">
             -{product.info.sale}%
           </div>
         )}
@@ -32,7 +33,7 @@ export default function ProductCard({ product }: { product: ProductPreviews }) {
         {/* Brand */}
         <Link
           href={`/search?brand=${product.info.brand}`}
-          className="text-xs text-gray-600 hover:text-orange-600 hover:underline mb-1 block"
+          className="text-xs text-(--muted) hover:text-orange-600 dark:hover:text-orange-400 hover:underline mb-1 block"
         >
           {product.info.brand}
         </Link>
@@ -40,7 +41,7 @@ export default function ProductCard({ product }: { product: ProductPreviews }) {
         {/* Product Name */}
         <Link
           href={`/products/${product.id}`}
-          className="text-xl font-semibold leading-tight text-gray-900 line-clamp-4 mb-2 hover:text-orange-600 cursor-pointer min-h-10"
+          className="text-xl font-semibold leading-tight text-(--title) dark:text-zinc-100 line-clamp-4 mb-2 hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer min-h-10"
         >
           {product.info.name}
         </Link>
@@ -55,14 +56,14 @@ export default function ProductCard({ product }: { product: ProductPreviews }) {
                   icon={faStar}
                   className={`text-xs ${
                     index < product.ratingSumary.avg
-                      ? "text-orange-400"
-                      : "text-gray-300"
+                      ? "text-orange-400 dark:text-orange-300"
+                      : "text-(--muted) dark:text-zinc-600"
                   }`}
                 />
               )
             )}
           </div>
-          <span className="text-xs text-gray-600 ml-1">
+          <span className="text-xs text-(--muted) dark:text-zinc-400 ml-1">
             ({product.ratingSumary.total})
           </span>
         </div>
@@ -70,20 +71,20 @@ export default function ProductCard({ product }: { product: ProductPreviews }) {
         {/* Price Section */}
         <div className="mb-3">
           <div className="flex items-baseline gap-2 mb-1">
-            <span className="text-2xl font-normal text-gray-900">
+            <span className="text-2xl font-normal text-(--title) dark:text-zinc-100">
               {(
                 product.info.price -
                 (product.info.price * product.info.sale) / 100
               ).toLocaleString("vi-VN")}
             </span>
-            <span className="text-sm text-gray-900">₫</span>
+            <span className="text-sm text-(--title) dark:text-zinc-100">₫</span>
           </div>
           {product.info.sale > 0 && (
             <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-500 line-through">
+              <span className="text-xs text-(--muted) dark:text-zinc-500 line-through">
                 {product.info.price.toLocaleString("vi-VN")}₫
               </span>
-              <span className="text-xs text-red-600 font-medium">
+              <span className="text-xs text-red-600 dark:text-red-400 font-medium">
                 Tiết kiệm{" "}
                 {(
                   (product.info.price * product.info.sale) /
@@ -97,12 +98,12 @@ export default function ProductCard({ product }: { product: ProductPreviews }) {
 
         {/* Shipping Options */}
         <div className="flex flex-wrap gap-2 mb-3">
-          <div className="flex items-center gap-1 text-xs text-gray-700">
+          <div className="flex items-center gap-1 text-xs text-(--text) dark:text-zinc-300">
             {product.shipping.normal && (
               <div>
                 <FontAwesomeIcon
                   icon={faTruck}
-                  className="text-teal-600 text-sm me-1"
+                  className="text-teal-600 dark:text-teal-400 text-sm me-1"
                 />
                 <span className="text-xs">Giao hàng truyền thống</span>
               </div>
@@ -111,7 +112,7 @@ export default function ProductCard({ product }: { product: ProductPreviews }) {
               <div>
                 <FontAwesomeIcon
                   icon={faTruckFast}
-                  className="text-teal-600 text-sm me-1"
+                  className="text-teal-600 dark:text-teal-400 text-sm me-1"
                 />
                 <span className="text-xs">Giao hàng hỏa tốc</span>
               </div>
@@ -121,12 +122,12 @@ export default function ProductCard({ product }: { product: ProductPreviews }) {
 
         {/* Tags */}
         {product.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1 mt-auto pt-2 border-t border-gray-100">
+          <div className="flex flex-wrap gap-1 mt-auto pt-2 border-t border-(--border) dark:border-zinc-700">
             {product.tags.slice(0, 3).map((tag, index) => (
               <Link
                 href={`/search?tag=${tag}`}
                 key={index}
-                className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded-sm hover:bg-gray-200 transition-colors"
+                className="text-xs text-(--muted) dark:text-zinc-300 bg-(--surface-muted) dark:bg-zinc-800 px-2 py-1 rounded-sm hover:bg-(--border) dark:hover:bg-zinc-700 transition-colors"
               >
                 {tag}
               </Link>

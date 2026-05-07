@@ -30,7 +30,7 @@ export default function Hero() {
             </h1>
 
             {/* Description */}
-            <p className="text-lg text-white/70 leading-relaxed max-w-xl">
+            <p className="text-lg text-(--muted) leading-relaxed max-w-xl">
               Discover an exquisite collection curated just for you. Where
               quality meets elegance, and every purchase tells a story of
               craftsmanship and dedication.
@@ -40,7 +40,7 @@ export default function Hero() {
             <div className="flex items-center gap-4">
               <Link
                 href={"#product-section"}
-                className="group relative px-8 py-4 bg-linear-to-r from-purple-600 to-pink-600 rounded-full font-semibold text-white overflow-hidden shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 hover:scale-105"
+                className="group relative px-8 py-4 bg-linear-to-r from-purple-600 to-pink-600 rounded-full font-semibold text-(--text) overflow-hidden shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 hover:scale-105"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   <FontAwesomeIcon
@@ -51,7 +51,7 @@ export default function Hero() {
                 </span>
               </Link>
 
-              <button className="px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full font-semibold text-white hover:bg-white/20 transition-all duration-300">
+              <button className="px-8 py-4 bg-(--surface-muted) backdrop-blur-md border border-(--border) rounded-full font-semibold text-(--text) hover:bg-(--surface) transition-all duration-300">
                 Learn More
               </button>
             </div>
@@ -60,22 +60,22 @@ export default function Hero() {
           {/* Right content - Feature cards */}
           <div className="relative space-y-6">
             {/* Card 1 */}
-            <div className="group relative p-8 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:-translate-y-2 shadow-2xl">
+            <div className="group relative p-8 bg-(--surface-muted) backdrop-blur-xl rounded-3xl border border-(--border) hover:bg-(--surface) hover:border-(--border) transition-all duration-500 hover:-translate-y-2 shadow-2xl">
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-linear-to-br from-purple-500 to-pink-500 rounded-full blur-2xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
 
               <div className="relative">
                 <div className="w-12 h-12 bg-linear-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <FontAwesomeIcon
                     icon={faTruckFast}
-                    className="text-white text-xl"
+                    className="text-(--text) text-xl"
                   />
                 </div>
 
-                <h3 className="text-2xl font-bold text-white mb-3">
+                <h3 className="text-2xl font-bold text-(--title) mb-3">
                   Fast & Free Delivery
                 </h3>
 
-                <p className="text-white/60 leading-relaxed">
+                <p className="text-(--muted) leading-relaxed">
                   Experience lightning-fast shipping on all orders. We ensure
                   your products arrive safely and swiftly, right at your
                   doorstep.
@@ -84,13 +84,13 @@ export default function Hero() {
             </div>
 
             {/* Card 2 */}
-            <div className="group relative p-8 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:-translate-y-2 shadow-2xl ml-12">
+            <div className="group relative p-8 bg-(--surface-muted) backdrop-blur-xl rounded-3xl border border-(--border) hover:bg-(--surface) hover:border-(--border) transition-all duration-500 hover:-translate-y-2 shadow-2xl ml-12">
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-linear-to-br from-indigo-500 to-purple-500 rounded-full blur-2xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
 
               <div className="relative">
                 <div className="w-12 h-12 bg-linear-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <svg
-                    className="w-6 h-6 text-white"
+                    className="w-6 h-6 text-(--text)"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -104,11 +104,11 @@ export default function Hero() {
                   </svg>
                 </div>
 
-                <h3 className="text-2xl font-bold text-white mb-3">
+                <h3 className="text-2xl font-bold text-(--title) mb-3">
                   Premium Quality
                 </h3>
 
-                <p className="text-white/60 leading-relaxed">
+                <p className="text-(--muted) leading-relaxed">
                   Every item in our collection is handpicked and verified for
                   excellence. We believe in delivering nothing but the best.
                 </p>

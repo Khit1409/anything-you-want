@@ -8,6 +8,9 @@ import QueryProvider from "./query-provider";
 import AppModal from "@/components/common/AppModal";
 import Loading from "@/components/common/Loading";
 import AppWrapper from "./AppWrapper";
+import "./globals.css";
+import "@/style/hero.css";
+import "@/style/register.css";
 
 config.autoAddCss = true;
 

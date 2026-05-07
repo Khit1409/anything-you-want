@@ -15,7 +15,7 @@ export default function BackToTopButton() {
           behavior: "smooth",
         })
       }
-      className="fixed bottom-6 right-6 px-4 py-2 rounded-xl shadow bg-linear-to-t from-purple-400 to-purple-800 text-white"
+      className="fixed bottom-6 right-6 px-4 py-2 z-9999 rounded-xl shadow bg-linear-to-t from-purple-400 to-purple-800 text-white"
     >
       ↑ Back to Top
     </button>

@@ -33,9 +33,9 @@ export default function Navbar() {
   };
 
   return (
-    <div
+    <nav
       id="navbar"
-      className="sticky top-0 z-50 border-b border-gray-200 backdrop-blur-sm bg-white dark:bg-black"
+      className="sticky top-0 z-50 border-b border-(--border) backdrop-blur-sm bg-(--surface) dark:bg-(--surface) h-25 max-h-25"
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between gap-8">
@@ -51,7 +51,7 @@ export default function Navbar() {
                 <Link
                   key={nav.id}
                   href={nav.url}
-                  className="px-4 py-2 rounded-lg font-medium text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200"
+                  className="px-4 py-2 rounded-lg font-medium text-(--text) hover:text-purple-600 hover:bg-purple-50 transition-all duration-200"
                 >
                   {nav.title}
                 </Link>
@@ -64,7 +64,7 @@ export default function Navbar() {
             {/* Cart */}
             <Link
               href="/carts"
-              className="relative p-2.5 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200"
+              className="relative p-2.5 rounded-lg text-(--text) hover:text-purple-600 hover:bg-purple-50 transition-all duration-200"
             >
               <FontAwesomeIcon icon={faCartShopping} className="text-lg" />
               {/* Optional: Add badge for cart count */}
@@ -73,14 +73,14 @@ export default function Navbar() {
             {/* Orders */}
             <Link
               href="/orders"
-              className="p-2.5 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200"
+              className="p-2.5 rounded-lg text-(--text) hover:text-purple-600 hover:bg-purple-50 transition-all duration-200"
             >
               <FontAwesomeIcon icon={faShoppingBag} className="text-lg" />
             </Link>
             {/* Orders */}
             <Link
               href="/profile"
-              className="p-2.5 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200"
+              className="p-2.5 rounded-lg text-(--text) hover:text-purple-600 hover:bg-purple-50 transition-all duration-200"
             >
               <FontAwesomeIcon icon={faUser} className="text-lg" />
             </Link>
@@ -89,22 +89,25 @@ export default function Navbar() {
               onClick={() => {
                 dispatch(changeWebMode());
               }}
-              className=""
+              className="hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 p-2.5 rounded-lg text-(--text)"
               title="Change web mode"
             >
-              <FontAwesomeIcon className="dark:text-white" icon={theme === "dark" ? faSun : faMoon} />
+              <FontAwesomeIcon
+                className="text-lg"
+                icon={theme === "dark" ? faSun : faMoon}
+              />
             </button>
             {/* Divider */}
-            <div className="w-px h-6 bg-gray-300 mx-2"></div>
+            <div className="w-px h-6 bg-(--border) mx-2"></div>
             <div className="w-[100px] flex justify-center items-center">
               {loading ? (
                 <div className="w-max">
-                  <div className="w-[30px] h-[30px] rounded-full border border-gray-500 border-t-transparent animate-spin"></div>
+                  <div className="w-[30px] h-[30px] rounded-full border dark:border-white border-(--border) border-t-transparent animate-spin"></div>
                 </div>
               ) : isLoggedIn ? (
                 <button
                   onClick={logout}
-                  className="p-2 rounded-lg text-gray-700 hover:text-red-600 hover:bg-red-50 transition-all duration-200"
+                  className="p-2 rounded-lg text-(--text) hover:text-red-600 hover:bg-red-50 transition-all duration-200"
                   title="Logout"
                 >
                   <FontAwesomeIcon
@@ -116,7 +119,7 @@ export default function Navbar() {
                 <Link
                   href="/login"
                   title="go to login"
-                  className="p-2 rounded-lg text-gray-700 hover:text-red-600 hover:bg-green-50 transition-all text-center duration-200"
+                  className="p-2 rounded-lg text-(--text) hover:text-red-600 hover:bg-green-50 transition-all text-center duration-200"
                 >
                   <FontAwesomeIcon
                     icon={faUserCircle}
@@ -129,19 +132,19 @@ export default function Navbar() {
                 <Link
                   href="/seller/dashboard"
                   title="go to seller dashboard"
-                  className="p-2 rounded-lg text-gray-700 hover:text-red-600 hover:bg-green-50 transition-all text-center duration-200"
+                  className="p-2 rounded-lg text-(--text) hover:text-red-600 hover:bg-green-50 transition-all text-center duration-200"
                 >
-                  <FontAwesomeIcon icon={faStore} className="mr-2 text-lg" />
+                  <FontAwesomeIcon icon={faStore} className="text-lg" />
                 </Link>
               )}
             </div>
             {/* Mobile Menu Toggle */}
-            <button className="lg:hidden p-2.5 rounded-lg text-gray-700 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200">
+            <button className="lg:hidden p-2.5 rounded-lg text-(--text) hover:text-purple-600 hover:bg-purple-50 transition-all duration-200">
               <FontAwesomeIcon icon={faBars} className="text-lg" />
             </button>
           </div>
         </div>
       </div>
-    </div>
+    </nav>
   );
 }

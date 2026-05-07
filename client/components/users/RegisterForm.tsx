@@ -5,14 +5,14 @@ interface Props {
 
 export default function RegisterForm({ addressInput, phoneInput }: Props) {
   return (
-    <div className="min-w-[800px] min-h-[400px]  p-6 bg-white rounded">
+    <div className="min-w-[800px] min-h-[400px] p-6 bg-(--surface) rounded">
       <form id="register-user-form" className="grid grid-cols-4 gap-3">
         <div className="flex flex-col gap-1">
           <label htmlFor="first_name">Họ</label>
           <input
             type="text"
             id="first_name"
-            className="border border-gray-300 outline-0 rounded"
+            className="border border-(--border) outline-0 rounded"
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -20,7 +20,7 @@ export default function RegisterForm({ addressInput, phoneInput }: Props) {
           <input
             type="text"
             id="last_name"
-            className="border border-gray-300 outline-0 rounded"
+            className="border border-(--border) outline-0 rounded"
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -28,7 +28,7 @@ export default function RegisterForm({ addressInput, phoneInput }: Props) {
           <input
             type="text"
             id="full_name"
-            className="border border-gray-300 outline-0 rounded"
+            className="border border-(--border) outline-0 rounded"
           />
         </div>
         <div className="flex flex-col gap-1">
@@ -36,14 +36,14 @@ export default function RegisterForm({ addressInput, phoneInput }: Props) {
           <input
             type="email"
             required
-            className="border border-gray-300 rounded outline-0"
+            className="border border-(--border) rounded outline-0"
           />
         </div>
         <div className="flex flex-col gap-1">
           <label htmlFor="date_of_birth">Sinh Nhật</label>
           <input
             type="date"
-            className="outline-0 border border-gray-300 rounded"
+            className="outline-0 border border-(--border) rounded"
           />
         </div>
         {Array.from({ length: 1 }).map((_, index) => (
@@ -57,7 +57,7 @@ export default function RegisterForm({ addressInput, phoneInput }: Props) {
               id={`phone_number_${index}`}
               maxLength={10}
               minLength={10}
-              className="border border-gray-300 rounded outline-0"
+              className="border border-(--border) rounded outline-0"
             />
           </div>
         ))}
@@ -70,7 +70,7 @@ export default function RegisterForm({ addressInput, phoneInput }: Props) {
               type="text"
               name={`address_${index}`}
               id={`address_${index}`}
-              className="border border-gray-300 rounded outline-0"
+              className="border border-(--border) rounded outline-0"
             />
           </div>
         ))}

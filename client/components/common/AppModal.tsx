@@ -122,7 +122,7 @@ export default function AppModal() {
 
         {/* Message */}
         <div className="px-8 py-6">
-          <p className="text-center text-gray-700 text-base leading-relaxed">
+          <p className="text-center text-(--text) text-base leading-relaxed">
             {message}
           </p>
         </div>
@@ -130,7 +130,7 @@ export default function AppModal() {
         {/* Buttons */}
         <div className="px-8 pb-8 flex gap-3 justify-center sm:justify-end">
           <button
-            className="px-6 py-2.5 rounded-lg font-semibold text-gray-700 bg-gray-200 hover:bg-gray-300 transition-all duration-200 transform hover:scale-105 active:scale-95"
+            className="px-6 py-2.5 rounded-lg font-semibold text-(--text) bg-(--surface-muted) hover:bg-gray-300 transition-all duration-200 transform hover:scale-105 active:scale-95"
             onClick={() => closeModalAction()}
           >
             Hủy

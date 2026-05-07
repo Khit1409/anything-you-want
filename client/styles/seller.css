@@ -1,3 +1,7 @@
+:root {}
+
+.dark {}
+
 .scrollbar-hide::-webkit-scrollbar {
     display: none;
 }
@@ -5,4 +9,8 @@
 .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
+}
+
+.seller-content-container {
+    block-size: calc(100vh - 60px);
 }

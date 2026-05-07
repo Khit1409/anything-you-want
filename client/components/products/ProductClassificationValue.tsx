@@ -33,7 +33,7 @@ export default function ProductClassificationValue(props: Props) {
   };
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className={`flex flex-wrap gap-2`}>
       {classifi.values.map((value) => {
         const isSelected = checkIsSelected({
           name: classifi.name,
@@ -97,7 +97,7 @@ export default function ProductClassificationValue(props: Props) {
             className={`flex items-center gap-2 px-4 py-2 rounded-md border transition-all duration-200 group cursor-pointer ${
               isSelected
                 ? "border-green-500 bg-green-50"
-                : "border-zinc-200 bg-white hover:border-zinc-800 hover:bg-zinc-900"
+                : "border-(--border) bg-(--surface) hover:border-zinc-800 hover:bg-zinc-900"
             }`}
           >
             <FontAwesomeIcon
@@ -105,14 +105,14 @@ export default function ProductClassificationValue(props: Props) {
               className={`text-[10px] ${
                 isSelected
                   ? "text-green-600"
-                  : "text-zinc-300 group-hover:text-zinc-500 transition-colors duration-200"
+                  : "text-(--muted) group-hover:text-zinc-500 transition-colors duration-200"
               }`}
             />
             <span
               className={`text-[13px] font-medium tracking-wide transition-colors duration-200 whitespace-nowrap ${
                 isSelected
                   ? "text-green-700"
-                  : "text-zinc-700 group-hover:text-white"
+                  : "text-(--text) group-hover:text-white"
               }`}
             >
               {value.name}

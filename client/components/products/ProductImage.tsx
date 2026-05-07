@@ -10,7 +10,7 @@ export default function ProductImage({ images }: ProductImageProps) {
   const [imagePreview, setImagePreview] = useState<string>(images.thumbnail);
 
   return (
-    <div className="flex gap-4 bg-white p-6">
+    <div className="flex gap-4 bg-(--surface) p-6">
       {/* Thumbnail List */}
       <div className="flex flex-col gap-3 overflow-y-auto max-h-[500px] pr-2">
         {images.details.map((img, index) => (
@@ -19,8 +19,8 @@ export default function ProductImage({ images }: ProductImageProps) {
             onClick={() => setImagePreview(img)}
             className={`border-2 rounded-md overflow-hidden shrink-0 ${
               imagePreview === img
-                ? "border-gray-900"
-                : "border-gray-200 hover:border-gray-400"
+                ? "border-(--title)"
+                : "border-(--border) hover:border-(--border)"
             }`}
           >
             <Image
@@ -35,7 +35,7 @@ export default function ProductImage({ images }: ProductImageProps) {
       </div>
 
       {/* Main Preview Image */}
-      <div className="flex-1 flex items-center justify-center border border-gray-200 rounded-lg overflow-hidden bg-gray-50">
+      <div className="flex-1 flex items-center justify-center border border-(--border) rounded-lg overflow-hidden bg-(--surface-muted)">
         <Image
           src={imagePreview}
           alt="Product preview"

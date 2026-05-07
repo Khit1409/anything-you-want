@@ -11,8 +11,11 @@ export default function ProductRelated({ products }: Props) {
     return <NotFoundProduct />;
   }
   return (
-    <section id="product-section" className="bg-gray-50 py-6 px-4 min-h-screen">
-      <div className="py-2 border-b border-gray-300 mb-3">
+    <section
+      id="product-section"
+      className="bg-(--surface-muted) dark:bg-(--background) py-6 px-4 min-h-screen"
+    >
+      <div className="py-2 border-b border-(--border) mb-3">
         <h3 className="uppercase">Các sản phẩm có liên quan</h3>
       </div>
       <div

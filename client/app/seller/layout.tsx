@@ -52,7 +52,7 @@ export default async function Layout({
   return (
     <>
       <Header />
-      <main className="flex gap-2 border-t border-gray-300">
+      <main className="flex gap-2 border-t border-(--border)">
         <Navbar />
         <div className="flex-1">
           <div className="overflow-x-hidden overflow-y-auto seller-content-container p-2">

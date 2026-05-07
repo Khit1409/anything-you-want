@@ -1,0 +1,6 @@
+.register-bg-img {
+    background-image: url('/assets/images/product-hero.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
