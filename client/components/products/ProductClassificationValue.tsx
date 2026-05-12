@@ -1,5 +1,5 @@
-import { CartClassificationRequest } from "@/interfaces/request/cart.request";
-import { ProductClassification } from "@/interfaces/response/product.response";
+import { CartClassificationRequest } from "@/interfaces/cart.interface";
+import { ProductClassification } from "@/interfaces/product.interface";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";

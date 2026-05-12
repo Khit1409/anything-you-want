@@ -2,7 +2,7 @@
 
 import { getProductDetailService } from "@/api/product.api";
 import { addToCartFeature } from "@/features/cart.feature";
-import { CartClassificationRequest } from "@/interfaces/request/cart.request";
+import { CartClassificationRequest } from "@/interfaces/cart.interface";
 
 import { AppDispatch, RootState } from "@/redux/store";
 

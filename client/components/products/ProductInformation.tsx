@@ -1,4 +1,4 @@
-import { ProductDetail } from "@/interfaces/response/product.response";
+import { ProductDetail } from "@/interfaces/product.interface";
 import ProductShipSupport from "./ProductShipSupport";
 import ProductRating from "./ProductRating";
 import Link from "next/link";

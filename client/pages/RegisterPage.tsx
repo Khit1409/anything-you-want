@@ -4,19 +4,12 @@ import RegisterForm from "@/components/users/RegisterForm";
 import useRegister from "@/hooks/users/useRegister";
 
 export default function RegisterPage() {
-  const {
-    formData,
-    inputAddress,
-    inputPhone,
-    setFormData,
-    setInputAddress,
-    setInputPhone,
-  } = useRegister();
+  const { formData, setFormData } = useRegister();
 
   return (
-    <div className="w-screen h-screen overflow-hidden register-bg-img">
-      <div className="w-full h-full flex items-center justify-center">
-        <RegisterForm addressInput={inputAddress} phoneInput={inputPhone} />
+    <div className="min-h-screen w-full register-bg-img from-gray-50 to-gray-100 py-12">
+      <div className="container mx-auto px-4">
+        <RegisterForm />
       </div>
     </div>
   );

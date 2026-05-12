@@ -1,5 +1,5 @@
 import { axiosClient } from "@/lib/configs/axios.config";
-import { IAuthenticationResponse } from "@/interfaces/common/auth.interface";
+import { AuthenticationResponse } from "@/interfaces/auth.interface";
 import axios from "axios";
 
 export interface LoginData {
@@ -46,10 +46,10 @@ export async function loginService({
  * @param role
  * @returns
  */
-export async function authService(): Promise<IAuthenticationResponse> {
+export async function authService(): Promise<AuthenticationResponse> {
   try {
     const res = await axiosClient.get(`/auth/me`);
-    const api: IAuthenticationResponse = res.data;
+    const api: AuthenticationResponse = res.data;
     return api;
   } catch (error) {
     if (axios.isAxiosError(error)) {

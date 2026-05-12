@@ -1,11 +1,11 @@
 import { axiosClient } from "@/lib/configs/axios.config";
-import { GetProductPreviewRequest } from "@/interfaces/request/product.request";
 import {
   ProductDetailApiResponse,
   ProductDetailDataApiResponse,
   ProductPreviewApiResponse,
   ProductPreviews,
-} from "@/interfaces/response/product.response";
+  GetProductPreviewRequest,
+} from "@/interfaces/product.interface";
 import axios from "axios";
 
 /**

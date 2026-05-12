@@ -1,4 +1,4 @@
-import { ProductPreviews } from "@/interfaces/response/product.response";
+import { ProductPreviews } from "@/interfaces/product.interface";
 import {
   faStar,
   faTruck,
@@ -12,7 +12,7 @@ export default function ProductCard({ product }: { product: ProductPreviews }) {
   return (
     <div className="bg-(--surface) dark:bg-(--surface) border border-(--border) rounded-sm hover:shadow-lg dark:hover:shadow-zinc-800 transition-shadow duration-200 flex flex-col h-full">
       {/* Image Container */}
-      <div className="relative w-full pt-[100%] bg-(--surface) dark:bg-zinc-800 overflow-hidden">
+      <div className="relative w-full pt-[100%] bg-(--surface) dark:bg-(--surface) overflow-hidden">
         <Image
           src={product.images.thumbnail}
           alt={product.info.name}
@@ -41,7 +41,7 @@ export default function ProductCard({ product }: { product: ProductPreviews }) {
         {/* Product Name */}
         <Link
           href={`/products/${product.id}`}
-          className="text-xl font-semibold leading-tight text-(--title) dark:text-zinc-100 line-clamp-4 mb-2 hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer min-h-10"
+          className="text-xl font-semibold leading-tight text-(--title) dark:text-(--text) line-clamp-4 mb-2 hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer min-h-10"
         >
           {product.info.name}
         </Link>
@@ -71,17 +71,19 @@ export default function ProductCard({ product }: { product: ProductPreviews }) {
         {/* Price Section */}
         <div className="mb-3">
           <div className="flex items-baseline gap-2 mb-1">
-            <span className="text-2xl font-normal text-(--title) dark:text-zinc-100">
+            <span className="text-2xl font-normal text-red-500">
               {(
                 product.info.price -
                 (product.info.price * product.info.sale) / 100
               ).toLocaleString("vi-VN")}
             </span>
-            <span className="text-sm text-(--title) dark:text-zinc-100">₫</span>
+            <span className="text-sm text-(--product-price) dark:text-(--product-price)">
+              ₫
+            </span>
           </div>
           {product.info.sale > 0 && (
             <div className="flex items-center gap-2">
-              <span className="text-xs text-(--muted) dark:text-zinc-500 line-through">
+              <span className="text-xs text-red-500 dark:text-(--text) line-through">
                 {product.info.price.toLocaleString("vi-VN")}₫
               </span>
               <span className="text-xs text-red-600 dark:text-red-400 font-medium">

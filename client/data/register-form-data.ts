@@ -1,0 +1,42 @@
+export const registerBasicInput = [
+  {
+    id: "firstName",
+    name: "firstName",
+    title: "Họ",
+    required: true,
+    type: "text",
+    message: "Họ của bạn...",
+  },
+  {
+    id: "lastName",
+    name: "lastName",
+    title: "Tên",
+    required: true,
+    type: "text",
+    message: "Tên của bạn...",
+  },
+  {
+    id: "fullName",
+    name: "fullName",
+    title: "Họ & Tên Đầy Đủ",
+    required: true,
+    type: "text",
+    message: "Họ tên đầy đủ của bạn...",
+  },
+  {
+    id: "emailAddress",
+    name: "emailAddress",
+    title: "Địa Chỉ Email",
+    required: true,
+    type: "email",
+    message: "Địa chỉ email của bạn...",
+  },
+  {
+    id: "dateOfBirth",
+    name: "dateOfBirth",
+    title: "Ngày Sinh",
+    required: true,
+    type: "date",
+    message: "",
+  },
+];

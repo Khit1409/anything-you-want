@@ -1,8 +1,8 @@
-import { IAuthenticationData } from "@/interfaces/common/auth.interface";
+import { AuthenticationData } from "@/interfaces/common/auth.interface";
 
-export interface IAuthInitalState {
+export interface AuthInitalState {
   isLoggedIn: boolean;
   error: string | null;
   loading: boolean;
-  authData: IAuthenticationData | null;
+  authData: AuthenticationData | null;
 }

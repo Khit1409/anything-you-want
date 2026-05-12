@@ -10,7 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
  * @param param0
  * @returns
  */
-export default function AppWrapper({ children }: { children: React.ReactNode }) {
+export default function AppWrapper({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const dispatch = useDispatch<AppDispatch>();
   const { theme } = useSelector((state: RootState) => state.app);
 
@@ -20,6 +24,7 @@ export default function AppWrapper({ children }: { children: React.ReactNode }) 
     if (saved) {
       dispatch(setWebMode(saved));
     }
+    dispatch(setWebMode("light"));
   }, [dispatch]);
 
   //sync redux -> DOM + storage

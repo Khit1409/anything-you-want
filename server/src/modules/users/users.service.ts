@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { UserRepository } from './users.repository';
-import { RegisterUserAccountRequestDto } from '../auth/dto/auth.request.dto';
+import { RegisterUserAccountRequestDto } from './dto/register.dto';
 import { HttpResponse } from '@/src/helpers/httpResponse';
 @Injectable()
 export class UserService {

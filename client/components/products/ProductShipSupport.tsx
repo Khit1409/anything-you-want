@@ -1,4 +1,4 @@
-import { ProductShipping } from "@/interfaces/response/product.response";
+import { ProductShipping } from "@/interfaces/product.interface";
 import { faTruck, faTruckFast } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 

@@ -1,12 +1,10 @@
-import { ApiResponse } from "@/interfaces/common/response";
-import {
-  CartRequest,
-  CartUpdateRequest,
-} from "@/interfaces/request/cart.request";
 import {
   CartApiResponse,
+  CartRequest,
   CartResponse,
-} from "@/interfaces/response/cart.response";
+  CartUpdateRequest,
+} from "@/interfaces/cart.interface";
+import { ApiResponse } from "@/interfaces/common.interface";
 import { axiosClient } from "@/lib/configs/axios.config";
 /**
  *

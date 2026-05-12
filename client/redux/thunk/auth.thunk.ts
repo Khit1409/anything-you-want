@@ -4,7 +4,7 @@ import {
   LoginResponse,
   loginService,
 } from "@/api/auth.api";
-import { IAuthenticationResponse } from "@/interfaces/common/auth.interface";
+import { AuthenticationResponse } from "@/interfaces/common/auth.interface";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 /**
  *
@@ -34,7 +34,7 @@ export const loginThunk = createAsyncThunk<
  *
  */
 export const authThunk = createAsyncThunk<
-  IAuthenticationResponse,
+  AuthenticationResponse,
   void,
   { rejectValue: string }
 >("auth", async (_, thunkAPI) => {

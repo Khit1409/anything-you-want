@@ -90,7 +90,9 @@ export default function Navbar() {
                 dispatch(changeWebMode());
               }}
               className="hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 p-2.5 rounded-lg text-(--text)"
-              title="Change web mode"
+              title={`${
+                theme === "dark" ? "Chuyển chế độ sáng" : "Chuyển chế độ tối"
+              }`}
             >
               <FontAwesomeIcon
                 className="text-lg"

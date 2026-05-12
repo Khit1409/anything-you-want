@@ -1,5 +1,5 @@
 "use client";
-import { Role } from "@/interfaces/common/role.interface";
+import { Role } from "@/interfaces/common.interface";
 import { useState } from "react";
 import SectionShowDataLoading from "../common/SectionShowDataLoading";
 import ProductCard from "./ProductCard";
@@ -21,7 +21,10 @@ export default function ProductList({ role }: { role: Role }) {
   });
 
   return (
-    <section id="product-section" className="bg-gray-50 py-6 px-4 min-h-screen dark:bg-black">
+    <section
+      id="product-section"
+      className="bg-(--surface) py-6 px-4 min-h-screen dark:bg-(--surface)"
+    >
       {isLoading ? (
         <SectionShowDataLoading />
       ) : !data || data.length === 0 ? (

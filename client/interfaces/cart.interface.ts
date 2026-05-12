@@ -1,5 +1,23 @@
-import { ApiResponse } from "../common/response";
-import { ProductImages } from "./product.response";
+import { ApiResponse } from "./common.interface";
+import { ProductImages } from "./product.interface";
+import { ProductClassificationValue } from "./product.interface";
+
+export interface CartClassificationRequest {
+  name: string;
+  values: ProductClassificationValue;
+}
+
+export interface CartRequest {
+  productId: string;
+  classification: Array<CartClassificationRequest>;
+  quantity: number;
+}
+
+export interface CartUpdateRequest {
+  id: string;
+  classification?: Array<CartClassificationRequest>;
+  quantity?: number;
+}
 
 export interface CartCategoryResponse {
   name: string;

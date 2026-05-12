@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IAuthInitalState } from "../state/auth.state";
+import { AuthInitalState } from "../state/auth.state";
 import { authThunk, loginThunk } from "../thunk/auth.thunk";
 
-const authInitalState: IAuthInitalState = {
+const authInitalState: AuthInitalState = {
   isLoggedIn: false,
   error: null,
   loading: true,

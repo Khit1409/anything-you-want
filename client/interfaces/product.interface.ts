@@ -1,5 +1,7 @@
-import { ApiResponse } from "../common/response";
-import { GetProductPreviewRequest } from "../request/product.request";
+export interface GetProductPreviewRequest {
+  page: number;
+}
+import { ApiResponse } from "./common.interface";
 
 export enum ProductStatus {
   ACTIVE = "active",

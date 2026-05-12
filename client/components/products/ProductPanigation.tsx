@@ -12,7 +12,7 @@ export default function ProductPanigation({
   return (
     <section
       id="product-panigation"
-      className="p-3 w-full border border-(--border) dark:border-zinc-700 bg-(--surface) dark:bg-zinc-900"
+      className="p-3 w-full border border-(--border) dark:(--border) bg-(--surface) dark:bg-(--surface)"
     >
       <div className="w-full h-full flex items-center justify-center">
         <div className="flex gap-2 items-center">

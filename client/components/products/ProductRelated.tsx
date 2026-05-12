@@ -1,5 +1,5 @@
 "use client";
-import { ProductPreviews } from "@/interfaces/response/product.response";
+import { ProductPreviews } from "@/interfaces/product.interface";
 import ProductCard from "./ProductCard";
 import NotFoundProduct from "./NotFoundProduct";
 

@@ -1,17 +1,13 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 :root {
   --font-family: "Nunito", 'Open Sans', sans-serif;
   --font-title: 'Montserrat', sans-serif;
-
   /* Light theme colors */
   --background: #ffffff;
   --surface: #ffffff;
   --surface-muted: #f3f4f6;
   /* bg-gray-100 */
-
   --title: #0f1724;
   /* near gray-900 */
   --text: #374151;
