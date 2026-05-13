@@ -3,34 +3,34 @@
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
-import Logo from "../common/Logo";
-import { NAV_LIST } from "@/data/navbar";
+import Logo from "../../common/Logo";
+import { NAV_LIST } from "@/data/navbar.data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRightFromBracket,
   faBars,
   faCartShopping,
-  faMoon,
   faShoppingBag,
   faStore,
-  faSun,
   faUser,
   faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { logoutService } from "@/api/auth.api";
 import { authThunk } from "@/redux/thunk/auth.thunk";
-import { changeWebMode } from "@/redux/slice/app.slice";
+
+import useTheme from "@/hooks/common/useTheme";
 
 export default function Navbar() {
   const { isLoggedIn, loading, authData } = useSelector(
     (state: RootState) => state.auth
   );
-  const { theme } = useSelector((state: RootState) => state.app);
   const dispatch = useDispatch<AppDispatch>();
   const logout = async () => {
     const res = await logoutService();
     if (res.success) dispatch(authThunk());
   };
+
+  const { changeTheme, themeButtonIcon, themeButtonTitle } = useTheme();
 
   return (
     <nav
@@ -86,18 +86,11 @@ export default function Navbar() {
             </Link>
 
             <button
-              onClick={() => {
-                dispatch(changeWebMode());
-              }}
+              onClick={() => changeTheme()}
               className="hover:text-purple-600 hover:bg-purple-50 transition-all duration-200 p-2.5 rounded-lg text-(--text)"
-              title={`${
-                theme === "dark" ? "Chuyển chế độ sáng" : "Chuyển chế độ tối"
-              }`}
+              title={themeButtonTitle}
             >
-              <FontAwesomeIcon
-                className="text-lg"
-                icon={theme === "dark" ? faSun : faMoon}
-              />
+              <FontAwesomeIcon className="text-lg" icon={themeButtonIcon} />
             </button>
             {/* Divider */}
             <div className="w-px h-6 bg-(--border) mx-2"></div>

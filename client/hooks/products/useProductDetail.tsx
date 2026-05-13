@@ -3,6 +3,11 @@
 import { getProductDetailService } from "@/api/product.api";
 import { addToCartFeature } from "@/features/cart.feature";
 import { CartClassificationRequest } from "@/interfaces/cart.interface";
+import {
+  ProductDetail,
+  ProductDetailDataApiResponse,
+  ProductPreviews,
+} from "@/interfaces/product.interface";
 
 import { AppDispatch, RootState } from "@/redux/store";
 
@@ -35,7 +40,11 @@ export default function useProductDetail() {
   /**
    * react query (api)
    */
-  const { data, error, isLoading } = useQuery({
+  const {
+    data = { product: null, related: [] },
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ["product"],
     queryFn: () => {
       if (id) return getProductDetailService(id);
@@ -45,8 +54,10 @@ export default function useProductDetail() {
   /**
    * set giá trị mặc định cho các api
    */
-  const product = data?.product ?? null;
-  const related = data?.related ?? [];
+  // const product = data?.product ?? null;
+  // const related = data?.related ?? [];
+
+  const { product, related } = data;
   /**
    * helper
    */

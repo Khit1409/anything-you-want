@@ -2,6 +2,11 @@ import { MailerOptions } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/adapters/handlebars.adapter';
 import { ConfigService } from '@nestjs/config';
 
+/**
+ * Sinh cấu hình `MailerOptions` cho NestJS Mailer dựa trên `ConfigService`.
+ * - Đọc biến môi trường EMAIL_HOST/EMAIL_PORT/EMAIL_USER/EMAIL_PASS từ `ConfigService`.
+ * - Thiết lập template adapter (Handlebars) và đường dẫn template.
+ */
 export const mailerConfig = (config: ConfigService): MailerOptions => {
   return {
     transport: {

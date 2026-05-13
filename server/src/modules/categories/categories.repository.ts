@@ -13,7 +13,10 @@ export class CategoryRepository {
    * @returns
    */
   async getAll() {
-    return this.categoryModel.find().lean();
+    return this.categoryModel
+      .find()
+      .select('-createdAt  -updatedAt -__v')
+      .lean();
   }
   /**
    *

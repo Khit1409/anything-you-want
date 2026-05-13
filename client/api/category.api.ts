@@ -1,0 +1,17 @@
+import { Categories } from "@/interfaces/category.interface";
+import { ApiResponse } from "@/interfaces/common.interface";
+import { axiosClient } from "@/lib/configs/axios.config";
+
+/**
+ * Gọi danh mục sản phẩm từ request url /categories
+ * @returns
+ */
+export async function getCategoryService() {
+  try {
+    const res = await axiosClient.get("/categories");
+    const { data } = res.data as ApiResponse & { data: Categories };
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}

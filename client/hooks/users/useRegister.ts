@@ -21,14 +21,21 @@ import { useDispatch } from "react-redux";
 export default function useRegister() {
   const dispatch = useDispatch<AppDispatch>();
   /**
-   *
+   * Thông báo lỗi / cảnh báo chung của form đăng ký.
+   * Dùng để hiển thị thông điệp ngắn (ví dụ: trường bị bỏ trống, mật khẩu không khớp).
    */
   const [handleMess, setHandleMess] = useState<string | null>(null);
   /**
-   *
+   * Mã tỉnh/thành đang được chọn (để fetch danh sách quận/huyện tương ứng).
    */
   const [provinceCode, setProvinceCode] = useState<number | null>(null);
+  /**
+   * Danh sách tỉnh/thành lấy từ API `getProvinces()`.
+   */
   const [provinceList, setProvinceList] = useState<Provinces>([]);
+  /**
+   * Danh sách quận/huyện tương ứng với `provinceCode`, lấy từ `getWards()`.
+   */
   const [wardList, setWardList] = useState<Wards>([]);
 
   /**
@@ -49,12 +56,14 @@ export default function useRegister() {
     })();
   }, [provinceCode]);
   /**
-   *
+   * Số lượng input địa chỉ/điện thoại hiện có trên form.
+   * Dùng để render nhiều input động cho người dùng thêm địa chỉ/số điện thoại.
    */
   const [countAddress, setCountAddress] = useState<number>(1);
   const [countPhone, setCountPhone] = useState<number>(1);
   /**
-   *
+   * Dữ liệu thông tin cá nhân của user (tên, email, mật khẩu, v.v.).
+   * Kiểu `RegisterUserInfoRequest` định nghĩa các field cần thiết cho đăng ký.
    */
   const [infoData, setInfoData] = useState<RegisterUserInfoRequest>({
     currentPassword: "",
@@ -75,11 +84,12 @@ export default function useRegister() {
     }));
   };
   /**
-   *
+   * Mật khẩu nhập lại (dùng để so khớp với `infoData.currentPassword`).
    */
   const [rePassword, setRePassword] = useState<string>("");
   /**
-   *
+   * Mảng chứa các số điện thoại tạm thời người dùng nhập vào.
+   * Kiểu `UserPhones` chứa các object { id, phoneNumber }.
    */
   const [phoneData, setPhoneData] = useState<UserPhones>([]);
   const onchangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,7 +114,7 @@ export default function useRegister() {
     return setPhoneData((prev) => prev.filter((p) => p.id !== String(id)));
   };
   /**
-   *
+   * Danh sách địa chỉ người dùng nhập trên form. Mỗi phần tử có cấu trúc `UserAddress`.
    */
   const [addressData, setAddressData] = useState<UserAddresses>([]);
   const onchangeAddress = (
@@ -211,7 +221,11 @@ export default function useRegister() {
     );
   }
   /**
-   *
+   * Trả về các hàm và state cần thiết để component đăng ký sử dụng:
+   * - Các handler `onchange*` để bind input
+   * - State form (`infoData`, `addressData`, `phoneData`, ...)
+   * - Hàm `submitRegister` để xử lý validate + gọi API đăng ký
+   * Lưu ý: hook chỉ thêm comment/logic xử lý form, không dispatch route hay redirect.
    */
   return {
     onchangePhone,

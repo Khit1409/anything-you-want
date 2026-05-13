@@ -4,6 +4,10 @@ import {
   ProductVariants,
 } from "@/interfaces/response/product.response";
 
+/**
+ * Tạo chuỗi SKU cho một tổ hợp variant dựa trên object `options`.
+ * Ví dụ: options { color: 'red', size: 'M' } -> "sku-colorValue-sizeValue"
+ */
 export const createVariantSku = (options: ProductVariantOption): string => {
   const result =
     "sku" +
@@ -12,6 +16,12 @@ export const createVariantSku = (options: ProductVariantOption): string => {
     }, "");
   return result;
 };
+
+/**
+ * Sinh tất cả product variants từ mảng `optionsChose`.
+ * - Trả về mảng các biến thể, mỗi biến thể có `sku`, `stock`, `priceExtra` và `options`.
+ * - Hàm dùng `createVariantSku` để sinh `sku` dựa trên thuộc tính `options`.
+ */
 export const createProductVariant = (optionsChose: Array<ProductOption>) => {
   const result = optionsChose.reduce(
     (acc: Array<ProductVariants>, option) => {

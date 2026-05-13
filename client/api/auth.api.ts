@@ -2,21 +2,32 @@ import { axiosClient } from "@/lib/configs/axios.config";
 import { AuthenticationResponse } from "@/interfaces/auth.interface";
 import axios from "axios";
 
+/**
+ * API liên quan tới xác thực (login / logout / kiểm tra token)
+ * Các hàm ở đây gọi `axiosClient` tới các endpoint tương ứng trên server.
+ */
+
+/**
+ * Dữ liệu gửi lên khi đăng nhập.
+ */
 export interface LoginData {
   emailAddress: string;
   currentPassword: string;
   loginRole: "user" | "seller";
 }
+/**
+ * Kiểu dữ liệu phản hồi khi gọi API login.
+ */
 export interface LoginResponse {
   message: string;
   success: boolean;
   data?: { role: "user" | "seller" };
   timestamp: Date | string;
 }
+
 /**
- *
- * @param param0
- * @returns
+ * Gọi API `POST /auth/login` để xác thực user.
+ * Trả về `LoginResponse` chứa thông tin kết quả và role nếu thành công.
  */
 export async function loginService({
   currentPassword,
@@ -43,8 +54,8 @@ export async function loginService({
   }
 }
 /**
- * @param role
- * @returns
+ * Kiểm tra token hiện tại, gọi `GET /auth/me` để lấy thông tin xác thực.
+ * Trả về `AuthenticationResponse` từ server (bao gồm `data` nếu token hợp lệ).
  */
 export async function authService(): Promise<AuthenticationResponse> {
   try {
@@ -69,13 +80,17 @@ export async function authService(): Promise<AuthenticationResponse> {
   }
 }
 /**
- *
+ * Phản hồi từ API khi logout.
  */
 export interface LogoutResponse {
   message: string;
   success: boolean;
   timestamp: string | Date;
 }
+/**
+ * Gọi API `POST /auth/logout` để đăng xuất.
+ * Nếu server trả về success=false sẽ ném lỗi, hàm luôn trả về `LogoutResponse`.
+ */
 export async function logoutService(): Promise<LogoutResponse> {
   try {
     const res = await axiosClient.post("/auth/logout");

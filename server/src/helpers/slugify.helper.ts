@@ -1,3 +1,7 @@
+/**
+ * Chuyển chuỗi thành dạng slug thân thiện với URL.
+ * - Loại bỏ dấu tiếng Việt, ký tự đặc biệt, thay space bằng '_' và chuẩn hóa ký tự.
+ */
 export function slugify(str: string): string {
   return str
     .toLowerCase()
@@ -6,6 +10,6 @@ export function slugify(str: string): string {
     .replace(/đ/g, 'd') // xử lý riêng chữ đ
     .replace(/[^a-z0-9\s-]/g, '') // bỏ ký tự đặc biệt
     .trim()
-    .replace(/\s+/g, '_') // space -> -
-    .replace(/-+/g, '_'); // nhiều - -> 1 -
+    .replace(/\s+/g, '_') // space -> _
+    .replace(/-+/g, '_'); // nhiều - -> 1 _
 }

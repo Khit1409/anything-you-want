@@ -7,7 +7,7 @@ export const NAV_LIST = [
   {
     id: "2",
     title: "Become Seller",
-    url: "/seller-register",
+    url: "/become-seller",
   },
   {
     id: "3",

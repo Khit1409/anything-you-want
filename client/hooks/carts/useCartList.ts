@@ -1,5 +1,9 @@
-import { deleteCart, getUserCartService, updateCart } from "@/api/cart.api";
-import { CartClassificationRequest } from "@/interfaces/request/cart.request";
+import {
+  deleteCartService,
+  getUserCartService,
+  updateCartService,
+} from "@/api/cart.api";
+import { CartClassificationRequest } from "@/interfaces/cart.interface";
 import { openModal, startLoadingAnimation } from "@/redux/slice/app.slice";
 import { ModalState } from "@/redux/state/app.state";
 import { AppDispatch } from "@/redux/store";
@@ -27,7 +31,7 @@ export default function useCartList() {
 
   const [newQuantity, setNewQuantity] = useState<number | undefined>();
 
-  const updateCartHandle = async () => {
+  const updateCartServiceHandle = async () => {
     if (classificationSelected.length == 0 && newQuantity == undefined) {
       dispatch(
         openModal({
@@ -52,7 +56,7 @@ export default function useCartList() {
       classification: classificationSelected,
     };
     dispatch(startLoadingAnimation());
-    const result = await updateCart({ id: idToUpdate, ...dataToUpdate });
+    const result = await updateCartService({ id: idToUpdate, ...dataToUpdate });
     if (result) {
       dispatch(startLoadingAnimation());
       const message = result.message;
@@ -123,9 +127,9 @@ export default function useCartList() {
     });
   };
 
-  const deleteCartHandle = async (id: string) => {
+  const deleteCartServiceHandle = async (id: string) => {
     dispatch(startLoadingAnimation());
-    const result = await deleteCart(id);
+    const result = await deleteCartService(id);
     if (result) {
       dispatch(startLoadingAnimation());
       const mess = result.message;
@@ -143,8 +147,8 @@ export default function useCartList() {
     onchangeClassificationSelected,
     classificationSelected,
     setIdToUpdate,
-    updateCartHandle,
+    updateCartServiceHandle,
     newQuantity,
-    deleteCartHandle,
+    deleteCartServiceHandle,
   };
 }

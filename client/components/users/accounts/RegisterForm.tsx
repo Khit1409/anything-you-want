@@ -1,6 +1,6 @@
 "use client";
 
-import { registerBasicInput } from "@/data/register-form-data";
+import { registerBasicInput } from "@/data/register-form.data";
 import useRegister from "@/hooks/users/useRegister";
 import { RegisterUserInfoRequest } from "@/interfaces/user.interface";
 import Link from "next/link";

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { NAV_LIST } from "@/data/navbar";
+import { NAV_LIST } from "@/data/navbar.data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,

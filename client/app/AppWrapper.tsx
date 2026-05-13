@@ -23,8 +23,9 @@ export default function AppWrapper({
     const saved = localStorage.getItem("theme") as "light" | "dark" | null;
     if (saved) {
       dispatch(setWebMode(saved));
+    } else {
+      dispatch(setWebMode("light"));
     }
-    dispatch(setWebMode("light"));
   }, [dispatch]);
 
   //sync redux -> DOM + storage

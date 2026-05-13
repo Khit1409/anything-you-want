@@ -6,7 +6,7 @@ export const SELLER_NAV = [
     childs: [
       {
         name: "Dashboard",
-        url: "/seller/dashboard",
+        url: "dashboard",
         icon: "chartLine",
       },
     ],
@@ -15,16 +15,17 @@ export const SELLER_NAV = [
   {
     id: "2",
     category: "Product Manager",
+    url: "products",
     icon: "boxOpen",
     childs: [
       {
         name: "Create Product",
-        url: "/seller/create-product",
+        url: "create",
         icon: "squarePlus",
       },
       {
         name: "Your Popular Products",
-        url: "/seller/popular-products",
+        url: "porpular",
         icon: "fire",
       },
     ],
@@ -33,11 +34,12 @@ export const SELLER_NAV = [
   {
     id: "3",
     category: "Customer Manager",
+    url: "customers",
     icon: "users",
     childs: [
       {
         name: "Friendly Customers",
-        url: "/seller/friendly-customers",
+        url: "friendly",
         icon: "userGroup",
       },
     ],
@@ -46,16 +48,17 @@ export const SELLER_NAV = [
   {
     id: "4",
     category: "Messages",
+    url: "messages",
     icon: "message",
     childs: [
       {
         name: "Customer feedback",
-        url: "/seller/customer-feedback",
+        url: "feedback",
         icon: "comments",
       },
       {
         name: "Store messages",
-        url: "/seller/store-messages",
+        url: "store",
         icon: "envelope",
       },
     ],
@@ -64,16 +67,17 @@ export const SELLER_NAV = [
   {
     id: "5",
     category: "Your Orders",
+    url: "orders",
     icon: "cartShopping",
     childs: [
       {
         name: "New orders",
-        url: "/sellers/new-orders",
+        url: "new",
         icon: "bagShopping",
       },
       {
         name: "Order List",
-        url: "/sellers/orders",
+        url: "",
         icon: "receipt",
       },
     ],
@@ -82,6 +86,7 @@ export const SELLER_NAV = [
   {
     id: "6",
     category: "Settings",
+    url: "",
     icon: "gear",
     childs: [
       {

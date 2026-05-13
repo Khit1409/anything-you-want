@@ -1,6 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CategoryRepository } from './categories.repository';
 import { HttpResponse } from '@/src/helpers/httpResponse';
+import { plainToInstance } from 'class-transformer';
+import { CategoryResponseDto } from './dto/category-response.dto';
 
 @Injectable()
 export class CategoryService {
@@ -10,7 +12,13 @@ export class CategoryService {
   ) {}
 
   async getAll() {
-    return await this.repo.getAll();
+    const categories = await this.repo.getAll();
+    return {
+      ...this.httpHelper.success(
+        'categories api is ready using',
+        plainToInstance(CategoryResponseDto, categories),
+      ),
+    };
   }
   async getByName(name: string) {
     const category = await this.repo.getByName(name);

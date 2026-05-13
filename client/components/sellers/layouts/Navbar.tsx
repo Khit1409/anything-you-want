@@ -1,6 +1,6 @@
 "use client";
 
-import { SELLER_NAV } from "@/data/seller-navbar";
+import { SELLER_NAV } from "@/data/seller-navbar.data";
 import { getIconByString } from "@/features/icon";
 import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -52,7 +52,11 @@ export default function Navbar() {
                 {nav.childs?.map((nav_child, index) => (
                   <Link
                     key={index}
-                    href={nav_child.url}
+                    href={
+                      "/seller/" +
+                      `${nav.url ? nav.url + "/" : ""}` +
+                      nav_child.url
+                    }
                     className="flex items-center px-4 py-2 text-sm text-(--text) hover:bg-(--surface-muted) rounded-lg transition-colors hover:text-(--title)"
                   >
                     <span>

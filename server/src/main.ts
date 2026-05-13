@@ -7,6 +7,12 @@ import { ValidationPipe } from '@nestjs/common';
 import { InternalErrorFilter } from './core/http-exception.filter';
 dotenv.config();
 
+/**
+ * Khởi tạo ứng dụng NestJS:
+ * - Tạo app từ `AppModule`
+ * - Cấu hình cookie parser, CORS, validation pipe, và global filters
+ * - Đặt tiền tố API chung `/api` và lắng nghe port từ `ConfigService` (mặc định 8080)
+ */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);

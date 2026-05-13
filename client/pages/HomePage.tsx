@@ -1,7 +1,7 @@
 "use client";
 
 import ProductList from "@/components/products/ProductList";
-import Hero from "@/components/users/Hero";
+import Hero from "@/components/users/layouts/Hero";
 
 
 export default function HomePage() {

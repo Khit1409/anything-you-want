@@ -1,6 +1,11 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 
+/**
+ * Tạo một instance axios cho môi trường server-side (Next.js server components / route handlers).
+ * - Lấy cookie từ `next/headers` và gửi trong header `Cookie` để backend nhận được session/token.
+ * - Sử dụng khi cần gọi API từ server-side rendering hoặc server components.
+ */
 export async function axiosServer() {
   const cookieStore = await cookies();
 

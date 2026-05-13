@@ -1,7 +1,13 @@
-import { faBell, faSearch, faSun } from "@fortawesome/free-solid-svg-icons";
+"use client";
+
+import useTheme from "@/hooks/common/useTheme";
+
+import { faBell, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Header() {
+  const { changeTheme, themeButtonTitle, themeButtonIcon } = useTheme();
+
   return (
     <header className="h-[60px] max-h-[60px] w-screen overflow-hidden py-2 px-5 m-0">
       <div className="flex items-center h-full justify-around">
@@ -29,8 +35,12 @@ export default function Header() {
         <div className="flex-1 flex justify-end">
           <div className="flex items-center gap-3 text-(--muted)">
             <div>
-              <button title="Light mode" type="button">
-                <FontAwesomeIcon icon={faSun} />
+              <button
+                title={themeButtonTitle}
+                type="button"
+                onClick={() => changeTheme()}
+              >
+                <FontAwesomeIcon icon={themeButtonIcon} />
               </button>
             </div>
             <div>

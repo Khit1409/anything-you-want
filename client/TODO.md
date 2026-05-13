@@ -1,2 +1,1 @@
-1 - Sửa chức năng get cart
-2 - Sửa giao diện cart list
+Làm chức năng thêm sản phẩm bên frontend

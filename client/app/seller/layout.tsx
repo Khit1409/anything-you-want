@@ -1,9 +1,9 @@
 import React from "react";
 import { axiosServer } from "@/lib/configs/axios-server.config";
-import { IAuthenticationResponse } from "@/interfaces/common/auth.interface";
+import { AuthenticationResponse } from "@/interfaces/auth.interface";
 import { redirect } from "next/navigation";
-import Navbar from "@/components/sellers/Navbar";
-import Header from "@/components/sellers/Header";
+import Navbar from "@/components/sellers/layouts/Navbar";
+import Header from "@/components/sellers/layouts/Header";
 import "@/styles/seller.css";
 import { isAxiosError } from "axios";
 
@@ -12,7 +12,7 @@ async function getMe() {
     console.log("getMe in seller layout is fetching data...");
     const axios = await axiosServer();
     const res = await axios.get("/auth/me");
-    const api = res.data as IAuthenticationResponse;
+    const api = res.data as AuthenticationResponse;
     if (!api.data) {
       console.log(
         "checking is success but user is not logged in, data fetching is null..."
