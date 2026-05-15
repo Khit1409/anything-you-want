@@ -27,33 +27,27 @@ export default function ClassificationsSection({
   removeClassificationValue,
 }: Props) {
   return (
-    <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6 hover:shadow-sm transition-all">
-      <div className="mb-6 flex items-center gap-4">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-800 text-white font-bold text-sm">
-          3
-        </div>
-        <h2 className="text-lg font-semibold text-gray-900">
-          Phân loại sản phẩm
-        </h2>
-      </div>
+    <div className="mb-6 bg-white dark:bg-gray-900 p-4 border border-gray-200 dark:border-gray-700">
+      <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
+        Phân loại sản phẩm
+      </h3>
 
       {Array.from({ length: countClassification }).map((_, index) => (
-        <div className="space-y-5" key={index}>
-          <div>
-            <label
-              htmlFor="classification-name"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
+        <div
+          className="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700 last:border-0"
+          key={index}
+        >
+          <div className="mb-3">
+            <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
               Tên phân loại
             </label>
             <input
               type="text"
-              id="classification-name"
               onChange={(e) => onchangeClassification(e)}
               data-parent-index={index}
               name="name"
-              placeholder="Nhập tên phân loại (ví dụ: Màu sắc, Kích cỡ)"
-              className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 transition-all"
+              placeholder="Ví dụ: Màu, Size"
+              className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-gray-600"
             />
           </div>
 
@@ -63,43 +57,32 @@ export default function ClassificationsSection({
                 ?.size ?? 1,
           }).map((_, indexValue) => (
             <div
-              className="pl-4 border-l-2 border-gray-200 space-y-4"
+              className="mb-3 p-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
               key={indexValue}
             >
               {blockInputClassificationValue(index) && (
-                <p className="italic text-xs text-red-500">
-                  *Vui lòng nhập tên phân loại trước.
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                  *Nhập tên phân loại trước
                 </p>
               )}
-              <h4 className="text-sm font-medium text-gray-700">
-                Giá trị phân loại
-              </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-2 mb-2">
                 <div>
-                  <label
-                    htmlFor="value-name"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
+                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Tên giá trị
                   </label>
                   <input
                     type="text"
                     onChange={(e) => onchangeClassification(e)}
-                    id="value-name"
                     disabled={blockInputClassificationValue(index)}
                     name="name"
                     data-parent-index={index}
                     data-value-index={indexValue}
-                    placeholder="Ví dụ: Đỏ, M, Nhôm"
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 transition-all"
+                    placeholder="Đỏ, M..."
+                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-gray-600 disabled:bg-gray-100 dark:disabled:bg-gray-600"
                   />
                 </div>
-
                 <div>
-                  <label
-                    htmlFor="value-price"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
+                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Giá thêm
                   </label>
                   <input
@@ -107,98 +90,82 @@ export default function ClassificationsSection({
                     data-parent-index={index}
                     disabled={blockInputClassificationValue(index)}
                     data-value-index={indexValue}
-                    id="value-price"
                     onChange={(e) => onchangeClassification(e)}
                     placeholder="0"
                     name="extraPrice"
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 transition-all"
+                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-gray-600 disabled:bg-gray-100 dark:disabled:bg-gray-600"
                   />
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-2 mb-2">
                 <div>
-                  <label
-                    htmlFor="value-quantity"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
+                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Số lượng
                   </label>
                   <input
                     type="number"
                     disabled={blockInputClassificationValue(index)}
-                    id="value-quantity"
                     placeholder="0"
                     data-parent-index={index}
                     onChange={(e) => onchangeClassification(e)}
                     data-value-index={indexValue}
                     name="stock"
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 transition-all"
+                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-gray-600 disabled:bg-gray-100 dark:disabled:bg-gray-600"
                   />
                 </div>
-
                 <div>
-                  <label
-                    htmlFor="value-image"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
+                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Ảnh minh hoạ
                   </label>
-                  <div className="relative">
-                    <input
-                      type="file"
-                      id="value-image"
-                      name="img"
-                      disabled={blockInputClassificationValue(index)}
-                      data-parent-index={index}
-                      data-value-index={indexValue}
-                      accept="image/*"
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    />
-                    <div className="px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-gray-500 flex items-center gap-2 cursor-pointer hover:bg-gray-50 transition-all">
-                      <i className="fas fa-cloud-arrow-up text-sm"></i>
-                      <span className="text-sm">Chọn ảnh</span>
-                    </div>
-                  </div>
+                  <input
+                    type="file"
+                    name="img"
+                    disabled={blockInputClassificationValue(index)}
+                    data-parent-index={index}
+                    data-value-index={indexValue}
+                    accept="image/*"
+                    className="block w-full text-xs file:mr-1 file:py-1 file:px-2 file:border file:border-gray-300 dark:file:border-gray-600 file:rounded file:text-xs file:bg-white dark:file:bg-gray-700 dark:file:text-gray-100"
+                  />
                 </div>
               </div>
-
-              <div className="">
+              <div className="flex gap-2 text-xs">
                 <button
-                  className="text-red-500 hover:underline"
+                  type="button"
                   onClick={() => removeClassificationValue(index, indexValue)}
+                  className="flex-1 py-1 px-2 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
                 >
                   Xóa
                 </button>
-              </div>
-              <div className="">
                 <button
-                  className="text-green-500 hover:underline"
+                  type="button"
                   onClick={() => addNewClassificationValueInput(index)}
+                  className="flex-1 py-1 px-2 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
                 >
-                  Thêm giá trị khác
+                  + Giá trị
                 </button>
               </div>
             </div>
           ))}
 
-          <div className="pl-4 space-y-4">
+          <div className="mt-2">
             <button
-              className="text-red-500 hover:underline"
+              type="button"
               onClick={() => removeClassification(index)}
+              className="text-xs py-1 px-2 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
             >
-              Xóa phân loại này
+              Xóa phân loại
             </button>
           </div>
         </div>
       ))}
-      <div className="my-3 p-3">
-        <button
-          className="rounded p-2"
-          onClick={() => addNewClassificationInput()}
-        >
-          Thêm phân loại
-        </button>
-      </div>
+
+      <button
+        type="button"
+        onClick={() => addNewClassificationInput()}
+        className="w-full py-2 text-sm border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-800"
+      >
+        + Thêm phân loại
+      </button>
     </div>
   );
 }

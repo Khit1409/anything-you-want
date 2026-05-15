@@ -1,10 +1,10 @@
-import { createProductInfoFormData } from "@/data/create-product-form.data";
 import useCreateProduct from "@/hooks/sellers/useCreateProduct";
 import CategorySection from "./CategorySection";
 import ProductInfoSection from "./ProductInfoSection";
 import ClassificationsSection from "./ClassificationsSection";
 import ShippingSection from "./ShippingSection";
 import ActionButtons from "./ActionButtons";
+import ImageSection from "./ImageSection";
 
 export default function CreateProductForm() {
   const {
@@ -21,6 +21,12 @@ export default function CreateProductForm() {
     onchangeClassification,
     blockInputClassificationValue,
     createProduct,
+    onchangeImages,
+    removeImageDetailInput,
+    addNewImageDetailInput,
+    uploadImageFile,
+    imageFile,
+    countImageDetailInput,
   } = useCreateProduct();
 
   return (
@@ -31,7 +37,14 @@ export default function CreateProductForm() {
       />
 
       <ProductInfoSection onchangeProductInfo={onchangeProductInfo} />
-
+      <ImageSection
+        onchange={onchangeImages}
+        imagesSelected={imageFile}
+        countImgDetailInput={countImageDetailInput}
+        uploadImage={uploadImageFile}
+        removeImageDetailInput={removeImageDetailInput}
+        addNewImageDetailInput={addNewImageDetailInput}
+      />
       <ClassificationsSection
         countClassification={countClassification}
         countClassificationValue={countClassificationValue}

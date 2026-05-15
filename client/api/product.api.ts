@@ -78,3 +78,38 @@ export async function createProductService(data: CreateProductRequest) {
     throw error;
   }
 }
+/**
+ * Upload thumbnail & img details
+ * @param images
+ * @returns
+ */
+
+export async function uploadProductImage(images: {
+  thumbnail: File;
+  details: File[];
+}) {
+  try {
+    const formData = new FormData();
+
+    const { thumbnail, details } = images;
+    formData.append("thumbnail", thumbnail);
+    details.forEach((file) => formData.append("details", file));
+    const res = await axiosClient.post("/products/upload-image", formData);
+    const result = res.data as ApiResponse;
+    const { message, success } = result;
+    return {
+      message,
+      success,
+      data: result.data as {
+        thumbnail: { url: string; public_id: string };
+        details: Array<{ url: string; public_id: string }>;
+      },
+    };
+  } catch (error) {
+    if (isAxiosError(error)) {
+      const { message, success } = error.response?.data as ApiResponse;
+      return { message, success };
+    }
+    throw error;
+  }
+}

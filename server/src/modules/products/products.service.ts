@@ -4,7 +4,6 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { GetProductQueryDto } from './dto/products.request.dto';
 import { HttpResponse } from '@/src/helpers/httpResponse';
 import { ProductRepository } from './products.repository';
 import { CategoryService } from '../categories/categories.service';
@@ -16,9 +15,10 @@ import {
 } from './dto/products.response.dto';
 
 import { ProductCategory } from './schemas/product-category.schema';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductInfo } from './schemas/product-info.schema';
+import { CreateProduct } from '@/src/interfaces/create-product.interface';
+import { UpdateProduct } from '@/src/interfaces/update-product.inteface';
+import { GetProductQuery } from '@/src/interfaces/get-product.interface';
 
 @Injectable()
 export class ProductService {
@@ -32,7 +32,7 @@ export class ProductService {
    * @param query
    * @returns
    */
-  async getProductList(query: GetProductQueryDto) {
+  async getProductList(query: GetProductQuery) {
     const limit = query.limit ?? 30;
     const page = query.page ?? 1;
     const skip = page * limit - limit;
@@ -114,11 +114,11 @@ export class ProductService {
    * @returns
    */
   async createProduct(
-    dto: CreateProductDto,
+    createData: CreateProduct,
     owner: { sellerId: string; storeId: string },
   ) {
-    const { info, shipping, classification, images } = dto;
-
+    const { info, shipping, classification, images } = createData;
+    console.log(info);
     const tags = this.createHashtags(info.name, info.brand);
     const category = await this.categoryService.getById(info.category);
     const categoryId = category._id.toString();
@@ -133,7 +133,7 @@ export class ProductService {
       status: statusData as ProductStatus,
       tags,
       images,
-      classification: classification,
+      classification,
       shipping,
       ratingSumary: { total: 0, avg: 5 },
     };
@@ -148,13 +148,13 @@ export class ProductService {
    * @param sellerId
    * @returns
    */
-  async updateProduct(id: string, dto: UpdateProductDto, sellerId: string) {
+  async updateProduct(id: string, updateData: UpdateProduct, sellerId: string) {
     let updateCount = 0;
     const product = await this.repo.getProductDetailBySeller(id, sellerId);
     if (!product) {
       throw new UnauthorizedException('Product is not define!');
     }
-    const { classification, images, info, shipping } = dto;
+    const { classification, images, info, shipping } = updateData;
     if (classification) {
       const oldClassification = [...product.classification];
       const isNewClassification = classification.filter(

@@ -10,6 +10,10 @@ import {
   Req,
   UseGuards,
   Put,
+  InternalServerErrorException,
+  UseInterceptors,
+  UploadedFiles,
+  BadRequestException,
 } from '@nestjs/common';
 import { ProductService } from './products.service';
 import { GetProductQueryDto } from './dto/products.request.dto';
@@ -23,11 +27,15 @@ import { AuthGuard } from '@/src/guards/auth.guard';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
+import { UploadService } from '../upload/upload.service';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+
 @Controller('products')
 export class ProductController {
   constructor(
     private readonly productService: ProductService,
     private readonly storeService: StoreService,
+    private readonly uploadService: UploadService,
   ) {}
 
   /**
@@ -50,6 +58,53 @@ export class ProductController {
   async getDetail(@Param('id') id: string) {
     return await this.productService.getDetail(id);
   }
+  /**
+   *
+   */
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.SELLER)
+  @HttpCode(HttpStatus.CREATED)
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'thumbnail', maxCount: 1 },
+      { name: 'details', maxCount: 10 },
+    ]),
+  )
+  @Post('upload-image')
+  async uploadImage(
+    @UploadedFiles()
+    files: {
+      thumbnail: Express.Multer.File[];
+      details: Express.Multer.File[];
+    },
+  ) {
+    const { details, thumbnail } = files;
+    const [thumbnailUploaded, detailsUploaded] = await Promise.all([
+      this.uploadService.uploadImg(thumbnail[0]),
+      this.uploadService.uploadManyImg(details),
+    ]);
+    const message =
+      thumbnailUploaded.success && detailsUploaded.success
+        ? 'Tải ảnh lên đám mây thành công'
+        : !thumbnailUploaded.success
+          ? thumbnailUploaded.message
+          : detailsUploaded.success;
+
+    const success = thumbnailUploaded.success && detailsUploaded.success;
+    const timestamp = new Date().toLocaleDateString('vi-VN');
+
+    if (!success) {
+      throw new BadRequestException({ message, success, timestamp });
+    }
+    const data = {
+      thumbnail: thumbnailUploaded.data as { url: string; public_id: string },
+      details: detailsUploaded.data as Array<{
+        url: string;
+        public_id: string;
+      }>,
+    };
+    return { success, message, timestamp, data };
+  }
 
   /**
    * Tạo sản phẩm mới, xác thực bằng role guard và trả về http status tương ứng
@@ -62,10 +117,20 @@ export class ProductController {
   @HttpCode(HttpStatus.CREATED)
   @Post('')
   async create(@Body() dto: CreateProductDto, @Req() req: Request) {
-    const sellerId = req.userId;
-    const store = await this.storeService.getStoreBySellerId(sellerId);
-    const owner = { sellerId, storeId: store.id };
-    return await this.productService.createProduct(dto, owner);
+    try {
+      const sellerId = req.userId;
+      const store = await this.storeService.getStoreBySellerId(sellerId);
+      const owner = { sellerId, storeId: store.id };
+
+      return await this.productService.createProduct(dto, owner);
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException({
+        success: false,
+        message: JSON.stringify(error),
+        timestamp: new Date().toLocaleDateString('vi-VN'),
+      });
+    }
   }
   /**
    * Cập nhật sản phẩm

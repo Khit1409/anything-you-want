@@ -10,6 +10,7 @@ import { AuthMiddleware } from './middlewares/auth.middleware';
 import { CategoryModule } from './modules/categories/categories.module';
 import { UserModule } from './modules/users/users.module';
 import { SellerModule } from './modules/sellers/sellers.module';
+import { UploadModule } from './modules/upload/upload.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { SellerModule } from './modules/sellers/sellers.module';
     CategoryModule,
     UserModule,
     SellerModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IAppInitalState, ModalActionPayload } from "../state/app.state";
-import { Theme } from "@/interfaces/common/theme.interface";
+import { Theme } from "@/interfaces/app.interface";
 
 const appInitialState: IAppInitalState = {
   modalState: null,
@@ -34,5 +34,10 @@ const appSlice = createSlice({
 });
 
 export const appReducer = appSlice.reducer;
-export const { closeModal,setWebMode ,openModal, startLoadingAnimation, changeWebMode } =
-  appSlice.actions;
+export const {
+  closeModal,
+  setWebMode,
+  openModal,
+  startLoadingAnimation,
+  changeWebMode,
+} = appSlice.actions;

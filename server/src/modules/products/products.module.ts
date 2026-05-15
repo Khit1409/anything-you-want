@@ -13,6 +13,8 @@ import { CategoryRepository } from '../categories/categories.repository';
 import { StoreModule } from '../stores/stores.module';
 import { StoreService } from '../stores/stores.service';
 import { StoreRepository } from '../stores/stores.repository';
+import { UploadModule } from '../upload/upload.module';
+import { UploadService } from '../upload/upload.service';
 
 @Module({
   imports: [
@@ -23,6 +25,7 @@ import { StoreRepository } from '../stores/stores.repository';
     ]),
     CategoryModule,
     StoreModule,
+    UploadModule,
   ],
   controllers: [ProductController],
   providers: [
@@ -33,6 +36,7 @@ import { StoreRepository } from '../stores/stores.repository';
     CategoryRepository,
     StoreService,
     StoreRepository,
+    UploadService,
   ],
 })
 export class ProductModule {}

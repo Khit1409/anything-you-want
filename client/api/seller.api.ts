@@ -8,3 +8,6 @@ export async function getSellerProfile() {
     console.error(error);
   }
 }
+/**
+ * gọi api lấy danh sách sản phẩm thuộc về người bán
+ */
