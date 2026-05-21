@@ -8,6 +8,6 @@ import { HttpResponse } from '@/src/helpers/httpResponse';
   imports: [CloudinaryModule],
   controllers: [UploadController],
   providers: [UploadService, HttpResponse],
-  exports: [CloudinaryModule],
+  exports: [CloudinaryModule, UploadService],
 })
 export class UploadModule {}

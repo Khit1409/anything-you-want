@@ -21,39 +21,67 @@ export class SellerService {
     private readonly storeRepo: StoreRepository,
   ) {}
 
+  // ============================================================================
+  // HELPER / UTILITY METHODS
+  // ============================================================================
+
   /**
-   * create new seller account.
-   * @param dto
-   * @returns
+   * Kiểm tra xem có số điện thoại trùng lặp trong danh sách
+   * @param phones - Danh sách số điện thoại
+   * @returns True nếu có số điện thoại trùng lặp, False nếu không
+   */
+  checkExistSamePhone(phones: CreateSellerPhoneDto[]): boolean {
+    const hasDuplicate = phones.some((phone, index) => {
+      return (
+        phones.findIndex((p) => p.phoneNumber === phone.phoneNumber) !== index
+      );
+    });
+    return hasDuplicate;
+  }
+
+  // ============================================================================
+  // CREATE OPERATIONS
+  // ============================================================================
+
+  /**
+   * Tạo tài khoản người bán mới
+   * Tạo người bán kèm thông tin cửa hàng, số điện thoại
+   * @param dto - Dữ liệu tạo người bán (thông tin cá nhân, cửa hàng, mật khẩu)
+   * @returns Response thông báo tạo thành công
+   * @throws BadRequestException nếu email, store email hoặc số điện thoại trùng lặp
+   * @throws BadRequestException nếu không thể tạo tài khoản
    */
   async createSeller(dto: CreateSellerDto) {
     const { currentPassword, emailAddress, info, phones, store } = dto;
-    //check existing.
+
+    // Kiểm tra email người bán đã tồn tại
     const existing = await this.repo.findByEmail(emailAddress);
+    if (existing) {
+      throw new BadRequestException('Email đã được sử dụng!');
+    }
 
-    if (existing) throw new BadRequestException('email is exsiting!');
-
-    //check existing store email
+    // Kiểm tra email cửa hàng đã tồn tại
     const existingStoreEmail = await this.storeRepo.getByStoreEmail(
       store.info.emailAddress,
     );
-
     if (existingStoreEmail) {
-      throw new BadRequestException('store email is existing!');
+      throw new BadRequestException('Email cửa hàng đã tồn tại!');
     }
 
-    //check same phone number info phones
+    // Kiểm tra số điện thoại trùng lặp
     if (this.checkExistSamePhone(phones)) {
-      throw new BadRequestException('Phone number is duplicate!');
+      throw new BadRequestException('Số điện thoại bị trùng lặp!');
     }
 
-    //rewrite correct date format (yyyy/mm/dd)
+    // Định dạng ngày sinh
     const formatDate = this.strHellper.convertDateStringToCorrectFormat(
       info.dateOfBirth,
     );
-    //hash password
+
+    // Hash mật khẩu
     const hashPassword = await bcrypt.hash(currentPassword, 10);
-    //rewrite store data
+
+    // Chuẩn bị dữ liệu cửa hàng
     const hashStoreCode = await bcrypt.hash(store.storeCode, 10);
     const storeData = {
       ...store,
@@ -64,9 +92,11 @@ export class SellerService {
         emailAddress: store.info.emailAddress ?? emailAddress,
       },
     };
-    //rewrite store data from dto
+
+    // Chuẩn bị dữ liệu thông tin cá nhân
     const infoData = { ...info, dateOfBirth: formatDate };
-    //using repo
+
+    // Tạo người bán mới
     const newSeller = await this.repo.create(
       {
         ...dto,
@@ -77,38 +107,44 @@ export class SellerService {
     );
 
     if (!newSeller || !newSeller.store) {
-      throw new BadRequestException('Cant create new seller auth data!');
+      throw new BadRequestException('Không thể tạo tài khoản người bán mới!');
     }
 
-    return { ...this.httpHellper.success('New seller is ready created!') };
+    return {
+      ...this.httpHellper.success('Người bán mới được tạo thành công!'),
+    };
+  }
+
+  // ============================================================================
+  // READ OPERATIONS
+  // ============================================================================
+
+  /**
+   * Kiểm tra người bán tồn tại theo ID
+   * @param sellerId - ID của người bán
+   * @returns Thông tin người bán
+   * @throws BadRequestException nếu người bán không tồn tại
+   */
+  async checkExistingSeller(sellerId: string) {
+    const seller = await this.repo.getById(sellerId);
+    if (!seller) {
+      throw new BadRequestException('Người bán không tìm thấy!');
+    }
+    return seller;
   }
 
   /**
-   * return true if in array existing same phone number.
-   * @param phones
-   * @returns
-   */
-  checkExistSamePhone(phones: CreateSellerPhoneDto[]) {
-    const hasDuplicate = phones.some((phone, index) => {
-      return (
-        phones.findIndex((p) => p.phoneNumber === phone.phoneNumber) !== index
-      );
-    });
-    return hasDuplicate;
-  }
-  /**
-   * @param id
-   * @returns
+   * Lấy hồ sơ người bán
+   * @param id - ID của người bán
+   * @returns Response chứa thông tin hồ sơ người bán
+   * @throws UnauthorizedException nếu người bán không tồn tại
    */
   async getSellerProfile(id: string) {
     const seller = await this.repo.getById(id);
     if (!seller) {
-      throw new UnauthorizedException('Seller is not found by this id!');
+      throw new UnauthorizedException('Không tìm thấy người bán với ID này!');
     }
 
-    return this.httpHellper.success(
-      'Fetching seller profile successfully!',
-      seller,
-    );
+    return this.httpHellper.success('Lấy hồ sơ người bán thành công!', seller);
   }
 }

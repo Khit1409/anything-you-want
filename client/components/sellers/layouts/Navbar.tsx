@@ -20,9 +20,9 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="h-screen flex flex-col bg-(--surface) border-r border-(--border) max-w-[300px] w-[300px] p-0 m-0">
+    <nav className="h-screen flex flex-col bg-(--surface) border-r border-(--border) p-0 m-0 overflow-y-auto">
       {/* Scrollable Menu */}
-      <div className="flex-1 overflow-y-auto scrollbar-hide px-2 py-3">
+      <div className="flex-1 scrollbar-hide px-2 py-3">
         {SELLER_NAV.map((nav) => (
           <div key={nav.id} className="mb-2">
             {/* Category Button */}

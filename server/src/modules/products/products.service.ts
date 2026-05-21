@@ -19,6 +19,10 @@ import { ProductInfo } from './schemas/product-info.schema';
 import { CreateProduct } from '@/src/interfaces/create-product.interface';
 import { UpdateProduct } from '@/src/interfaces/update-product.inteface';
 import { GetProductQuery } from '@/src/interfaces/get-product.interface';
+import mongoose from 'mongoose';
+import { ProductClassification } from './schemas/product-classification.schema';
+import { ProductVariant } from './schemas/product-variant.schema';
+import { StrHellper } from '@/src/helpers/str.helper';
 
 @Injectable()
 export class ProductService {
@@ -26,80 +30,101 @@ export class ProductService {
     private readonly repo: ProductRepository,
     private readonly categoryService: CategoryService,
     private readonly httpHelper: HttpResponse,
+    private readonly strHelper: StrHellper,
   ) {}
+
+  // ============================================================================
+  // HELPER / UTILITY METHODS
+  // ============================================================================
+
   /**
-   *  get 30 product for view page.
-   * @param query
-   * @returns
+   * Tạo khóa phân loại cho biến thể sản phẩm
+   * Chuyển đổi dấu tiếng Việt và thay thế khoảng trắng bằng dấu gạch dưới
+   * @param key - Khóa phân loại (ví dụ: "Màu sắc")
+   * @returns Khóa đã định dạng (ví dụ: "Mau_sac")
    */
-  async getProductList(query: GetProductQuery) {
-    const limit = query.limit ?? 30;
-    const page = query.page ?? 1;
-    const skip = page * limit - limit;
-    const select = 'info ratingSumary shipping images tags';
-    const products = await this.repo.getProductList(skip, limit, select);
-    const data = { products: plainToInstance(ProductResponseDto, products) };
-    return this.httpHelper.success('Products api is ready using!', data);
+  createVariantKey(key: string): string {
+    return this.strHelper.replaceVietnamese(key).split(' ').join('_');
   }
+
   /**
-   * Lấy sản phẩm chi tiết qua id.
-   * @param id
-   * @returns
+   * Tạo mã sản phẩm duy nhất
+   * Lấy 3 ký tự đầu của tên sản phẩm (không dấu, không khoảng trắng) + số ngẫu nhiên
+   * @param name - Tên sản phẩm (ví dụ: "Áo thun nam")
+   * @returns Mã sản phẩm (ví dụ: "ATH-456")
    */
-  async getDetail(id: string) {
-    const product = await this.repo.getProductDetail(id);
-    if (!product) {
-      throw new NotFoundException('product not found');
+  createProductCode(name: string): string {
+    const replaceStrVietnamese = this.strHelper.replaceVietnamese(name);
+    return (
+      replaceStrVietnamese.split(' ').join('').slice(0, 3).toUpperCase() +
+      '-' +
+      Math.floor(Math.random() * 1000).toString()
+    );
+  }
+
+  /**
+   * Tạo SKU (Stock Keeping Unit) cho sản phẩm dựa trên mã sản phẩm và các thuộc tính phân loại
+   * @param productCode - Mã sản phẩm (ví dụ: ABC-123)
+   * @param valueFirst - Giá trị phân loại đầu tiên (bắt buộc)
+   * @param valueSecond - Giá trị phân loại thứ hai (tùy chọn)
+   * @returns SKU được format chữ hoa (ví dụ: ABC-123-DO-XL)
+   * @throws BadRequestException nếu productCode hoặc valueFirst rỗng
+   */
+  createSku(
+    productCode: string,
+    valueFirst: string,
+    valueSecond?: string,
+  ): string {
+    // Validation đầu vào
+    if (!productCode?.trim() || !valueFirst?.trim()) {
+      throw new BadRequestException(
+        'productCode và valueFirst không được để trống',
+      );
     }
-    const categoryId = product.info.category.id;
-    const neId = product._id;
-    const select = 'info ratingSumary shipping images tags';
-    const related = await this.repo.getRelated(categoryId, neId, select);
-    const data = {
-      product: plainToInstance(ProductDetailResponseDto, product),
-      related: plainToInstance(ProductResponseDto, related),
+
+    // Helper function để format giá trị
+    const formatValue = (value: string): string => {
+      return this.strHelper
+        .replaceVietnamese(value)
+        .trim()
+        .split(' ')
+        .join('-')
+        .toUpperCase();
     };
-    return {
-      ...this.httpHelper.success('Product api is ready using!'),
-      data,
-    };
+
+    // Build SKU từ productCode + valueFirst
+    let sku = `${productCode}-${formatValue(valueFirst)}`;
+
+    // Thêm valueSecond nếu có
+    if (valueSecond?.trim()) {
+      sku += `-${formatValue(valueSecond)}`;
+    }
+
+    return sku;
   }
+
   /**
-   * Create product hashtags
-   * @param info
-   * @returns trả về 1 array chứa các keyword được chọn qua tên, xuất xứ và thương hiệu của sản phẩm.
-   * Tên sản phẩm: Tên sản phẩm được quy định theo hướng dẫn tạo sản phẩm.
-   * Tên thương hiệu: Tách các khoản trắng xóa dấu và nối liền với nhau bằng '-'.
+   * Tạo danh sách hashtag cho sản phẩm từ tên sản phẩm và thương hiệu
+   * Được sử dụng để tìm kiếm và phân loại sản phẩm
+   * @param name - Tên sản phẩm (có thể chứa dấu phẩy để phân tách nhiều từ khóa)
+   * @param brand - Thương hiệu sản phẩm (tùy chọn)
+   * @returns Mảng hashtag (ví dụ: ["#ao-thun", "#nam", "#nike"])
    */
   createHashtags(name: string, brand?: string): string[] {
     let result: string[] = [];
-    const tagName = name.split(',').map(
-      (str) =>
-        str
-          .toLowerCase()
-          .normalize('NFD') // tách dấu tiếng Việt
-          .replace(/[\u0300-\u036f]/g, '') // xóa dấu
-          .replace(/đ/g, 'd') // xử lý riêng chữ đ
-          .replace(/[^a-z0-9\s-]/g, '') // bỏ ký tự đặc biệt
-          .trim() // xóa khoảng trắng hai bên
-          .split(' ') // tách ra thành mảng qua dấu cách
-          .join('-'), // nối lại bằng '-'
-    );
+
+    // Tách tên sản phẩm theo dấu phẩy và xử lý mỗi phần
+    const tagName = name
+      .split(',')
+      .map((str) => this.strHelper.replaceVietnamese(str).split(' ').join('-'));
 
     result = [...result, ...tagName];
 
+    // Xử lý thương hiệu nếu có
     const tagBrand = brand
       ? brand
           .split(' ')
-          .map((str) =>
-            str
-              .toLowerCase()
-              .normalize('NFD') // tách dấu tiếng Việt
-              .replace(/[\u0300-\u036f]/g, '') // xóa dấu
-              .replace(/đ/g, 'd') // xử lý riêng chữ đ
-              .replace(/[^a-z0-9\s-]/g, '') // bỏ ký tự đặc biệt
-              .trim(),
-          )
+          .map((str) => this.strHelper.replaceVietnamese(str))
           .join('-')
       : '';
 
@@ -109,21 +134,94 @@ export class ProductService {
 
     return result.map((str) => `#${str}`);
   }
+
   /**
-   * @param dto
-   * @returns
+   * Tạo danh sách biến thể sản phẩm từ các phân loại
+   * Xử lý cả trường hợp một phân loại hoặc nhiều phân loại
+   * @param productCode - Mã sản phẩm
+   * @param classifications - Danh sách phân loại (ví dụ: [{ name: 'Màu', values: [{name: 'Đỏ'}, ...] }])
+   * @returns Mảng các biến thể sản phẩm với SKU, giá, và tùy chọn
+   */
+  createProductVariants(
+    productCode: string,
+    classifications: Array<ProductClassification>,
+  ): ProductVariant[] {
+    // Trường hợp: chỉ 1 phân loại (ví dụ: chỉ có Màu sắc)
+    if (classifications.length == 1) {
+      return classifications.reduce(
+        (variants: ProductVariant[], classification) => {
+          classification.values.forEach((value) => {
+            variants.push({
+              extraPrice: value.extraPrice,
+              options: {
+                [classification.name]: value.name,
+              },
+              sku: this.createSku(productCode, value.name),
+              stock: 0,
+            });
+          });
+          return variants;
+        },
+        [],
+      );
+    }
+
+    // Trường hợp: 2 phân loại trở lên (ví dụ: Màu + Kích cỡ)
+    const first = classifications[0];
+
+    return classifications
+      .filter((_, index) => index != 0)
+      .reduce((variants: ProductVariant[], classification) => {
+        classification.values.forEach((classificationValue) => {
+          first.values.forEach((firstValue) => {
+            const sku = this.createSku(
+              productCode,
+              firstValue.name,
+              classificationValue.name,
+            );
+            variants.push({
+              sku,
+              extraPrice:
+                firstValue.extraPrice + classificationValue.extraPrice,
+              options: {
+                [this.createVariantKey(first.name)]: firstValue.name,
+                [this.createVariantKey(classification.name)]:
+                  classificationValue.name,
+              },
+              stock: 0,
+            });
+          });
+        });
+        return variants;
+      }, []);
+  }
+
+  // ============================================================================
+  // CREATE OPERATIONS
+  // ============================================================================
+
+  /**
+   * Tạo sản phẩm mới
+   * Xử lý tạo mã sản phẩm, SKU, hashtag, biến thể tự động
+   * @param createData - Dữ liệu tạo sản phẩm (thông tin, phân loại, ảnh, vận chuyển)
+   * @param owner - Chủ sở hữu sản phẩm (sellerId và storeId)
+   * @returns Response với thông báo thành công
+   * @throws BadRequestException nếu không thể tạo sản phẩm
    */
   async createProduct(
     createData: CreateProduct,
     owner: { sellerId: string; storeId: string },
   ) {
-    const { info, shipping, classification, images } = createData;
-    console.log(info);
+    const { info, shipping, classifications, images } = createData;
+
     const tags = this.createHashtags(info.name, info.brand);
     const category = await this.categoryService.getById(info.category);
     const categoryId = category._id.toString();
     const categoryData = { name: category.name, id: categoryId };
     const statusData = 'active';
+    const productCode = this.createProductCode(info.name);
+    const variants = this.createProductVariants(productCode, classifications);
+
     const data = {
       info: {
         ...info,
@@ -133,30 +231,156 @@ export class ProductService {
       status: statusData as ProductStatus,
       tags,
       images,
-      classification,
+      classifications,
       shipping,
       ratingSumary: { total: 0, avg: 5 },
+      variants,
     };
+
     const newProduct = await this.repo.create(data);
-    if (!newProduct) throw new BadRequestException('Product cant created!');
-    return this.httpHelper.success('Product is created');
+    if (!newProduct) {
+      throw new BadRequestException('Không thể tạo sản phẩm!');
+    }
+    return this.httpHelper.success('Sản phẩm được tạo thành công!');
   }
+
+  // ============================================================================
+  // READ OPERATIONS
+  // ============================================================================
+
   /**
-   * update sản phẩm
-   * @param id
-   * @param dto
-   * @param sellerId
-   * @returns
+   * Lấy danh sách sản phẩm hiển thị trên trang chủ (mặc định 30 sản phẩm)
+   * @param query - Query parameters (limit, page)
+   * @returns Response chứa danh sách sản phẩm
+   */
+  async getProductList(query: GetProductQuery) {
+    const limit = query.limit ?? 30;
+    const page = query.page ?? 1;
+    const skip = page * limit - limit;
+    const select = 'info ratingSumary shipping images tags';
+    const filter = { limit, skip, select };
+
+    const products = await this.repo.getProductList(filter);
+    const data = { products: plainToInstance(ProductResponseDto, products) };
+
+    return this.httpHelper.success(
+      'Danh sách sản phẩm đã sẵn sàng sử dụng!',
+      data,
+    );
+  }
+
+  /**
+   * Lấy chi tiết sản phẩm theo ID
+   * Bao gồm thông tin sản phẩm chi tiết và danh sách sản phẩm liên quan cùng danh mục
+   * @param id - ID sản phẩm
+   * @returns Response chứa chi tiết sản phẩm và sản phẩm liên quan
+   * @throws NotFoundException nếu sản phẩm không tồn tại
+   */
+  async getDetail(id: string) {
+    const product = await this.repo.getProductDetail(id);
+    if (!product) {
+      throw new NotFoundException('Sản phẩm không tồn tại!');
+    }
+
+    const categoryId = product.info.category.id;
+    const neId = product._id;
+    const select = 'info ratingSumary shipping images tags';
+    const related = await this.repo.getRelated(categoryId, neId, select);
+
+    const data = {
+      product: plainToInstance(ProductDetailResponseDto, product),
+      related: plainToInstance(ProductResponseDto, related),
+    };
+
+    return {
+      ...this.httpHelper.success('Chi tiết sản phẩm đã sẵn sàng sử dụng!'),
+      data,
+    };
+  }
+
+  /**
+   * Lấy danh sách sản phẩm theo danh mục
+   * @param category - Thông tin danh mục (id, name)
+   * @returns Danh sách sản phẩm trong danh mục
+   */
+  async getByCategory(category: ProductCategory) {
+    const { id } = category;
+    return await this.repo.getProductListByCategory(id);
+  }
+
+  /**
+   * Lấy danh sách sản phẩm của seller (người bán)
+   * @param sellerId - ID của người bán
+   * @param query - Query parameters (limit, page)
+   * @returns Response chứa danh sách sản phẩm của seller
+   */
+  async getProductListBySeller(sellerId: string, query: GetProductQuery) {
+    const limit = query.limit ?? 30;
+    const page = query.page ?? 1;
+    const skip = page * limit - limit;
+    const select = 'info ratingSumary shipping images tags status';
+    const filter = { skip, limit, select };
+
+    const products = await this.repo.getProductListBySeller(sellerId, filter);
+
+    const api = {
+      products: plainToInstance(ProductResponseDto, products),
+    };
+
+    return this.httpHelper.success(
+      'Danh sách sản phẩm của bạn đã sẵn sàng sử dụng!',
+      api,
+    );
+  }
+
+  /**
+   * Lấy chi tiết sản phẩm của seller (chỉ seller chủ sở hữu mới có thể xem)
+   * @param sellerId - ID của người bán
+   * @param productId - ID của sản phẩm
+   * @returns Response chứa chi tiết sản phẩm
+   * @throws BadRequestException nếu sản phẩm không tồn tại
+   */
+  async getProductDetailBySeller(sellerId: string, productId: string) {
+    const mongooseId = new mongoose.Types.ObjectId(productId);
+    const product = await this.repo.getDetailBySeller(sellerId, mongooseId);
+
+    if (!product) {
+      throw new BadRequestException(
+        this.httpHelper.error('Sản phẩm không tìm thấy!'),
+      );
+    }
+
+    return this.httpHelper.success('Chi tiết sản phẩm đã sẵn sàng sử dụng!', {
+      ...plainToInstance(ProductDetailResponseDto, product),
+    });
+  }
+
+  // ============================================================================
+  // UPDATE OPERATIONS
+  // ============================================================================
+
+  /**
+   * Cập nhật sản phẩm (chỉ seller chủ sở hữu mới có thể cập nhật)
+   * Hỗ trợ cập nhật: thông tin cơ bản, phân loại, ảnh, vận chuyển
+   * @param id - ID của sản phẩm
+   * @param updateData - Dữ liệu cần cập nhật
+   * @param sellerId - ID của người bán
+   * @returns Response chứa số lượng trường được cập nhật
+   * @throws UnauthorizedException nếu seller không phải chủ sở hữu sản phẩm
    */
   async updateProduct(id: string, updateData: UpdateProduct, sellerId: string) {
     let updateCount = 0;
     const product = await this.repo.getProductDetailBySeller(id, sellerId);
+
     if (!product) {
-      throw new UnauthorizedException('Product is not define!');
+      throw new UnauthorizedException('Sản phẩm không tồn tại!');
     }
+
     const { classification, images, info, shipping } = updateData;
+
+    // Cập nhật phân loại
     if (classification) {
-      const oldClassification = [...product.classification];
+      const oldClassification = [...product.classifications];
       const isNewClassification = classification.filter(
         (classifiUpdate) =>
           !oldClassification.find((f) => f.name === classifiUpdate.name),
@@ -176,17 +400,21 @@ export class ProductService {
       await product.updateOne({ classification: lastUpdateClassification });
       updateCount++;
     }
+
+    // Cập nhật ảnh
     if (images) {
       await product.updateOne({ images });
       updateCount++;
     }
+
+    // Cập nhật thông tin cơ bản
     if (info) {
       const infoUpdated = { ...product.info };
 
       if (info.category) {
         const newCategory = await this.categoryService.getById(info.category);
         if (!newCategory) {
-          throw new UnauthorizedException('Category not found!');
+          throw new UnauthorizedException('Danh mục không tìm thấy!');
         }
         infoUpdated.category = {
           id: newCategory._id.toString(),
@@ -204,19 +432,38 @@ export class ProductService {
       updateCount++;
     }
 
+    // Cập nhật vận chuyển
     if (shipping) {
       await product.updateOne({ shipping });
       updateCount++;
     }
 
-    return this.httpHelper.success('Product is updated!', { updateCount });
+    return this.httpHelper.success('Cập nhật sản phẩm thành công!', {
+      updateCount,
+    });
   }
+
+  // ============================================================================
+  // DELETE OPERATIONS
+  // ============================================================================
+
   /**
-   * @param category
-   * @returns
+   * Xóa sản phẩm (chỉ seller chủ sở hữu mới có thể xóa)
+   * @param sellerId - ID của người bán
+   * @param productId - ID của sản phẩm cần xóa
+   * @returns Response thông báo xóa thành công
+   * @throws NotFoundException nếu không tìm thấy sản phẩm để xóa
    */
-  async getByCategory(category: ProductCategory) {
-    const { id } = category;
-    return await this.repo.getProductListByCategory(id);
+  async deleteProduct(sellerId: string, productId: string) {
+    const deleted = await this.repo.delete(sellerId, productId);
+    const { deletedCount } = deleted;
+
+    if (deletedCount == 0) {
+      throw new NotFoundException(
+        this.httpHelper.error('Có lỗi khi xử lý xóa sản phẩm!'),
+      );
+    }
+
+    return this.httpHelper.success('Xóa sản phẩm thành công!');
   }
 }

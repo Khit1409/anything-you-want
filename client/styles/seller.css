@@ -1,16 +1,18 @@
-:root {}
-
-.dark {}
-
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
+:root {
+    --w-seller: calc(1250px - 300px);
+    --h-seller: calc(100vh - 60px);
 }
 
-.scrollbar-hide {
-    -ms-overflow-style: none;
+
+nav {
+    inline-size: 300px;
     scrollbar-width: none;
 }
 
-.seller-content-container {
-    block-size: calc(100vh - 60px);
+.layout-container {
+    overflow: hidden;
+    inline-size: 100%;
+    block-size: 100vh;
+    padding: 0;
+    margin: 0;
 }

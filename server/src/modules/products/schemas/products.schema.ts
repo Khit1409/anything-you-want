@@ -5,6 +5,7 @@ import { ProductImages } from './product-images.schema';
 import { ProductClassification } from './product-classification.schema';
 import { ProductShipping } from './product-shipping.schema';
 import { ProductRatingSumary } from './product-rating-summary.schema';
+import { ProductVariant } from './product-variant.schema';
 /**
  *
  */
@@ -31,7 +32,9 @@ export class Product {
   @Prop({ type: [String], required: true })
   tags: string[];
   @Prop({ type: [ProductClassification], required: true })
-  classification: ProductClassification[];
+  classifications: ProductClassification[];
+  @Prop({ type: [ProductVariant], required: true })
+  variants: ProductVariant[];
   @Prop({ type: ProductShipping })
   shipping: ProductShipping;
   @Prop({ type: ProductRatingSumary, required: false })

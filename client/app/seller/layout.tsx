@@ -50,16 +50,14 @@ export default async function Layout({
   const { role } = checkedAuthentication;
   if (role !== "seller") redirect("/");
   return (
-    <>
+    <div className="layout-container">
       <Header />
       <main className="flex gap-2 border-t border-(--border)">
         <Navbar />
-        <div className="flex-1">
-          <div className="overflow-x-hidden overflow-y-auto seller-content-container p-2">
-            {children}
-          </div>
+        <div className="flex-1 h-(--h-seller) overflow-y-auto">
+          <div className="p-2 w-full">{children}</div>
         </div>
       </main>
-    </>
+    </div>
   );
 }

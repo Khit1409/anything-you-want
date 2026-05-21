@@ -8,13 +8,9 @@ import { HttpResponse } from '@/src/helpers/httpResponse';
 import { ProductRepository } from './products.repository';
 import { categorySchema } from '../categories/schemas/categories.schema';
 import { CategoryModule } from '../categories/categories.module';
-import { CategoryService } from '../categories/categories.service';
-import { CategoryRepository } from '../categories/categories.repository';
 import { StoreModule } from '../stores/stores.module';
-import { StoreService } from '../stores/stores.service';
-import { StoreRepository } from '../stores/stores.repository';
 import { UploadModule } from '../upload/upload.module';
-import { UploadService } from '../upload/upload.service';
+import { StrHellper } from '@/src/helpers/str.helper';
 
 @Module({
   imports: [
@@ -28,15 +24,7 @@ import { UploadService } from '../upload/upload.service';
     UploadModule,
   ],
   controllers: [ProductController],
-  providers: [
-    ProductService,
-    HttpResponse,
-    ProductRepository,
-    CategoryService,
-    CategoryRepository,
-    StoreService,
-    StoreRepository,
-    UploadService,
-  ],
+  providers: [ProductService, HttpResponse, ProductRepository, StrHellper],
+  exports: [ProductService, ProductRepository],
 })
 export class ProductModule {}

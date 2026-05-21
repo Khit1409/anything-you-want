@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model, Types } from 'mongoose';
 import { Product } from './schemas/products.schema';
+import { GetProductFilter } from '@/src/interfaces/get-product.interface';
+import { ProductVariant } from './schemas/product-variant.schema';
 
 @Injectable()
 export class ProductRepository {
@@ -16,7 +18,8 @@ export class ProductRepository {
    * @param select
    * @returns
    */
-  async getProductList(skip: number, limit: number, select: string) {
+  async getProductList(filter: GetProductFilter) {
+    const { select, skip, limit } = filter;
     const products = await this.productModel
       .find({ status: 'active' })
       .select(select)
@@ -81,5 +84,69 @@ export class ProductRepository {
       })
       .lean();
     return products;
+  }
+  /**
+   * Get list for seller
+   * @param sellerId
+   * @param limit
+   * @param skip
+   * @param select
+   * @returns
+   */
+  async getProductListBySeller(sellerId: string, filter: GetProductFilter) {
+    const { limit, select, skip } = filter;
+    return await this.productModel
+      .find({
+        'owner.sellerId': sellerId,
+      })
+      .select(select)
+      .skip(skip)
+      .limit(limit)
+      .lean();
+  }
+  /**
+   * Get product detail for seller to edit
+   * @param sellerId
+   * @param productId
+   */
+  async getDetailBySeller(
+    sellerId: string,
+    productId: mongoose.Types.ObjectId,
+  ) {
+    console.log(sellerId);
+    console.log(productId);
+    return await this.productModel
+      .findOne({
+        'owner.sellerId': sellerId,
+        _id: productId,
+      })
+      .lean();
+  }
+
+  /**
+   *
+   * @param sellerId
+   * @param id
+   * @returns
+   */
+  async delete(sellerId: string, id: string) {
+    return await this.productModel.deleteOne({
+      'owner.sellerId': sellerId,
+      id,
+    });
+  }
+  /**
+   *
+   * @param id
+   * @param sku
+   * @returns
+   */
+  async getVariant(id: string, sku: string) {
+    const productVariant = await this.productModel
+      .findById(id)
+      .select('variants id')
+      .lean<ProductVariant[]>();
+    if (!productVariant) return [];
+    return productVariant.find((f) => f.sku === sku);
   }
 }

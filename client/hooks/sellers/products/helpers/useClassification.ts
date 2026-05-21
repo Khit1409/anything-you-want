@@ -29,7 +29,7 @@ export default function useClassification() {
       const newCount = [...(prev ?? [])];
       const foundIndex = newCount.findIndex((c) => c.parentIndex === index);
       if (foundIndex != -1) {
-        newCount[foundIndex].size = maxIndex + 1;
+        newCount[foundIndex].size = maxIndex == 0 ? maxIndex + 2 : maxIndex + 1;
       } else {
         newCount.push({ parentIndex: index, size: 1 });
       }

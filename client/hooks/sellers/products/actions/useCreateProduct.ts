@@ -1,29 +1,20 @@
-import { getCategoryService } from "@/api/category.api";
 import { createProductService } from "@/api/product.api";
 
 import { openModal } from "@/redux/slice/app.slice";
 import { ModalState } from "@/redux/state/app.state";
 import { AppDispatch } from "@/redux/store";
-import { useQuery } from "@tanstack/react-query";
 
 import { useDispatch } from "react-redux";
-import useProductInfo from "./useProductInfo";
-import useClassification from "./useClassification";
-import useImages from "./useImages";
-import useShipping from "./useShipping";
+import useProductInfo from "../helpers/useProductInfo";
+import useClassification from "../helpers/useClassification";
+import useImages from "../helpers/useImages";
+import useShipping from "../helpers/useShipping";
+import useSellerCreateProductQueries from "../queries/useSellerCreateProductQueries";
 
 export default function useCreateProduct() {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { data = { categories: [] } } = useQuery({
-    queryKey: ["category"],
-    queryFn: async () => {
-      const [categories] = await Promise.all([getCategoryService()]); // có thể gọi thêm 1 số api khác kết hợp
-      return { categories };
-    },
-  });
-
-  const { categories } = data;
+  const { categories } = useSellerCreateProductQueries();
 
   const productInfoHook = useProductInfo();
   const classificationHook = useClassification();

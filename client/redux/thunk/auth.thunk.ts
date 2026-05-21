@@ -4,7 +4,7 @@ import {
   LoginResponse,
   loginService,
 } from "@/api/auth.api";
-import { AuthenticationResponse } from "@/interfaces/common/auth.interface";
+import { AuthenticationResponse } from "@/interfaces/auth.interface";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 /**
  *

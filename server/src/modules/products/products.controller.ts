@@ -124,7 +124,6 @@ export class ProductController {
 
       return await this.productService.createProduct(dto, owner);
     } catch (error) {
-      console.log(error);
       throw new InternalServerErrorException({
         success: false,
         message: JSON.stringify(error),

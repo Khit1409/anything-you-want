@@ -87,8 +87,8 @@ export interface ProductInfo {
   sale: number;
   category: ProductCategory;
   description: string;
-  brand: string;
-  origin: string;
+  brand?: string;
+  origin?: string;
 }
 
 /**
@@ -101,6 +101,8 @@ export interface ProductClassificationValue {
   extraPrice: number;
 }
 
+export type ProductClassificationValues = Array<ProductClassificationValue>;
+
 /**
  * Classification của sản phẩm (ví dụ: Color, Size) gồm nhiều `values`.
  */
@@ -108,7 +110,7 @@ export interface ProductClassification {
   name: string;
   values: Array<ProductClassificationValue>;
 }
-
+export type ProductClassifications = Array<ProductClassification>;
 /**
  * Hình ảnh của sản phẩm: `thumbnail` và danh sách `details`.
  */
@@ -122,6 +124,8 @@ export interface ProductImages {
  */
 export interface ProductDetail extends ProductPreview {
   classification: Array<ProductClassification>;
+  createdAt: string;
+  updatedAt: string;
 }
 
 /**

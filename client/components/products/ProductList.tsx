@@ -8,15 +8,13 @@ import { getProductService } from "@/api/product.api";
 import { useQuery } from "@tanstack/react-query";
 import ProductPanigation from "./ProductPanigation";
 
-export default function ProductList({ role }: { role: Role }) {
+export default function ProductList() {
   const [page, setPage] = useState<number>(1);
 
   const { data = [], isLoading } = useQuery({
     queryKey: ["products", page],
     queryFn: () => {
-      if (role === "user") {
         return getProductService({ page });
-      }
     },
   });
 

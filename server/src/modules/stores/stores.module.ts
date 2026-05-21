@@ -11,6 +11,6 @@ import { DatabaseModule } from '@/src/database/database.module';
   imports: [TypeOrmModule.forFeature([Store, StoreInfo]), DatabaseModule],
   controllers: [StoreController],
   providers: [StoreService, StoreRepository],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, StoreService, StoreRepository],
 })
 export class StoreModule {}

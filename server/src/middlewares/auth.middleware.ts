@@ -38,7 +38,6 @@ export class AuthMiddleware implements NestMiddleware {
         role,
         email,
       };
-      console.log(req.user);
     } catch (error) {
       console.log('Auth middleware error: ', error);
     }

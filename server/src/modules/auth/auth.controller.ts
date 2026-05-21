@@ -19,6 +19,17 @@ import { authCookieConfig } from '@/src/lib/cookie.config';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  // ============================================================================
+  // LOGIN ENDPOINTS
+  // ============================================================================
+
+  /**
+   * Đăng nhập (hỗ trợ cả khách hàng và người bán)
+   * Endpoint sẽ gọi sellerLogin hoặc clientLogin dựa trên loginRole
+   * @param dto - Dữ liệu đăng nhập (emailAddress, currentPassword, loginRole)
+   * @param res - Response object để set cookie
+   * @returns Response chứa token, message, success, timestamp
+   */
   @HttpCode(200)
   @Post('login')
   async login(
@@ -31,31 +42,55 @@ export class AuthController {
       res.cookie('access_token', token, authCookieConfig);
       return { message, success, timestamp, data };
     }
+
     const result = await this.authService.clientLogin(dto);
     const { token, data, message, success, timestamp } = result;
     res.cookie('access_token', token, authCookieConfig);
     return { message, success, timestamp, data };
   }
+
+  // ============================================================================
+  // AUTHENTICATION ENDPOINTS
+  // ============================================================================
+
   /**
-   * @param role
-   * @param req
-   * @param res
-   * @returns
+   * Lấy thông tin xác thực hiện tại của người dùng
+   * Yêu cầu token hợp lệ trong cookies
+   * @param req - Request object chứa cookies và thông tin xác thực
+   * @returns Response chứa thông tin xác thực (uid, role, email)
    */
   @HttpCode(200)
   @Get('me')
   async auth(@Req() req: Request) {
-    //handle
     const result = await this.authService.clientAuth(req);
     const { message, success, data, timestamp } = result;
 
     return { message, success, timestamp, data };
   }
+
   /**
-   * @param role
-   * @param Res
-   * @param req
-   * @returns
+   * Kiểm tra dữ liệu xác thực từ request
+   * Debug endpoint để lấy dữ liệu xác thực từ middleware
+   * @param req - Request object
+   * @returns Dữ liệu xác thực hoặc thông báo không có dữ liệu
+   */
+  @Get('')
+  checkAuthenticationData(req: Request) {
+    const logData = req.user;
+    return logData ?? 'Không có dữ liệu xác thực!';
+  }
+
+  // ============================================================================
+  // LOGOUT ENDPOINTS
+  // ============================================================================
+
+  /**
+   * Đăng xuất người dùng
+   * Xóa token từ cookies
+   * @param req - Request object chứa cookies
+   * @param res - Response object để xóa cookie
+   * @returns Response thông báo đăng xuất thành công
+   * @throws UnauthorizedException nếu token không tồn tại
    */
   @HttpCode(200)
   @Post('logout')
@@ -71,7 +106,7 @@ export class AuthController {
 
     if (!access_token) {
       throw new UnauthorizedException({
-        message: 'Not existing your token in cookies!',
+        message: 'Token không tồn tại trong cookies!',
         success: false,
         timestamp: new Date(),
       });
@@ -80,15 +115,9 @@ export class AuthController {
     res.clearCookie('access_token', authCookieConfig);
 
     return {
-      message: 'Logout is successfully!',
+      message: 'Đăng xuất thành công!',
       success: true,
       timestamp: new Date(),
     };
-  }
-  @Get('')
-  checkAuthenticationData(req: Request) {
-    const logData = req.user;
-
-    return logData ?? 'No data existing!';
   }
 }

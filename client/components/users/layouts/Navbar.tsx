@@ -15,20 +15,16 @@ import {
   faUser,
   faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import { logoutService } from "@/api/auth.api";
-import { authThunk } from "@/redux/thunk/auth.thunk";
 
 import useTheme from "@/hooks/common/useTheme";
+import useLogout from "@/hooks/common/useLogout";
 
 export default function Navbar() {
   const { isLoggedIn, loading, authData } = useSelector(
     (state: RootState) => state.auth
   );
-  const dispatch = useDispatch<AppDispatch>();
-  const logout = async () => {
-    const res = await logoutService();
-    if (res.success) dispatch(authThunk());
-  };
+
+  const { handleLogout } = useLogout();
 
   const { changeTheme, themeButtonIcon, themeButtonTitle } = useTheme();
 
@@ -101,7 +97,7 @@ export default function Navbar() {
                 </div>
               ) : isLoggedIn ? (
                 <button
-                  onClick={logout}
+                  onClick={() => handleLogout()}
                   className="p-2 rounded-lg text-(--text) hover:text-red-600 hover:bg-red-50 transition-all duration-200"
                   title="Logout"
                 >

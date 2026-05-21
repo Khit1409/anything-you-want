@@ -19,6 +19,11 @@ export const SELLER_NAV = [
     icon: "boxOpen",
     childs: [
       {
+        name: "Your Product",
+        icon: "receipt",
+        url: "",
+      },
+      {
         name: "Create Product",
         url: "create",
         icon: "squarePlus",

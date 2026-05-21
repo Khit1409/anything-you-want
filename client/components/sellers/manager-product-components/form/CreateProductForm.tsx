@@ -1,10 +1,10 @@
-import useCreateProduct from "@/hooks/sellers/useCreateProduct";
 import CategorySection from "./CategorySection";
 import ProductInfoSection from "./ProductInfoSection";
 import ClassificationsSection from "./ClassificationsSection";
 import ShippingSection from "./ShippingSection";
 import ActionButtons from "./ActionButtons";
 import ImageSection from "./ImageSection";
+import { useCreateProduct } from "@/hooks/sellers";
 
 export default function CreateProductForm() {
   const {
@@ -30,7 +30,7 @@ export default function CreateProductForm() {
   } = useCreateProduct();
 
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4">
+    <div className="mx-auto px-4 h-(--h-seller)">
       <CategorySection
         categories={categories}
         onchangeProductInfo={onchangeProductInfo}
@@ -60,7 +60,6 @@ export default function CreateProductForm() {
         shipping={shipping}
         onchangeShipping={onchangeShipping}
       />
-
       <ActionButtons onCancel={() => {}} onSave={() => createProduct()} />
     </div>
   );

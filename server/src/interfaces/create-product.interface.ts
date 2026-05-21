@@ -9,7 +9,6 @@ export interface CreateProductInfo {
 }
 export interface CreateProductClassificationValue {
   name: string;
-  stock: number;
   extraPrice: number;
   img?: string;
 }
@@ -27,7 +26,7 @@ export interface CreateProductImage {
 }
 export interface CreateProduct {
   info: CreateProductInfo;
-  classification: Array<CreateProductClassification>;
+  classifications: Array<CreateProductClassification>;
   shipping: CreateProductShipping;
   images: CreateProductImage;
 }

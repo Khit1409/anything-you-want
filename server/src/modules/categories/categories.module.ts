@@ -14,5 +14,6 @@ import { HttpResponse } from '@/src/helpers/httpResponse';
   ],
   controllers: [CategoryController],
   providers: [CategoryService, CategoryRepository, HttpResponse],
+  exports: [CategoryService, CategoryRepository],
 })
 export class CategoryModule {}

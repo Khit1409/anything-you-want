@@ -1,7 +1,3 @@
-:root {}
-
-.dark {}
-
 .login-bg-img {
     background-image: url('/assets/images/login-background.jpg');
     background-size: cover;

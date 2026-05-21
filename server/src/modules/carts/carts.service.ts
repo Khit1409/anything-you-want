@@ -18,7 +18,6 @@ import { Cart } from './schemas/carts.schema';
 import { HydratedDocument } from 'mongoose';
 import { Product } from '../products/schemas/products.schema';
 import { plainToInstance } from 'class-transformer';
-import { CartClassification } from './schemas/cart-classification.schema';
 import { CartInfo } from './schemas/cart-info.schema';
 
 @Injectable()
@@ -29,52 +28,44 @@ export class CartService {
     private readonly httpHelper: HttpResponse,
   ) {}
 
-  caculatorCartTotalPrice(
+  // ============================================================================
+  // HELPER / UTILITY METHODS
+  // ============================================================================
+
+  /**
+   * Tính toán tổng giá của sản phẩm trong giỏ hàng
+   * Công thức: (giá gốc - giảm giá) * số lượng + giá thêm biến thể
+   * @param originPrice - Giá gốc của sản phẩm
+   * @param sale - Phần trăm giảm giá (0-100)
+   * @param quantity - Số lượng sản phẩm
+   * @param variantPrice - Giá thêm của biến thể
+   * @returns Tổng giá sau khi tính toán
+   */
+  calculateCartTotalPrice(
     originPrice: number,
     sale: number,
     quantity: number,
-    classification: CartClassification[],
-  ) {
-    const totalExtraPrice = classification.reduce((sum, acc) => {
-      acc.values.forEach((value) => {
-        console.log({
-          chosen: value.choosen,
-          extraPrice: value.extraPrice,
-          type: typeof value.extraPrice,
-          sumBefore: sum,
-        });
-
-        if (value.choosen) {
-          sum += Number(value.extraPrice);
-        }
-
-        console.log('after', sum);
-      });
-
-      return sum;
-    }, 0);
-
-    console.log({
-      originPrice,
-      sale,
-      quantity,
-      totalExtraPrice,
-    });
-
+    variantPrice: number,
+  ): number {
     const finalPrice = originPrice - originPrice * (sale / 100);
-    return finalPrice * quantity + totalExtraPrice;
+    return finalPrice * quantity + variantPrice;
   }
+
+  // ============================================================================
+  // CREATE OPERATIONS
+  // ============================================================================
+
   /**
-   *
-   * @param dto
-   * @param req
-   * @returns
+   * Thêm sản phẩm vào giỏ hàng
+   * Nếu sản phẩm đã có trong giỏ, sẽ cập nhật thay vì thêm mới
+   * @param dto - Dữ liệu yêu cầu chứa productId, variant, quantity
+   * @param userId - ID của người dùng
+   * @returns Response thông báo thành công
+   * @throws UnauthorizedException nếu sản phẩm không tồn tại hoặc bị xóa
+   * @throws BadRequestException nếu biến thể không tồn tại hoặc không thể tạo giỏ
    */
   async addToCart(dto: CartRequestDto, userId: string) {
-    /**
-     * Check existing product and existing cart
-     * if existing this cart with user
-     */
+    // Kiểm tra sản phẩm có tồn tại không
     const product = await this.productRepository.getProductDetail(
       dto.productId,
     );
@@ -85,82 +76,37 @@ export class CartService {
       );
     }
 
+    // Kiểm tra giỏ hàng hiện tại đã có sản phẩm này chưa
     const existing = await this.repository.getByProductId(
       dto.productId,
       userId,
     );
 
+    // Nếu có rồi, cập nhật thay vì thêm mới
     if (existing) {
       return await this.updateCart(dto, existing, product);
     }
 
-    if (
-      dto.classification.length == 0 ||
-      dto.classification.length != product.classification.length
-    ) {
+    // Kiểm tra biến thể của sản phẩm có tồn tại không
+    const variant = product.variants.find((f) => f.sku === dto.variant);
+    if (!variant) {
       throw new BadRequestException(
-        'Product has more classification than request sended, please check selected classification!',
-      );
-    }
-    /**
-     * Thay vì tốn thời gian để đọc và tối ưu hàm này tôi nghĩ bạn nên dùng thời gian đó để viết 1 hàm mới dễ nhìn hơn, chân thành cảm ơn
-     * Nội dung đoạn reduce là tạo 1 classification cho cart thông qua các request trong classification, chọn lựa các value đã được
-     * user chọn để thêm property choosen:true vào
-     */
-    if (product.classification.length != dto.classification.length) {
-      throw new BadRequestException(
-        'Lenght of classification in request is not match with lenght of product classification in database!',
-      );
-    }
-    /**
-     * Chuyển các classification value của product có classification name bằng với classification name từ client
-     * gửi lên, thêm thuộc tính choosen true hoặc false tương ứng với các value được chọn từ client.
-     */
-    const cartClassification: CartClassification[] = [];
-
-    dto.classification.forEach((classificationDto) => {
-      const productClassifiNeed = product.classification.find(
-        (classifi) => classifi.name === classificationDto.name,
-      );
-      if (!productClassifiNeed) {
-        throw new UnauthorizedException(
-          'Classification name form request is not found in product classfication!',
-        );
-      }
-      cartClassification.push({
-        name: productClassifiNeed.name,
-        values: productClassifiNeed.values.map((clsvl) =>
-          clsvl.name === classificationDto.values.name
-            ? { ...clsvl, choosen: true }
-            : { ...clsvl, choosen: false },
-        ),
-      });
-    });
-
-    if (
-      cartClassification.length === 0 ||
-      cartClassification.length != product.classification.length
-    ) {
-      throw new BadRequestException(
-        'Proccess handle output data for cart classifications is error because length of output is zero or length not match with product classification length!',
+        this.httpHelper.error('Không tìm thấy biến thể của sản phẩm!'),
       );
     }
 
     const { brand, category, description, name, origin, price, sale } =
       product.info;
-    /**
-     * caculator price for cart.
-     */
 
-    const totalPrice = this.caculatorCartTotalPrice(
+    // Tính toán giá giỏ hàng
+    const totalPrice = this.calculateCartTotalPrice(
       price,
       sale,
       dto.quantity,
-      cartClassification,
+      variant.extraPrice,
     );
-    /**
-     * Format cart information.
-     */
+
+    // Định dạng thông tin giỏ hàng
     const cartInfoData: CartInfo = {
       brand,
       category,
@@ -174,12 +120,10 @@ export class CartService {
       totalPrice,
     };
 
-    /**
-     * Finished handle output data for cart.
-     */
+    // Chuẩn bị dữ liệu giỏ hàng
     const cartData: Cart = {
       info: cartInfoData,
-      classification: cartClassification,
+      variant,
       images: product.images,
       owner: { ...product.owner, userId },
       shipping: product.shipping,
@@ -190,12 +134,18 @@ export class CartService {
     if (!newCart) {
       throw new NotFoundException('Cart is can not created!');
     }
+
     return this.httpHelper.success('Cart is created!');
   }
 
+  // ============================================================================
+  // READ OPERATIONS
+  // ============================================================================
+
   /**
-   * get all cart of user id
-   * @param userId
+   * Lấy tất cả sản phẩm trong giỏ hàng của người dùng
+   * @param userId - ID của người dùng
+   * @returns Response chứa danh sách giỏ hàng (mảng rỗng nếu chưa có sản phẩm)
    */
   async getCart(userId: string): Promise<
     ResponseDto & {
@@ -208,102 +158,94 @@ export class CartService {
   }
 
   /**
-   *
+   * Lấy chi tiết một sản phẩm trong giỏ hàng
+   * @param id - ID của giỏ hàng
+   * @param userId - ID của người dùng (để đảm bảo quyền sở hữu)
+   * @returns Thông tin chi tiết giỏ hàng
    */
-  async getDetail(id: string, userId: string) {
+  async getDetail(
+    id: string,
+    userId: string,
+  ): Promise<HydratedDocument<Cart> | null> {
     return await this.repository.getOne(id, userId);
   }
+
+  // ============================================================================
+  // UPDATE OPERATIONS
+  // ============================================================================
+
   /**
-   * cập nhật giỏ hàng khi người dùng thay đổi 1 số thuộc tính của giỏ hàng có sẵn của
-   * giỏ hàng đã được thêm trước đó
-   * @param dto
-   * @param cartModel
-   * @param product
+   * Cập nhật thông tin giỏ hàng (số lượng, biến thể)
+   * Tính toán lại tổng giá dựa trên thông tin mới
+   * @param dto - Dữ liệu cập nhật (variant, quantity)
+   * @param cartModel - Document giỏ hàng cần cập nhật
+   * @param product - Thông tin sản phẩm để lấy chi tiết biến thể
+   * @returns Response thông báo cập nhật thành công
+   * @throws BadRequestException nếu biến thể không tồn tại hoặc cập nhật thất bại
    */
   async updateCart(
     dto: CartUpdateRequestDto,
     cartModel: HydratedDocument<Cart>,
     product: Product,
   ) {
-    const { classification, quantity } = dto;
-    if (classification) {
-      let cartClassification = [...cartModel.classification];
+    const { variant, quantity } = dto;
 
-      classification.forEach((classificationDto) => {
-        cartClassification = cartClassification.map((cartClassification) =>
-          cartClassification.name === classificationDto.name
-            ? {
-                ...cartClassification,
-                values: cartClassification.values.map(
-                  (cartClassificationValue) =>
-                    cartClassificationValue.name ===
-                    classificationDto.values.name
-                      ? {
-                          name: cartClassificationValue.name,
-                          extraPrice: cartClassificationValue.extraPrice,
-                          stock: cartClassificationValue.stock,
-                          img: cartClassificationValue.img,
-                          choosen: true,
-                        }
-                      : {
-                          name: cartClassificationValue.name,
-                          extraPrice: cartClassificationValue.extraPrice,
-                          stock: cartClassificationValue.stock,
-                          img: cartClassificationValue.img,
-                          choosen: false,
-                        },
-                ),
-              }
-            : cartClassification,
-        );
-      });
+    // Sử dụng số lượng mới hoặc giữ nguyên nếu không cập nhật
+    const newQuantity = quantity ?? cartModel.info.quantity;
 
-      if (
-        cartClassification.length !== product.classification.length ||
-        cartClassification.length == 0
-      ) {
-        throw new BadRequestException(
-          'Proccess handle output data for cart classifications is error because length of output is zero or length not match with product classification length!',
-        );
+    // Xác định biến thể mới
+    const newVariant = () => {
+      if (variant) {
+        const productVariant = product.variants.find((f) => f.sku === variant);
+        if (!productVariant) {
+          throw new BadRequestException(
+            this.httpHelper.error('Biến thể sản phẩm không tồn tại!'),
+          );
+        }
+        return productVariant;
       }
-      if (!quantity) {
-        const { originPrice, sale, quantity } = cartModel.info;
-        cartModel.info.totalPrice = this.caculatorCartTotalPrice(
-          originPrice,
-          sale,
-          quantity,
-          cartClassification,
-        );
-      }
-      cartModel.classification = cartClassification;
-    }
+      return cartModel.variant;
+    };
 
-    if (quantity) {
-      const { price, sale } = product.info;
-      cartModel.info.quantity = quantity;
-      cartModel.info.totalPrice = this.caculatorCartTotalPrice(
-        price,
-        sale,
-        quantity,
-        cartModel.classification,
-      );
-    }
+    const newCartVariant = newVariant();
+    const { originPrice, sale } = cartModel.info;
+
+    // Cập nhật tổng giá
+    cartModel.info.totalPrice = this.calculateCartTotalPrice(
+      originPrice,
+      sale,
+      newQuantity,
+      newCartVariant.extraPrice,
+    );
+
+    cartModel.variant = newCartVariant;
+    cartModel.info.quantity = newQuantity;
 
     const updated = await cartModel.save();
 
     if (!updated) {
       throw new BadRequestException('Updated cart failed');
     }
+
     return this.httpHelper.success('carts is updated!');
   }
+
   /**
-   * Cập nhật giỏ hàng cụ thể qua id trong param request.
-   * @param id
-   * @param uid
-   * @param dto
+   * Cập nhật giỏ hàng cụ thể qua ID
+   * Lấy thông tin giỏ hàng, xác thực quyền sở hữu, sau đó cập nhật
+   * @param id - ID của giỏ hàng cần cập nhật
+   * @param userId - ID của người dùng (xác thực quyền sở hữu)
+   * @param dto - Dữ liệu cập nhật (variant, quantity)
+   * @returns Response thông báo cập nhật thành công
+   * @throws UnauthorizedException nếu người dùng không sở hữu giỏ hàng
+   * @throws BadRequestException nếu sản phẩm không tồn tại
    */
-  async updateCartDetail(id: string, uid: string, dto: CartUpdateRequestDto) {
-    const cartModel = await this.getDetail(id, uid);
+  async updateCartDetail(
+    id: string,
+    userId: string,
+    dto: CartUpdateRequestDto,
+  ) {
+    const cartModel = await this.getDetail(id, userId);
 
     if (!cartModel) {
       throw new UnauthorizedException('Cart is not define!');
@@ -312,23 +254,34 @@ export class CartService {
     const product = await this.productRepository.getProductDetail(
       cartModel.info.productId,
     );
+
     if (!product) {
       throw new BadRequestException('Product is not found!');
     }
+
     return await this.updateCart(dto, cartModel, product);
   }
+
+  // ============================================================================
+  // DELETE OPERATIONS
+  // ============================================================================
+
   /**
-   * xóa giỏ hàng bằng id và id người dùng.
-   * @param id
-   * @param uid
+   * Xóa một sản phẩm khỏi giỏ hàng
+   * @param id - ID của giỏ hàng cần xóa
+   * @param userId - ID của người dùng (xác thực quyền sở hữu)
+   * @returns Response thông báo xóa thành công
+   * @throws BadRequestException nếu xóa thất bại
    */
-  async deleteCart(id: string, uid: string) {
-    const result = await this.repository.delete(id, uid);
+  async deleteCart(id: string, userId: string) {
+    const result = await this.repository.delete(id, userId);
+
     if (!result) {
       throw new BadRequestException(
         this.httpHelper.error('Cant not delete this cart!'),
       );
     }
+
     return this.httpHelper.success('Delete this cart is successfully!');
   }
 }

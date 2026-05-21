@@ -5,9 +5,9 @@ import SectionShowDataLoading from "@/components/common/SectionShowDataLoading";
 import ProductImage from "@/components/products/ProductImage";
 import ProductInformation from "@/components/products/ProductInformation";
 import ProductRelated from "@/components/products/ProductRelated";
-import useProductDetail from "@/hooks/products/useProductDetail";
 import ProductClassification from "@/components/products/ProductClassificationPreview";
 import ProductAction from "@/components/products/ProductAction";
+import useProductDetailActions from "@/hooks/products/actions/useProductDetailActions";
 
 export default function ProductDetailPage() {
   const {
@@ -23,7 +23,7 @@ export default function ProductDetailPage() {
     addToCartHandle,
     setQuantity,
     getMaxQuantity,
-  } = useProductDetail();
+  } = useProductDetailActions();
 
   if (isLoading) return <SectionShowDataLoading />;
   if (!isLoading && !product) return <NotFoundProduct />;

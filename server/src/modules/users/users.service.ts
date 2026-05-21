@@ -13,17 +13,24 @@ export class UserService {
     private readonly repository: UserRepository,
     private readonly httpHelper: HttpResponse,
   ) {}
+
+  // ============================================================================
+  // CREATE OPERATIONS
+  // ============================================================================
+
   /**
-   * Lấy thông tin người dùng
-   * @param dto
-   * @returns
+   * Đăng ký tài khoản người dùng mới
+   * @param dto - Dữ liệu đăng ký (email, mật khẩu, thông tin cá nhân)
+   * @returns Response thông báo đăng ký thành công
+   * @throws BadRequestException nếu ngày sinh không hợp lệ hoặc email đã tồn tại
+   * @throws NotFoundException nếu không thể tạo người dùng
    */
   async register(dto: RegisterUserAccountRequestDto) {
     const dob = new Date(dto.dateOfBirth);
 
     if (isNaN(dob.getTime())) {
       throw new BadRequestException(
-        this.httpHelper.error('Can not format this date time!'),
+        this.httpHelper.error('Không thể định dạng ngày tháng này!'),
       );
     }
 
@@ -31,7 +38,7 @@ export class UserService {
 
     if (existing) {
       throw new BadRequestException(
-        this.httpHelper.error('existing this email!'),
+        this.httpHelper.error('Email này đã được sử dụng!'),
       );
     }
 
@@ -39,34 +46,45 @@ export class UserService {
 
     if (!created) {
       throw new NotFoundException(
-        this.httpHelper.error('Cant create new user!'),
+        this.httpHelper.error('Không thể tạo người dùng mới!'),
       );
     }
-    return this.httpHelper.success('REGISTER SUCCESSFULLY!');
+
+    return this.httpHelper.success('Đăng ký thành công!');
   }
+
+  // ============================================================================
+  // READ OPERATIONS
+  // ============================================================================
+
   /**
-   * Lấy thông tin người dùng
-   * @param id
-   * @returns
+   * Lấy thông tin hồ sơ người dùng
+   * Bao gồm địa chỉ, số điện thoại, và thông tin cá nhân
+   * @param id - ID của người dùng
+   * @returns Response chứa thông tin hồ sơ người dùng (định dạng ngày dd/mm/yyyy)
+   * @throws UnauthorizedException nếu thông tin người dùng không tồn tại
    */
   async getInfo(id: string) {
     const data = await this.repository.getInfo(id);
+
     if (!data) {
       throw new UnauthorizedException(
-        this.httpHelper.error('This user info is undefine'),
+        this.httpHelper.error('Thông tin người dùng không tồn tại!'),
       );
     }
+
     const { addresses, phones, info } = data;
     const formatedData = {
       addresses,
       phones,
       info: {
         ...info,
-        dateOfBirth: info.dateOfBirth.toString().split('-').reverse().join('-'), //đảo ngược chuỗi thành dd/mm/yyyy
+        dateOfBirth: info.dateOfBirth.toString().split('-').reverse().join('-'), // Chuyển từ yyyy-mm-dd -> dd-mm-yyyy
       },
     };
+
     return this.httpHelper.success(
-      'User information is ready using!',
+      'Thông tin người dùng đã sẵn sàng sử dụng!',
       formatedData,
     );
   }

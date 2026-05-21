@@ -1,254 +1,128 @@
-[
-  {
-    "info": {
-      "name": "name 1",
-      "description": "description",
-      "price": 275000,
-      "sale": 1,
-      "category": {
-        "id": "",
-        "name": ""
-      },
-      "brand": "Generic Brand",
-      "origin": "Viet Nam"
-    },
-    "owner": {
-      "sellerId": "415de432-f0ac-42be-8783-6b424aadb06e",
-      "storeId": "stored-id-1"
-    },
-    "images": {
-      "thumbnail": "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
-      "details": [
-        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
-        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
-        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
-      ]
-    },
-    "tags": ["#tag1", "#ecommerce", "#sample"],
-    "classification": [
-      {
-        "name": "color",
-        "values": [
-          {
-            "name": "White",
-            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
-            "stock": 40,
-            "extraPrice": 10000
-          },
-          {
-            "name": "Yellow",
-            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
-            "stock": 50,
-            "extraPrice": 10000
-          },
-          {
-            "name": "Red",
-            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
-            "stock": 50,
-            "extraPrice": 10000
-          }
-        ]
-      },
-      {
-        "name": "size",
-        "values": [
-          {
-            "name": "39",
-            "extraPrice": 10000,
-            "img": "",
-            "stock": 50
-          },
-          {
-            "name": "40",
-            "extraPrice": 10000,
-            "img": "",
-            "stock": 50
-          },
-          {
-            "name": "41",
-            "extraPrice": 10000,
-            "img": "",
-            "stock": 50
-          }
-        ]
-      }
-    ],
-    "shipping": {
-      "flash": true,
-      "normal": true
-    },
-    "ratingSumary": {
-      "avg": 5,
-      "total": 3
-    },
-    "status": "active"
+{
+  "_id": {
+    "$oid": "6a0f2e32d6a320f9c6ecf797"
   },
-  {
-    "info": {
-      "name": "name 2",
-      "description": "description",
-      "price": 275000,
-      "sale": 1,
-      "category": {
-        "id": "",
-        "name": ""
-      },
-      "brand": "Generic Brand",
-      "origin": "Viet Nam"
+  "info": {
+    "name": "Giò bẫy gà rừng, giò đón và giò đá, chất liệu cáp lụa thái dây dù siêu bền ,phù hợp anh em đam mê gà rừng",
+    "description": "Giò bẫy gà rừng, giò đón và giò đá, phù hợp anh em đam mê gà rừng",
+    "price": "0",
+    "sale": "0",
+    "category": {
+      "id": "69ec6c52a897a2040199d4dc",
+      "name": "Shoes"
     },
-    "owner": {
-      "sellerId": "415de432-f0ac-42be-8783-6b424aadb06e",
-      "storeId": "stored-id-1"
-    },
-    "images": {
-      "thumbnail": "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
-      "details": [
-        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
-        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
-        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
-      ]
-    },
-    "tags": ["#tag1", "#ecommerce", "#sample"],
-    "classification": [
-      {
-        "name": "color",
-        "values": [
-          {
-            "name": "White",
-            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
-            "stock": 50,
-            "extraPrice": 10000
-          },
-          {
-            "name": "Yellow",
-            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
-            "stock": 50,
-            "extraPrice": 10000
-          },
-          {
-            "name": "Red",
-            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
-            "stock": 50,
-            "extraPrice": 10000
-          }
-        ]
-      },
-      {
-        "name": "size",
-        "values": [
-          {
-            "name": "39",
-            "extraPrice": 10000,
-            "img": "",
-            "stock": 50
-          },
-          {
-            "name": "40",
-            "extraPrice": 10000,
-            "img": "",
-            "stock": 50
-          },
-          {
-            "name": "41",
-            "extraPrice": 10000,
-            "img": "",
-            "stock": 50
-          }
-        ]
-      }
-    ],
-    "shipping": {
-      "flash": true,
-      "normal": true
-    },
-    "ratingSumary": {
-      "avg": 5,
-      "total": 3
-    },
-    "status": "active"
+    "brand": "",
+    "origin": "Viet Nam"
   },
-  {
-    "info": {
-      "name": "name 3",
-      "description": "description",
-      "price": 275000,
-      "sale": 1,
-      "category": {
-        "id": "",
-        "name": ""
-      },
-      "brand": "Generic Brand",
-      "origin": "Viet Nam"
-    },
-    "owner": {
-      "sellerId": "415de432-f0ac-42be-8783-6b424aadb06e",
-      "storeId": "stored-id-1"
-    },
-    "images": {
-      "thumbnail": "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
-      "details": [
-        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
-        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
-        "https://images.unsplash.com/photo-1595341888016-a392ef81b7de"
+  "owner": {
+    "sellerId": "f63f0321-ceb9-4b0b-8b54-f4104f856fb0",
+    "storeId": "ab043fb4-9ebf-4f4b-b0e1-c67dc2bd4836"
+  },
+  "images": {
+    "thumbnail": "ok.jpg",
+    "details": ["kid.jpg"]
+  },
+  "tags": [
+    "#gio-bay-ga-rung",
+    "#gio-don-va-gio-da",
+    "#chat-lieu-cap-lua-thai-day-du-sieu-ben",
+    "#phu-hop-anh-em-dam-me-ga-rung"
+  ],
+  "classifications": [
+    {
+      "name": "Loại giò",
+      "values": [
+        {
+          "name": "Giò đón",
+          "extraPrice": 1000,
+          "img": ""
+        },
+        {
+          "name": "Giò đá",
+          "extraPrice": 2000,
+          "img": ""
+        }
       ]
     },
-    "tags": ["#tag1", "#ecommerce", "#sample"],
-    "classification": [
-      {
-        "name": "color",
-        "values": [
-          {
-            "name": "White",
-            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
-            "stock": 50,
-            "extraPrice": 10000
-          },
-          {
-            "name": "Yellow",
-            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
-            "stock": 50,
-            "extraPrice": 10000
-          },
-          {
-            "name": "Red",
-            "img": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de",
-            "stock": 50,
-            "extraPrice": 10000
-          }
-        ]
+    {
+      "name": "Chân giò",
+      "values": [
+        {
+          "name": "Chân đồng",
+          "extraPrice": 1000,
+          "img": ""
+        },
+        {
+          "name": "Giò thép",
+          "extraPrice": 2000,
+          "img": ""
+        }
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "sku": "ST-Giò đón-Chân đồng-1",
+      "extraPrice": 2000,
+      "stock": 0,
+      "options": {
+        "Loại giò": "Giò đón",
+        "Chân giò": "Chân đồng"
       },
-      {
-        "name": "size",
-        "values": [
-          {
-            "name": "39",
-            "extraPrice": 10000,
-            "img": "",
-            "stock": 50
-          },
-          {
-            "name": "40",
-            "extraPrice": 10000,
-            "img": "",
-            "stock": 50
-          },
-          {
-            "name": "41",
-            "extraPrice": 10000,
-            "img": "",
-            "stock": 50
-          }
-        ]
+      "_id": {
+        "$oid": "6a0f2e32d6a320f9c6ecf798"
       }
-    ],
-    "shipping": {
-      "flash": true,
-      "normal": true
     },
-    "ratingSumary": {
-      "avg": 5,
-      "total": 3
+    {
+      "sku": "ST-Giò đá-Chân đồng-2",
+      "extraPrice": 3000,
+      "stock": 0,
+      "options": {
+        "Loại giò": "Giò đá",
+        "Chân giò": "Chân đồng"
+      },
+      "_id": {
+        "$oid": "6a0f2e32d6a320f9c6ecf799"
+      }
     },
-    "status": "active"
+    {
+      "sku": "ST-Giò đón-Giò thép-1",
+      "extraPrice": 3000,
+      "stock": 0,
+      "options": {
+        "Loại giò": "Giò đón",
+        "Chân giò": "Giò thép"
+      },
+      "_id": {
+        "$oid": "6a0f2e32d6a320f9c6ecf79a"
+      }
+    },
+    {
+      "sku": "ST-Giò đá-Giò thép-2",
+      "extraPrice": 4000,
+      "stock": 0,
+      "options": {
+        "Loại giò": "Giò đá",
+        "Chân giò": "Giò thép"
+      },
+      "_id": {
+        "$oid": "6a0f2e32d6a320f9c6ecf79b"
+      }
+    }
+  ],
+  "shipping": {
+    "flash": true,
+    "normal": true
+  },
+  "ratingSumary": {
+    "avg": 5,
+    "total": 0
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-05-21T16:09:22.670Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-21T16:09:22.670Z"
   }
-]
+}

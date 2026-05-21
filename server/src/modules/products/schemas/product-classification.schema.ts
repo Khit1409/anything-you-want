@@ -5,10 +5,8 @@ export class ProductClassificationValue {
   @Prop({ type: String, required: true })
   name: string;
   @Prop({ type: Number, required: true })
-  stock: number;
-  @Prop({ type: Number, required: true })
   extraPrice: number;
-  @Prop({ type: String, required: false })
+  @Prop({ type: String, required: false, default: '' })
   img?: string;
 }
 
