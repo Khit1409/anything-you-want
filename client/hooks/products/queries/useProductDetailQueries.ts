@@ -11,7 +11,7 @@ export default function useProductDetailQueries() {
   const params: { id: string } | null = useParams();
   const id = params?.id;
   const {
-    data = { product: null, related: [] },
+    data = { product: null, relateds: [] },
     error,
     isLoading,
   } = useQuery({
@@ -22,7 +22,7 @@ export default function useProductDetailQueries() {
     enabled: !!id,
   });
 
-  const { product, related } = data;
+  const { product, relateds } = data;
 
-  return { product, related, error, isLoading };
+  return { product, relateds, error, isLoading };
 }

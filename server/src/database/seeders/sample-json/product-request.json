@@ -1,38 +1,54 @@
 {
   "info": {
-    "name": "Giò bẫy gà rừng, giò đón và giò đá, chất liệu cáp lụa thái dây dù siêu bền ,phù hợp anh em đam mê gà rừng",
-    "price": 0,
+    "name": "Áo Thun Nam 2026",
+    "price": 1000000,
     "sale": 0,
-    "category": "id",
-    "brand": "",
-    "origin": "Viet Nam",
-    "description": "Giò bẫy gà rừng, giò đón và giò đá, phù hợp anh em đam mê gà rừng"
+    "category": "69ec6c52a897a2040199d4dd",
+    "description": "Áo Thun Nam 2026",
+    "brand": "Adiass",
+    "origin": "Vietnam"
   },
-  "classification": [
+  "classifications": [
     {
-      "name": "Loại giò",
+      "name": "Màu",
       "values": [
         {
-          "name": "Giò đón",
-          "extraPrice": 1000,
-          "stock": 100,
-          "img": ""
+          "name": "Đỏ",
+          "img": "https://res.cloudinary.com/dk9rtdomy/image/upload/v1779947035/images/szv3dastxv3h1mdcjh2m.png"
         },
         {
-          "name": "Giò đá",
-          "extraPrice": 2000,
-          "stock": 100,
-          "img": ""
+          "name": "Đen",
+          "img": "https://res.cloudinary.com/dk9rtdomy/image/upload/v1779947051/images/amasglxlwoceahcf0ipp.png"
+        },
+        { "name": "Trắng" },
+        {
+          "name": "Vàng",
+          "img": "https://res.cloudinary.com/dk9rtdomy/image/upload/v1779947076/images/ix44cuk5mci5oz4wftns.png"
+        },
+        {
+          "name": "Xám",
+          "img": "https://res.cloudinary.com/dk9rtdomy/image/upload/v1779947133/images/ruanrzyjqi1x9dk9oq5c.png"
+        }
+      ]
+    },
+    {
+      "name": "Size",
+      "values": [
+        {
+          "name": "M",
+          "img": "https://res.cloudinary.com/dk9rtdomy/image/upload/v1779947090/images/gtwnvu8hrznnorlvkt8g.png"
+        },
+        {
+          "name": "L",
+          "img": "https://res.cloudinary.com/dk9rtdomy/image/upload/v1779947101/images/nrin0nbztkalibqa3r7y.png"
+        },
+        {
+          "name": "XL",
+          "img": "https://res.cloudinary.com/dk9rtdomy/image/upload/v1779947114/images/vmuyydifovoxgvrdb774.png"
         }
       ]
     }
   ],
-  "shipping": {
-    "flash": true,
-    "normal": true
-  },
-  "images": {
-    "thumbnail": "",
-    "details": [""]
-  }
+  "images": { "thumbnail": "", "details": [] },
+  "shipping": { "flash": true, "normal": true }
 }

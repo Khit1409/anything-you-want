@@ -1,7 +1,7 @@
-import { IProductPreview } from "@/api/product.api";
+import { ProductVariants } from "@/interfaces";
 
-export interface IProductInitalState {
-  products: Array<IProductPreview>;
+export interface ProductInitialState {
   loading: boolean;
   error: string | null;
+  updateVariantData: ProductVariants;
 }

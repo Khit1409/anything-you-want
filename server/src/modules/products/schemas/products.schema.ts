@@ -21,6 +21,7 @@ export enum ProductStatus {
   collection: 'products',
   timestamps: true,
   versionKey: false,
+  strict: true,
 })
 export class Product {
   @Prop({ type: ProductInfo, required: true })
@@ -49,3 +50,4 @@ export class Product {
 }
 
 export const productSchema = SchemaFactory.createForClass(Product);
+export type ProductDocument = typeof Product;

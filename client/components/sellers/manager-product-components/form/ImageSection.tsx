@@ -1,27 +1,17 @@
-import { ModalActionPayload } from "@/redux/state/app.state";
+import useCreateProduct from "@/hooks/sellers/products/providers/useCreateProduct";
 
 import Image from "next/image";
 
-interface Props {
-  onchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  imagesSelected: { thumbnail?: File; details: File[] };
-  countImgDetailInput: number;
-  removeImageDetailInput: (index: number) => void;
-  addNewImageDetailInput: () => void;
-  uploadImage: () => Promise<{
-    payload: ModalActionPayload;
-    type: "app/openModal";
-  }>;
-}
-
-export default function ImageSection({
-  onchange,
-  imagesSelected,
-  countImgDetailInput,
-  removeImageDetailInput,
-  addNewImageDetailInput,
-  uploadImage,
-}: Props) {
+export default function ImageSection() {
+  const { helpers } = useCreateProduct();
+  const {
+    imageFile,
+    onchangeImages,
+    countImageDetailInput,
+    uploadImageFile,
+    removeImageDetailInput,
+    addNewImageDetailInput,
+  } = helpers;
   return (
     <div className="mb-6 bg-white dark:bg-gray-900 p-4 border border-gray-200 dark:border-gray-700">
       <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
@@ -35,7 +25,7 @@ export default function ImageSection({
         </label>
         <div className="flex items-start gap-3">
           {(() => {
-            const imgFile = imagesSelected.thumbnail;
+            const imgFile = imageFile.thumbnail;
             if (!imgFile) return null;
             const imgSrc = URL.createObjectURL(imgFile);
             return (
@@ -54,7 +44,7 @@ export default function ImageSection({
               name="thumbnail"
               id="thumbnail-input"
               className="block w-full text-xs file:mr-2 file:py-1 file:px-2 file:border file:border-gray-300 dark:file:border-gray-600 file:rounded file:text-xs file:bg-white dark:file:bg-gray-800 dark:file:text-gray-100"
-              onChange={(e) => onchange(e)}
+              onChange={(e) => onchangeImages(e)}
               accept="image/*"
             />
           </div>
@@ -67,13 +57,13 @@ export default function ImageSection({
           Ảnh chi tiết
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-4">
-          {Array.from({ length: countImgDetailInput }).map((_, index) => (
+          {Array.from({ length: countImageDetailInput }).map((_, index) => (
             <div
               key={index}
               className="p-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
             >
               {(() => {
-                const imgFile = imagesSelected.details[index];
+                const imgFile = imageFile.details[index];
                 if (!imgFile) return null;
                 const imgSrc = URL.createObjectURL(imgFile);
                 return (
@@ -93,7 +83,7 @@ export default function ImageSection({
                 data-img-index={index}
                 accept="image/*"
                 className="block w-full text-xs mb-2 file:py-1 file:px-1 file:text-xs file:border file:border-gray-300 dark:file:border-gray-600 file:rounded file:bg-white dark:file:bg-gray-700 dark:file:text-gray-100"
-                onChange={(e) => onchange(e)}
+                onChange={(e) => onchangeImages(e)}
               />
               <button
                 type="button"
@@ -118,7 +108,7 @@ export default function ImageSection({
         </button>
         <button
           type="button"
-          onClick={() => uploadImage()}
+          onClick={() => uploadImageFile()}
           className="flex-1 py-2 px-3 text-xs border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-50 dark:hover:bg-gray-800"
         >
           Tải ảnh

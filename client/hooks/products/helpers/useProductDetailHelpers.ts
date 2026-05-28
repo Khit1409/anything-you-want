@@ -1,5 +1,6 @@
 import { CartClassificationRequest } from "@/interfaces/cart.interface";
 import { ProductDetail } from "@/interfaces/product.interface";
+import { createObjectKey } from "@/lib/helper/strHelper";
 import { useState } from "react";
 
 /**
@@ -15,16 +16,17 @@ export default function useProductDetailHelpers(product: ProductDetail | null) {
   const [classificationSelected, setClassificationSelected] = useState<
     CartClassificationRequest[]
   >([]);
-
   /**
    * Calculate final price based on base price, sale percent and extra prices from classifications
    */
   const finalPrice = (price: number, sale: number) => {
-    const totalExtraPrice = classificationSelected.reduce(
-      (sum, item) => (sum += item.values.extraPrice),
-      0
-    );
-    return price - price * (sale / 100) + totalExtraPrice;
+    const finalPrice = price - minusSale(price, sale);
+    if (!product) return finalPrice;
+    const variantId = getVariantId();
+    if (!variantId) return finalPrice;
+    const variant = product.variants.find((f) => f.id === variantId);
+    if (!variant) return finalPrice;
+    return finalPrice + variant.extraPrice;
   };
 
   /**
@@ -34,12 +36,24 @@ export default function useProductDetailHelpers(product: ProductDetail | null) {
     if (classificationSelected.length == 0) {
       return 0;
     }
+    if (!product) return 0;
+    const variants = [...product.variants];
 
-    const maxQuantity = classificationSelected.reduce(
-      (min, selected) =>
-        selected.values.stock < min ? selected.values.stock : min,
-      classificationSelected[0].values.stock
+    const optionSelected: Record<string, string> = {};
+
+    classificationSelected.forEach((classification) => {
+      optionSelected[createObjectKey(classification.name)] =
+        classification.values.name;
+    });
+
+    const variantNeed = variants.find((variant) =>
+      Object.keys(optionSelected).every(
+        (key) => variant.options[key] === optionSelected[key]
+      )
     );
+    if (!variantNeed) return 0;
+
+    const maxQuantity = variantNeed.stock;
     return maxQuantity;
   };
 
@@ -70,7 +84,7 @@ export default function useProductDetailHelpers(product: ProductDetail | null) {
       return;
     }
 
-    const needClassifi = product.classification.find(
+    const needClassifi = product.classifications.find(
       (classifi) => classifi.name === name
     );
 
@@ -101,7 +115,31 @@ export default function useProductDetailHelpers(product: ProductDetail | null) {
     });
   };
 
+  /**
+   * Lấy id của variant để thực hiện thêm giỏ hàng
+   */
+  const getVariantId = () => {
+    if (!product) return;
+    const variants = [...product.variants];
+
+    const optionSelected: Record<string, string> = {};
+
+    classificationSelected.forEach((classification) => {
+      optionSelected[createObjectKey(classification.name)] =
+        classification.values.name;
+    });
+
+    const variantNeed = variants.find((variant) =>
+      Object.keys(optionSelected).every(
+        (key) => variant.options[key] === optionSelected[key]
+      )
+    );
+
+    return variantNeed?.id;
+  };
+
   return {
+    getVariantId,
     classificationSelected,
     finalPrice,
     getMaxQuantity,

@@ -1,6 +1,6 @@
 "use client";
 
-import useMangerProduct from "@/context/sellers/ManagerProductContext";
+import useMangerProduct from "@/contexts/sellers/ManagerProductContext";
 import ProductListRow from "./ProductListRow";
 
 export default function ProductListPreview() {

@@ -1,30 +1,48 @@
 import { Module } from '@nestjs/common';
-import { ProductController } from './products.controller';
+import { ProductController } from './controllers/products.controller';
 import { DatabaseModule } from '@/src/database/database.module';
-import { ProductService } from './products.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { productSchema } from './schemas/products.schema';
-import { HttpResponse } from '@/src/helpers/httpResponse';
-import { ProductRepository } from './products.repository';
-import { categorySchema } from '../categories/schemas/categories.schema';
 import { CategoryModule } from '../categories/categories.module';
 import { StoreModule } from '../stores/stores.module';
-import { UploadModule } from '../upload/upload.module';
-import { StrHellper } from '@/src/helpers/str.helper';
+import { UploadModule } from '../uploads/upload.module';
+import { ProductMapper } from './mappers/response.mapper';
+import { ProductRepository } from './repositories/products.repository';
+import { ProductSharedService } from './services/shared.service';
+import { HelperModule } from '../helpers/helper.module';
+import { CreateProductService } from './services/create.service';
+import { UpdateProductService } from './services/update.service';
+import { DeleteProductService } from './services/delete.service';
+import { ReadProductService } from './services/read.service';
 
 @Module({
   imports: [
     DatabaseModule,
-    MongooseModule.forFeature([
-      { name: 'Product', schema: productSchema },
-      { name: 'Category', schema: categorySchema },
-    ]),
+    MongooseModule.forFeature([{ name: 'Product', schema: productSchema }]),
     CategoryModule,
     StoreModule,
     UploadModule,
+    HelperModule,
   ],
   controllers: [ProductController],
-  providers: [ProductService, HttpResponse, ProductRepository, StrHellper],
-  exports: [ProductService, ProductRepository],
+  providers: [
+    ProductRepository,
+    ProductMapper,
+    ProductSharedService,
+    CreateProductService,
+    UpdateProductService,
+    DeleteProductService,
+    ReadProductService,
+  ],
+  exports: [
+    ProductRepository,
+    MongooseModule,
+    ProductMapper,
+    ProductSharedService,
+    CreateProductService,
+    UpdateProductService,
+    DeleteProductService,
+    ReadProductService,
+  ],
 })
 export class ProductModule {}

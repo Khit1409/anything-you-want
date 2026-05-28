@@ -1,10 +1,10 @@
 "use client";
-import { ProductPreviews } from "@/interfaces/product.interface";
+import { ProductPreviews } from "@/interfaces";
 import ProductCard from "./ProductCard";
 import NotFoundProduct from "./NotFoundProduct";
 
 interface Props {
-  products: Array<ProductPreviews>;
+  products: ProductPreviews;
 }
 export default function ProductRelated({ products }: Props) {
   if (products.length == 0) {

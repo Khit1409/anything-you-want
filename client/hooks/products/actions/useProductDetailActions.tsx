@@ -1,38 +1,34 @@
 "use client";
 
 import { addToCartFeature } from "@/features/cart.feature";
+import { ProductDetail } from "@/interfaces";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { useProductDetailHelpers, useProductDetailQueries } from "..";
 
-export default function useProductDetailActions() {
+interface ActionProps {
+  product: ProductDetail | null;
+  quantity: number;
+  variantId?: string;
+}
+
+export default function useProductDetailActions({
+  product,
+  quantity,
+  variantId,
+}: ActionProps) {
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
-  // Fetch product data and related products
-  const { product, related, isLoading, error } = useProductDetailQueries();
-  /***
-   * component state
-   */
-  // Local UI helpers for product detail (quantity, classification selection, price helpers)
-  const {
-    classificationSelected,
-    finalPrice,
-    getMaxQuantity,
-    minusSale,
-    onchangeClassification,
-    quantity,
-    setQuantity,
-  } = useProductDetailHelpers(product);
   /**
    * Thực hiện chức năng thêm giỏ hàng.
    * @params 0
    */
   const addToCartHandle = async () => {
+    console.log(variantId);
     await addToCartFeature({
-      classificationSelected,
+      variantId,
       dispatch,
       isLoggedIn,
       product,
@@ -45,17 +41,6 @@ export default function useProductDetailActions() {
    * result
    */
   return {
-    product,
-    related,
-    error,
-    isLoading,
-    quantity,
-    setQuantity,
-    finalPrice,
-    minusSale,
-    onchangeClassification,
-    classificationSelected,
     addToCartHandle,
-    getMaxQuantity,
   };
 }

@@ -1,38 +1,26 @@
+import useCreateProduct from "@/hooks/sellers/products/providers/useCreateProduct";
 import React from "react";
 
-interface CountValue {
-  parentIndex: number;
-  size: number;
-}
 
-interface Props {
-  countClassification: number;
-  countClassificationValue: CountValue[];
-  blockInputClassificationValue: (parentIndex: number) => boolean;
-  onchangeClassification: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  addNewClassificationInput: () => void;
-  addNewClassificationValueInput: (parentIndex: number) => void;
-  removeClassification: (parentIndex: number) => void;
-  removeClassificationValue: (parentIndex: number, valueIndex: number) => void;
-}
-
-export default function ClassificationsSection({
-  countClassification,
-  countClassificationValue,
-  blockInputClassificationValue,
-  onchangeClassification,
-  addNewClassificationInput,
-  addNewClassificationValueInput,
-  removeClassification,
-  removeClassificationValue,
-}: Props) {
+export default function ClassificationsSection() {
+  const { helpers } = useCreateProduct();
+  const {
+    countClassificationValue,
+    countClassifications,
+    blockInputClassificationValue,
+    onchangeClassification,
+    addNewClassificationValueInput,
+    addNewClassificationInput,
+    removeClassification,
+    removeClassificationValue,
+  } = helpers;
   return (
     <div className="mb-6 bg-white dark:bg-gray-900 p-4 border border-gray-200 dark:border-gray-700">
       <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
         Phân loại sản phẩm
       </h3>
 
-      {Array.from({ length: countClassification }).map((_, index) => (
+      {Array.from({ length: countClassifications }).map((_, index) => (
         <div
           className="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700 last:border-0"
           key={index}
@@ -67,7 +55,10 @@ export default function ClassificationsSection({
               )}
               <div className="grid grid-cols-2 gap-2 mb-2">
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label
+                    htmlFor={`name-index-${indexValue}`}
+                    className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  >
                     Tên giá trị
                   </label>
                   <input
@@ -75,6 +66,7 @@ export default function ClassificationsSection({
                     onChange={(e) => onchangeClassification(e)}
                     disabled={blockInputClassificationValue(index)}
                     name="name"
+                    id={`name-index-${indexValue}`}
                     data-parent-index={index}
                     data-value-index={indexValue}
                     placeholder="Đỏ, M..."
@@ -82,52 +74,26 @@ export default function ClassificationsSection({
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Giá thêm
-                  </label>
-                  <input
-                    type="number"
-                    data-parent-index={index}
-                    disabled={blockInputClassificationValue(index)}
-                    data-value-index={indexValue}
-                    onChange={(e) => onchangeClassification(e)}
-                    placeholder="0"
-                    name="extraPrice"
-                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-gray-600 disabled:bg-gray-100 dark:disabled:bg-gray-600"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-2 mb-2">
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Số lượng
-                  </label>
-                  <input
-                    type="number"
-                    disabled={blockInputClassificationValue(index)}
-                    placeholder="0"
-                    data-parent-index={index}
-                    onChange={(e) => onchangeClassification(e)}
-                    data-value-index={indexValue}
-                    name="stock"
-                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-gray-600 disabled:bg-gray-100 dark:disabled:bg-gray-600"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Ảnh minh hoạ
+                  <label
+                    htmlFor={`img-index-${indexValue}`}
+                    className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  >
+                    Ảnh minh họa
                   </label>
                   <input
                     type="file"
-                    name="img"
+                    accept="image/*"
+                    onChange={(e) => onchangeClassification(e)}
                     disabled={blockInputClassificationValue(index)}
+                    name="img"
+                    id={`img-index-${indexValue}`}
                     data-parent-index={index}
                     data-value-index={indexValue}
-                    accept="image/*"
-                    className="block w-full text-xs file:mr-1 file:py-1 file:px-2 file:border file:border-gray-300 dark:file:border-gray-600 file:rounded file:text-xs file:bg-white dark:file:bg-gray-700 dark:file:text-gray-100"
+                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-gray-600 disabled:bg-gray-100 dark:disabled:bg-gray-600"
                   />
                 </div>
               </div>
+
               <div className="flex gap-2 text-xs">
                 <button
                   type="button"

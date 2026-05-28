@@ -18,183 +18,72 @@ export default function AppModal() {
 
   const { state, message, handle } = modalState;
 
-  const modalContent = {
-    title: () => {
-      switch (state) {
-        case "error":
-          return "Thất bại!";
-        case "success":
-          return "Thành công!";
-        default:
-          return "Cảnh báo!";
-      }
+  const config = {
+    error: {
+      title: "Thất bại!",
+      icon: faXmarkCircle,
+      iconColor: "text-red-500",
+      bgIcon: "bg-red-100",
+      confirmBtn: "bg-red-500 hover:bg-red-600 active:bg-red-700",
     },
-    icon: () => {
-      switch (state) {
-        case "error":
-          return faXmarkCircle;
-        case "success":
-          return faCheckCircle;
-        default:
-          return faTriangleExclamation;
-      }
+    success: {
+      title: "Thành công!",
+      icon: faCheckCircle,
+      iconColor: "text-green-500",
+      bgIcon: "bg-green-100",
+      confirmBtn: "bg-green-500 hover:bg-green-600 active:bg-green-700",
     },
-    iconColor: () => {
-      switch (state) {
-        case "error":
-          return "text-red-500";
-        case "success":
-          return "text-green-500";
-        default:
-          return "text-amber-500";
-      }
-    },
-    bgGradient: () => {
-      switch (state) {
-        case "error":
-          return "from-red-50 to-red-50/50";
-        case "success":
-          return "from-green-50 to-green-50/50";
-        default:
-          return "from-amber-50 to-amber-50/50";
-      }
-    },
-    borderColor: () => {
-      switch (state) {
-        case "error":
-          return "border-red-200";
-        case "success":
-          return "border-green-200";
-        default:
-          return "border-amber-200";
-      }
-    },
-    accentColor: () => {
-      switch (state) {
-        case "error":
-          return "red";
-        case "success":
-          return "green";
-        default:
-          return "amber";
-      }
+    warning: {
+      title: "Cảnh báo!",
+      icon: faTriangleExclamation,
+      iconColor: "text-amber-500",
+      bgIcon: "bg-amber-100",
+      confirmBtn: "bg-amber-500 hover:bg-amber-600 active:bg-amber-700",
     },
   };
 
-  function closeModalAction() {
-    dispatch(closeModal());
-  }
+  const { title, icon, iconColor, bgIcon, confirmBtn } =
+    config[state as keyof typeof config] ?? config.warning;
 
   return (
     <div
-      className="w-screen h-screen fixed z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center animate-fadeIn"
       id="app-modal"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
     >
-      <div
-        className={`bg-linear-to-br ${modalContent.bgGradient()} border ${modalContent.borderColor()} rounded-2xl shadow-2xl min-h-[320px] min-w-[500px] max-w-[600px] flex flex-col justify-between overflow-hidden animate-scaleIn`}
-        id="app-modal-content"
-      >
-        {/* Header dengan gradient line */}
-        <div
-          className={`bg-linear-to-r ${
-            state === "error"
-              ? "from-red-500 to-red-600"
-              : state === "success"
-              ? "from-green-500 to-green-600"
-              : "from-amber-500 to-amber-600"
-          } h-1`}
-        />
-
-        {/* Icon dan Title */}
-        <div className="pt-8 px-8 flex flex-col items-center gap-4">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm mx-4 p-6 flex flex-col gap-5">
+        {/* Icon */}
+        <div className="flex justify-center">
           <div
-            className={`${modalContent.iconColor()} text-6xl animate-bounce`}
+            className={`w-14 h-14 rounded-full ${bgIcon} flex items-center justify-center`}
           >
-            <FontAwesomeIcon icon={modalContent.icon()} />
+            <FontAwesomeIcon icon={icon} className={`w-7 h-7 ${iconColor}`} />
           </div>
-          <h1
-            id="modal-title"
-            className={`text-3xl font-bold ${modalContent.iconColor()}`}
-          >
-            {modalContent.title()}
-          </h1>
         </div>
 
-        {/* Message */}
-        <div className="px-8 py-6">
-          <p className="text-center text-(--text) text-base leading-relaxed">
-            {message}
-          </p>
+        {/* Text */}
+        <div className="text-center">
+          <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
+          <p className="text-sm text-gray-500 mt-1">{message}</p>
         </div>
 
         {/* Buttons */}
-        <div className="px-8 pb-8 flex gap-3 justify-center sm:justify-end">
+        <div className="flex gap-3">
           <button
-            className="px-6 py-2.5 rounded-lg font-semibold text-(--text) bg-(--surface-muted) hover:bg-gray-300 transition-all duration-200 transform hover:scale-105 active:scale-95"
-            onClick={() => closeModalAction()}
+            onClick={() => dispatch(closeModal())}
+            className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
           >
             Hủy
           </button>
           {handle && (
             <button
-              className={`px-6 py-2.5 rounded-lg font-semibold text-white transition-all duration-200 transform hover:scale-105 active:scale-95 ${
-                state === "error"
-                  ? "bg-red-500 hover:bg-red-600"
-                  : state === "success"
-                  ? "bg-green-500 hover:bg-green-600"
-                  : "bg-amber-500 hover:bg-amber-600"
-              }`}
               onClick={() => handle()}
+              className={`flex-1 py-2.5 rounded-xl text-white text-sm font-medium transition-colors ${confirmBtn}`}
             >
               Xác nhận
             </button>
           )}
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-
-        @keyframes scaleIn {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
-        }
-
-        .animate-scaleIn {
-          animation: scaleIn 0.3s ease-out;
-        }
-
-        .animate-bounce {
-          animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-          0%,
-          100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-8px);
-          }
-        }
-      `}</style>
     </div>
   );
 }

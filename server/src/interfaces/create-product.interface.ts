@@ -9,7 +9,6 @@ export interface CreateProductInfo {
 }
 export interface CreateProductClassificationValue {
   name: string;
-  extraPrice: number;
   img?: string;
 }
 export interface CreateProductClassification {

@@ -1,3 +1,4 @@
+import useCreateProduct from "@/hooks/sellers/products/providers/useCreateProduct";
 import React from "react";
 
 interface Props {
@@ -7,10 +8,11 @@ interface Props {
   ) => void;
 }
 
-export default function CategorySection({
-  categories,
-  onchangeProductInfo,
-}: Props) {
+export default function CategorySection() {
+  const { queries, helpers } = useCreateProduct();
+  const { categories } = queries;
+  const { onchangeProductInfo } = helpers;
+
   return (
     <div className="mb-6 bg-white dark:bg-gray-900 p-4 border border-gray-200 dark:border-gray-700">
       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">

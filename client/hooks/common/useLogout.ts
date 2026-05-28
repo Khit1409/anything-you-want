@@ -5,11 +5,13 @@ import { AppDispatch } from "@/redux/store";
 import { authThunk } from "@/redux/thunk/auth.thunk";
 import { redirect } from "next/navigation";
 import { useDispatch } from "react-redux";
+import useLoading from "./useLoading";
 
 export default function useLogout() {
   const dispatch = useDispatch<AppDispatch>();
+  const { handleLoading } = useLoading({ dispatch });
   async function handleLogout() {
-    const { message, success } = await logoutService();
+    const { message, success } = await handleLoading(logoutService);
     if (!success) {
       return dispatch(openModal({ message, state: ModalState.ERROR }));
     }

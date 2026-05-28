@@ -1,4 +1,4 @@
-import { ProductPreviews } from "@/interfaces/product.interface";
+import { ProductPreview } from "@/interfaces";
 import {
   faStar,
   faTruck,
@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function ProductCard({ product }: { product: ProductPreviews }) {
+export default function ProductCard({ product }: { product: ProductPreview }) {
   return (
     <div className="bg-(--surface) dark:bg-(--surface) border border-(--border) rounded-sm hover:shadow-lg dark:hover:shadow-zinc-800 transition-shadow duration-200 flex flex-col h-full">
       {/* Image Container */}

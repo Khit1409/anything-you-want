@@ -2,11 +2,12 @@ import { axiosClient } from "@/lib/configs/axios.config";
 import {
   ProductDetailApiResponse,
   ProductDetailDataApiResponse,
-  ProductPreviewApiResponse,
   ProductPreviews,
   GetProductPreviewRequest,
   CreateProductRequest,
-} from "@/interfaces/product.interface";
+  ProductVariants,
+  UpdateProductVariants,
+} from "@/interfaces";
 import axios, { isAxiosError } from "axios";
 import { ApiResponse } from "@/interfaces/common.interface";
 /**
@@ -17,23 +18,15 @@ import { ApiResponse } from "@/interfaces/common.interface";
  */
 export async function getProductService({
   page,
-}: GetProductPreviewRequest): Promise<Array<ProductPreviews>> {
-  try {
-    const res = await axiosClient.get(`/products`, {
-      params: {
-        page: Number(page ?? 1),
-      },
-    });
-    const api = res.data as ProductPreviewApiResponse;
-
-    const products = api.data.products;
-    return products;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      return [];
-    }
-    return [];
-  }
+}: GetProductPreviewRequest): Promise<ProductPreviews> {
+  const res = await axiosClient.get(`/products`, {
+    params: {
+      page: Number(page ?? 1),
+    },
+  });
+  const api = res.data;
+  const products = api.data as ProductPreviews;
+  return products;
 }
 /**
  * Lấy chi tiết sản phẩm theo `id` (GET /products/:id).
@@ -51,12 +44,12 @@ export async function getProductDetailService(
     if (axios.isAxiosError(error)) {
       return {
         product: null,
-        related: [],
+        relateds: [],
       };
     }
     return {
       product: null,
-      related: [],
+      relateds: [],
     };
   }
 }
@@ -64,16 +57,18 @@ export async function getProductDetailService(
  * Tạo sản phẩm bằng POST method /products
  * Trả về kết quả API Response type
  */
-export async function createProductService(data: CreateProductRequest) {
+export async function createProductService(payload: CreateProductRequest) {
   try {
-    const res = await axiosClient.post("/products", data);
-    const result = res.data as ApiResponse;
+    const res = await axiosClient.post("/sellers/products", payload);
+    const result = res.data as ApiResponse & {
+      data: { id: string };
+    };
     return result;
   } catch (error) {
     if (isAxiosError(error)) {
       const { message, success, timestamp } = error.response
         ?.data as ApiResponse;
-      return { message, success, timestamp };
+      return { message, success, timestamp, data: null };
     }
     throw error;
   }
@@ -84,7 +79,7 @@ export async function createProductService(data: CreateProductRequest) {
  * @returns
  */
 
-export async function uploadProductImage(images: {
+export async function uploadProductImageService(images: {
   thumbnail: File;
   details: File[];
 }) {
@@ -111,5 +106,38 @@ export async function uploadProductImage(images: {
       return { message, success };
     }
     throw error;
+  }
+}
+
+export async function getVariantForEditService(productId: string) {
+  try {
+    const res = await axiosClient.get(
+      `/sellers/products/${productId}/variants`
+    );
+    const { data } = res.data as ApiResponse;
+    return data as ProductVariants;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+export async function updateVariantService(
+  productId: string,
+  variants: UpdateProductVariants
+) {
+  try {
+    const res = await axiosClient.put(
+      `/sellers/products/${productId}/variants`,
+      { variants }
+    );
+    const { message, success } = res.data as ApiResponse;
+    return { message, success };
+  } catch (error) {
+    if (isAxiosError(error)) {
+      const { message, success } = error.response?.data as ApiResponse;
+      return { message, success };
+    }
+    return { message: "unknow error" + error, success: false };
   }
 }

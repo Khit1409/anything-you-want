@@ -5,7 +5,7 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
-import useMangerProduct from "@/context/sellers/ManagerProductContext";
+import useMangerProduct from "@/contexts/sellers/ManagerProductContext";
 import ProductPrice from "./ProductPrice";
 import ProductRating from "./ProductRating";
 import ProductStatus from "./ProductStatus";
@@ -84,7 +84,11 @@ export default function ProductListRow({ product }: ProductListRowProps) {
       {/* Hành động */}
       <td className="px-6 py-4 text-right">
         <button
-          onClick={() => setSelectedIdOpenModal(() => product.id)}
+          onClick={() =>
+            setSelectedIdOpenModal((prev) =>
+              prev !== undefined ? undefined : product.id
+            )
+          }
           className="p-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
         >
           <FontAwesomeIcon icon={faEllipsisV} className="text-sm" />

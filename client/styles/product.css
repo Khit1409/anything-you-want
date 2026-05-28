@@ -7,3 +7,9 @@
     --product-title-heading-section: white;
     --product-price: white;
 }
+
+.thumbnail-size {
+    inline-size: 500px;
+    block-size: 500px;
+    object-fit: cover;
+}

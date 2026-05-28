@@ -14,6 +14,6 @@ import { HttpResponse } from '@/src/helpers/httpResponse';
   ],
   controllers: [CategoryController],
   providers: [CategoryService, CategoryRepository, HttpResponse],
-  exports: [CategoryService, CategoryRepository],
+  exports: [CategoryService, CategoryRepository, MongooseModule],
 })
 export class CategoryModule {}

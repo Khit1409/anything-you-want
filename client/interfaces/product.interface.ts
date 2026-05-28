@@ -1,17 +1,70 @@
+/* -------------------------------------------------------------------------- */
+/*                                   REQUEST                                  */
+/* -------------------------------------------------------------------------- */
+
+import { ApiResponse } from "./common.interface";
+
 /**
- * Các kiểu dữ liệu liên quan đến sản phẩm (preview, detail, phân loại, hình ảnh, v.v.).
- * Được sử dụng bởi các API trả về danh sách/chi tiết sản phẩm.
+ * Query request dùng để lấy danh sách preview sản phẩm.
  */
 export interface GetProductPreviewRequest {
   page: number;
 }
-import { ApiResponse } from "./common.interface";
 
 /**
- * Trạng thái của sản phẩm.
- * - `ACTIVE`: sản phẩm đang bán
- * - `INACTIVE`: tạm dừng bán
- * - `ZERO`: hết hàng
+ * Request gửi lên server khi tạo sản phẩm mới.
+ */
+export interface CreateProductRequest {
+  info: CreateProductInfo;
+  classifications: CreateProductClassifications;
+  shipping: CreateProductShipping;
+  images: CreateProductImage;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               RESPONSE TYPES                               */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Response API trả về danh sách preview sản phẩm.
+ */
+export interface ProductPreviewApiResponse extends ApiResponse {
+  data: ProductPreviewDataResponse;
+}
+
+/**
+ * Response API trả về chi tiết sản phẩm.
+ */
+export interface ProductDetailApiResponse extends ApiResponse {
+  data: ProductDetailDataApiResponse;
+}
+
+/**
+ * Data response của API preview sản phẩm.
+ */
+export interface ProductPreviewDataResponse {
+  products: ProductPreviews;
+  request: GetProductPreviewRequest;
+}
+
+/**
+ * Data response của API chi tiết sản phẩm.
+ */
+export interface ProductDetailDataApiResponse {
+  product: ProductDetail | null;
+  relateds: ProductPreviews;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                   ENUMS                                    */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Trạng thái sản phẩm.
+ *
+ * - ACTIVE: đang bán
+ * - INACTIVE: tạm ngưng bán
+ * - ZERO: hết hàng
  */
 export enum ProductStatus {
   ACTIVE = "active",
@@ -19,26 +72,9 @@ export enum ProductStatus {
   ZERO = "zero",
 }
 
-export interface ProductPreviewApiResponse extends ApiResponse {
-  data: ProductPreviewDataResponse;
-}
-
-export interface ProductDetailApiResponse extends ApiResponse {
-  data: ProductDetailDataApiResponse;
-}
-
-export interface ProductDetailDataApiResponse {
-  product: ProductDetail | null;
-  related: Array<ProductPreviews>;
-}
-
-/**
- * Dữ liệu trả về cho API preview sản phẩm: danh sách `products` và thông tin `request`.
- */
-export interface ProductPreviewDataResponse {
-  products: Array<ProductPreviews>;
-  request: GetProductPreviewRequest;
-}
+/* -------------------------------------------------------------------------- */
+/*                              PRODUCT PREVIEW                               */
+/* -------------------------------------------------------------------------- */
 
 /**
  * Thông tin category của sản phẩm.
@@ -49,7 +85,7 @@ export interface ProductCategory {
 }
 
 /**
- * Thông tin hỗ trợ giao hàng cho sản phẩm.
+ * Thông tin hỗ trợ giao hàng.
  */
 export interface ProductShipping {
   flash: boolean;
@@ -57,7 +93,7 @@ export interface ProductShipping {
 }
 
 /**
- * Thông tin rating trung bình và tổng số đánh giá.
+ * Thông tin đánh giá sản phẩm.
  */
 export interface ProductRating {
   avg: number;
@@ -65,19 +101,13 @@ export interface ProductRating {
 }
 
 /**
- * Dữ liệu preview của một sản phẩm (dùng trong danh sách/sản phẩm liên quan).
+ * Hình ảnh sản phẩm.
  */
-export interface ProductPreview {
-  id: string;
-  info: ProductInfo;
-  tags: Array<string>;
-  ratingSumary: ProductRating;
-  shipping: ProductShipping;
-  images: ProductImages;
-  status: ProductStatus;
+export interface ProductImages {
+  thumbnail: string;
+  details: string[];
 }
 
-export type ProductPreviews = Array<ProductPreview>;
 /**
  * Thông tin cơ bản của sản phẩm.
  */
@@ -85,111 +115,220 @@ export interface ProductInfo {
   name: string;
   price: number;
   sale: number;
-  category: ProductCategory;
   description: string;
+
+  category: ProductCategory;
+
   brand?: string;
   origin?: string;
 }
 
 /**
- * Giá trị trong một classification (ví dụ: màu sắc, kích thước).
+ * Preview của sản phẩm dùng cho:
+ * - danh sách sản phẩm
+ * - sản phẩm liên quan
+ * - search result
+ */
+export interface ProductPreview {
+  id: string;
+
+  info: ProductInfo;
+
+  tags: string[];
+
+  ratingSumary: ProductRating;
+
+  shipping: ProductShipping;
+
+  images: ProductImages;
+
+  status: ProductStatus;
+}
+
+/**
+ * Danh sách preview sản phẩm.
+ */
+export type ProductPreviews = ProductPreview[];
+
+/* -------------------------------------------------------------------------- */
+/*                              PRODUCT DETAIL                                */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Giá trị của classification.
+ *
+ * Ví dụ:
+ * - trắng, đỏ
+ * - M, XL
  */
 export interface ProductClassificationValue {
   name: string;
   img?: string;
-  stock: number;
-  extraPrice: number;
 }
 
-export type ProductClassificationValues = Array<ProductClassificationValue>;
+/**
+ * Danh sách value của classification.
+ */
+export type ProductClassificationValues = ProductClassificationValue[];
 
 /**
- * Classification của sản phẩm (ví dụ: Color, Size) gồm nhiều `values`.
+ * Classification của sản phẩm.
+ *
+ * Ví dụ:
+ * - Color
+ * - Size
  */
 export interface ProductClassification {
   name: string;
-  values: Array<ProductClassificationValue>;
-}
-export type ProductClassifications = Array<ProductClassification>;
-/**
- * Hình ảnh của sản phẩm: `thumbnail` và danh sách `details`.
- */
-export interface ProductImages {
-  thumbnail: string;
-  details: Array<string>;
+  values: ProductClassificationValues;
 }
 
 /**
- * Chi tiết sản phẩm mở rộng từ preview, bổ sung `classification`.
+ * Danh sách classification.
+ */
+export type ProductClassifications = ProductClassification[];
+
+/**
+ * Variant thực tế của sản phẩm.
+ *
+ * Ví dụ:
+ * - Red / XL
+ * - Black / M
+ */
+export interface ProductVariant {
+  id: string;
+
+  sku: string;
+
+  stock: number;
+
+  extraPrice: number;
+
+  /**
+   * Mapping classification name -> value.
+   *
+   * Ví dụ:
+   * {
+   *   color: "red",
+   *   size: "xl"
+   * }
+   */
+  options: Record<string, string>;
+}
+
+/**
+ * Danh sách variants.
+ */
+export type ProductVariants = ProductVariant[];
+
+/**
+ * Chi tiết đầy đủ của sản phẩm.
  */
 export interface ProductDetail extends ProductPreview {
-  classification: Array<ProductClassification>;
+  classifications: ProductClassifications;
+
+  variants: ProductVariants;
+
   createdAt: string;
+
   updatedAt: string;
 }
 
+/* -------------------------------------------------------------------------- */
+/*                              PRODUCT OWNER                                 */
+/* -------------------------------------------------------------------------- */
+
 /**
- * hidden if user
- */
-/**
- * Thông tin người bán (ẩn khi trả về cho user thông thường).
+ * Thông tin người bán.
+ *
+ * NOTE:
+ * Chỉ trả về cho seller/admin.
+ * Không expose cho user thông thường.
  */
 export interface ProductOwner {
   sellerId: string;
   storeId: string;
 }
 
+/* -------------------------------------------------------------------------- */
+/*                              CREATE PRODUCT                                */
+/* -------------------------------------------------------------------------- */
+
 /**
- * Kiểu request khi gửi lên server của ProductInfo
+ * Thông tin cơ bản khi tạo sản phẩm.
  */
 export interface CreateProductInfo {
   name: string;
+
   category: string;
+
   price: number;
+
+  sale: number;
+
   description: string;
-  sale: number; //min 0 max 100
-  origin?: string;
+
+  /**
+   * Giảm giá (%).
+   *
+   * min: 0
+   * max: 100
+   */
   brand?: string;
+
+  origin?: string;
 }
+
 /**
- * kiểu request value của classification value khi gửi lên server để tạo product mới
+ * Value của classification khi tạo sản phẩm.
  */
 export interface CreateProductClassificationValue {
   name: string;
-  stock: number;
-  extraPrice: number;
   img?: string;
 }
-export type CreateProductClassificationValues =
-  Array<CreateProductClassificationValue>;
+
 /**
- * kiểu request của classification khi gửi lên server để tạo mới sản phẩm
+ * Danh sách classification value khi tạo sản phẩm.
+ */
+export type CreateProductClassificationValues =
+  CreateProductClassificationValue[];
+
+/**
+ * Classification khi tạo sản phẩm.
  */
 export interface CreateProductClassification {
   name: string;
   values: CreateProductClassificationValues;
 }
-export type CreateProductClassifications = Array<CreateProductClassification>;
+
 /**
- * Kiểu của product shipping khi gửi lên server để tạo sản phẩm
+ * Danh sách classification khi tạo sản phẩm.
+ */
+export type CreateProductClassifications = CreateProductClassification[];
+
+/**
+ * Shipping khi tạo sản phẩm.
  */
 export interface CreateProductShipping {
   normal: boolean;
   flash: boolean;
 }
+
 /**
- * Kiểu của product images khi gửi lên server để tạo sản phẩm
+ * Images khi tạo sản phẩm.
  */
 export interface CreateProductImage {
   thumbnail: string;
-  details: Array<string>;
+  details: string[];
 }
 /**
- * Kiểu request gửi lên server khi tạo sản phẩm mới
+ *
  */
-export interface CreateProductRequest {
-  info: CreateProductInfo;
-  classification: CreateProductClassifications;
-  shipping: CreateProductShipping;
-  images: CreateProductImage;
+
+export interface UpdateProductVariant {
+  id: string;
+  stock?: number;
+  extraPrice?: number;
 }
+
+export type UpdateProductVariants = Array<UpdateProductVariant>;

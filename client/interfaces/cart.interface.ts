@@ -1,10 +1,26 @@
 import { ApiResponse } from "./common.interface";
-import { ProductImages } from "./product.interface";
-import { ProductClassificationValue } from "./product.interface";
+
+import {
+  ProductClassificationValue,
+  ProductImages,
+  ProductVariant,
+  ProductVariants,
+} from "./product.interface";
+
+/* -------------------------------------------------------------------------- */
+/*                                   REQUEST                                  */
+/* -------------------------------------------------------------------------- */
 
 /**
- * Kiểu request cho 1 classification khi thêm vào cart.
- * `values` tham chiếu `ProductClassificationValue`.
+ * Classification được chọn khi thêm vào cart.
+ *
+ * Ví dụ:
+ * {
+ *   name: "Color",
+ *   values: {
+ *     name: "Red"
+ *   }
+ * }
  */
 export interface CartClassificationRequest {
   name: string;
@@ -12,98 +28,155 @@ export interface CartClassificationRequest {
 }
 
 /**
- * Yêu cầu thêm vào giỏ hàng.
+ * Request thêm sản phẩm vào giỏ hàng.
  */
 export interface CartRequest {
   productId: string;
-  classification: Array<CartClassificationRequest>;
+  variantId: string;
   quantity: number;
 }
 
 /**
- * Yêu cầu cập nhật giỏ hàng.
+ * Request cập nhật cart.
+ *
+ * NOTE:
+ * - classification và quantity đều optional
+ * - chỉ update field được gửi lên
  */
 export interface CartUpdateRequest {
   id: string;
-  classification?: Array<CartClassificationRequest>;
+
+  variant?: string;
+
   quantity?: number;
 }
 
+/* -------------------------------------------------------------------------- */
+/*                                CART RESPONSE                               */
+/* -------------------------------------------------------------------------- */
+
 /**
- * Thông tin category hiển thị trong cart.
+ * Category hiển thị trong cart.
  */
 export interface CartCategoryResponse {
-  name: string;
   id: string;
+
+  name: string;
 }
 
 /**
- * Thông tin chi tiết sản phẩm lưu trong cart (giá, số lượng, tổng giá,...)
+ * Thông tin sản phẩm hiển thị trong cart.
  */
 export interface CartInfoResponse {
-  brand: string;
-  name: string;
-  origin: string;
-  originPrice: number;
   productId: string;
-  totalPrice: number;
+
+  name: string;
+
+  brand: string;
+
+  origin: string;
+
   quantity: number;
+
   sale: number;
+
+  /**
+   * Giá gốc sản phẩm.
+   */
+  originPrice: number;
+
+  /**
+   * Tổng giá sau khi cộng quantity + extraPrice.
+   */
+  totalPrice: number;
+
   category: CartCategoryResponse;
 }
 
 /**
- * Thông tin hỗ trợ giao hàng trong cart.
+ * Thông tin shipping trong cart.
  */
 export interface CartShippingResponse {
   flash: boolean;
+
   normal: boolean;
 }
 
+/* -------------------------------------------------------------------------- */
+/*                             CART CLASSIFICATION                            */
+/* -------------------------------------------------------------------------- */
+
 /**
- * Giá trị classification trả về cho cart (kèm flag `choosen`).
+ * Value của classification trong cart.
+ *
+ * NOTE:
+ * `choosen = true`
+ * nghĩa là value đang được chọn.
  */
 export interface CartClassificationValueResponse {
   name: string;
-  extraPrice: number;
+
   stock: number;
-  img?: string;
+
+  extraPrice: number;
+
   choosen: boolean;
+
+  img?: string;
 }
 
 /**
- * Classification response chứa tên và các `values`.
+ * Classification response của cart.
  */
 export interface CartClassificationResponse {
   name: string;
-  values: Array<CartClassificationValueResponse>;
+
+  values: CartClassificationValueResponse[];
 }
+
+/* -------------------------------------------------------------------------- */
+/*                                 CART ITEM                                  */
+/* -------------------------------------------------------------------------- */
 
 /**
- * API response cho cart, kèm `status` và `data` chứa danh sách carts.
- */
-export interface CartApiResponse extends ApiResponse {
-  status: number;
-  data: CartApiDataResponse;
-}
-
-export interface CartApiDataResponse {
-  carts: Array<CartResponse>;
-}
-
-/**
- * Mô tả một mục trong giỏ hàng (CartResponse).
+ * Một item trong giỏ hàng.
  */
 export interface CartResponse {
   id: string;
+
   info: CartInfoResponse;
-  classification: Array<CartClassificationResponse>;
+
+  variant: ProductVariant;
+
+  otherVariants: ProductVariants;
+
   shipping: CartShippingResponse;
+
   images: ProductImages;
+
   createdAt: string;
+
   updatedAt: string;
 }
 
+/* -------------------------------------------------------------------------- */
+/*                                 API RESPONSE                               */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Response trả về danh sách cart.
+ */
+export interface CartApiResponse extends ApiResponse {
+  status: number;
+
+  data: Array<CartResponse>;
+}
+
+/**
+ * Response cập nhật cart.
+ */
 export interface CartUpdateResponse extends ApiResponse {
-  data: { updateCount: number };
+  data: {
+    updateCount: number;
+  };
 }

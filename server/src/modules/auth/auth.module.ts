@@ -6,7 +6,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { DatabaseModule } from '@/src/database/database.module';
 import { HttpResponse } from '@/src/helpers/httpResponse';
-import { SellerRepository } from '../sellers/sellers.repository';
+import { SellerRepository } from '../sellers/repositories/sellers.repository';
 import { UserRepository } from '../users/users.repository';
 import { SellerModule } from '../sellers/sellers.module';
 import { UserModule } from '../users/users.module';

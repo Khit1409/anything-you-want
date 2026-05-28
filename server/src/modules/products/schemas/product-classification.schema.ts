@@ -4,8 +4,6 @@ import { Prop, Schema } from '@nestjs/mongoose';
 export class ProductClassificationValue {
   @Prop({ type: String, required: true })
   name: string;
-  @Prop({ type: Number, required: true })
-  extraPrice: number;
   @Prop({ type: String, required: false, default: '' })
   img?: string;
 }

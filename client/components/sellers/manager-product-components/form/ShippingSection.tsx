@@ -1,16 +1,8 @@
-import React from "react";
+import useCreateProduct from "@/hooks/sellers/products/providers/useCreateProduct";
 
-interface Shipping {
-  normal?: boolean;
-  flash?: boolean;
-}
-
-interface Props {
-  shipping: Shipping;
-  onchangeShipping: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-export default function ShippingSection({ shipping, onchangeShipping }: Props) {
+export default function ShippingSection() {
+  const { helpers } = useCreateProduct();
+  const { onchangeShipping, shipping } = helpers;
   return (
     <div className="mb-6 bg-white dark:bg-gray-900 p-4 border border-gray-200 dark:border-gray-700">
       <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">

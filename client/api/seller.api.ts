@@ -1,5 +1,4 @@
-import { ApiResponse } from "@/interfaces/common.interface";
-import { ProductDetail, ProductPreviews } from "@/interfaces/product.interface";
+import { ProductDetail, ProductPreviews, ApiResponse } from "@/interfaces";
 import { axiosClient } from "@/lib/configs/axios.config";
 import { isAxiosError } from "axios";
 
@@ -16,14 +15,14 @@ export async function getSellerProfileService() {
 /**
  * gọi api lấy danh sách sản phẩm thuộc về seller
  */
-export async function getProductListService() {
+export async function getSellerProductListService() {
   try {
     const res = await axiosClient.get("/sellers/products");
     const api = res.data as ApiResponse & {
-      data: { products: ProductPreviews };
+      data: ProductPreviews;
     };
-    const { products } = api.data;
-    return products;
+    const { data } = api;
+    return data as ProductPreviews;
   } catch (error) {
     console.error(error);
     return [];
@@ -32,7 +31,7 @@ export async function getProductListService() {
 /**
  * @param id
  */
-export async function getProductDetailService(id: string) {
+export async function getSellerProductDetailService(id: string) {
   try {
     const res = await axiosClient.get(`/sellers/products/${id}`);
     const api = res.data as ApiResponse & { data: ProductDetail };

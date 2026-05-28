@@ -1,5 +1,4 @@
-import { Categories } from "@/interfaces/category.interface";
-import { ApiResponse } from "@/interfaces/common.interface";
+import { Categories, ApiResponse } from "@/interfaces";
 import { axiosClient } from "@/lib/configs/axios.config";
 
 /**

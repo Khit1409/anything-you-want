@@ -10,18 +10,18 @@ type OnchangeClassificationType = {
 };
 
 interface Props {
-  classification: Array<ProductClassification>;
+  classifications: Array<ProductClassification>;
   classificationSelected: CartClassificationRequest[];
   onchangeClassification: ({ name, value }: OnchangeClassificationType) => void;
 }
 
 export default function ProductClassificationPreview(props: Props) {
-  const { classification, onchangeClassification, classificationSelected } =
+  const { classifications, onchangeClassification, classificationSelected } =
     props;
 
   return (
     <div className="flex flex-col divide-y divide-zinc-100 p-4">
-      {classification.map((classifi) => (
+      {classifications.map((classifi) => (
         <div key={classifi.name} className="py-5 first:pt-0 last:pb-0">
           {/* Label */}
           <div className="flex items-center gap-2 mb-4">

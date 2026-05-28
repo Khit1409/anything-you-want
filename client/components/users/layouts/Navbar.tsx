@@ -1,7 +1,7 @@
 "use client";
 
-import { AppDispatch, RootState } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
 import Link from "next/link";
 import Logo from "../../common/Logo";
 import { NAV_LIST } from "@/data/navbar.data";

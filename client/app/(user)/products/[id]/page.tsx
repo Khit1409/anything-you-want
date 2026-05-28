@@ -1,11 +1,11 @@
 import ProductDetailHeroSection from "@/components/products/ProductDetailHeroSection";
-import ProductDetailPage from "@/pages/ProductDetailPage";
+import { ProductDetailPageComponent } from "@/page-components";
 
 export default function page() {
   return (
     <>
       <ProductDetailHeroSection />
-      <ProductDetailPage />
+      <ProductDetailPageComponent />
     </>
   );
 }

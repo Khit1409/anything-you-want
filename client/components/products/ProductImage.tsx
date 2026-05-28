@@ -39,10 +39,10 @@ export default function ProductImage({ images }: ProductImageProps) {
         <Image
           src={imagePreview}
           alt="Product preview"
-          width={500}
-          height={500}
-          className="object-contain"
-          priority
+          width={1000}
+          height={1000}
+          className="thumbnail-size"
+          objectFit="cover"
         />
       </div>
     </div>

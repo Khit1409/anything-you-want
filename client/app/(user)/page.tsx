@@ -1,9 +1,11 @@
-import HomePage from "@/pages/HomePage";
+import { HomePageComponet } from "@/page-components";
+
+
 
 export default function page() {
   return (
     <>
-      <HomePage />
+      <HomePageComponet />
     </>
   );
 }

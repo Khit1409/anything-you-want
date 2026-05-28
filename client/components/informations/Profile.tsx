@@ -8,7 +8,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import styles from "./Profile.module.css";
 
 export default function Profile() {
   const { profile } = useProfile();
@@ -17,7 +16,7 @@ export default function Profile() {
     (() => {
       const { addresses, info, phones } = profile;
       return (
-        <div className={`${styles.root} w-full`}>
+        <div className={` w-full`}>
           {/* Header */}
           <div className="relative h-[400px] w-full overflow-hidden flex flex-col justify-center">
             {/* Gradient background chỉ cao 200px */}
@@ -81,7 +80,7 @@ export default function Profile() {
       );
     })()
   ) : (
-    <div className={`${styles.root} w-full`}>
+    <div className={`w-full`}>
       {/* Header */}
       <div className="relative h-[400px] w-full overflow-hidden flex flex-col justify-center">
         {/* Gradient background chỉ cao 200px */}

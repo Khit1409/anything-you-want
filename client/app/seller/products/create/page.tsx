@@ -1,9 +1,5 @@
-import CreateProductPage from "@/pages/CreateProductPage";
+import CreateProductPage from "@/page-components/sellers/CreateProductPage";
 
 export default function page() {
-  return (
-    <>
-      <CreateProductPage />
-    </>
-  );
+  return <CreateProductPage />;
 }

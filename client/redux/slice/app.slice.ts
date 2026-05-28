@@ -22,7 +22,10 @@ const appSlice = createSlice({
       state.modalState = null;
     },
     startLoadingAnimation: (state) => {
-      state.appLoading = state.appLoading ? false : true;
+      state.appLoading = true;
+    },
+    stopLoadingAnimation: (state) => {
+      state.appLoading = false;
     },
     changeWebMode: (state) => {
       state.theme = state.theme === "dark" ? "light" : "dark";
@@ -40,4 +43,5 @@ export const {
   openModal,
   startLoadingAnimation,
   changeWebMode,
+  stopLoadingAnimation,
 } = appSlice.actions;

@@ -1,6 +1,5 @@
 import { addToCartService } from "@/api/cart.api";
-import { CartClassificationRequest } from "@/interfaces/request/cart.request";
-import { ProductDetail } from "@/interfaces/response/product.response";
+import { ProductDetail } from "@/interfaces";
 import { openModal, startLoadingAnimation } from "@/redux/slice/app.slice";
 import { ModalState } from "@/redux/state/app.state";
 import { AppDispatch } from "@/redux/store";
@@ -10,7 +9,7 @@ interface AddToCartHandleParam {
   isLoggedIn: boolean;
   product: ProductDetail | null;
   router: AppRouterInstance;
-  classificationSelected: CartClassificationRequest[];
+  variantId?: string;
   dispatch: AppDispatch;
   quantity: number;
 }
@@ -24,14 +23,8 @@ interface AddToCartHandleParam {
  * @params 0
  */
 export const addToCartFeature = async (params: AddToCartHandleParam) => {
-  const {
-    isLoggedIn,
-    product,
-    router,
-    classificationSelected,
-    dispatch,
-    quantity,
-  } = params;
+  const { isLoggedIn, product, router, variantId, dispatch, quantity } = params;
+
   if (!isLoggedIn) {
     return router.replace("/login");
   }
@@ -39,13 +32,10 @@ export const addToCartFeature = async (params: AddToCartHandleParam) => {
     console.log("Product is not define!");
     return;
   }
-  if (
-    classificationSelected.length != product.classification.length ||
-    classificationSelected.length == 0
-  ) {
+  if (!variantId) {
     return dispatch(
       openModal({
-        message: "Phân loại sản phẩm không được chọn đủ!",
+        message: "Không tìm thấy biến thể của sản phẩm",
         state: ModalState.WARNING,
       })
     );
@@ -54,7 +44,7 @@ export const addToCartFeature = async (params: AddToCartHandleParam) => {
   dispatch(startLoadingAnimation());
 
   const res = await addToCartService({
-    classification: classificationSelected,
+    variantId,
     productId: product.id,
     quantity: quantity <= 0 ? 1 : quantity,
   });

@@ -5,15 +5,12 @@ import { ConfigService } from '@nestjs/config';
 import cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
 import { InternalErrorFilter } from './core/http-exception.filter';
+import mongoose from 'mongoose';
 dotenv.config();
 
-/**
- * Khởi tạo ứng dụng NestJS:
- * - Tạo app từ `AppModule`
- * - Cấu hình cookie parser, CORS, validation pipe, và global filters
- * - Đặt tiền tố API chung `/api` và lắng nghe port từ `ConfigService` (mặc định 8080)
- */
 async function bootstrap() {
+  mongoose.set('strict', 'throw');
+  mongoose.set('runValidators', true);
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   app.use(cookieParser());

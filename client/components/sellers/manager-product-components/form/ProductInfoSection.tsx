@@ -1,11 +1,11 @@
 import React from "react";
 import { createProductInfoFormData } from "@/data/create-product-form.data";
+import useCreateProduct from "@/hooks/sellers/products/providers/useCreateProduct";
 
-interface Props {
-  onchangeProductInfo: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+export default function ProductInfoSection() {
+  const { helpers } = useCreateProduct();
+  const { onchangeProductInfo } = helpers;
 
-export default function ProductInfoSection({ onchangeProductInfo }: Props) {
   return (
     <div className="mb-6 bg-white dark:bg-gray-900 p-4 border border-gray-200 dark:border-gray-700">
       <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">

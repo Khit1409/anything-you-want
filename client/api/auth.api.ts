@@ -1,5 +1,5 @@
 import { axiosClient } from "@/lib/configs/axios.config";
-import { AuthenticationResponse } from "@/interfaces/auth.interface";
+import { AuthenticationResponse } from "@/interfaces";
 import axios from "axios";
 
 /**
@@ -40,7 +40,7 @@ export async function loginService({
       emailAddress,
       loginRole,
     });
-    const data: LoginResponse = res.data;
+    const data = res.data as LoginResponse;
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

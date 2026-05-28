@@ -1,10 +1,10 @@
 import {
+  ApiResponse,
   CartApiResponse,
   CartRequest,
-  CartResponse,
   CartUpdateRequest,
-} from "@/interfaces/cart.interface";
-import { ApiResponse } from "@/interfaces/common.interface";
+} from "@/interfaces";
+
 import { axiosClient } from "@/lib/configs/axios.config";
 
 /**
@@ -16,7 +16,12 @@ export async function addToCartService(
   data: CartRequest
 ): Promise<ApiResponse> {
   try {
-    const res = await axiosClient.post("/carts", data);
+    const { variantId, productId, quantity } = data;
+    const res = await axiosClient.post("/carts", {
+      variant: variantId,
+      productId,
+      quantity,
+    });
     const api = res.data as ApiResponse;
     return api;
   } catch (error) {
@@ -38,9 +43,9 @@ export async function updateCartService(
   data: CartUpdateRequest
 ): Promise<ApiResponse> {
   try {
-    const { id, classification, quantity } = data;
+    const { id, variant, quantity } = data;
     const res = await axiosClient.put(`carts/${id}`, {
-      classification,
+      variant,
       quantity,
     });
     const result = res.data as ApiResponse;
@@ -57,10 +62,10 @@ export async function updateCartService(
  * Lấy danh sách giỏ hàng của người dùng hiện tại (GET /carts).
  * Trả về mảng `CartResponse`.
  */
-export async function getUserCartService(): Promise<Array<CartResponse>> {
+export async function getUserCartService() {
   const res = await axiosClient.get("/carts");
   const api = res.data as CartApiResponse;
-  const carts = api.data.carts;
+  const carts = api.data;
   return carts;
 }
 

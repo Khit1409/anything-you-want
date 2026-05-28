@@ -14,10 +14,14 @@ import { LoginRequestDto } from './dto/auth.request.dto';
 import { RoleDto } from '../common/dto/response.common.dto';
 import { CookieMap } from '@/src/interfaces/cookies.interface';
 import { authCookieConfig } from '@/src/lib/cookie.config';
+import { HttpResponse } from '@/src/helpers/httpResponse';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly httpHelper: HttpResponse,
+  ) {}
 
   // ============================================================================
   // LOGIN ENDPOINTS
@@ -38,15 +42,15 @@ export class AuthController {
   ) {
     if (dto.loginRole === RoleDto.SELLER) {
       const result = await this.authService.sellerLogin(dto);
-      const { token, data, message, success, timestamp } = result;
+      const { token, data } = result;
       res.cookie('access_token', token, authCookieConfig);
-      return { message, success, timestamp, data };
+      return this.httpHelper.success('Đăng nhập thành công!', data);
     }
 
     const result = await this.authService.clientLogin(dto);
-    const { token, data, message, success, timestamp } = result;
+    const { token, data } = result;
     res.cookie('access_token', token, authCookieConfig);
-    return { message, success, timestamp, data };
+    return this.httpHelper.success('Đăng nhập thành công!', data);
   }
 
   // ============================================================================
@@ -63,9 +67,13 @@ export class AuthController {
   @Get('me')
   async auth(@Req() req: Request) {
     const result = await this.authService.clientAuth(req);
-    const { message, success, data, timestamp } = result;
+    const { email, role, uid } = result;
 
-    return { message, success, timestamp, data };
+    return this.httpHelper.success('Xác thực người dùng thành công!', {
+      email,
+      role,
+      uid,
+    });
   }
 
   /**

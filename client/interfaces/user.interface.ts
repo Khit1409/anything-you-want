@@ -1,60 +1,123 @@
+/* -------------------------------------------------------------------------- */
+/*                                   REQUEST                                  */
+/* -------------------------------------------------------------------------- */
+
 /**
- * Request of register user basic information
+ * Thông tin cơ bản dùng để đăng ký tài khoản.
  */
 export interface RegisterUserInfoRequest {
   emailAddress: string;
+
   currentPassword: string;
-  lastName: string;
-  fullName: string;
+
   firstName: string;
+
+  lastName: string;
+
+  fullName: string;
+
   dateOfBirth: string;
 }
 
+/**
+ * Địa chỉ người dùng khi đăng ký.
+ */
 export interface RegisterUserAddressRequest {
   province: string;
+
   ward: string;
+
   addressDetail: string;
 }
 
+/**
+ * Số điện thoại người dùng khi đăng ký.
+ */
 export interface RegisterUserPhoneRequest {
   phoneNumber: string;
 }
 
+/**
+ * Request đầy đủ dùng để tạo tài khoản mới.
+ */
 export interface RegisterUserAccountRequest extends RegisterUserInfoRequest {
-  address: Array<RegisterUserAddressRequest>;
-  phones: Array<RegisterUserPhoneRequest>;
+  address: RegisterUserAddressRequest[];
+
+  phones: RegisterUserPhoneRequest[];
 }
 
-export type UserPhones = Array<UserPhone>;
-
-export type UserPhone = {
-  id: string;
-  phoneNumber: string;
-};
+/* -------------------------------------------------------------------------- */
+/*                                 USER PHONE                                 */
+/* -------------------------------------------------------------------------- */
 
 /**
- * Users address list
+ * Thông tin số điện thoại người dùng.
  */
-export type UserAddresses = Array<UserAddress>;
-
-export type UserAddress = {
+export interface UserPhone {
   id: string;
+
+  phoneNumber: string;
+}
+
+/**
+ * Danh sách số điện thoại.
+ */
+export type UserPhones = UserPhone[];
+
+/* -------------------------------------------------------------------------- */
+/*                                USER ADDRESS                                */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Thông tin địa chỉ người dùng.
+ */
+export interface UserAddress {
+  id: string;
+
   province: string;
+
   ward: string;
+
   addressDetail: string;
-};
+}
 
-export type UserInfo = {
+/**
+ * Danh sách địa chỉ người dùng.
+ */
+export type UserAddresses = UserAddress[];
+
+/* -------------------------------------------------------------------------- */
+/*                                  USER INFO                                 */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Thông tin cơ bản của người dùng.
+ */
+export interface UserInfo {
   id: string;
-  firstName: string;
-  lastName: string;
-  fullName: string;
-  avatar?: string;
-  dateOfBirth: string;
-};
 
+  firstName: string;
+
+  lastName: string;
+
+  fullName: string;
+
+  dateOfBirth: string;
+
+  avatar?: string;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                   PROFILE                                  */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Hồ sơ người dùng.
+ */
 export interface Profile {
-  phones: UserPhones;
-  addresses: UserAddresses;
   info: UserInfo;
+
+  phones: UserPhones;
+
+  addresses: UserAddresses;
 }

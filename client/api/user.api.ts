@@ -1,8 +1,4 @@
-import { ApiResponse } from "@/interfaces/common.interface";
-import {
-  Profile,
-  RegisterUserAccountRequest,
-} from "@/interfaces/user.interface";
+import { Profile, RegisterUserAccountRequest, ApiResponse } from "@/interfaces";
 import { axiosClient } from "@/lib/configs/axios.config";
 import { isAxiosError } from "axios";
 

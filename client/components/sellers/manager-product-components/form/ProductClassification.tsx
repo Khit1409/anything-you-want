@@ -3,18 +3,18 @@ import ProductClassificationValue from "./ProductClassificationValue";
 import EditClassificationInput from "../ui/EditClassificationInput";
 
 interface Props {
-  classification: Classifications;
+  classifications: Classifications;
 }
 
-export default function ProductClassification({ classification }: Props) {
+export default function ProductClassification({ classifications }: Props) {
   return (
     <div className="p-4 rounded-md border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 space-y-5">
-      {classification.length === 0 ? (
+      {classifications.length === 0 ? (
         <div className="text-sm text-gray-400 dark:text-gray-500 text-center py-4">
           Không có phân loại sản phẩm
         </div>
       ) : (
-        classification.map((classifi, index) => (
+        classifications.map((classifi, index) => (
           <div
             key={index}
             className="border-b border-gray-100 dark:border-gray-800 pb-5 last:border-0 last:pb-0"
@@ -41,7 +41,7 @@ export default function ProductClassification({ classification }: Props) {
             </div>
 
             {/* Classification Values */}
-            <div className="space-y-2 ml-11">
+            <div className="space-y-2 ml-11 grid grid-cols-4 gap-3">
               {classifi.values.map((classifiValue, indexVl) => (
                 <ProductClassificationValue
                   key={indexVl}

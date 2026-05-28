@@ -2,7 +2,7 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
-import useMangerProduct from "@/context/sellers/ManagerProductContext";
+import useMangerProduct from "@/contexts/sellers/ManagerProductContext";
 
 interface ProductActionsProps {
   productId: string;
@@ -10,6 +10,7 @@ interface ProductActionsProps {
 
 export default function ProductActions({ productId }: ProductActionsProps) {
   const { handles } = useMangerProduct();
+
   const { redirectToDetailPage, onOpenWarningModal } = handles;
 
   return (

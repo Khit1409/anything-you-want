@@ -1,7 +1,7 @@
 "use client";
 
 import { SELLER_NAV } from "@/data/seller-navbar.data";
-import { getIconByString } from "@/features/icon";
+import { getIconByString } from "@/features/icon.feature";
 import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";

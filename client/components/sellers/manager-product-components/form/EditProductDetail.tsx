@@ -3,7 +3,7 @@ import ProductCategories from "./ProductCategories";
 import ProductStatus from "./ProductStatus";
 import ProductImage from "./ProductImage";
 import ProductClassification from "./ProductClassification";
-import useEditProduct from "@/hooks/sellers/products/actions/useEditProduct";
+import useEditProduct from "@/hooks/sellers/products/actions/useEditProductActions";
 
 export default function EditProductDetail() {
   const { product, categories, isSelectedCategory } = useEditProduct();
@@ -37,7 +37,7 @@ export default function EditProductDetail() {
 
       <div>
         <h2 className="text-lg font-semibold mb-2">4. Phân loại</h2>
-        <ProductClassification classification={product.classification} />
+        <ProductClassification classifications={product.classifications} />
       </div>
 
       <div>

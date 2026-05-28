@@ -24,7 +24,7 @@
       "@/interfaces/*": ["./interfaces/*"],
       "@/lib/*": ["./lib/*"],
       "@/redux/*": ["./redux/*"],
-      "@/pages/*": ["./pages/*"],
+      "@/pages/*": ["./page-components/*"],
       "@/hooks/*": ["./hooks/*"],
       "@/components/*": ["./components/*"],
       "@/features/*": ["./features/*"],

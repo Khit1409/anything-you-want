@@ -15,7 +15,11 @@ interface LoginFormProps {
   errorMess: string | null;
 }
 
-export default function LoginForm(props: LoginFormProps) {
+export default function LoginForm({
+  submit,
+  errorMess,
+  setState,
+}: LoginFormProps) {
   const [isAggree, setIsAggress] = useState<boolean>(false);
   const [isSeller, setIsSeller] = useState<boolean>(false);
 
@@ -23,7 +27,7 @@ export default function LoginForm(props: LoginFormProps) {
     <div
       className={`p-8 flex-1 flex items-center justify-center rounde-r-xl shadow-lg bg-(--surface) backdrop-blur-sm`}
     >
-      <form className="w-full max-w-md" onSubmit={props.submit}>
+      <form className="w-full max-w-md" onSubmit={submit}>
         {/* Header */}
         <div className="mb-8 text-center">
           <h2 className="text-2xl font-bold text-(--title) mb-2">Đăng Nhập</h2>
@@ -45,7 +49,7 @@ export default function LoginForm(props: LoginFormProps) {
             name="email_address"
             id="email_address"
             onChange={(e) =>
-              props.setState((prev) => ({
+              setState((prev) => ({
                 ...prev,
                 emailAddress: e.target.value,
               }))
@@ -68,7 +72,7 @@ export default function LoginForm(props: LoginFormProps) {
             className="border border-(--border) p-3 rounded-full w-full outline-none bg-(--surface) focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all duration-200"
             type="password"
             onChange={(e) =>
-              props.setState((prev) => ({
+              setState((prev) => ({
                 ...prev,
                 currentPassword: e.target.value,
               }))
@@ -106,7 +110,7 @@ export default function LoginForm(props: LoginFormProps) {
               id="is_seller"
               onChange={(e) => {
                 setIsSeller((prev) => !prev);
-                props.setState((prev) => ({
+                setState((prev) => ({
                   ...prev,
                   loginRole: e.target.checked ? "seller" : "user",
                 }));
@@ -135,10 +139,8 @@ export default function LoginForm(props: LoginFormProps) {
         </div>
 
         <div className="mb-6 text-center">
-          {props.errorMess && (
-            <small className="text-red-500 italic">
-              {"*" + props.errorMess}
-            </small>
+          {errorMess && (
+            <small className="text-red-500 italic">{"*" + errorMess}</small>
           )}
         </div>
         {/* Divider */}
