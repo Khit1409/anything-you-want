@@ -1,10 +1,10 @@
 import { LoginData } from "@/api/auth.api";
 import { AppDispatch, RootState } from "@/redux/store";
 import { authThunk, loginThunk } from "@/redux/thunk/auth.thunk";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import useLoading from "../common/useLoading";
+import useLoading from "../../common/useLoading";
 
 export default function useLogin() {
   const dispatch = useDispatch<AppDispatch>();
@@ -24,10 +24,14 @@ export default function useLogin() {
     );
     if (loginThunk.fulfilled.match(result) && result.payload.data) {
       dispatch(authThunk());
-      const history = window.history.length;
-      if (history > 1) router.back();
-      console.log("here");
-      router.replace("/");
+      const { role } = result.payload.data;
+      if (role === "seller") {
+        redirect("/seller");
+      } else {
+        const history = window.history.length;
+        if (history > 1) router.back();
+        else redirect("/");
+      }
     }
   };
 

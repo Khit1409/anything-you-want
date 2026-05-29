@@ -24,10 +24,18 @@
     "paths": {
       "@/*": ["./*"],
       "@/modules/*": ["./src/modules/*"],
-      "@/database/*": ["./src/database/*"],
+      "@/database": ["./src/database/*"],
       "@/lib/*": ["./src/lib/*"],
       "@/migration/*": ["./src/database/migrations/*"],
-      "@/common/*": ["./src/common/*"]
+      "@/common/*": ["./src/common/*"],
+      "@/read-services": ["./src/modules/*/services/read.service.ts"],
+      "@/delete-services": ["./src/modules/*/services/delete.service.ts"],
+      "@/update-services": ["./src/modules/*/services/update.service.ts"],
+      "@/shared-services": ["./src/modules/*/services/shared.service.ts"],
+      "@/create-services": ["./src/modules/*/services/create.service.ts"],
+      "@/helper-services": ["./src/modules/*/services/helper.service.ts"],
+      "@/entities": ["./src/modules/*/entities"],
+      "@/schemas": ["./src/modules/*/schemas"]
     }
   }
 }

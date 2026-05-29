@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import bcrypt from 'bcrypt';
-import { User, UserStatus } from './entities/user.entity';
+import { User, UserStatus } from '../entities/user.entity';
 import { Repository } from 'typeorm';
-import { RegisterUserAccountRequestDto } from './dto/register.dto';
+import { RegisterUserAccountRequestDto } from '../dtos/register.dto';
 
 @Injectable()
 export class UserRepository {
@@ -11,27 +11,14 @@ export class UserRepository {
     @InjectRepository(User) private readonly ormRepo: Repository<User>,
   ) {}
 
-  /**
-   *
-   * @param emailAddress
-   * @returns
-   */
   async findByEmail(emailAddress: string) {
     return await this.ormRepo.findOne({ where: { emailAddress } });
   }
-  /**
-   *
-   * @param id
-   * @returns
-   */
+
   async findById(id: string) {
     return await this.ormRepo.findOne({ where: { id } });
   }
-  /**
-   *
-   * @param dto
-   * @returns
-   */
+
   async create(dto: RegisterUserAccountRequestDto) {
     const {
       address,
@@ -71,11 +58,7 @@ export class UserRepository {
     const created = await this.ormRepo.save(newUser);
     return created;
   }
-  /**
-   *
-   * @param id
-   * @returns
-   */
+
   async getInfo(id: string) {
     return await this.ormRepo.findOne({
       where: { id },

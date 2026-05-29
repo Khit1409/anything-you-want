@@ -10,8 +10,9 @@ import { isAxiosError } from "axios";
 export async function getInfoService(): Promise<Profile> {
   try {
     const res = await axiosClient.get("/users/profile");
-    const { data } = res.data as ApiResponse;
-    return data as Profile;
+    const api = res.data as ApiResponse;
+    const profile = api.data as Profile;
+    return profile;
   } catch (error) {
     console.log("user service error: ", error);
     throw error;

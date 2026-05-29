@@ -3,12 +3,6 @@
     --h-seller: calc(100vh - 60px);
 }
 
-
-nav {
-    inline-size: 300px;
-    scrollbar-width: none;
-}
-
 .layout-container {
     overflow: hidden;
     inline-size: 100%;

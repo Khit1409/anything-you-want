@@ -7,6 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.createApplicationContext(SeederModule);
   const seeders = app.get(DatabaseSeeder);
   const action = process.argv[2];
+  const actionList = ['create', 'reset'];
   switch (action) {
     case 'create':
       await seeders.create();
@@ -15,6 +16,12 @@ async function bootstrap() {
       await seeders.reset();
       break;
     default:
+      if (!actionList.includes(action)) {
+        console.log(
+          `unknow ${action} please check correct seed action! ${action} not found!`,
+        );
+        break;
+      }
       console.log('please write action affer npm run seed --action?');
       break;
   }

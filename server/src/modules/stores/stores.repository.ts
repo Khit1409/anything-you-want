@@ -8,25 +8,50 @@ export class StoreRepository {
   constructor(
     @InjectRepository(Store) private readonly ormRepo: Repository<Store>,
   ) {}
-  /**
-   *
-   * @param sellerId
-   * @returns
-   */
-  async getStoreBySellerId(sellerId: string) {
+
+  async getOneBySellerId(sellerId: string) {
     const store = await this.ormRepo.findOne({
       where: { seller: { id: sellerId } },
     });
     return store;
   }
-  /**
-   * get store by email address.
-   *@param email
-   *@returns
-   */
-  async getByStoreEmail(email: string) {
+
+  async getOneStoreEmail(email: string) {
     return await this.ormRepo.findOne({
       where: { info: { emailAddress: email } },
     });
+  }
+
+  async getOneBySellerEmail(sellerEmail: string) {
+    return await this.ormRepo.findOne({
+      where: { seller: { emailAddress: sellerEmail } },
+    });
+  }
+
+  async getOneBySlugName(slug: string) {
+    return await this.ormRepo.findOne({
+      where: { info: { slug } },
+    });
+  }
+
+  async getOneById(id: string) {
+    return await this.ormRepo.findOne({ where: { id } });
+  }
+
+  async getInfoById(id: string) {
+    const orm = await this.ormRepo.findOne({ where: { id } });
+    return orm?.info;
+  }
+
+  async deleteBySellerId(sellerId: string) {
+    return await this.ormRepo.delete({ seller: { id: sellerId } });
+  }
+
+  async deleteById(id: string) {
+    return await this.ormRepo.delete({ id });
+  }
+
+  async deleteBySellerEmail(sellerEmail: string) {
+    return await this.ormRepo.delete({ seller: { emailAddress: sellerEmail } });
   }
 }

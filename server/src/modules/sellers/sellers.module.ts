@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 
 import { SellerController } from './controllers/sellers.controller';
-import { SellerService } from './services/sellers.service';
 import { DatabaseModule } from '@/src/database/database.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Seller } from './entities/seller.entity';
@@ -13,6 +12,10 @@ import { ProductModule } from '../products/products.module';
 import { SellerRepository } from './repositories/sellers.repository';
 import { SellerProductController } from './controllers/seller-products.controller';
 import { HelperModule } from '../helpers/helper.module';
+import { CreateSellerService } from './services/create.service';
+import { SharedSellerService } from './services/shared.service';
+import { HelperSellerService } from './services/helper.service';
+import { ReadSellerService } from './services/read.service';
 
 @Module({
   imports: [
@@ -23,7 +26,19 @@ import { HelperModule } from '../helpers/helper.module';
     HelperModule,
   ],
   controllers: [SellerController, SellerProductController],
-  providers: [SellerService, SellerRepository],
-  exports: [TypeOrmModule, SellerService],
+  providers: [
+    SellerRepository,
+    CreateSellerService,
+    SharedSellerService,
+    HelperSellerService,
+    ReadSellerService,
+  ],
+  exports: [
+    TypeOrmModule,
+    CreateSellerService,
+    SharedSellerService,
+    HelperSellerService,
+    ReadSellerService,
+  ],
 })
 export class SellerModule {}

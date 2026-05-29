@@ -18,10 +18,10 @@ export class StoreInfo {
   @Column({ unique: true })
   slug: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'text', nullable: true, default: null })
   avatar: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'text', nullable: true, default: null })
   thumbnail: string;
 
   @Column({ type: 'text', nullable: true })

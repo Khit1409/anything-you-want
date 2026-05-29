@@ -1,6 +1,6 @@
 "use client";
 
-import useProfile from "@/hooks/users/userProfile";
+import useProfileQueries from "@/hooks/users/queries/useProfileQueries";
 import {
   faBirthdayCake,
   faLocationDot,
@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 
 export default function Profile() {
-  const { profile } = useProfile();
+  const { profile } = useProfileQueries();
 
   return profile ? (
     (() => {

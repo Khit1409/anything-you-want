@@ -16,7 +16,8 @@ export default function useLogout() {
       return dispatch(openModal({ message, state: ModalState.ERROR }));
     }
     dispatch(authThunk());
-    return redirect("login");
+
+    redirect("/login");
   }
   return {
     handleLogout,

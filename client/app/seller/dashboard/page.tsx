@@ -1,3 +1,5 @@
+import SellerDashboard from "@/components/sellers/dashboard/Dashboard";
+
 export default function page() {
-  return <div>This is seller home page</div>;
+  return <SellerDashboard />;
 }

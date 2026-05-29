@@ -1,24 +1,14 @@
 import { deleteCartService, updateCartService } from "@/api";
+import useLoading from "@/hooks/common/useLoading";
 import {
-  AuthInitalState,
-  IAppInitalState,
+  AppDispatch,
   ModalState,
   openModal,
   startLoadingAnimation,
 } from "@/redux";
-import { Dispatch, ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
 
 interface ActionProps {
-  dispatch: ThunkDispatch<
-    {
-      auth: AuthInitalState;
-      app: IAppInitalState;
-    },
-    undefined,
-    UnknownAction
-  > &
-    Dispatch<UnknownAction>;
-  // optional refetch function from react-query to trigger data reload
+  dispatch: AppDispatch;
   refetch?: () => Promise<unknown>;
   newVariant?: string;
   newQuantity: number | undefined;
@@ -36,6 +26,8 @@ export default function useCartListActions({
   setIdToUpdate,
   setNewQuantity,
 }: ActionProps) {
+  const { handleLoading } = useLoading({ dispatch });
+
   const updateCartServiceHandle = async () => {
     if (!idToUpdate) {
       console.log("id to update is undifine!");
@@ -51,14 +43,21 @@ export default function useCartListActions({
       quantity: newQuantity,
       variant: newVariant,
     };
-    dispatch(startLoadingAnimation());
-    const result = await updateCartService({ id: idToUpdate, ...dataToUpdate });
-    if (result) {
-      dispatch(startLoadingAnimation());
-      const message = result.message;
-      const modalType = result.success ? ModalState.SUCCESS : ModalState.ERROR;
-      dispatch(openModal({ message, state: modalType }));
-    }
+
+    const result = await handleLoading(updateCartService, {
+      id: idToUpdate,
+      ...dataToUpdate,
+    });
+
+    const { message, success } = result;
+
+    dispatch(
+      openModal({
+        message,
+        state: success ? ModalState.SUCCESS : ModalState.ERROR,
+      })
+    );
+
     if (refetch) {
       setIdToUpdate(undefined);
       setNewQuantity(undefined);
@@ -76,7 +75,6 @@ export default function useCartListActions({
       dispatch(openModal({ message: mess, state }));
     }
     if (refetch) await refetch();
-    
   };
   return {
     deleteCartServiceHandle,

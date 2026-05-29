@@ -1,9 +1,10 @@
+import { Role } from "@/interfaces";
 import Image from "next/image";
 import Link from "next/link";
-export default function Logo() {
+export default function Logo({ role }: { role?: Role }) {
   return (
     <div>
-      <Link href={"/"}>
+      <Link href={role && role === "seller" ? "/seller/dashboard" : "/"}>
         <Image
           src={"/assets/images/logo.png"}
           alt="logo"

@@ -2,14 +2,14 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import type { StringValue } from 'ms';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
+import { AuthController } from './controllers/auth.controller';
+import { AuthService } from './services/auth.service';
 import { DatabaseModule } from '@/src/database/database.module';
-import { HttpResponse } from '@/src/helpers/httpResponse';
-import { SellerRepository } from '../sellers/repositories/sellers.repository';
-import { UserRepository } from '../users/users.repository';
 import { SellerModule } from '../sellers/sellers.module';
 import { UserModule } from '../users/users.module';
+import { LoginService } from './services/login.service';
+import { HelperModule } from '../helpers/helper.module';
+import { TokenService } from './services/token.service';
 @Module({
   imports: [
     JwtModule.registerAsync({
@@ -26,9 +26,10 @@ import { UserModule } from '../users/users.module';
     DatabaseModule,
     SellerModule,
     UserModule,
+    HelperModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, HttpResponse, SellerRepository, UserRepository],
-  exports: [JwtModule],
+  providers: [AuthService, LoginService, TokenService],
+  exports: [JwtModule, LoginService, TokenService],
 })
 export class AuthModule {}

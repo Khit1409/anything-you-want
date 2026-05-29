@@ -1,7 +1,7 @@
-import { getInfoService } from "@/api/user.api";
+import { getInfoService } from "@/api";
 import { useQuery } from "@tanstack/react-query";
 
-export default function useProfile() {
+export default function useProfileQueries() {
   const { data } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {

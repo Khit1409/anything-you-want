@@ -1,18 +1,26 @@
 "use client";
 
+import Logo from "@/components/common/Logo";
+import useLogout from "@/hooks/common/useLogout";
 import useTheme from "@/hooks/common/useTheme";
 
-import { faBell, faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRightFromBracket,
+  faBell,
+  faSearch,
+  faShoppingCart,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 
 export default function Header() {
   const { changeTheme, themeButtonTitle, themeButtonIcon } = useTheme();
-
+  const { handleLogout } = useLogout();
   return (
     <header className="h-[60px] max-h-[60px] w-screen overflow-hidden py-2 px-5 m-0">
       <div className="flex items-center h-full justify-around">
         <div className="flex-1">
-          <h3>LOGO</h3>
+          <Logo role="seller" />
         </div>
         <div className="flex-1">
           <form className="relative flex items-center">
@@ -33,7 +41,7 @@ export default function Header() {
           </form>
         </div>
         <div className="flex-1 flex justify-end">
-          <div className="flex items-center gap-3 text-(--muted)">
+          <div className="flex items-center gap-5 text-(--muted)">
             <div>
               <button
                 title={themeButtonTitle}
@@ -50,7 +58,20 @@ export default function Header() {
                 <FontAwesomeIcon icon={faBell} />
               </button>
             </div>
-            <div>a</div>
+            <div>
+              <Link href={"/"} title="Quay lại trang người dùng">
+                <FontAwesomeIcon icon={faShoppingCart} />
+              </Link>
+            </div>
+            <div>
+              <button
+                className=""
+                onClick={async () => handleLogout()}
+                title="Đăng xuất"
+              >
+                <FontAwesomeIcon icon={faArrowRightFromBracket} />
+              </button>
+            </div>
           </div>
         </div>
       </div>

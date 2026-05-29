@@ -1,20 +1,19 @@
-import { ProductDetail, ProductPreviews, ApiResponse } from "@/interfaces";
+import {
+  ProductDetail,
+  ProductPreviews,
+  ApiResponse,
+  RegisterSellerAccount,
+} from "@/interfaces";
 import { axiosClient } from "@/lib/configs/axios.config";
 import { isAxiosError } from "axios";
 
-/**
- * Placeholder: gọi API lấy profile của seller.
- * Hiện chưa implement chi tiết, giữ nguyên cấu trúc try/catch để dễ bổ sung.
- */
 export async function getSellerProfileService() {
   try {
   } catch (error) {
     console.error(error);
   }
 }
-/**
- * gọi api lấy danh sách sản phẩm thuộc về seller
- */
+
 export async function getSellerProductListService() {
   try {
     const res = await axiosClient.get("/sellers/products");
@@ -28,9 +27,7 @@ export async function getSellerProductListService() {
     return [];
   }
 }
-/**
- * @param id
- */
+
 export async function getSellerProductDetailService(id: string) {
   try {
     const res = await axiosClient.get(`/sellers/products/${id}`);
@@ -45,10 +42,7 @@ export async function getSellerProductDetailService(id: string) {
     throw error;
   }
 }
-/**
- * Xóa sản phẩm theo id
- * @param id
- */
+
 export async function deleteProductService(id: string) {
   try {
     const res = await axiosClient.delete(`/sellers/products/${id}`);
@@ -63,5 +57,20 @@ export async function deleteProductService(id: string) {
       success: false,
       timestamp: new Date().toLocaleDateString("vi-VN"),
     };
+  }
+}
+
+export async function registerSellerService(data: RegisterSellerAccount) {
+  try {
+    const res = await axiosClient.post("/sellers/register", { ...data });
+    const { message, success } = res.data as ApiResponse;
+    return { message, success };
+  } catch (error) {
+    if (isAxiosError(error)) {
+      const { message, success } = error.response?.data as ApiResponse;
+      return { message, success };
+    }
+
+    return { message: "Unknow error!", success: false };
   }
 }

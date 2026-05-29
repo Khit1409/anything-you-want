@@ -29,14 +29,23 @@ async function getMe() {
 
     return api.data;
   } catch (error) {
-    if (isAxiosError(error) && (error as Error).cause === "ECONNRESET") {
-      console.log(
-        "checking authentication seller is success, but token notfound!, user is not loggin!"
-      );
-      return null;
+    if (isAxiosError(error)) {
+      switch (error.code) {
+        case "ECONNRESET":
+        case "ECONNREFUSED":
+          return null;
+
+        case "ERR_BAD_REQUEST":
+          return null;
+
+        default:
+          console.error(
+            "checking authentication seller is error:",
+            error.message
+          );
+          return null;
+      }
     }
-    console.log("checking authentication seller is error:", error);
-    return null;
   }
 }
 

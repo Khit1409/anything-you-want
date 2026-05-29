@@ -1,7 +1,7 @@
 "use client";
 
 import RegisterForm from "@/components/users/accounts/RegisterForm";
-import useRegister from "@/hooks/users/useRegister";
+import useRegister from "@/hooks/users/actions/useRegister";
 
 export default function RegisterPage() {
   const { formData, setFormData } = useRegister();

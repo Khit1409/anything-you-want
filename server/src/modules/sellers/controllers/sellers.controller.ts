@@ -8,19 +8,22 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { SellerService } from '../services/sellers.service';
-import { CreateSellerDto } from '../dtos';
+import { BecomeSellerDto, CreateSellerDto } from '../dtos';
 import type { Request } from 'express';
 import { Role } from '@/src/common/enums/roles.enum';
 import { Roles } from '@/src/common/decorators/roles.decorator';
 import { RolesGuard } from '@/src/guards/role.guard';
 import { AuthGuard } from '@/src/guards/auth.guard';
 import { HelperService } from '../../helpers/helper.service';
+import { CreateSellerService } from '../services/create.service';
+import { ReadSellerService } from '../services/read.service';
 
 @Controller('sellers')
 export class SellerController {
   constructor(
-    private readonly service: SellerService,
+    private readonly createService: CreateSellerService,
+    private readonly readService: ReadSellerService,
+
     private readonly helperService: HelperService,
   ) {}
 
@@ -36,7 +39,16 @@ export class SellerController {
   @HttpCode(HttpStatus.CREATED)
   @Post('register')
   async register(@Body() dto: CreateSellerDto) {
-    await this.service.createSeller(dto);
+    await this.createService.create(dto);
+    return this.helperService.successResponse({
+      message: 'Đăng ký thành công!',
+    });
+  }
+
+  @HttpCode(HttpStatus.CREATED)
+  @Post('become-seller')
+  async becomeSeller(@Body() dto: BecomeSellerDto) {
+    await this.createService.become(dto);
     return this.helperService.successResponse({
       message: 'Đăng ký thành công!',
     });
@@ -56,7 +68,7 @@ export class SellerController {
   @Get('profile')
   async getProfile(@Req() req: Request) {
     const id = req.userId;
-    const api = await this.service.getSellerProfile(id);
+    const api = await this.readService.getProfileById(id);
     return this.helperService.successResponse({
       message: 'Dữ liệu thông tin người dùng!',
       data: api,

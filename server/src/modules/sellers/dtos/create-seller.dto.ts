@@ -11,7 +11,7 @@ import {
 } from 'class-validator';
 import { SellerPhoneType } from '../entities/seller-phone.entity';
 import { Type } from 'class-transformer';
-import { CreateStoreDto } from '../../stores/dto/create-store.dto';
+import { CreateStoreDto } from '../../stores/dtos/create-store.dto';
 
 export class CreateSeller {}
 /**
@@ -72,6 +72,14 @@ export class CreateSellerDto {
   @IsArray()
   @Type(() => CreateSellerPhoneDto)
   phones!: CreateSellerPhoneDto[];
+  @ValidateNested()
+  @Type(() => CreateStoreDto)
+  store!: CreateStoreDto;
+}
+
+export class BecomeSellerDto {
+  @IsEmail()
+  emailAddress!: string;
   @ValidateNested()
   @Type(() => CreateStoreDto)
   store!: CreateStoreDto;

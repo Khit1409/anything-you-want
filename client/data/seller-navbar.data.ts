@@ -1,11 +1,11 @@
 export const SELLER_NAV = [
   {
     id: "1",
-    category: "Home",
+    category: "Trang Chủ",
     icon: "house",
     childs: [
       {
-        name: "Dashboard",
+        name: "Quản lý cửa hàng",
         url: "dashboard",
         icon: "chartLine",
       },
@@ -14,22 +14,22 @@ export const SELLER_NAV = [
 
   {
     id: "2",
-    category: "Product Manager",
+    category: "Sản Phẩm",
     url: "products",
     icon: "boxOpen",
     childs: [
       {
-        name: "Your Product",
+        name: "Danh sách sản phẩm",
         icon: "receipt",
         url: "",
       },
       {
-        name: "Create Product",
+        name: "Tạo sản phẩm",
         url: "create",
         icon: "squarePlus",
       },
       {
-        name: "Your Popular Products",
+        name: "Sản phẩm bán chạy",
         url: "porpular",
         icon: "fire",
       },
@@ -38,12 +38,12 @@ export const SELLER_NAV = [
 
   {
     id: "3",
-    category: "Customer Manager",
+    category: "Khách Hàng",
     url: "customers",
     icon: "users",
     childs: [
       {
-        name: "Friendly Customers",
+        name: "Khách hàng thân thiết",
         url: "friendly",
         icon: "userGroup",
       },
@@ -52,17 +52,17 @@ export const SELLER_NAV = [
 
   {
     id: "4",
-    category: "Messages",
+    category: "Tin Nhắn",
     url: "messages",
     icon: "message",
     childs: [
       {
-        name: "Customer feedback",
+        name: "Phản hồi từ khách hàng",
         url: "feedback",
         icon: "comments",
       },
       {
-        name: "Store messages",
+        name: "Tin nhắn của cửa hàng",
         url: "store",
         icon: "envelope",
       },
@@ -71,17 +71,17 @@ export const SELLER_NAV = [
 
   {
     id: "5",
-    category: "Your Orders",
+    category: "Đơn Hàng",
     url: "orders",
     icon: "cartShopping",
     childs: [
       {
-        name: "New orders",
+        name: "Đơn hàng mới",
         url: "new",
         icon: "bagShopping",
       },
       {
-        name: "Order List",
+        name: "Danh sách đơn hàng",
         url: "",
         icon: "receipt",
       },
@@ -90,12 +90,12 @@ export const SELLER_NAV = [
 
   {
     id: "6",
-    category: "Settings",
+    category: "Cài Đặt",
     url: "",
     icon: "gear",
     childs: [
       {
-        name: "Security",
+        name: "Bảo mật",
         url: "/seller/setting/security",
         icon: "shieldHalved",
       },

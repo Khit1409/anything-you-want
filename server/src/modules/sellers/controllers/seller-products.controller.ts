@@ -11,7 +11,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { StoreService } from '../../stores/stores.service';
+import { ReadStoreService } from '../../stores/services/read.service';
 import { RolesGuard } from '@/src/guards/role.guard';
 import { Role } from '@/src/common/enums/roles.enum';
 import { Roles } from '@/src/common/decorators/roles.decorator';
@@ -20,7 +20,6 @@ import {
   ProductQueryDto,
   UpdateVariantDto,
 } from '../../products/dtos';
-import { SellerService } from '../services/sellers.service';
 import { AuthGuard } from '@/src/guards/auth.guard';
 import type { Request } from 'express';
 import { ReadProductService } from '../../products/services/read.service';
@@ -28,17 +27,18 @@ import { DeleteProductService } from '../../products/services/delete.service';
 import { UpdateProductService } from '../../products/services/update.service';
 import { CreateProductService } from '../../products/services/create.service';
 import { HelperService } from '../../helpers/helper.service';
+import { HelperSellerService } from '../services/helper.service';
 
 @Controller('sellers/products')
 export class SellerProductController {
   constructor(
-    private readonly service: SellerService,
     private readonly createProductService: CreateProductService,
     private readonly updateProductService: UpdateProductService,
     private readonly deleteProductService: DeleteProductService,
     private readonly readProductService: ReadProductService,
-    private readonly storeService: StoreService,
+    private readonly readStoreService: ReadStoreService,
     private readonly helperService: HelperService,
+    private readonly helperSellerService: HelperSellerService,
   ) {}
   /**
    * Lấy danh sách sản phẩm của người bán (yêu cầu xác thực)
@@ -51,7 +51,7 @@ export class SellerProductController {
   @Get('')
   async getProductList(@Query() query: ProductQueryDto, @Req() req: Request) {
     const sellerId = req.userId;
-    await this.service.checkExistingSeller(sellerId);
+    await this.helperSellerService.checkExistingById(sellerId);
     const api = await this.readProductService.previewForSeller(query, sellerId);
 
     return this.helperService.successResponse({
@@ -118,7 +118,7 @@ export class SellerProductController {
   async createProduct(@Body() dto: CreateProductDto, @Req() req: Request) {
     try {
       const sellerId = req.userId;
-      const store = await this.storeService.getStoreBySellerId(sellerId);
+      const store = await this.readStoreService.getBySellerId(sellerId);
       const owner = { sellerId, storeId: store.id };
 
       const resultData = await this.createProductService.create(dto, owner);

@@ -3,7 +3,7 @@
 import LoginForm from "@/components/common/LoginForm";
 import LoginText from "@/components/common/LoginText";
 
-import useLogin from "@/hooks/users/useLogin";
+import useLogin from "@/hooks/auth/actions/useLogin";
 
 export default function LoginPage() {
   const { setLoginData, submitForm, error } = useLogin();

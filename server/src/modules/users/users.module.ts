@@ -5,18 +5,31 @@ import { UserAddress } from './entities/user-address.entity';
 import { UserPhone } from './entities/user-phone.entity';
 import { UserInfo } from './entities/user-info.entity';
 import { User } from './entities/user.entity';
-import { UserService } from './users.service';
-import { UserController } from './users.controller';
-import { UserRepository } from './users.repository';
-import { HttpResponse } from '@/src/helpers/httpResponse';
+import { UserController } from './controllers/users.controller';
+import { UserRepository } from './repositories/users.repository';
+import { ReadUserService } from './services/read.service';
+import { SharedUserService } from './services/shared.service';
+import { CreateUserService } from './services/create.service';
+import { HelperModule } from '../helpers/helper.module';
 
 @Module({
   imports: [
     DatabaseModule,
     TypeOrmModule.forFeature([User, UserInfo, UserPhone, UserAddress]),
+    HelperModule,
   ],
   controllers: [UserController],
-  providers: [UserService, UserRepository, HttpResponse],
-  exports: [TypeOrmModule],
+  providers: [
+    ReadUserService,
+    SharedUserService,
+    CreateUserService,
+    UserRepository,
+  ],
+  exports: [
+    TypeOrmModule,
+    ReadUserService,
+    SharedUserService,
+    CreateUserService,
+  ],
 })
 export class UserModule {}
