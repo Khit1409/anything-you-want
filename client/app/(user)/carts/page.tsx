@@ -1,6 +1,5 @@
-import { CartPageComponet } from "@/page-components";
-
+import CartPage from "@/page-components/users/CartPage";
 
 export default function page() {
-  return <CartPageComponet />;
+  return <CartPage />;
 }

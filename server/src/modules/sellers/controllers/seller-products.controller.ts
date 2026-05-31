@@ -112,6 +112,7 @@ export class SellerProductController {
       data: { result },
     });
   }
+
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.SELLER)
   @Post('')

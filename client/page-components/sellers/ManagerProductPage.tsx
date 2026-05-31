@@ -1,6 +1,6 @@
 "use client";
 
-import ManagerProductContent from "@/components/sellers/manager-product-components/ManagerProductContent";
+import { ManagerProductContent } from "@/components/sellers/products";
 import { ManagerProductProvider } from "@/contexts/sellers/ManagerProductContext";
 
 export default function ManagerProductPage() {

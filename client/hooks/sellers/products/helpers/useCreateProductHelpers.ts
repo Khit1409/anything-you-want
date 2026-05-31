@@ -3,6 +3,7 @@ import useProductImageHelpers from "./useProductImageHelpers";
 import useProductInfoHelpers from "./useProductInfoHelpers";
 import { AppDispatch, ModalState, openModal } from "@/redux";
 import useProductShippingHelpers from "./useProductShippingHelpers";
+import useProductPhysicalHelper from "./useProductPhysicalHelpers";
 
 interface HelperProps {
   dispatch: AppDispatch;
@@ -15,7 +16,7 @@ export default function useCreateProductHelpers({ dispatch }: HelperProps) {
     });
   const { validateImages, images } = useProductImageHelpers({ dispatch });
   const { validateProductInfo, productInfo } = useProductInfoHelpers();
-  const { shipping } = useProductShippingHelpers();
+  const { shipping, checkingShipping } = useProductShippingHelpers();
 
   const validatePayload = () => {
     const checkInfo = validateProductInfo(productInfo);
@@ -39,10 +40,8 @@ export default function useCreateProductHelpers({ dispatch }: HelperProps) {
         })
       );
     }
-    const checkShipping =
-      shipping.normal == false
-        ? { ok: false, message: "Vận chuyển thường là mặc định!" }
-        : { ok: true, message: "" };
+    const checkShipping = checkingShipping(shipping);
+
     if (!checkShipping.ok) {
       return dispatch(
         openModal({ message: checkShipping.message, state: ModalState.WARNING })
@@ -56,5 +55,6 @@ export default function useCreateProductHelpers({ dispatch }: HelperProps) {
     ...useProductInfoHelpers(),
     ...useProductImageHelpers({ dispatch }),
     ...useProductShippingHelpers(),
+    ...useProductPhysicalHelper(),
   };
 }

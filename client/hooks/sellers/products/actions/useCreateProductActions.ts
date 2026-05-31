@@ -11,6 +11,7 @@ import {
   CreateProductClassifications,
   CreateProductImage,
   CreateProductInfo,
+  CreateProductPhysical,
   CreateProductShipping,
 } from "@/interfaces";
 
@@ -19,6 +20,7 @@ interface CreateProductPayload {
   info: CreateProductInfo;
   classifications: CreateProductClassifications;
   shipping: CreateProductShipping;
+  physical: CreateProductPhysical;
 }
 
 export default function useCreateProductActions({
@@ -36,6 +38,7 @@ export default function useCreateProductActions({
     images,
     info,
     shipping,
+    physical,
   }: CreateProductPayload) {
     const formatImage = {
       thumbnail: images.thumbnail!,
@@ -47,9 +50,13 @@ export default function useCreateProductActions({
       classifications,
       images: formatImage,
       shipping,
+      physical,
     };
 
+    console.log(dataForm);
+
     const result = await handleLoading(createProductService, dataForm);
+
     const { message, success, data } = result;
     if (success && data) {
       console.log("create product return", data);

@@ -1,6 +1,6 @@
 "use client";
 
-import { EditProductDetail } from "@/components/sellers/manager-product-components";
+import { EditProductDetail } from "@/components/sellers/products";
 
 export default function EditProductPage() {
   return <EditProductDetail />;

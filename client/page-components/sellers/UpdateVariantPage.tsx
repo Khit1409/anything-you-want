@@ -1,4 +1,4 @@
-import EditProductVariantForm from "@/components/sellers/manager-product-components/form/EditProductVariantForm";
+import { EditProductVariantForm } from "@/components/sellers/products";
 import { useParams } from "next/navigation";
 
 

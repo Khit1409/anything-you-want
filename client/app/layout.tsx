@@ -37,13 +37,13 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={nunito.className}>
         <ReduxProvider>
-          <AppWrapper>
-            <QueryProvider>
+          <QueryProvider>
+            <AppWrapper>
               <AppModal />
               <Loading />
               {children}
-            </QueryProvider>
-          </AppWrapper>
+            </AppWrapper>
+          </QueryProvider>
         </ReduxProvider>
       </body>
     </html>

@@ -8,8 +8,8 @@ import { axiosClient } from "@/lib/configs/axios.config";
 export async function getCategoryService() {
   try {
     const res = await axiosClient.get("/categories");
-    const { data } = res.data as ApiResponse & { data: Categories };
-    return data;
+    const { data } = res.data as ApiResponse;
+    return data as Categories;
   } catch (error) {
     throw error;
   }

@@ -1,5 +1,6 @@
 "use client";
 
+import useCheckAuth from "@/hooks/common/useCheckAuth";
 import { setWebMode } from "@/redux/slice/app.slice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { authThunk } from "@/redux/thunk/auth.thunk";
@@ -34,11 +35,12 @@ export default function AppWrapper({
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  useEffect(() => {
-    (async () => {
-      await dispatch(authThunk());
-    })();
-  }, [dispatch]);
+  // useEffect(() => {
+  //   (async () => {
+  //     await dispatch(authThunk());
+  //   })();
+  // }, [dispatch]);
+  useCheckAuth();
 
   return <>{children}</>;
 }

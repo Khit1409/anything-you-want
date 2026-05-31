@@ -14,6 +14,7 @@ import { CreateProductService } from './services/create.service';
 import { UpdateProductService } from './services/update.service';
 import { DeleteProductService } from './services/delete.service';
 import { ReadProductService } from './services/read.service';
+import { HelperProductService } from './services/helper.service';
 
 @Module({
   imports: [
@@ -33,9 +34,11 @@ import { ReadProductService } from './services/read.service';
     UpdateProductService,
     DeleteProductService,
     ReadProductService,
+    HelperProductService,
   ],
   exports: [
     ProductRepository,
+    HelperProductService,
     MongooseModule,
     ProductMapper,
     ProductSharedService,

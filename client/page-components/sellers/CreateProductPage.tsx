@@ -1,6 +1,6 @@
 "use client";
 
-import { CreateProductForm } from "@/components/sellers/manager-product-components";
+import { CreateProductForm } from "@/components/sellers/products";
 import CreateProductContextProvider from "@/contexts/sellers/CreateProductContext";
 
 export default function CreateProductPage() {

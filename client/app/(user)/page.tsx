@@ -1,11 +1,9 @@
-import { HomePageComponet } from "@/page-components";
-
-
+import HomePage from "@/page-components/users/HomePage";
 
 export default function page() {
   return (
     <>
-      <HomePageComponet />
+      <HomePage />
     </>
   );
 }

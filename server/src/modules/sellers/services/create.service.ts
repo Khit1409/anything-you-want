@@ -5,12 +5,13 @@ import {
 } from '@nestjs/common';
 import { SellerRepository } from '../repositories/sellers.repository';
 import { HelperService } from '../../helpers/helper.service';
-import { BecomeSellerDto, CreateSellerDto, CreateSellerInfoDto } from '../dtos';
+import { CreateSellerDto, CreateSellerInfoDto } from '../dtos';
 import { SellerStatus } from '../entities/seller.entity';
 import * as bcrypt from 'bcrypt';
 import { HelperSellerService } from './helper.service';
 import { CreateStoreService } from '../../stores/services/create.service';
 import { SharedUserService } from '../../users/services/shared.service';
+
 @Injectable()
 export class CreateSellerService {
   constructor(
@@ -95,12 +96,5 @@ export class CreateSellerService {
       );
     }
     return true;
-  }
-
-  async become(dto: BecomeSellerDto) {
-    const user = await this.sharedUserService.getByEmail(dto.emailAddress);
-    const { addresses } = user;
-    
-    const insertData = await this.createInsertData({ addresses, phones: [], });
   }
 }

@@ -1,116 +1,44 @@
-/* -------------------------------------------------------------------------- */
-/*                                   REQUEST                                  */
-/* -------------------------------------------------------------------------- */
-
 import { ApiResponse } from "./common.interface";
 
-/**
- * Query request dùng để lấy danh sách preview sản phẩm.
- */
-export interface GetProductPreviewRequest {
-  page: number;
-}
-
-/**
- * Request gửi lên server khi tạo sản phẩm mới.
- */
-export interface CreateProductRequest {
-  info: CreateProductInfo;
-  classifications: CreateProductClassifications;
-  shipping: CreateProductShipping;
-  images: CreateProductImage;
-}
-
 /* -------------------------------------------------------------------------- */
-/*                               RESPONSE TYPES                               */
+/*                                    ENUM                                    */
 /* -------------------------------------------------------------------------- */
 
-/**
- * Response API trả về danh sách preview sản phẩm.
- */
-export interface ProductPreviewApiResponse extends ApiResponse {
-  data: ProductPreviewDataResponse;
-}
-
-/**
- * Response API trả về chi tiết sản phẩm.
- */
-export interface ProductDetailApiResponse extends ApiResponse {
-  data: ProductDetailDataApiResponse;
-}
-
-/**
- * Data response của API preview sản phẩm.
- */
-export interface ProductPreviewDataResponse {
-  products: ProductPreviews;
-  request: GetProductPreviewRequest;
-}
-
-/**
- * Data response của API chi tiết sản phẩm.
- */
-export interface ProductDetailDataApiResponse {
-  product: ProductDetail | null;
-  relateds: ProductPreviews;
-}
-
-/* -------------------------------------------------------------------------- */
-/*                                   ENUMS                                    */
-/* -------------------------------------------------------------------------- */
-
-/**
- * Trạng thái sản phẩm.
- *
- * - ACTIVE: đang bán
- * - INACTIVE: tạm ngưng bán
- * - ZERO: hết hàng
- */
 export enum ProductStatus {
   ACTIVE = "active",
   INACTIVE = "inactive",
   ZERO = "zero",
 }
 
+export enum ShippingMethod {
+  STANDARD = "standard",
+  EXPRESS = "express",
+  SAMEDAY = "sameDay",
+  NEXTDAY = "nextDay",
+  INTERNATIONAL = "international",
+  PICKUP = "pickup",
+  SCHEDULED = "scheduled",
+}
+
 /* -------------------------------------------------------------------------- */
-/*                              PRODUCT PREVIEW                               */
+/*                               SHARED TYPES                                 */
 /* -------------------------------------------------------------------------- */
 
-/**
- * Thông tin category của sản phẩm.
- */
 export interface ProductCategory {
   id: string;
   name: string;
 }
 
-/**
- * Thông tin hỗ trợ giao hàng.
- */
-export interface ProductShipping {
-  flash: boolean;
-  normal: boolean;
-}
-
-/**
- * Thông tin đánh giá sản phẩm.
- */
 export interface ProductRating {
   avg: number;
   total: number;
 }
 
-/**
- * Hình ảnh sản phẩm.
- */
 export interface ProductImages {
   thumbnail: string;
   details: string[];
 }
 
-/**
- * Thông tin cơ bản của sản phẩm.
- */
 export interface ProductInfo {
   name: string;
   price: number;
@@ -123,12 +51,72 @@ export interface ProductInfo {
   origin?: string;
 }
 
-/**
- * Preview của sản phẩm dùng cho:
- * - danh sách sản phẩm
- * - sản phẩm liên quan
- * - search result
- */
+export interface ProductShippingTime {
+  prepareDays: number;
+  deliveryDays: number;
+}
+
+export interface ProductShippingMethod {
+  type: ShippingMethod;
+  enabled: boolean;
+  times: ProductShippingTime;
+  supportedProvinces: string[];
+}
+
+export type ProductShippingMethods = ProductShippingMethod[];
+
+export interface ProductShipping {
+  methods: ProductShippingMethods;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              CLASSIFICATION                                */
+/* -------------------------------------------------------------------------- */
+
+export interface ProductClassificationValue {
+  name: string;
+  img?: string;
+}
+
+export type ProductClassificationValues = ProductClassificationValue[];
+
+export interface ProductClassification {
+  name: string;
+  values: ProductClassificationValues;
+}
+
+export type ProductClassifications = ProductClassification[];
+
+/* -------------------------------------------------------------------------- */
+/*                                  VARIANT                                   */
+/* -------------------------------------------------------------------------- */
+
+export interface ProductVariant {
+  id: string;
+  sku: string;
+  stock: number;
+  extraPrice: number;
+  options: Record<string, string>;
+}
+
+export type ProductVariants = ProductVariant[];
+
+/* -------------------------------------------------------------------------- */
+/*                                  PHYSICAL                                  */
+/* -------------------------------------------------------------------------- */
+export type ProductDimensions = {
+  length: number; //cm
+  width: number; //cm
+  height: number; //cm
+};
+export interface ProductPhysical {
+  weight: number; //gam
+  dimensions: ProductDimensions;
+}
+/* -------------------------------------------------------------------------- */
+/*                                  PRODUCT                                   */
+/* -------------------------------------------------------------------------- */
+
 export interface ProductPreview {
   id: string;
 
@@ -145,85 +133,8 @@ export interface ProductPreview {
   status: ProductStatus;
 }
 
-/**
- * Danh sách preview sản phẩm.
- */
 export type ProductPreviews = ProductPreview[];
 
-/* -------------------------------------------------------------------------- */
-/*                              PRODUCT DETAIL                                */
-/* -------------------------------------------------------------------------- */
-
-/**
- * Giá trị của classification.
- *
- * Ví dụ:
- * - trắng, đỏ
- * - M, XL
- */
-export interface ProductClassificationValue {
-  name: string;
-  img?: string;
-}
-
-/**
- * Danh sách value của classification.
- */
-export type ProductClassificationValues = ProductClassificationValue[];
-
-/**
- * Classification của sản phẩm.
- *
- * Ví dụ:
- * - Color
- * - Size
- */
-export interface ProductClassification {
-  name: string;
-  values: ProductClassificationValues;
-}
-
-/**
- * Danh sách classification.
- */
-export type ProductClassifications = ProductClassification[];
-
-/**
- * Variant thực tế của sản phẩm.
- *
- * Ví dụ:
- * - Red / XL
- * - Black / M
- */
-export interface ProductVariant {
-  id: string;
-
-  sku: string;
-
-  stock: number;
-
-  extraPrice: number;
-
-  /**
-   * Mapping classification name -> value.
-   *
-   * Ví dụ:
-   * {
-   *   color: "red",
-   *   size: "xl"
-   * }
-   */
-  options: Record<string, string>;
-}
-
-/**
- * Danh sách variants.
- */
-export type ProductVariants = ProductVariant[];
-
-/**
- * Chi tiết đầy đủ của sản phẩm.
- */
 export interface ProductDetail extends ProductPreview {
   classifications: ProductClassifications;
 
@@ -234,29 +145,53 @@ export interface ProductDetail extends ProductPreview {
   updatedAt: string;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                              PRODUCT OWNER                                 */
-/* -------------------------------------------------------------------------- */
-
-/**
- * Thông tin người bán.
- *
- * NOTE:
- * Chỉ trả về cho seller/admin.
- * Không expose cho user thông thường.
- */
 export interface ProductOwner {
   sellerId: string;
   storeId: string;
 }
 
 /* -------------------------------------------------------------------------- */
+/*                                  REQUEST                                   */
+/* -------------------------------------------------------------------------- */
+
+export interface GetProductPreviewRequest {
+  page: number;
+}
+
+export interface CreateProductRequest {
+  info: CreateProductInfo;
+  classifications: CreateProductClassifications;
+  shipping: CreateProductShipping;
+  images: CreateProductImage;
+  physical: CreateProductPhysical;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                  RESPONSE                                  */
+/* -------------------------------------------------------------------------- */
+
+export interface ProductPreviewDataResponse {
+  products: ProductPreviews;
+  request: GetProductPreviewRequest;
+}
+
+export interface ProductDetailDataApiResponse {
+  product: ProductDetail | null;
+  relateds: ProductPreviews;
+}
+
+export interface ProductPreviewApiResponse extends ApiResponse {
+  data: ProductPreviewDataResponse;
+}
+
+export interface ProductDetailApiResponse extends ApiResponse {
+  data: ProductDetailDataApiResponse;
+}
+
+/* -------------------------------------------------------------------------- */
 /*                              CREATE PRODUCT                                */
 /* -------------------------------------------------------------------------- */
 
-/**
- * Thông tin cơ bản khi tạo sản phẩm.
- */
 export interface CreateProductInfo {
   name: string;
 
@@ -268,62 +203,63 @@ export interface CreateProductInfo {
 
   description: string;
 
-  /**
-   * Giảm giá (%).
-   *
-   * min: 0
-   * max: 100
-   */
   brand?: string;
 
   origin?: string;
 }
 
-/**
- * Value của classification khi tạo sản phẩm.
- */
 export interface CreateProductClassificationValue {
   name: string;
   img?: string;
 }
 
-/**
- * Danh sách classification value khi tạo sản phẩm.
- */
 export type CreateProductClassificationValues =
   CreateProductClassificationValue[];
 
-/**
- * Classification khi tạo sản phẩm.
- */
 export interface CreateProductClassification {
   name: string;
   values: CreateProductClassificationValues;
 }
 
-/**
- * Danh sách classification khi tạo sản phẩm.
- */
 export type CreateProductClassifications = CreateProductClassification[];
 
-/**
- * Shipping khi tạo sản phẩm.
- */
-export interface CreateProductShipping {
-  normal: boolean;
-  flash: boolean;
+export type CreateProductShippingTime = {
+  deliveryDays: number;
+  prepareDays: number;
+};
+
+export interface CreateProductShippingMethod {
+  type: ShippingMethod;
+  enabled: boolean;
+  supportedProvinces?: string[];
+  times: CreateProductShippingTime;
 }
 
-/**
- * Images khi tạo sản phẩm.
- */
+export type CreateProductShippingMethods = Array<CreateProductShippingMethod>;
+
+export interface CreateProductShipping {
+  methods: CreateProductShippingMethods;
+}
+
 export interface CreateProductImage {
   thumbnail: string;
   details: string[];
 }
-/**
- *
- */
+
+export type CreateProductDimensions = {
+  height: number;
+  width: number;
+  length: number;
+};
+
+export interface CreateProductPhysical {
+  weight: number;
+  dimensions: CreateProductDimensions;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              UPDATE PRODUCT                                */
+/* -------------------------------------------------------------------------- */
 
 export interface UpdateProductVariant {
   id: string;
@@ -331,4 +267,4 @@ export interface UpdateProductVariant {
   extraPrice?: number;
 }
 
-export type UpdateProductVariants = Array<UpdateProductVariant>;
+export type UpdateProductVariants = UpdateProductVariant[];

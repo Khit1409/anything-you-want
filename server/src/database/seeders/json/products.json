@@ -1,0 +1,321 @@
+{
+  "_id": {
+    "$oid": "6a12a2189dfe75ecaee32835"
+  },
+  "info": {
+    "name": "Giày thể thao Adidas chính hãng, có nhiều mẫu lựa chọn. Phù hợp nhiều mục đích sử dụng.",
+    "description": "Giày thể thao Adidas chính hãng, có nhiều mẫu lựa chọn. Phù hợp với nhiều mục đích sử dụng.",
+    "price": "15000000",
+    "sale": "10",
+    "category": {
+      "id": "69ec6c52a897a2040199d4dc",
+      "name": "Shoes"
+    },
+    "brand": "Adidas",
+    "origin": "VietNam"
+  },
+  "owner": {
+    "sellerId": "f63f0321-ceb9-4b0b-8b54-f4104f856fb0",
+    "storeId": "ab043fb4-9ebf-4f4b-b0e1-c67dc2bd4836"
+  },
+  "images": {
+    "thumbnail": "https://tse3.mm.bing.net/th/id/OIP.PNlLza4z7sm2OQC-lzg9MgHaHa?r=0&pid=ImgDet&w=178&h=178&c=7&dpr=1.5&o=7&rm=3",
+    "details": [
+      "https://tse3.mm.bing.net/th/id/OIP.PNlLza4z7sm2OQC-lzg9MgHaHa?r=0&pid=ImgDet&w=178&h=178&c=7&dpr=1.5&o=7&rm=3",
+      "https://tse1.mm.bing.net/th/id/OIP.TUiSY9x5Uyh352hQOP-lxQHaHa?r=0&pid=ImgDet&w=201&h=201&c=7&dpr=1.5&o=7&rm=3",
+      "https://tse2.mm.bing.net/th/id/OIP.KqiqHOCRAHLZJQNHlF5zhwHaLH?r=0&pid=ImgDet&w=201&h=301&c=7&dpr=1.5&o=7&rm=3"
+    ]
+  },
+  "tags": [
+    "#giay-the-thao-adidas-chinh-hang",
+    "#co-nhieu-mau-lua-chon-phu-hop-nhieu-muc-dich-su-dung",
+    "#adidas"
+  ],
+  "classifications": [
+    {
+      "name": "Màu",
+      "values": [
+        {
+          "name": "Trắng",
+          "extraPrice": 200000,
+          "img": "https://tse2.mm.bing.net/th/id/OIP.cvTx3E4azWvL5L9-JioTpgHaHa?r=0&pid=ImgDet&w=201&h=201&c=7&dpr=1.5&o=7&rm=3"
+        },
+        {
+          "name": "Đen",
+          "extraPrice": 200000,
+          "img": "https://tse1.mm.bing.net/th/id/OIP.TUiSY9x5Uyh352hQOP-lxQHaHa?r=0&pid=ImgDet&w=201&h=201&c=7&dpr=1.5&o=7&rm=3"
+        },
+        {
+          "name": "Xám",
+          "extraPrice": 200000,
+          "img": "https://tse3.mm.bing.net/th/id/OIP.P2Kw8yraG8ja8nA6lnay8AHaHa?r=0&pid=ImgDet&w=201&h=201&c=7&dpr=1.5&o=7&rm=3"
+        },
+        {
+          "name": "Bạc",
+          "extraPrice": 200000,
+          "img": "https://tse2.mm.bing.net/th/id/OIP.KqiqHOCRAHLZJQNHlF5zhwHaLH?r=0&pid=ImgDet&w=201&h=301&c=7&dpr=1.5&o=7&rm=3"
+        }
+      ]
+    },
+    {
+      "name": "Size",
+      "values": [
+        {
+          "name": "39",
+          "extraPrice": 0,
+          "img": ""
+        },
+        {
+          "name": "40",
+          "extraPrice": 0,
+          "img": ""
+        },
+        {
+          "name": "41",
+          "extraPrice": 0,
+          "img": ""
+        },
+        {
+          "name": "42",
+          "extraPrice": 0,
+          "img": ""
+        }
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "sku": "GIAY-316-TRANG-39",
+      "extraPrice": 200000,
+      "stock": 100,
+      "options": {
+        "mau": "Trắng",
+        "size": "39"
+      },
+      "_id": {
+        "$oid": "6a12a2189dfe75ecaee32836"
+      }
+    },
+    {
+      "sku": "GIAY-316-DEN-39",
+      "extraPrice": 200000,
+      "stock": 100,
+      "options": {
+        "mau": "Đen",
+        "size": "39"
+      },
+      "_id": {
+        "$oid": "6a12a2189dfe75ecaee32837"
+      }
+    },
+    {
+      "sku": "GIAY-316-XAM-39",
+      "extraPrice": 200000,
+      "stock": 100,
+      "options": {
+        "mau": "Xám",
+        "size": "39"
+      },
+      "_id": {
+        "$oid": "6a12a2189dfe75ecaee32838"
+      }
+    },
+    {
+      "sku": "GIAY-316-BAC-39",
+      "extraPrice": 200000,
+      "stock": 100,
+      "options": {
+        "mau": "Bạc",
+        "size": "39"
+      },
+      "_id": {
+        "$oid": "6a12a2189dfe75ecaee32839"
+      }
+    },
+    {
+      "sku": "GIAY-316-TRANG-40",
+      "extraPrice": 200000,
+      "stock": 100,
+      "options": {
+        "mau": "Trắng",
+        "size": "40"
+      },
+      "_id": {
+        "$oid": "6a12a2189dfe75ecaee3283a"
+      }
+    },
+    {
+      "sku": "GIAY-316-DEN-40",
+      "extraPrice": 200000,
+      "stock": 100,
+      "options": {
+        "mau": "Đen",
+        "size": "40"
+      },
+      "_id": {
+        "$oid": "6a12a2189dfe75ecaee3283b"
+      }
+    },
+    {
+      "sku": "GIAY-316-XAM-40",
+      "extraPrice": 200000,
+      "stock": 100,
+      "options": {
+        "mau": "Xám",
+        "size": "40"
+      },
+      "_id": {
+        "$oid": "6a12a2189dfe75ecaee3283c"
+      }
+    },
+    {
+      "sku": "GIAY-316-BAC-40",
+      "extraPrice": 200000,
+      "stock": 100,
+      "options": {
+        "mau": "Bạc",
+        "size": "40"
+      },
+      "_id": {
+        "$oid": "6a12a2189dfe75ecaee3283d"
+      }
+    },
+    {
+      "sku": "GIAY-316-TRANG-41",
+      "extraPrice": 200000,
+      "stock": 100,
+      "options": {
+        "mau": "Trắng",
+        "size": "41"
+      },
+      "_id": {
+        "$oid": "6a12a2189dfe75ecaee3283e"
+      }
+    },
+    {
+      "sku": "GIAY-316-DEN-41",
+      "extraPrice": 200000,
+      "stock": 100,
+      "options": {
+        "mau": "Đen",
+        "size": "41"
+      },
+      "_id": {
+        "$oid": "6a12a2189dfe75ecaee3283f"
+      }
+    },
+    {
+      "sku": "GIAY-316-XAM-41",
+      "extraPrice": 200000,
+      "stock": 100,
+      "options": {
+        "mau": "Xám",
+        "size": "41"
+      },
+      "_id": {
+        "$oid": "6a12a2189dfe75ecaee32840"
+      }
+    },
+    {
+      "sku": "GIAY-316-BAC-41",
+      "extraPrice": 200000,
+      "stock": 100,
+      "options": {
+        "mau": "Bạc",
+        "size": "41"
+      },
+      "_id": {
+        "$oid": "6a12a2189dfe75ecaee32841"
+      }
+    },
+    {
+      "sku": "GIAY-316-TRANG-42",
+      "extraPrice": 200000,
+      "stock": 100,
+      "options": {
+        "mau": "Trắng",
+        "size": "42"
+      },
+      "_id": {
+        "$oid": "6a12a2189dfe75ecaee32842"
+      }
+    },
+    {
+      "sku": "GIAY-316-DEN-42",
+      "extraPrice": 200000,
+      "stock": 100,
+      "options": {
+        "mau": "Đen",
+        "size": "42"
+      },
+      "_id": {
+        "$oid": "6a12a2189dfe75ecaee32843"
+      }
+    },
+    {
+      "sku": "GIAY-316-XAM-42",
+      "extraPrice": 200000,
+      "stock": 100,
+      "options": {
+        "mau": "Xám",
+        "size": "42"
+      },
+      "_id": {
+        "$oid": "6a12a2189dfe75ecaee32844"
+      }
+    },
+    {
+      "sku": "GIAY-316-BAC-42",
+      "extraPrice": 200000,
+      "stock": 100,
+      "options": {
+        "mau": "Bạc",
+        "size": "42"
+      },
+      "_id": {
+        "$oid": "6a12a2189dfe75ecaee32845"
+      }
+    }
+  ],
+  "physical": {
+    "weight": 200,
+    "dimensions": {
+      "length": 200,
+      "width": 200,
+      "height": 200
+    }
+  },
+  "shipping": {
+    "methods": [
+      {
+        "type": "normal",
+        "enabled": true,
+        "times": {
+          "prepareDays": 2,
+          "deliveryDays": 3
+        }
+      },
+
+      {
+        "type": "flash",
+        "enabled": true,
+        "supportedProvinces": ["79", "56"],
+        "times": {
+          "prepareDays": 1,
+          "deliveryDays": 1
+        }
+      }
+    ]
+  },
+  "ratingSumary": {
+    "avg": 5,
+    "total": 0
+  },
+  "status": "active",
+  "createdAt": {
+    "$date": "2026-05-24T07:00:40.304Z"
+  },
+  "updatedAt": {
+    "$date": "2026-05-24T07:04:58.943Z"
+  }
+}

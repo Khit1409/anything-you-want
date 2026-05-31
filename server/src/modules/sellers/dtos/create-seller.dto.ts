@@ -76,11 +76,3 @@ export class CreateSellerDto {
   @Type(() => CreateStoreDto)
   store!: CreateStoreDto;
 }
-
-export class BecomeSellerDto {
-  @IsEmail()
-  emailAddress!: string;
-  @ValidateNested()
-  @Type(() => CreateStoreDto)
-  store!: CreateStoreDto;
-}

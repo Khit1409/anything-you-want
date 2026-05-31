@@ -16,6 +16,7 @@ import { CreateSellerService } from './services/create.service';
 import { SharedSellerService } from './services/shared.service';
 import { HelperSellerService } from './services/helper.service';
 import { ReadSellerService } from './services/read.service';
+import { UserModule } from '../users/users.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ReadSellerService } from './services/read.service';
     TypeOrmModule.forFeature([Seller, SellerPhone, SellerInfo, SellerAddress]),
     ProductModule,
     HelperModule,
+    UserModule,
   ],
   controllers: [SellerController, SellerProductController],
   providers: [

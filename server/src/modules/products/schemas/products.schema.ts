@@ -6,6 +6,7 @@ import { ProductClassification } from './product-classification.schema';
 import { ProductShipping } from './product-shipping.schema';
 import { ProductRatingSumary } from './product-rating-summary.schema';
 import { ProductVariant } from './product-variant.schema';
+import { ProductPhysical } from './product-physical.schema';
 /**
  *
  */
@@ -26,6 +27,8 @@ export enum ProductStatus {
 export class Product {
   @Prop({ type: ProductInfo, required: true })
   info: ProductInfo;
+  @Prop({ type: ProductPhysical, required: true })
+  physical: ProductPhysical;
   @Prop({ type: ProductOwner, required: true })
   owner: ProductOwner;
   @Prop({ type: ProductImages, required: true })

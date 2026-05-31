@@ -8,7 +8,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { BecomeSellerDto, CreateSellerDto } from '../dtos';
+import { CreateSellerDto } from '../dtos';
 import type { Request } from 'express';
 import { Role } from '@/src/common/enums/roles.enum';
 import { Roles } from '@/src/common/decorators/roles.decorator';
@@ -40,15 +40,6 @@ export class SellerController {
   @Post('register')
   async register(@Body() dto: CreateSellerDto) {
     await this.createService.create(dto);
-    return this.helperService.successResponse({
-      message: 'Đăng ký thành công!',
-    });
-  }
-
-  @HttpCode(HttpStatus.CREATED)
-  @Post('become-seller')
-  async becomeSeller(@Body() dto: BecomeSellerDto) {
-    await this.createService.become(dto);
     return this.helperService.successResponse({
       message: 'Đăng ký thành công!',
     });

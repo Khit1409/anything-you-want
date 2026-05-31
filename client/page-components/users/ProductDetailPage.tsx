@@ -1,15 +1,14 @@
 "use client";
 
-import NotFoundProduct from "@/components/products/NotFoundProduct";
 import SectionShowDataLoading from "@/components/common/SectionShowDataLoading";
-import ProductImage from "@/components/products/ProductImage";
-import ProductInformation from "@/components/products/ProductInformation";
-import ProductRelated from "@/components/products/ProductRelated";
-import ProductClassification from "@/components/products/ProductClassificationPreview";
-import ProductAction from "@/components/products/ProductAction";
-import useProductDetailActions from "@/hooks/products/actions/useProductDetailActions";
-
+import NotFoundProduct from "@/components/products/common/NotFoundProduct";
+import ProductRelated from "@/components/products/common/ProductRelated";
+import ProductAction from "@/components/products/detail/ProductAction";
+import ProductClassificationPreview from "@/components/products/detail/ProductClassificationPreview";
+import ProductImage from "@/components/products/detail/ProductImage";
+import ProductInformation from "@/components/products/detail/ProductInformation";
 import {
+  useProductDetailActions,
   useProductDetailHelpers,
   useProductDetailQueries,
 } from "@/hooks/products";
@@ -55,7 +54,7 @@ export default function ProductDetailPage() {
               <ProductImage images={product.images} />
             </div>
             <div className="lg:hidden">
-              <ProductClassification
+              <ProductClassificationPreview
                 classificationSelected={classificationSelected}
                 classifications={product.classifications}
                 onchangeClassification={onchangeClassification}
@@ -70,7 +69,7 @@ export default function ProductDetailPage() {
             minusSale={minusSale}
           />
           <div className="hidden lg:block">
-            <ProductClassification
+            <ProductClassificationPreview
               classificationSelected={classificationSelected}
               classifications={product.classifications}
               onchangeClassification={onchangeClassification}

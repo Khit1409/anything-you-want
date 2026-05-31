@@ -1,6 +1,7 @@
 import {
   IsArray,
   IsBoolean,
+  IsEnum,
   IsNumber,
   IsOptional,
   IsString,
@@ -10,6 +11,7 @@ import {
 } from 'class-validator';
 
 import { Type } from 'class-transformer';
+import { ShippingMethod } from '../schemas/product-shipping.schema';
 
 export class CreateProductInfoDto {
   @IsOptional()
@@ -56,11 +58,50 @@ export class CreateProductImageDto {
   details: string[];
 }
 
+export class CreateProductShippingMethodTimeDto {
+  @IsNumber()
+  @Min(0)
+  prepareDays: number;
+  @IsNumber()
+  @Min(0)
+  deliveryDays: number;
+}
+
+export class CreateProductShippingMethodDto {
+  @IsEnum(ShippingMethod)
+  type: ShippingMethod;
+  @IsBoolean()
+  enabled: boolean;
+  @ValidateNested()
+  @Type(() => CreateProductShippingMethodTimeDto)
+  times: CreateProductShippingMethodTimeDto;
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  supportedProvinces: string[];
+}
+
+export class CreateProductDimensionDto {
+  @IsNumber()
+  width: number;
+  @IsNumber()
+  height: number;
+  @IsNumber()
+  length: number;
+}
+export class CreateProductPhysicalDto {
+  @IsNumber()
+  weight: number;
+  @ValidateNested()
+  @Type(() => CreateProductDimensionDto)
+  dimensions: CreateProductDimensionDto;
+}
+
 export class CreateProductShippingDto {
-  @IsBoolean()
-  flash: boolean;
-  @IsBoolean()
-  normal: boolean;
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateProductShippingMethodDto)
+  methods: CreateProductShippingMethodDto[];
 }
 
 export class CreateProductDto {
@@ -76,5 +117,8 @@ export class CreateProductDto {
   info: CreateProductInfoDto;
   @ValidateNested()
   @Type(() => CreateProductShippingDto)
-  shipping: CreateProductShippingDto;
+  shipping: CreateProductShippingDto; // mặc định bên client sẽ sinh ra 1 object cho standard
+  @ValidateNested()
+  @Type(() => CreateProductPhysicalDto)
+  physical: CreateProductPhysicalDto;
 }

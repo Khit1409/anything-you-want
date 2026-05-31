@@ -1,10 +1,5 @@
-import React from "react";
-import Profile from "@/components/informations/Profile";
+import Profile from "@/components/profiles/user/Profile";
 
 export default function ProfilePage() {
-  return (
-    <>
-      <Profile />
-    </>
-  );
+  return <Profile />;
 }

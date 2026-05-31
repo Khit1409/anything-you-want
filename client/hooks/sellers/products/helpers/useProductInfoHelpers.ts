@@ -25,12 +25,15 @@ export default function useProductInfoHelpers() {
       ok: true,
       message: "",
     };
+
     Object.keys(info).map((key) => {
       if (info[key as keyof CreateProductInfo] === "") {
+        console.log(key);
         checked.ok = false;
         checked.message = "Thông tin sản phẩm không được để trống";
       }
     });
+
     return checked;
   };
 

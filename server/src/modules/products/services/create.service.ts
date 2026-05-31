@@ -8,6 +8,7 @@ import { ProductStatus } from '../schemas/products.schema';
 import { ProductMapper } from '../mappers/response.mapper';
 import { HelperService } from '../../helpers/helper.service';
 import { ProductOwner } from '../schemas/product-owner.schema';
+import { HelperProductService } from './helper.service';
 
 @Injectable()
 export class CreateProductService {
@@ -15,6 +16,7 @@ export class CreateProductService {
     private readonly repository: ProductRepository,
     private readonly helperService: HelperService,
     private readonly categoryService: CategoryService,
+    private readonly helperProductService: HelperProductService,
     private readonly mapper: ProductMapper,
   ) {}
 
@@ -62,7 +64,7 @@ export class CreateProductService {
 
     // Tách tên sản phẩm theo dấu phẩy và xử lý mỗi phần
     const tagName = name
-      .split(',')
+      .split(/['.,']/)
       .map((str) => this.helperService.strToSlug(str));
 
     result = [...result, ...tagName];
@@ -130,7 +132,7 @@ export class CreateProductService {
 
   async create(data: CreateProductDto, owner: ProductOwner) {
     const model = this.repository.getModel();
-    const { info, shipping, classifications, images } = data;
+    const { info, shipping, classifications, images, physical } = data;
 
     const tags = this.createHashtags(info.name, info.brand);
     const category = await this.categoryService.getById(info.category);
@@ -139,6 +141,18 @@ export class CreateProductService {
     const statusData = ProductStatus.INACTIVE;
     const productCode = this.createCode(info.name);
     const variantInsert = this.createVariants(productCode, classifications);
+
+    const correctShippingMethod =
+      this.helperProductService.checkingShippingMethod(shipping.methods);
+
+    if (!correctShippingMethod) {
+      throw new BadRequestException(
+        this.helperService.errorResponse({
+          message:
+            'Cấu hình vận chuyển không hợp lệ: Rỗng, không bật vận chuyển thường, hoặc không có chi tiết nơi hộ trợ vận chuyển!',
+        }),
+      );
+    }
 
     const payload = {
       info: {
@@ -153,6 +167,7 @@ export class CreateProductService {
       shipping,
       ratingSumary: { total: 0, avg: 5 },
       variants: variantInsert,
+      physical,
     };
 
     const newProduct = await model.create(payload);
