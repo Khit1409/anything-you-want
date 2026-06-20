@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional, Max, Min } from 'class-validator';
+import { IsInt, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 
 /**
  *
@@ -12,9 +12,21 @@ export class ProductQueryDto {
   page?: number;
 
   @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  @Max(100)
-  limit?: number;
+  @IsString()
+  category?: string;
+
+  @IsOptional()
+  @IsNumber()
+  priceMax?: number;
+
+  @IsOptional()
+  @IsNumber()
+  saleMax?: number;
+  @IsOptional()
+  @IsNumber()
+  priceMin?: number;
+
+  @IsOptional()
+  @IsNumber()
+  saleMin?: number;
 }

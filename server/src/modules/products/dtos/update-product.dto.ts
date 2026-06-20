@@ -2,6 +2,7 @@ import { Type } from 'class-transformer';
 import {
   IsArray,
   IsBoolean,
+  IsEnum,
   IsNumber,
   IsOptional,
   IsString,
@@ -9,11 +10,21 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
+import {
+  ProductPhysical,
+  ProductPhysicalDimensions,
+} from '../schemas/product-physical.schema';
+import {
+  ProductShipping,
+  ProductShippingMethod,
+  ProductShippingMethodTimes,
+  ShippingMethod,
+} from '../schemas/product-shipping.schema';
 
 export class UpdateProductInfoDto {
   @IsOptional()
   @IsString()
-  brand?: string | undefined;
+  brand: string | undefined;
   @IsString()
   category: string;
   @IsString()
@@ -22,7 +33,7 @@ export class UpdateProductInfoDto {
   name: string;
   @IsOptional()
   @IsString()
-  origin?: string | undefined;
+  origin: string | undefined;
   @IsNumber()
   price: number;
   @Min(0)
@@ -33,12 +44,18 @@ export class UpdateProductInfoDto {
 export class UpdateProductClassificationValueDto {
   @IsOptional()
   @IsString()
-  img?: string | undefined;
+  id: string | undefined;
+  @IsOptional()
+  @IsString()
+  img: string | undefined;
   @IsString()
   name: string;
 }
 
 export class UpdateProductClassificationDto {
+  @IsOptional()
+  @IsString()
+  id?: string;
   @IsString()
   name: string;
   @IsArray()
@@ -47,36 +64,93 @@ export class UpdateProductClassificationDto {
   values: UpdateProductClassificationValueDto[];
 }
 
-export class UpdateProductShippingDto {
+export class UpdateProductShippingTime implements ProductShippingMethodTimes {
+  @IsNumber()
+  deliveryDays: number;
+  @IsNumber()
+  prepareDays: number;
+}
+
+export class UpdateProductShippingMethodDto implements ProductShippingMethod {
   @IsBoolean()
-  flash: boolean;
-  @IsBoolean()
-  normal: boolean;
+  enabled: boolean;
+  @IsArray()
+  @IsString({ each: true })
+  supportedProvinces: string[];
+  @ValidateNested()
+  @Type(() => UpdateProductShippingTime)
+  times: UpdateProductShippingTime;
+  @IsString()
+  @IsEnum(ShippingMethod)
+  type: ShippingMethod;
+}
+
+export class UpdateProductShippingDto implements ProductShipping {
+  @ValidateNested()
+  @IsArray()
+  @Type(() => UpdateProductShippingMethodDto)
+  methods: UpdateProductShippingMethodDto[];
 }
 
 export class UpdateProductImageDto {
   @IsOptional()
   @IsString()
-  thumbnail?: string;
+  thumbnail: string;
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  details?: string[];
+  details: string[];
+}
+
+export class UpdateProductDimensions implements ProductPhysicalDimensions {
+  @IsNumber()
+  height: number;
+  @IsNumber()
+  width: number;
+  @IsNumber()
+  length: number;
+}
+
+export class UpdateProductPhysical implements ProductPhysical {
+  @IsNumber()
+  weight: number;
+  @Type(() => UpdateProductDimensions)
+  @ValidateNested()
+  dimensions: UpdateProductDimensions;
+}
+
+export class UpdateVariantDto {
+  @IsString()
+  id: string;
+  @IsString()
+  sku: string;
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  stock: number;
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  extraPrice: number;
+  @IsString()
+  options: string;
 }
 
 export class UpdateProductDto {
-  @IsOptional()
-  @IsArray()
   @ValidateNested({ each: true })
+  @IsArray()
   @Type(() => UpdateProductClassificationDto)
-  classifications?: UpdateProductClassificationDto[];
-  @IsOptional()
+  classifications: UpdateProductClassificationDto[];
+  @ValidateNested()
   @Type(() => UpdateProductImageDto)
-  images?: UpdateProductImageDto;
-  @IsOptional()
+  images: UpdateProductImageDto;
+  @ValidateNested()
   @Type(() => UpdateProductInfoDto)
-  info?: UpdateProductInfoDto;
-  @IsOptional()
+  info: UpdateProductInfoDto;
+  @ValidateNested()
   @Type(() => UpdateProductShippingDto)
-  shipping?: UpdateProductShippingDto;
+  shipping: UpdateProductShippingDto;
+  @ValidateNested()
+  @Type(() => UpdateProductPhysical)
+  physical: UpdateProductPhysical;
 }

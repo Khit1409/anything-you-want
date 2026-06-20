@@ -2,32 +2,28 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProductRepository } from '../repositories/products.repository';
 import { HelperService } from '../../helpers/helper.service';
 import { ProductQueryDto } from '../dtos';
-import { ProductMapper } from '../mappers/response.mapper';
+import { HelperProductService } from './helper.service';
 
 @Injectable()
 export class ReadProductService {
   constructor(
     private readonly repository: ProductRepository,
+    private readonly productHelper: HelperProductService,
     private readonly helperService: HelperService,
-    private readonly mapper: ProductMapper,
   ) {}
 
   async previews(query: ProductQueryDto) {
-    const limit = query.limit ?? 30;
-    const skip = limit * (query.page ?? 1) - limit;
     const select = 'info ratingSumary shipping images tags status';
-    const filter = { select, limit, skip };
+    const filter = this.productHelper.formatQuery(query, select);
     const products = await this.repository.getMany(filter);
-    return this.mapper.preview(products);
+    return products;
   }
 
   async previewForSeller(query: ProductQueryDto, sellerId: string) {
-    const limit = query.limit ?? 30;
-    const skip = limit * (query.page ?? 1) - limit;
     const select = 'info ratingSumary shipping images tags status';
-    const filter = { select, limit, skip };
-    const products = await this.repository.getManyBySeller(filter, sellerId);
-    return this.mapper.preview(products);
+    const filter = this.productHelper.formatQuery(query, select, sellerId);
+    const products = await this.repository.getManyBySeller(filter);
+    return products;
   }
 
   async detail(productId: string, sellerId?: string) {
@@ -42,7 +38,8 @@ export class ReadProductService {
         }),
       );
     }
-    return this.mapper.detail(product);
+
+    return product;
   }
 
   async relateds({
@@ -71,7 +68,13 @@ export class ReadProductService {
         }),
       );
     }
-    return this.mapper.detail(product);
+    const variants = this.productHelper.recordVariantOption(
+      product.classifications,
+      product.variants,
+    );
+
+    console.log(variants);
+    return { ...product, variants: variants };
   }
 
   async variantForEdit(productId: string, sellerId: string) {
@@ -83,6 +86,6 @@ export class ReadProductService {
         }),
       );
     }
-    return this.mapper.variants(variants);
+    return variants;
   }
 }

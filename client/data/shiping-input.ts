@@ -8,9 +8,27 @@
   SCHEDULED = "scheduled"
  */
 
-import { ShippingMethod } from "@/interfaces";
+import {
+  ProductShippingTime,
+  ShippingMethod,
+} from "@/features/product/interfaces/product.interface";
 
-export const SHIPPING_INPUT_LIST = [
+export const SHIPPING_INPUT_LIST: {
+  name: ShippingMethod;
+  type: string;
+  label: string;
+  id: string;
+  defaultChecked: boolean;
+  inputChilds: {
+    name: keyof ProductShippingTime;
+    label: string;
+    id: string;
+    max: number;
+    type: string;
+    min: number;
+  }[];
+  supportProvinceSelecteds: boolean;
+}[] = [
   {
     name: ShippingMethod.STANDARD,
     type: "checkbox",
@@ -35,6 +53,7 @@ export const SHIPPING_INPUT_LIST = [
         min: 1,
       },
     ],
+    supportProvinceSelecteds: false,
   },
   {
     name: ShippingMethod.EXPRESS,
@@ -60,6 +79,7 @@ export const SHIPPING_INPUT_LIST = [
         min: 1,
       },
     ],
+    supportProvinceSelecteds: false,
   },
   {
     name: ShippingMethod.SAMEDAY,
@@ -111,6 +131,7 @@ export const SHIPPING_INPUT_LIST = [
         min: 1,
       },
     ],
+    supportProvinceSelecteds: false,
   },
   {
     name: ShippingMethod.INTERNATIONAL,
@@ -136,6 +157,7 @@ export const SHIPPING_INPUT_LIST = [
         min: 1,
       },
     ],
+    supportProvinceSelecteds: false,
   },
   {
     name: ShippingMethod.PICKUP,
@@ -187,5 +209,6 @@ export const SHIPPING_INPUT_LIST = [
         min: 1,
       },
     ],
+    supportProvinceSelecteds: false,
   },
 ];

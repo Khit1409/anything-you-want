@@ -2,15 +2,14 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { Nunito } from "next/font/google";
-import ReduxProvider from "@/redux/ReduxProvider";
+import ReduxProvider from "@/shared/redux/ReduxProvider";
 
 import QueryProvider from "./query-provider";
-import AppModal from "@/components/common/AppModal";
-import Loading from "@/components/common/Loading";
 import AppWrapper from "./AppWrapper";
 import "./globals.css";
 import "@/style/hero.css";
 import "@/style/register.css";
+import { AppModal, Loading } from "@/features/common/components";
 
 config.autoAddCss = true;
 

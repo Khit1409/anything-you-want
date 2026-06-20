@@ -40,8 +40,8 @@ export class ProductController {
    */
   @HttpCode(200)
   @Get()
-  async getProductPreviews(@Query() dto: ProductQueryDto) {
-    const api = await this.readService.previews(dto);
+  async getProductPreviews(@Query() query: ProductQueryDto) {
+    const api = await this.readService.previews(query);
     return this.helperService.successResponse({
       message: 'Dữ liệu sản phẩm xem trước',
       data: api,
@@ -65,6 +65,7 @@ export class ProductController {
       categoryId,
       select,
     };
+
     const relateds = await this.readService.relateds(filterRelateds);
 
     const api = { product, relateds };

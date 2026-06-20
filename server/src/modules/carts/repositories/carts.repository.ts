@@ -14,7 +14,7 @@ export class CartRepository {
   async getOneByProductId(productId: string, userId: string) {
     return await this.cartModel
       .findOne({
-        'info.productId': productId,
+        productId,
         'owner.userId': userId,
       })
       .lean();
@@ -25,7 +25,7 @@ export class CartRepository {
     userId: string,
   ): Promise<HydratedDocument<Cart> | null> {
     return await this.cartModel.findOne({
-      'info.productId': productId,
+      productId,
       'owner.userId': userId,
     });
   }
@@ -60,7 +60,7 @@ export class CartRepository {
     return await this.cartModel.updateOne(
       { _id: id },
       {
-        'info.quantity': Number(quantity),
+        quantity,
       },
     );
   }
@@ -74,7 +74,7 @@ export class CartRepository {
 
   async deleteByProductId(productId: string, userId: string) {
     return await this.cartModel.deleteMany({
-      'info.productId': productId,
+      productId,
       'owner.userId': userId,
     });
   }

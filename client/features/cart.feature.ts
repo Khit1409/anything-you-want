@@ -1,7 +1,7 @@
 import { ProductDetail } from "@/interfaces";
 import { openModal } from "@/redux/slice/app.slice";
 import { ModalState } from "@/redux/state/app.state";
-import { AppDispatch } from "@/redux/store";
+import { AppDispatch } from "@/shared/redux/store";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 interface AddToCartHandleParam {
@@ -37,13 +37,16 @@ export const checkingCartData = (params: AddToCartHandleParam) => {
       openModal({
         message: "Không tìm thấy biến thể của sản phẩm",
         state: ModalState.WARNING,
-      })
+      }),
     );
     return null;
   }
   if (!quantity || quantity <= 0) {
     dispatch(
-      openModal({ message: "Số lượng không hợp lệ", state: ModalState.WARNING })
+      openModal({
+        message: "Số lượng không hợp lệ",
+        state: ModalState.WARNING,
+      }),
     );
     return null;
   }

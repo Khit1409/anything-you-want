@@ -18,7 +18,7 @@ import { Roles } from '@/src/common/decorators/roles.decorator';
 import {
   CreateProductDto,
   ProductQueryDto,
-  UpdateVariantDto,
+  UpdateProductDto,
 } from '../../products/dtos';
 import { AuthGuard } from '@/src/guards/auth.guard';
 import type { Request } from 'express';
@@ -40,12 +40,7 @@ export class SellerProductController {
     private readonly helperService: HelperService,
     private readonly helperSellerService: HelperSellerService,
   ) {}
-  /**
-   * Lấy danh sách sản phẩm của người bán (yêu cầu xác thực)
-   * @param query - Query parameters (limit, page)
-   * @param req - Request object chứa userId
-   * @returns Response chứa danh sách sản phẩm của người bán
-   */
+
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.SELLER)
   @Get('')
@@ -60,12 +55,6 @@ export class SellerProductController {
     });
   }
 
-  /**
-   * Lấy chi tiết sản phẩm của người bán (yêu cầu xác thực)
-   * @param id - ID của sản phẩm
-   * @param req - Request object chứa userId
-   * @returns Response chứa chi tiết sản phẩm
-   */
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.SELLER)
   @Get(':productId')
@@ -84,16 +73,6 @@ export class SellerProductController {
     });
   }
 
-  // ============================================================================
-  // DELETE ENDPOINTS
-  // ============================================================================
-
-  /**
-   * Xóa sản phẩm của người bán (yêu cầu xác thực)
-   * @param id - ID của sản phẩm cần xóa
-   * @param req - Request object chứa userId
-   * @returns Response thông báo xóa thành công
-   */
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.SELLER)
   @Delete(':productId')
@@ -142,38 +121,15 @@ export class SellerProductController {
    */
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.SELLER)
-  @Put(':productId/variants')
-  async updateVariants(
+  @Put(':productId')
+  async updateProduct(
     @Param('productId') productId: string,
-    @Body() dto: UpdateVariantDto,
+    @Body() dto: UpdateProductDto,
   ) {
-    const { variants } = dto;
-
-    await this.updateProductService.updateVariants(productId, variants);
-
+    await this.updateProductService.update(dto, productId);
     return this.helperService.successResponse({
-      message: 'Cập nhật biến thể thành công!',
-    });
-  }
-  /**
-   *
-   */
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles(Role.SELLER)
-  @Get(':productId/variants')
-  async getVariantUpdate(
-    @Param('productId') productId: string,
-    @Req() req: Request,
-  ) {
-    const sellerId = req.userId;
-    const api = await this.readProductService.variantForEdit(
-      productId,
-      sellerId,
-    );
-
-    return this.helperService.successResponse({
-      message: 'Dữ liệu danh sách biến thể!',
-      data: api,
+      message:
+        'Cập nhật sản phẩm thành công, vui lòng kiểm tra lại dữ liệu mới!',
     });
   }
 }

@@ -8,7 +8,7 @@ import { StoreModule } from '../stores/stores.module';
 import { UploadModule } from '../uploads/upload.module';
 import { ProductMapper } from './mappers/response.mapper';
 import { ProductRepository } from './repositories/products.repository';
-import { ProductSharedService } from './services/shared.service';
+import { SharedProductService } from './services/shared.service';
 import { HelperModule } from '../helpers/helper.module';
 import { CreateProductService } from './services/create.service';
 import { UpdateProductService } from './services/update.service';
@@ -29,7 +29,7 @@ import { HelperProductService } from './services/helper.service';
   providers: [
     ProductRepository,
     ProductMapper,
-    ProductSharedService,
+    SharedProductService,
     CreateProductService,
     UpdateProductService,
     DeleteProductService,
@@ -41,7 +41,7 @@ import { HelperProductService } from './services/helper.service';
     HelperProductService,
     MongooseModule,
     ProductMapper,
-    ProductSharedService,
+    SharedProductService,
     CreateProductService,
     UpdateProductService,
     DeleteProductService,

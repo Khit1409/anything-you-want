@@ -141,7 +141,7 @@ export class VariantDto {
   extraPrice: number;
 
   @Expose()
-  options: Record<string, string>;
+  options: string;
 }
 
 /**

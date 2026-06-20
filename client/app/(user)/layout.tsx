@@ -1,9 +1,9 @@
-import BackToTopButton from "@/components/common/BackToTopButton";
-import Footer from "@/components/users/layouts/Footer";
-import Navbar from "@/components/users/layouts/Navbar";
 import React from "react";
 import "@/style/product.css";
 import "@/style/login.css";
+
+import { BackToTopButton } from "@/features/common/components";
+import { Footer, Navbar } from "@/features/user/components/layouts";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

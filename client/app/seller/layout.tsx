@@ -1,11 +1,11 @@
 import React from "react";
 import { axiosServer } from "@/lib/configs/axios-server.config";
-import { AuthenticationResponse } from "@/interfaces/auth.interface";
+import { AuthenticationResponse } from "@/features/auth/interfaces/auth.interface";
 import { redirect } from "next/navigation";
-import Navbar from "@/components/sellers/layouts/Navbar";
-import Header from "@/components/sellers/layouts/Header";
 import "@/styles/seller.css";
 import { isAxiosError } from "axios";
+import Header from "@/features/seller/components/layouts/Header";
+import Navbar from "@/features/seller/components/layouts/Navbar";
 
 async function getMe() {
   try {
@@ -15,7 +15,7 @@ async function getMe() {
     const api = res.data as AuthenticationResponse;
     if (!api.data) {
       console.log(
-        "checking is success but user is not logged in, data fetching is null..."
+        "checking is success but user is not logged in, data fetching is null...",
       );
       return null;
     }
@@ -24,7 +24,7 @@ async function getMe() {
     console.log(
       "checking role is successfully! role is",
       role,
-      role === "seller" ? "- correct role!" : "- incorrect role!"
+      role === "seller" ? "- correct role!" : "- incorrect role!",
     );
 
     return api.data;
@@ -41,7 +41,7 @@ async function getMe() {
         default:
           console.error(
             "checking authentication seller is error:",
-            error.message
+            error.message,
           );
           return null;
       }

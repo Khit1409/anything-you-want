@@ -1,5 +1,7 @@
-import SellerRegisterPage from "@/pages/users/SellerRegisterPage";
+"use client";
 
-export default function page() {
-  return <SellerRegisterPage />;
+import RegisterSellerPage from "@/features/auth/pages/RegisterSellerPage";
+
+export default function SellerRegisterPage() {
+  return <RegisterSellerPage />;
 }

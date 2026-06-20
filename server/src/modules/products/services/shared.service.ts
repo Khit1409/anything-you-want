@@ -4,7 +4,7 @@ import { HelperService } from '../../helpers/helper.service';
 import { ProductVariant } from '../schemas/product-variant.schema';
 
 @Injectable()
-export class ProductSharedService {
+export class SharedProductService {
   constructor(
     private readonly repository: ProductRepository,
     private readonly helperService: HelperService,
@@ -51,25 +51,32 @@ export class ProductSharedService {
       productId,
       variantId,
     );
-
     return this.checkValue(variant, 'Biến thể sản phẩm không tìm thấy');
+  }
+
+  async getVariantByOptionIds(productId: string, optionIds: string[]) {
+    const variant = await this.repository.getOnVariantByOptionIds(
+      productId,
+      optionIds,
+    );
+    return this.checkValue(
+      variant,
+      'Không tìm thấy biến thể phù hợp với lựa chọn!',
+    );
   }
 
   async getStatus(productId: string) {
     const status = await this.repository.getStatus(productId);
-
     return this.checkValue(status, 'Trạng thái sản phẩm không tìm thấy');
   }
 
   async getShipping(productId: string) {
     const shipping = await this.repository.getShipping(productId);
-
     return this.checkValue(shipping, 'Thông tin vận chuyển không tìm thấy');
   }
 
   async getClassifications(productId: string) {
     const classifications = await this.repository.getClassifications(productId);
-
     return this.checkValue(
       classifications,
       'Phân loại sản phẩm không tìm thấy',
@@ -78,19 +85,16 @@ export class ProductSharedService {
 
   async getInfo(productId: string) {
     const info = await this.repository.getInfo(productId);
-
     return this.checkValue(info, 'Thông tin sản phẩm không tìm thấy');
   }
 
   async getCategory(productId: string) {
     const category = await this.repository.getCategory(productId);
-
     return this.checkValue(category, 'Danh mục sản phẩm không tìm thấy');
   }
 
   async getOwner(productId: string) {
     const owner = await this.repository.getOwnerById(productId);
-
     return this.checkValue(owner, 'Chủ sản phẩm không tìm thấy');
   }
 }

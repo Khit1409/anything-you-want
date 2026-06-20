@@ -20,7 +20,7 @@ export function proxy(req: NextRequest) {
     needAuthenticationRoutes.includes("/" + pathname.split("/")[0]);
 
   if (isProtected && !token) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    NextResponse.redirect(new URL("/login", req.url));
   }
-  return NextResponse.next();
+  NextResponse.next();
 }

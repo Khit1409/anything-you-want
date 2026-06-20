@@ -7,6 +7,7 @@ import { ProductShipping } from './product-shipping.schema';
 import { ProductRatingSumary } from './product-rating-summary.schema';
 import { ProductVariant } from './product-variant.schema';
 import { ProductPhysical } from './product-physical.schema';
+import { HydratedDocument } from 'mongoose';
 /**
  *
  */
@@ -53,4 +54,4 @@ export class Product {
 }
 
 export const productSchema = SchemaFactory.createForClass(Product);
-export type ProductDocument = typeof Product;
+export type ProductDocument = HydratedDocument<Product>;

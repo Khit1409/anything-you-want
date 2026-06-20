@@ -5,10 +5,24 @@ interface HttpPayload {
   status?: number;
   data?: any;
 }
+interface HttpConfigPayload {
+  message: string;
+  success: boolean;
+  data?: any;
+}
 
 @Injectable()
 export class HelperService {
   constructor() {}
+
+  responseConfig({ data, success, message }: HttpConfigPayload) {
+    return {
+      message,
+      success,
+      timestamp: new Date().toLocaleDateString('vi-VN'),
+      data,
+    };
+  }
 
   successResponse({ data, message, status }: HttpPayload) {
     return {

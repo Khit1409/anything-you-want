@@ -1,4 +1,4 @@
-import RegisterPage from "@/pages/users/RegisterPage";
+import RegisterPage from "@/features/auth/pages/RegisterPage";
 
 export default function page() {
   return <RegisterPage />;

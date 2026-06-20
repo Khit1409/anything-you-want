@@ -1,28 +1,30 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProductRepository } from '../repositories/products.repository';
-import { CreateProductDto } from '../dtos';
-import { ProductClassification } from '../schemas/product-classification.schema';
-import { ProductVariant } from '../schemas/product-variant.schema';
-import { CategoryService } from '../../categories/categories.service';
+import {
+  CreateProductClassificationDto,
+  CreateProductDto,
+  CreateProductInfoDto,
+} from '../dtos';
+
 import { ProductStatus } from '../schemas/products.schema';
 import { ProductMapper } from '../mappers/response.mapper';
 import { HelperService } from '../../helpers/helper.service';
 import { ProductOwner } from '../schemas/product-owner.schema';
 import { HelperProductService } from './helper.service';
+import mongoose from 'mongoose';
+import { ProductClassification } from '../schemas/product-classification.schema';
+import { VariantBasic } from '../interfaces/create.interface';
+import { ReadCategoryService } from '../../categories/services/read.service';
 
 @Injectable()
 export class CreateProductService {
   constructor(
     private readonly repository: ProductRepository,
     private readonly helperService: HelperService,
-    private readonly categoryService: CategoryService,
+    private readonly readCategoryService: ReadCategoryService,
     private readonly helperProductService: HelperProductService,
     private readonly mapper: ProductMapper,
   ) {}
-
-  createVariantKey(key: string): string {
-    return this.helperService.strToKey(key);
-  }
 
   createCode(name: string): string {
     const replaceStrVietnamese = this.helperService
@@ -33,11 +35,7 @@ export class CreateProductService {
     return `${strKey}-${randomNum}`;
   }
 
-  createSku(
-    productCode: string,
-    valueFirst: string,
-    valueSecond?: string,
-  ): string {
+  createSku(productCode: string, valueFirst: string): string {
     if (!productCode?.trim() || !valueFirst?.trim()) {
       throw new BadRequestException(
         this.helperService.errorResponse({
@@ -50,11 +48,7 @@ export class CreateProductService {
       return this.helperService.strToSlug(value).toUpperCase();
     };
 
-    let sku = `${productCode}-${formatValue(valueFirst)}`;
-
-    if (valueSecond?.trim()) {
-      sku += `-${formatValue(valueSecond)}`;
-    }
+    const sku = `${productCode}-${formatValue(valueFirst)}`;
 
     return sku;
   }
@@ -79,103 +73,93 @@ export class CreateProductService {
     return result.map((str) => `#${str}`);
   }
 
+  createClassifications(dto: CreateProductClassificationDto[]) {
+    return dto.map((cls) => ({
+      ...cls,
+      id: String(new mongoose.Types.ObjectId()),
+      values: cls.values.map((clsvl) => ({
+        ...clsvl,
+        id: String(new mongoose.Types.ObjectId()),
+      })),
+    }));
+  }
+
+  async createInfo(dto: CreateProductInfoDto) {
+    const category = await this.readCategoryService.getById(dto.category);
+    return { ...dto, category };
+  }
+
   createVariants(
     productCode: string,
     classifications: ProductClassification[],
   ) {
-    if (classifications.length == 1) {
-      return classifications.reduce(
-        (variants: Omit<ProductVariant, '_id'>[], classification) => {
-          classification.values.forEach((value) => {
-            variants.push({
-              extraPrice: 0,
-              options: {
-                [this.createVariantKey(classification.name)]: value.name,
-              },
-              sku: this.createSku(productCode, value.name),
-              stock: 0,
-            });
-          });
-          return variants;
-        },
-        [],
-      );
-    }
+    const varaints: VariantBasic[] = [];
 
-    const first = classifications[0];
+    const generate = (
+      current: VariantBasic = {
+        extraPrice: 0,
+        optionIds: [],
+        sku: productCode,
+        stock: 0,
+      },
+      clsIndex: number = 0,
+    ) => {
+      if (clsIndex === classifications.length) {
+        varaints.push(current);
+        return;
+      }
 
-    return classifications
-      .filter((_, index) => index != 0)
-      .reduce((variants: Omit<ProductVariant, '_id'>[], classification) => {
-        classification.values.forEach((classificationValue) => {
-          first.values.forEach((firstValue) => {
-            const sku = this.createSku(
-              productCode,
-              firstValue.name,
-              classificationValue.name,
-            );
-            variants.push({
-              sku,
-              extraPrice: 0,
-              options: {
-                [this.createVariantKey(first.name)]: firstValue.name,
-                [this.createVariantKey(classification.name)]:
-                  classificationValue.name,
-              },
-              stock: 0,
-            });
-          });
-        });
-        return variants;
-      }, []);
+      classifications[clsIndex].values.forEach((value) => {
+        generate(
+          {
+            ...current,
+            sku: this.createSku(productCode, value.name),
+            optionIds: [...current.optionIds, value.id],
+          },
+          clsIndex + 1,
+        );
+      });
+    };
+    generate();
+
+    return varaints;
   }
-
   async create(data: CreateProductDto, owner: ProductOwner) {
     const model = this.repository.getModel();
-    const { info, shipping, classifications, images, physical } = data;
+    const { shipping, images, physical } = data;
 
-    const tags = this.createHashtags(info.name, info.brand);
-    const category = await this.categoryService.getById(info.category);
-    const categoryId = category._id.toString();
-    const categoryData = { name: category.name, id: categoryId };
-    const statusData = ProductStatus.INACTIVE;
-    const productCode = this.createCode(info.name);
-    const variantInsert = this.createVariants(productCode, classifications);
+    const tags = this.createHashtags(data.info.name, data.info.brand);
+    const info = await this.createInfo(data.info);
+    const status = ProductStatus.INACTIVE;
+    const ratingSumary = { total: 0, avg: 5 };
+    const classifications = this.createClassifications(data.classifications);
+    const productCode = this.createCode(data.info.name);
+    const variants = this.createVariants(productCode, classifications);
 
-    const correctShippingMethod =
-      this.helperProductService.checkingShippingMethod(shipping.methods);
-
-    if (!correctShippingMethod) {
-      throw new BadRequestException(
-        this.helperService.errorResponse({
-          message:
-            'Cấu hình vận chuyển không hợp lệ: Rỗng, không bật vận chuyển thường, hoặc không có chi tiết nơi hộ trợ vận chuyển!',
-        }),
-      );
-    }
+    this.helperProductService.checkingShippingMethod(shipping.methods);
 
     const payload = {
-      info: {
-        ...info,
-        category: categoryData,
-      },
+      info,
       owner,
-      status: statusData as ProductStatus,
+      status,
       tags,
       images,
       classifications,
       shipping,
-      ratingSumary: { total: 0, avg: 5 },
-      variants: variantInsert,
+      ratingSumary,
       physical,
+      variants: [],
     };
 
     const newProduct = await model.create(payload);
-
     if (!newProduct) {
       throw new BadRequestException('Không thể tạo sản phẩm!');
     }
-    const id = newProduct.toObject()._id;
+
+    await newProduct.updateOne({ variants });
+
+    const { _id } = newProduct.toObject();
+    const id = _id.toString();
     return { id };
   }
 }

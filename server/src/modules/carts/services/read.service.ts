@@ -1,8 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CartRepository } from '../repositories/carts.repository';
 import { HelperService } from '../../helpers/helper.service';
-import { ProductSharedService } from '../../products/services/shared.service';
+import { SharedProductService } from '../../products/services/shared.service';
 import { CartMapper } from '../mappers/response.mapper';
+import { HelperProductService } from '../../products/services/helper.service';
 
 @Injectable()
 export class ReadCartService {
@@ -10,8 +11,25 @@ export class ReadCartService {
     private readonly repository: CartRepository,
     private readonly helperService: HelperService,
     private readonly mapper: CartMapper,
-    private readonly sharedProductService: ProductSharedService,
+    private readonly sharedProductService: SharedProductService,
+    private readonly helperProductService: HelperProductService,
   ) {}
+
+  async all(userId: string) {
+    const carts = await this.repository.getManyByUser(userId);
+    return await Promise.all(
+      carts.map(async (cart) => {
+        const { productId } = cart;
+        const { thumbnail } =
+          await this.sharedProductService.getImages(productId);
+        return {
+          ...cart,
+          products: await this.sharedProductService.getInfo(productId),
+          thumbnail,
+        };
+      }),
+    );
+  }
 
   async detail(id: string, userId: string) {
     const cart = await this.repository.getOneById(id, userId);
@@ -23,43 +41,5 @@ export class ReadCartService {
       );
     }
     return cart;
-  }
-
-  async list(userId: string) {
-    const carts = await this.repository.getManyByUser(userId);
-    const api = await Promise.all(
-      carts.map(async (cart) => {
-        const { info, variant } = cart;
-        const productId = info.productId;
-        const otherVariants = await this.sharedProductService.getVariants(
-          cart.info.productId,
-          cart.variant.id,
-        );
-
-        const productInfo = await this.sharedProductService.getInfo(productId);
-        const productImages =
-          await this.sharedProductService.getImages(productId);
-
-        const { name, description, brand, origin, category } = productInfo;
-
-        const data = {
-          ...cart,
-          info: { name, brand, origin, description, category, ...info },
-          variant,
-          otherVariants: otherVariants.map((other) => ({
-            id: other._id.toString(),
-            stock: other.stock,
-            extraPrice: other.extraPrice,
-            sku: other.sku,
-            options: other.options,
-          })),
-          images: productImages,
-        };
-
-        return data;
-      }),
-    );
-
-    return this.mapper.list(api);
   }
 }

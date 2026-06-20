@@ -1,86 +1,66 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CartRepository } from '../repositories/carts.repository';
 import { HelperService } from '../../helpers/helper.service';
-import { HydratedDocument } from 'mongoose';
-import { Cart } from '../schemas/carts.schema';
-import { UpdateCartDto } from '../dtos/request.dto';
-import { ProductSharedService } from '../../products/services/shared.service';
-import { calculateCartTotalPrice } from '../helpers/cart.helper';
+
+import { CartDocument } from '../schemas/carts.schema';
+import { SharedProductService } from '../../products/services/shared.service';
+import { CreateCartDto } from '../dtos/create.dto';
 
 @Injectable()
 export class UpdateCartService {
   constructor(
     private readonly repository: CartRepository,
     private readonly helperService: HelperService,
-    private readonly sharedProductService: ProductSharedService,
+    private readonly sharedProductSerivce: SharedProductService,
   ) {}
 
-  async updateVariant(
-    model: HydratedDocument<Cart>,
-    variantId: string,
-    newQuantity?: number,
+  async update(
+    existing: CartDocument,
+    totalPrice: number,
+    quantity: number,
+    sku: string,
   ) {
-    const newVariant = await this.sharedProductService.getVariant(
-      model.info.productId,
-      variantId,
-    );
-    const { _id, sku, stock, options, extraPrice } = newVariant;
-    const { originPrice, quantity, sale } = model.info;
-    const newQuantityValue = newQuantity ? newQuantity : quantity;
-    const newTotalPrice = calculateCartTotalPrice({
-      originPrice,
-      quantity: newQuantityValue,
-      sale,
-      variantPrice: extraPrice,
-    });
-
-    model.info = {
-      ...model.info,
-      quantity: newQuantityValue,
-      totalPrice: newTotalPrice,
-    };
-
-    model.variant = { id: _id.toString(), sku, stock, options, extraPrice };
-    await model.save();
-    const updateCount = newQuantity ? 3 : 2; // quantity & totalPrice & variant || varaint & totalPrice
-    return updateCount;
-  }
-
-  async update(model: HydratedDocument<Cart>, data: UpdateCartDto) {
-    const { quantity, variant } = data;
-
-    if (variant) {
-      return await this.updateVariant(model, variant, quantity);
-    }
-    if (quantity) {
-      const { extraPrice } = model.variant;
-      const { originPrice, sale } = model.info;
-      const newTotalPrice = calculateCartTotalPrice({
-        originPrice,
-        sale,
-        variantPrice: extraPrice,
-        quantity,
-      });
-
-      model.info = { ...model.info, quantity, totalPrice: newTotalPrice };
-      const updateCount = 2; // quantity & totalPrice
-      await model.save();
-      return updateCount;
-    }
-
-    return 0; // không update gì!;
-  }
-
-  async updateOne(id: string, userId: string, dto: UpdateCartDto) {
-    const model = await this.repository.findOneById(id, userId);
-    if (!model) {
-      throw new BadRequestException(
+    try {
+      existing.totalPrice = totalPrice;
+      existing.quantity = quantity;
+      existing.sku = sku;
+      await existing.save();
+      return { message: 'Cập nhật giỏ hàng thành công!', success: true };
+    } catch {
+      throw new NotFoundException(
         this.helperService.errorResponse({
-          message: 'Giỏ hàng không tồn tại!',
+          message: 'Không cập nhật được giỏ hàng!',
         }),
       );
     }
+  }
 
-    return await this.update(model, dto);
+  async updateOne(id: string, dto: CreateCartDto, userId: string) {
+    const cartDoc = await this.repository.findOneById(id, userId);
+    if (!cartDoc)
+      throw new BadRequestException(
+        this.helperService.errorResponse({
+          message: 'Không tìm thấy giỏ hàng!',
+        }),
+      );
+
+    const { optionIds, productId, quantity } = dto;
+    const [productInfo, variant] = await Promise.all([
+      this.sharedProductSerivce.getInfo(productId),
+      this.sharedProductSerivce.getVariantByOptionIds(productId, optionIds),
+    ]);
+
+    const { extraPrice, sku } = variant;
+
+    const { price, sale } = productInfo;
+
+    const discountPrice = price - (price * sale) / 100;
+    const totalPrice = discountPrice * quantity + extraPrice;
+
+    return await this.update(cartDoc, totalPrice, quantity, sku);
   }
 }

@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
-import { CategoryService } from '../categories/categories.service';
-import { CategoryController } from '../categories/categories.controller';
 import { DatabaseModule } from '@/src/database/database.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { categorySchema } from './schemas/categories.schema';
-import { CategoryRepository } from './categories.repository';
-import { HttpResponse } from '@/src/helpers/httpResponse';
+
+import { CategoryController } from './controllers/categories.controller';
+import { ReadCategoryService } from './services/read.service';
+import { HelperCategoryService } from './services/helper.service';
+import { HelperService } from '../helpers/helper.service';
+import { CategoryRepository } from './repositories/categories.repository';
 
 @Module({
   imports: [
@@ -13,7 +15,17 @@ import { HttpResponse } from '@/src/helpers/httpResponse';
     MongooseModule.forFeature([{ name: 'Category', schema: categorySchema }]),
   ],
   controllers: [CategoryController],
-  providers: [CategoryService, CategoryRepository, HttpResponse],
-  exports: [CategoryService, CategoryRepository, MongooseModule],
+  providers: [
+    ReadCategoryService,
+    HelperCategoryService,
+    CategoryRepository,
+    HelperService,
+  ],
+  exports: [
+    ReadCategoryService,
+    HelperCategoryService,
+    CategoryRepository,
+    MongooseModule,
+  ],
 })
 export class CategoryModule {}

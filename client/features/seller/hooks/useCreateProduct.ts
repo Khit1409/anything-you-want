@@ -1,0 +1,154 @@
+import { getProvinces } from "@/features/address.feature";
+import useAppModal from "@/features/common/hooks/useAppModal";
+import useLoading from "@/features/common/hooks/useLoading";
+import {
+  CreateProductRequest,
+  ProductVariant,
+  ShippingMethod,
+} from "@/features/product/interfaces/product.interface";
+import { getCategoryService } from "@/features/product/services/category.service";
+import { createProductService } from "@/features/product/services/product.service";
+import { useQuery } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { strToObjKey } from "@/features/common/helpers/str.helper";
+import useSellerCommon from "./useSellerCommon";
+
+export default function useCreateProduct() {
+  const { handleLoading } = useLoading();
+  const appModal = useAppModal();
+  const router = useRouter();
+  const { createProductCode, createSku } = useSellerCommon();
+  const { data = { categories: [], provinces: [] }, refetch } = useQuery({
+    queryKey: ["create-api"],
+    queryFn: async () => {
+      const [categories, provinces] = await Promise.all([
+        getCategoryService(),
+        getProvinces(),
+      ]);
+      return { categories, provinces };
+    },
+  });
+
+  const { handleSubmit, register, setValue, watch, control, getValues } =
+    useForm<{
+      data: CreateProductRequest;
+    }>({
+      defaultValues: {
+        data: {
+          shipping: {
+            methods: [
+              {
+                enabled: true,
+                type: ShippingMethod.STANDARD,
+                times: {
+                  deliveryDays: 1,
+                  prepareDays: 3,
+                },
+              },
+              {
+                enabled: false,
+                type: ShippingMethod.EXPRESS,
+                times: {
+                  deliveryDays: 0,
+                  prepareDays: 0,
+                },
+              },
+              {
+                enabled: false,
+                type: ShippingMethod.INTERNATIONAL,
+                times: {
+                  deliveryDays: 0,
+                  prepareDays: 0,
+                },
+              },
+              {
+                enabled: false,
+                type: ShippingMethod.NEXTDAY,
+                times: {
+                  deliveryDays: 0,
+                  prepareDays: 0,
+                },
+                supportedProvinces: [],
+              },
+              {
+                enabled: false,
+                type: ShippingMethod.PICKUP,
+                supportedProvinces: [],
+                times: {
+                  deliveryDays: 0,
+                  prepareDays: 0,
+                },
+              },
+              {
+                enabled: false,
+                type: ShippingMethod.SAMEDAY,
+                times: {
+                  deliveryDays: 0,
+                  prepareDays: 0,
+                },
+                supportedProvinces: [],
+              },
+              {
+                enabled: false,
+                type: ShippingMethod.SCHEDULED,
+                times: {
+                  deliveryDays: 0,
+                  prepareDays: 0,
+                },
+                supportedProvinces: [],
+              },
+            ],
+          },
+          info: {
+            name: "",
+            brand: "",
+            category: "",
+            description: "",
+            origin: "",
+            price: 0,
+            sale: 0,
+          },
+          images: {
+            details: [],
+          },
+          classifications: [{ name: "", values: [{ name: "" }] }],
+          physical: {
+            dimensions: {
+              height: 0,
+              length: 0,
+              width: 0,
+            },
+            weight: 0,
+          }
+        },
+      },
+    });
+
+  async function submitCreate(req: CreateProductRequest) {
+    const res = await handleLoading(createProductService, req);
+    const { message, success, data } = res;
+    if (success) {
+      router.replace(`/seller/products/${data.id}`);
+    }
+
+    if (refetch) {
+      await refetch();
+    }
+
+    return appModal.open({ message, success });
+  }
+
+
+  const { categories, provinces } = data;
+  return {
+    categories,
+    provinces,
+    handleSubmit,
+    register,
+    setValue,
+    watch,
+    control,
+    submitCreate,
+  };
+}

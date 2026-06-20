@@ -1,5 +1,6 @@
-import ProductDetailHeroSection from "@/components/products/detail/ProductDetailHeroSection";
-import ProductDetailPage from "@/page-components/users/ProductDetailPage";
+
+import ProductDetailHeroSection from "@/features/product/components/detail/ProductDetailHeroSection";
+import ProductDetailPage from "@/features/product/pages/ProductDetailPage";
 
 export default function page() {
   return (

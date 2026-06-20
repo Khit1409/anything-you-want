@@ -34,10 +34,10 @@ export class StrHellper {
   replaceVietnamese(str: string) {
     return str
       .toLowerCase()
-      .normalize('NFD') // tách dấu tiếng Việt
-      .replace(/[\u0300-\u036f]/g, '') // xóa dấu
-      .replace(/đ/g, 'd') // xử lý riêng chữ đ
-      .replace(/[^a-z0-9\s-]/g, '') // bỏ ký tự đặc biệt
+      .normalize('NFD') 
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/đ/g, 'd') 
+      .replace(/[^a-z0-9\s-]/g, '')
       .trim();
   }
 }

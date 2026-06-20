@@ -9,7 +9,7 @@ import {
   Param,
   Put,
 } from '@nestjs/common';
-import { UpdateCartDto } from '../dtos/request.dto';
+
 import { CreateCartDto } from '../dtos/create.dto';
 import type { Request } from 'express';
 import { ReadCartService } from '../services/read.service';
@@ -31,8 +31,8 @@ export class CartController {
   @HttpCode(200)
   @Get()
   async getCart(@Req() req: Request) {
-    const uid = req.userId;
-    const carts = await this.readService.list(uid);
+    const userId = req.userId;
+    const carts = await this.readService.all(userId);
     return this.helperService.successResponse({
       message: 'Danh sách giỏ hàng!',
       data: carts,
@@ -47,46 +47,31 @@ export class CartController {
    */
   @HttpCode(201)
   @Post()
-  async addToCart(@Req() req: Request, @Body() dto: CreateCartDto) {
+  async create(@Req() req: Request, @Body() dto: CreateCartDto) {
     const userId = req.userId;
-    const result = await this.createService.create(dto, userId);
-    if (typeof result === 'number') {
-      return this.helperService.successResponse({
-        message: 'Cập nhật thành công!',
-        data: { result },
-      });
-    }
-    return this.helperService.successResponse({
-      message: 'Đã thêm mới giỏ hàng!',
+    const { message, success } = await this.createService.create(dto, userId);
+    return this.helperService.responseConfig({
+      message,
+      success,
     });
   }
-  /**
-   *
-   * @param req
-   * @param dto
-   * @param res
-   * @returns
-   */
+
   @HttpCode(200)
   @Put(':id')
-  async updateCartDetail(
+  async updateOne(
     @Param('id') id: string,
     @Req() req: Request,
-    @Body() dto: UpdateCartDto,
+    @Body() dto: CreateCartDto,
   ) {
-    const userId = req.userId;
-    const result = await this.updateService.updateOne(id, userId, dto);
-    return this.helperService.successResponse({
-      message: 'Đã cập nhật giỏ hàng!',
-      data: { result },
-    });
+    const { userId } = req;
+    const { message, success } = await this.updateService.updateOne(
+      id,
+      dto,
+      userId,
+    );
+    return this.helperService.responseConfig({ message, success });
   }
-  /**
-   *
-   * @param id
-   * @param req
-   * @returns
-   */
+
   @HttpCode(200)
   @Delete(':id')
   async deleteCart(@Param('id') id: string, @Req() req: Request) {

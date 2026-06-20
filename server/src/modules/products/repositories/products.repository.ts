@@ -9,16 +9,11 @@ import { ProductImages } from '../schemas/product-images.schema';
 import { ProductInfo } from '../schemas/product-info.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { ProductVariant } from '../schemas/product-variant.schema';
+import { FilterProducts } from './interfaces/products.repository.interface';
 
 type FindOneOptions = {
   id: string;
   sellerId?: string;
-};
-
-type FindManyOptions = {
-  skip: number;
-  limit: number;
-  select: string;
 };
 
 type RelatedsOptions = {
@@ -52,23 +47,24 @@ export class ProductRepository {
     return await this.model.findOne(query);
   }
 
-  async findMany({
-    skip,
-    limit,
-    select,
-  }: FindManyOptions): Promise<HydratedDocument<Product>[]> {
-    return await this.model.find().limit(limit).skip(skip).select(select);
+  async findMany(filter: FilterProducts): Promise<HydratedDocument<Product>[]> {
+    const { limit, skip, select } = filter.sort;
+    return await this.model
+      .find(filter.search)
+      .limit(limit)
+      .skip(skip)
+      .select(select);
   }
 
-  async getMany({ skip, limit, select }: FindManyOptions): Promise<Product[]> {
+  async getMany(filter: FilterProducts): Promise<Product[]> {
+    const { skip, limit, select } = filter.sort;
     return await this.model
-      .find()
+      .find(filter.search)
       .limit(limit)
       .skip(skip)
       .select(select)
       .lean<Product[]>();
   }
-
   async getOneById({
     id,
     sellerId,
@@ -86,14 +82,11 @@ export class ProductRepository {
     return await this.model.findById(id).lean();
   }
 
-  async getManyBySeller(
-    filter: FindManyOptions,
-    sellerId: string,
-  ): Promise<Product[]> {
-    const { limit, select, skip } = filter;
+  async getManyBySeller(filter: FilterProducts): Promise<Product[]> {
+    const { limit, select, skip } = filter.sort;
     return await this.model
-      .find({ 'owner.sellerId': sellerId })
-      .select(select ?? {})
+      .find(filter.search)
+      .select(select)
       .limit(limit)
       .skip(skip)
       .lean();
@@ -125,6 +118,14 @@ export class ProductRepository {
       .select('variants')
       .lean();
     return doc?.variants;
+  }
+
+  async getOnVariantByOptionIds(id: string, optionIds: string[]) {
+    console.log(optionIds);
+    const doc = await this.model.findById(id);
+    return doc?.variants.find((v) =>
+      optionIds.every((id) => v.optionIds.includes(id)),
+    );
   }
 
   async getOwnerById(id: string): Promise<ProductOwner | null> {

@@ -21,14 +21,9 @@
     "paths": {
       "@/*": ["./*"],
       "@/style/*": ["./styles/*"],
-      "@/interfaces/*": ["./interfaces/*"],
       "@/lib/*": ["./lib/*"],
       "@/redux/*": ["./redux/*"],
-      "@/pages/*": ["./page-components/*"],
-      "@/hooks/*": ["./hooks/*"],
-      "@/components/*": ["./components/*"],
-      "@/features/*": ["./features/*"],
-      "@/api/*": ["./api/*"]
+      "@/features/*": ["./features/*"]
     }
   },
   "include": [

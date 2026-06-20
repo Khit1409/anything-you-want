@@ -41,12 +41,11 @@ export async function getProvinces(): Promise<Provinces> {
  * @param provinceCode
  * @returns
  */
-export async function getWards(provinceCode: number): Promise<Wards> {
+export async function getWards(): Promise<Wards> {
   try {
     const res = await axios.get(`${WARD_API_URL}`);
-    const api = res.data as Wards;
-    const data = api.filter((ft) => ft.province_code == provinceCode);
-    return data;
+    const { data } = res;
+    return data as Wards;
   } catch (error) {
     throw error;
   }

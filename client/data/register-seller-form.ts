@@ -8,6 +8,7 @@ interface InputParams {
   maxLenght?: number;
   minLength?: number;
   icons?: string;
+  path?: string;
 }
 
 interface FormListType {
@@ -23,6 +24,7 @@ export const SELLER_FORM_INPUT_LIST: FormListType = {
   info: [
     {
       name: "firstName",
+      path: "data.info.firstName",
       type: "text",
       maxLenght: 255,
       required: true,
@@ -32,6 +34,7 @@ export const SELLER_FORM_INPUT_LIST: FormListType = {
     },
     {
       name: "lastName",
+      path: "data.info.lastName",
       type: "text",
       maxLenght: 255,
       required: true,
@@ -42,6 +45,7 @@ export const SELLER_FORM_INPUT_LIST: FormListType = {
     {
       id: "fullName",
       name: "fullName",
+      path: "data.info.fullName",
       required: true,
       message: "Nhập tên đầy đủ của bạn!",
       label: "Tên đầy đủ của bạn",
@@ -51,6 +55,7 @@ export const SELLER_FORM_INPUT_LIST: FormListType = {
     {
       id: "dateOfBirth",
       name: "dateOfBirth",
+      path: "data.info.dateOfBirth",
       required: true,
       label: "Ngày tháng năm sinh (DD/MM/YYYY)",
       type: "date",
@@ -60,6 +65,7 @@ export const SELLER_FORM_INPUT_LIST: FormListType = {
     info: [
       {
         name: "name",
+        path: "data.store.info.name",
         id: "name",
         label: "Tên cửa hàng",
         message: "Nhập tên cửa hàng của bạn!",
@@ -70,6 +76,7 @@ export const SELLER_FORM_INPUT_LIST: FormListType = {
       },
       {
         name: "description",
+        path: "data.store.info.description",
         type: "text",
         message: "Nhập mô tả cửa hàng!",
         label: "Mô tả cửa hàng",
@@ -78,6 +85,7 @@ export const SELLER_FORM_INPUT_LIST: FormListType = {
       },
       {
         name: "phoneNumber",
+        path: "data.store.info.phoneNumber",
         type: "tel",
         message: "Số điện thoại liên hệ!",
         label: "Số điện thoại liên hệ",
@@ -88,10 +96,31 @@ export const SELLER_FORM_INPUT_LIST: FormListType = {
       },
       {
         name: "emailAddress",
+        path: "data.store.info.emailAddress",
         type: "email",
         message: "Nhập địa chỉ email của cửa hàng cửa hàng!",
         label: "Địa chỉ email của cửa hàng",
         id: "emailAddress",
+        required: true,
+        maxLenght: 255,
+      },
+      {
+        name: "thumbnail",
+        type: "text",
+        path: "data.store.info.thumbnail",
+        message: "Nhập địa chỉ email của cửa hàng cửa hàng!",
+        label: "Địa chỉ email của cửa hàng",
+        id: "thumbnail",
+        required: true,
+        maxLenght: 255,
+      },
+      {
+        name: "avatar",
+        type: "text",
+        path: "data.store.info.avatar",
+        message: "Nhập địa chỉ email của cửa hàng cửa hàng!",
+        label: "Địa chỉ email của cửa hàng",
+        id: "avatar",
         required: true,
         maxLenght: 255,
       },
@@ -103,6 +132,7 @@ export const SELLER_FORM_INPUT_LIST: FormListType = {
       message: "**-**-**",
       name: "storeCode",
       type: "password",
+      path: "data.store.storeCode",
       maxLenght: 6,
       minLength: 6,
     },
@@ -110,20 +140,11 @@ export const SELLER_FORM_INPUT_LIST: FormListType = {
   auth: [
     {
       name: "currentPassword",
+      path: "data.currentPassword",
       label: "Mật khẩu",
       message: "Nhập mật khẩu",
       required: true,
       id: "currentPassword",
-      type: "password",
-      minLength: 6,
-      maxLenght: 255,
-    },
-    {
-      name: "rePassword",
-      label: "Nhập lại mật khẩu",
-      message: "Nhập lại mật khẩu",
-      required: true,
-      id: "rePassword",
       type: "password",
       minLength: 6,
       maxLenght: 255,
@@ -134,6 +155,7 @@ export const SELLER_FORM_INPUT_LIST: FormListType = {
       label: "Địa chỉ email",
       message: "Nhập địa chỉ email của bạn!",
       name: "emailAddress",
+      path: "data.emailAddress",
       required: true,
       maxLenght: 255,
     },
