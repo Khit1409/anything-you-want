@@ -4,6 +4,7 @@ import { SELLER_NAV } from "@/data/seller-navbar.data";
 import { getIconByString } from "@/features/icon.feature";
 import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -59,13 +60,22 @@ export default function Navbar() {
                     }
                     className="flex items-center px-4 py-2 text-sm text-(--text) hover:bg-(--surface-muted) rounded-lg transition-colors hover:text-(--title)"
                   >
-                    <span>
+                    {nav_child.icon && (
                       <FontAwesomeIcon
                         icon={getIconByString(nav_child.icon)!}
                         className="me-1"
                       />
-                      {nav_child.name}
-                    </span>
+                    )}
+                    {nav_child.img && (
+                      <Image
+                        src={nav_child.img}
+                        alt=""
+                        className="me-1"
+                        width={20}
+                        height={20}
+                      />
+                    )}
+                    <span>{nav_child.name}</span>
                   </Link>
                 ))}
               </div>

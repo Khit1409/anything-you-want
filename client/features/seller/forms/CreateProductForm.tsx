@@ -7,7 +7,7 @@ import PhysicalSection from "./sections/create/PhysicalSection";
 import ShippingSection from "./sections/create/ShippingSection";
 import ClassificationSection from "./sections/create/ClassificationSection";
 import ActionSection from "./sections/create/ActionSection";
-import { useCreateProductContext } from "../contexts/CreateProductContext";
+import { useCreateProductContext } from "@/sellerContexts/CreateProductContext";
 import { FormLayout } from "./components";
 
 export default function CreateProductForm() {

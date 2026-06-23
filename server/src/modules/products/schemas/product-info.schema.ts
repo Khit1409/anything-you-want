@@ -7,9 +7,9 @@ export class ProductInfo {
   name: string;
   @Prop({ type: String, required: true })
   description: string;
-  @Prop({ type: String, required: true })
+  @Prop({ type: Number, required: true })
   price: number;
-  @Prop({ type: String, required: true, max: 100, min: 0 })
+  @Prop({ type: Number, required: true, max: 100, min: 0 })
   sale: number;
   @Prop({ type: ProductCategory, required: true })
   category: ProductCategory;

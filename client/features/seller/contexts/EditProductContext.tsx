@@ -1,7 +1,9 @@
 import { createContext, useContext } from "react";
 import useEditProduct from "../hooks/useEditProduct";
+import useDeleteProduct from "../hooks/useDeleteProduct";
 
-export type EditProductContextType = ReturnType<typeof useEditProduct>;
+export type EditProductContextType = ReturnType<typeof useEditProduct> &
+  ReturnType<typeof useDeleteProduct>;
 export const EditProductContext = createContext<EditProductContextType | null>(
   null,
 );
@@ -19,7 +21,9 @@ export default function EditProductContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const value = useEditProduct();
+  const edit = useEditProduct();
+  const del = useDeleteProduct();
+  const value = { ...edit, ...del };
   return (
     <EditProductContext.Provider value={value}>
       {children}

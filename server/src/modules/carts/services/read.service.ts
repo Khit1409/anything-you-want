@@ -2,30 +2,44 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CartRepository } from '../repositories/carts.repository';
 import { HelperService } from '../../helpers/helper.service';
 import { SharedProductService } from '../../products/services/shared.service';
-import { CartMapper } from '../mappers/response.mapper';
-import { HelperProductService } from '../../products/services/helper.service';
 
 @Injectable()
 export class ReadCartService {
   constructor(
     private readonly repository: CartRepository,
     private readonly helperService: HelperService,
-    private readonly mapper: CartMapper,
     private readonly sharedProductService: SharedProductService,
-    private readonly helperProductService: HelperProductService,
   ) {}
 
   async all(userId: string) {
     const carts = await this.repository.getManyByUser(userId);
     return await Promise.all(
       carts.map(async (cart) => {
-        const { productId } = cart;
-        const { thumbnail } =
-          await this.sharedProductService.getImages(productId);
+        const { product, _id, createdAt, updatedAt } = cart;
+        const { productId, quantity, sku } = product;
+        const item = await this.sharedProductService.getProductCart(productId);
+        const { thumbnail, price, name, sale } = item;
+        const { extraPrice } = await this.sharedProductService.getVariantBySku(
+          productId,
+          sku,
+        );
+        const discounted = price - (price * sale) / 100;
+        const totalPrice = discounted * quantity + extraPrice;
         return {
-          ...cart,
-          products: await this.sharedProductService.getInfo(productId),
-          thumbnail,
+          _id,
+          product: {
+            ...product,
+            thumbnail,
+            price,
+            totalPrice,
+            sale,
+            discounted,
+            name,
+            quantity,
+            sku,
+          },
+          createdAt,
+          updatedAt,
         };
       }),
     );

@@ -30,13 +30,13 @@ export default function CartList() {
               >
                 <div className="flex items-center gap-4 p-4">
                   {/* Product Image with Link */}
-                  <Link href={`/products/${cart.productId}`}>
+                  <Link href={`/products/${cart.product.productId}`}>
                     <div className="shrink-0 relative overflow-hidden rounded-md">
                       <Image
-                        src={cart.thumbnail}
+                        src={cart.product.thumbnail}
                         width={120}
                         height={120}
-                        alt={cart.products.name}
+                        alt={cart.product.name}
                         className="w-30 h-30 group-hover:scale-105 transition-transform duration-200"
                         objectFit="cover"
                         loading="lazy"
@@ -52,7 +52,7 @@ export default function CartList() {
                   {/* Action Buttons */}
                   <div className="shrink-0 flex gap-2">
                     <CartActionSection
-                      productId={cart.productId}
+                      productId={cart.product.productId}
                       onDelete={() => {}}
                       id={cart._id}
                       onUpdate={redirectToUpdate}

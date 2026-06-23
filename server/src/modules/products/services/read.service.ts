@@ -26,20 +26,19 @@ export class ReadProductService {
     return products;
   }
 
-  async detail(productId: string, sellerId?: string) {
-    const product = await this.repository.getOneById({
-      id: productId,
-      sellerId,
-    });
-    if (!product) {
-      throw new BadRequestException(
-        this.helperService.errorResponse({
-          message: 'Sản phẩm không tồn tại!',
-        }),
-      );
-    }
+  async bestSeller(query: ProductQueryDto) {
+    const select = 'info ratingSumary shipping images tags status';
+    const { sort } = this.productHelper.formatQuery(query, select);
+    const products = await this.repository.getBestSeller(sort);
+    return products;
+  }
 
-    return product;
+  async detail(productId: string) {
+    const product = await this.repository.getOneById(productId);
+    return this.productHelper.checkExistingValue(
+      product,
+      'Sản phẩm không tồn tại!',
+    );
   }
 
   async relateds({
@@ -60,21 +59,13 @@ export class ReadProductService {
   }
 
   async detailForSeller(productId: string, sellerId: string) {
-    const product = await this.repository.getOneBySeller(productId, sellerId);
-    if (!product) {
-      throw new BadRequestException(
-        this.helperService.errorResponse({
-          message: 'Sản phẩm không tồn tại!',
-        }),
-      );
-    }
-    const variants = this.productHelper.recordVariantOption(
-      product.classifications,
-      product.variants,
+    const search = this.productHelper.formatSearchDetail(productId, sellerId);
+    const productDoc = await this.repository.getOneBySeller(search);
+    const product = this.productHelper.checkExistingValue(
+      productDoc,
+      'Sản phẩm không tồn tại!',
     );
-
-    console.log(variants);
-    return { ...product, variants: variants };
+    return product;
   }
 
   async variantForEdit(productId: string, sellerId: string) {

@@ -30,7 +30,7 @@ export class ProductShippingMethod {
   @Prop({ type: ProductShippingMethodTimes, required: true })
   times: ProductShippingMethodTimes;
   @Prop({ type: [String], required: false })
-  supportedProvinces?: string[];
+  supportedProvinces: string[];
 }
 
 @Schema({ _id: false })

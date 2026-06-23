@@ -1,7 +1,7 @@
 "use client";
 import NotFoundProduct from "../common/NotFoundProduct";
 import { SectionShowDataLoading } from "@/features/common/components";
-import ProductCard from "../detail/ProductCard";
+import ProductCard from "../common/ProductCard";
 import { useProductListContext } from "../../contexts/ProductListContext";
 
 export default function ProductList() {

@@ -6,4 +6,6 @@ export class ProductCategory {
   id: string;
   @Prop({ type: String, required: true })
   name: string;
+  @Prop({ type: String, required: true })
+  slug: string;
 }

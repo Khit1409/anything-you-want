@@ -1,9 +1,5 @@
-import React from 'react'
+import ProductBestSellerContent from "@/features/product/components/list/ProductBestSellerContent";
 
 export default function page() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <ProductBestSellerContent />;
 }

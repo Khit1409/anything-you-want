@@ -1,7 +1,7 @@
 import { ProductPreview } from "../../interfaces/product.interface";
 
 import Rating from "../list/Rating";
-import ShippingSection from "../common/ShippingSection";
+import ShippingSection from "./ShippingSection";
 import Thumbnail from "../list/Thumbnail";
 import Info from "../list/Info";
 

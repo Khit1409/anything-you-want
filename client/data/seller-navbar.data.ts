@@ -1,4 +1,11 @@
-export const SELLER_NAV = [
+type SellerNavType = {
+  id: string;
+  category: string;
+  url?: string;
+  icon: string;
+  childs: { name: string; url: string; img?: string; icon?: string }[];
+}[];
+export const SELLER_NAV: SellerNavType = [
   {
     id: "1",
     category: "Trang Chủ",
@@ -90,6 +97,24 @@ export const SELLER_NAV = [
 
   {
     id: "6",
+    category: "Giao Dịch",
+    url: "",
+    icon: "moneyBill",
+    childs: [
+      {
+        name: "Ngân hàng",
+        url: "/seller/setting/security",
+        icon: "buildingColumns",
+      },
+      {
+        name: "Momo",
+        url: "/seller/setting/security",
+        img: "/assets/images/momo.png",
+      },
+    ],
+  },
+  {
+    id: "7",
     category: "Cài Đặt",
     url: "",
     icon: "gear",

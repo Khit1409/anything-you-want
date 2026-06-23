@@ -1,4 +1,4 @@
-import { useCreateProductContext } from "../../../contexts/CreateProductContext";
+import { useCreateProductContext } from "@/features/seller/contexts/CreateProductContext";
 import { SectionCard, FormField } from "../../components";
 
 export default function PhysicalSection() {

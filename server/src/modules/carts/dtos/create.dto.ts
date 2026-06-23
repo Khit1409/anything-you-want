@@ -1,11 +1,10 @@
-import { IsNumber, IsString, Min, IsArray } from 'class-validator';
+import { IsNumber, IsString, Min } from 'class-validator';
 
 export class CreateCartDto {
   @IsString()
   productId!: string;
-  @IsArray()
-  @IsString({ each: true })
-  optionIds!: string[];
+  @IsString()
+  sku!: string;
   @IsNumber()
   @Min(1)
   quantity!: number;

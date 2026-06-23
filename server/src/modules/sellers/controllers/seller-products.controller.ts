@@ -81,14 +81,14 @@ export class SellerProductController {
     @Req() req: Request,
   ) {
     const sellerId = req.userId;
-    const result = await this.deleteProductService.deleteById(
+    const isDeleted = await this.deleteProductService.deleteById(
       productId,
       sellerId,
     );
 
     return this.helperService.successResponse({
       message: 'Xóa sản phẩm thành công!',
-      data: { result },
+      data: { isDeleted },
     });
   }
 
@@ -100,9 +100,7 @@ export class SellerProductController {
       const sellerId = req.userId;
       const store = await this.readStoreService.getBySellerId(sellerId);
       const owner = { sellerId, storeId: store.id };
-
       const resultData = await this.createProductService.create(dto, owner);
-
       return this.helperService.successResponse({
         message: 'Tạo mới sản phẩm thành công vui lòng cập nhật tiếp tục!',
         data: resultData,
@@ -125,8 +123,10 @@ export class SellerProductController {
   async updateProduct(
     @Param('productId') productId: string,
     @Body() dto: UpdateProductDto,
+    @Req() req: Request,
   ) {
-    await this.updateProductService.update(dto, productId);
+    const { userId } = req;
+    await this.updateProductService.update(dto, productId, userId);
     return this.helperService.successResponse({
       message:
         'Cập nhật sản phẩm thành công, vui lòng kiểm tra lại dữ liệu mới!',

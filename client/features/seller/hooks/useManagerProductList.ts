@@ -5,6 +5,7 @@ import { GetProductTableQuery } from "@/features/product/interfaces/product.inte
 import { getCategoryService } from "@/features/product/services/category.service";
 
 export default function useManagerProductList() {
+  console.log("HOOK CREATED");
   const [filter, setFilter] = useState<GetProductTableQuery>({ page: 1 });
 
   const {
@@ -42,7 +43,8 @@ export default function useManagerProductList() {
 
   const isEmpty = !isLoading && products.length == 0;
   const isShow = !isLoading && products.length !== 0;
-  
+  console.log("hook", products);
+
   return {
     products,
     categories,

@@ -1,19 +1,35 @@
 import Link from "next/link";
 import Price from "./Price";
 import { ProductInfo } from "../../interfaces/product.interface";
+import { strToSlug } from "@/features/common/helpers/str.helper";
 
 export default function Info({ info, id }: { info: ProductInfo; id: string }) {
-  const { brand, name, price, sale } = info;
+  const { brand, name, price, sale, origin, category } = info;
   return (
     <div className="flex flex-col gap-3">
       {/* Brand */}
+      {brand && (
+        <Link
+          href={`/search?brand=${strToSlug(brand)}`}
+          className="text-xs text-(--muted) hover:text-orange-600 dark:hover:text-orange-400 hover:underline mb-1 block"
+        >
+          {brand}
+        </Link>
+      )}
+      {origin && (
+        <Link
+          href={`/search?origin=${strToSlug(origin)}`}
+          className="text-xs text-(--muted) hover:text-orange-600 dark:hover:text-orange-400 hover:underline mb-1 block"
+        >
+          {origin}
+        </Link>
+      )}
       <Link
-        href={`/search?brand=${brand}`}
+        href={`/search?category=${category.slug}`}
         className="text-xs text-(--muted) hover:text-orange-600 dark:hover:text-orange-400 hover:underline mb-1 block"
       >
-        {brand}
+        {category.name}
       </Link>
-
       {/* Product Name */}
       <Link
         href={`/products/${id}`}

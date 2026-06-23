@@ -9,10 +9,19 @@ import {
 } from "./sections/edit";
 import EditVariantSection from "./sections/edit/EditVariantSection";
 import { FormLayout } from "./components";
-import { useEditProductConext } from "../contexts/EditProductContext";
+import { SectionShowDataLoading } from "@/features/common/components";
+import NotFoundProduct from "@/features/product/components/common/NotFoundProduct";
+import { useEditProductConext } from "@/sellerContexts/EditProductContext";
 
 export default function EditProductForm() {
-  const { handleSubmit, submitUpdate } = useEditProductConext();
+  const { handleSubmit, submitUpdate, isLoading, product } =
+    useEditProductConext();
+  if (isLoading) {
+    return <SectionShowDataLoading />;
+  }
+  if (!product && !isLoading) {
+    return <NotFoundProduct />;
+  }
   return (
     <FormLayout
       title="Chỉnh sửa sản phẩm"

@@ -10,6 +10,7 @@ import {
 import { UserInfo } from './user-info.entity';
 import { UserAddress } from './user-address.entity';
 import { UserPhone } from './user-phone.entity';
+import { Order } from '../../orders/entities/order.entity';
 
 export enum UserStatus {
   ACTIVE = 'active',
@@ -72,4 +73,9 @@ export class User {
     cascade: true,
   })
   phones: UserPhone[];
+
+  @OneToMany(() => Order, (order) => order.user, {
+    onDelete: 'CASCADE',
+  })
+  orders: Order[];
 }

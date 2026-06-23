@@ -47,6 +47,15 @@ export class ProductController {
       data: api,
     });
   }
+  @HttpCode(200)
+  @Get('best-seller')
+  async getProductBestSeller(@Query() query: ProductQueryDto) {
+    const api = await this.readService.bestSeller(query);
+    return this.helperService.successResponse({
+      message: 'Dữ liệu sản phẩm xem trước',
+      data: api,
+    });
+  }
   /**
    *
    * @param id
@@ -57,19 +66,14 @@ export class ProductController {
   async getProductDetail(@Param('productId') productId: string) {
     const select = 'info ratingSumary shipping images tags';
     const product = await this.readService.detail(productId);
-
     const categoryId = product.info.category.id;
-
     const filterRelateds = {
       neId: productId,
       categoryId,
       select,
     };
-
     const relateds = await this.readService.relateds(filterRelateds);
-
     const api = { product, relateds };
-
     return this.helperService.successResponse({
       message: 'Dữ liệu chi tiết sản phẩm!',
       data: api,

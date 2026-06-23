@@ -2,7 +2,7 @@
 
 import { useFieldArray } from "react-hook-form";
 import ClassificationValueForm from "./ClassificationValueSection";
-import { useCreateProductContext } from "../../../contexts/CreateProductContext";
+import { useCreateProductContext } from "@/features/seller/contexts/CreateProductContext";
 import { SectionCard, FormField } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPlus, faSave } from "@fortawesome/free-solid-svg-icons";

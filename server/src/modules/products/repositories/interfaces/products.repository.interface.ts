@@ -25,3 +25,8 @@ export interface FilterProducts {
   sort: SortProducts;
   search: SearchProducts;
 }
+
+export interface ProductFindOneOptions {
+  'owner.sellerId'?: string;
+  _id: string;
+}

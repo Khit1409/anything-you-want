@@ -1,5 +1,6 @@
-import { ApiResponse } from "@/interfaces";
+
 import { axiosClient } from "@/lib/configs/axios.config";
+import { ApiResponse } from "../interfaces/common.interface";
 
 export interface UploadImageResponse {
   url: string;

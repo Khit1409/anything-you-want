@@ -35,7 +35,6 @@ export default function useProductDetail() {
 
   const onChangeOptionIds = (id: string, name: string) => {
     if (!product) return;
-    console.log(name, id);
     const exist = optionIds.find((f) => f.name === name);
     if (exist) {
       return setOptionIds((prev) =>
@@ -45,19 +44,43 @@ export default function useProductDetail() {
     return setOptionIds((prev) => [...prev, { name, id }]);
   };
 
+  const maxQuantity = () => {
+    if (!product) return;
+    if (optionIds.length !== product?.classifications.length) return;
+    const variants = product.variants;
+    const variant = variants.find((f) =>
+      f.optionIds.every((id) => optionIds.find((fo) => fo.id === id)),
+    );
+    if (!variant) return;
+    return variant.stock;
+  };
+
+  const getSku = (optionIds: string[]) => {
+    if (!product) return;
+    const variants = product.variants;
+    const variant = variants.find((f) =>
+      f.optionIds.every((id) => optionIds.find((fo) => fo === id)),
+    );
+    return variant?.sku;
+  };
+
   async function sendCart() {
     if (!product) return;
     const productId = id;
     const correctLengt = product.classifications.length;
-    const optionIdPayloads = optionIds.map((o) => o.id);
-    if (correctLengt !== optionIdPayloads.length) {
+    const optionIdSelected = optionIds.map((o) => o.id);
+    if (correctLengt !== optionIdSelected.length) {
       return open({ message: "Vui lòng chọn đủ lựa chọn!" });
     }
     if (quantity <= 0) {
       return open({ message: "Vui lòng chọn số lượng phù hợp" });
     }
+    const sku = getSku(optionIdSelected);
+    if (!sku) {
+      return open({ message: "Không tìm thấy biến thể đã lựa chọn!" });
+    }
     const res = await handleLoading(addToCartService, {
-      optionIds: optionIdPayloads,
+      sku,
       productId,
       quantity,
     });
@@ -77,5 +100,6 @@ export default function useProductDetail() {
     imagePreview,
     setImagePreview,
     sendCart,
+    maxQuantity,
   };
 }

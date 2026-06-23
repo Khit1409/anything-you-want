@@ -1,4 +1,4 @@
-import { useProductDetailContext } from "../../contexts/ProductDetailContext";
+import { useProductDetailContext } from "@/productContexts/ProductDetailContext";
 import ShippingSection from "../common/ShippingSection";
 import ProductRelated from "../list/ProductRelated";
 import ProductAction from "./ProductAction";

@@ -1,21 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 import { CartOwner } from './cart-owner.schema';
+import { CartItem } from './cart-item.schema';
 
 export type CartDocument = HydratedDocument<Cart>;
 
 @Schema({ timestamps: true, collection: 'carts', strict: true })
 export class Cart {
-  @Prop({ type: String, required: true })
-  productId: string;
+  declare _id: mongoose.Types.ObjectId;
   @Prop({ type: CartOwner, required: true })
   owner: CartOwner;
-  @Prop({ type: Number, required: true })
-  quantity: number;
-  @Prop({ type: Number, required: true })
-  totalPrice: number;
-  @Prop({ type: String, required: true })
-  sku: string;
+  @Prop({ type: CartItem, required: true })
+  product: CartItem;
+  declare createdAt: Date;
+  declare updatedAt: Date;
 }
 
 export const cartSchema = SchemaFactory.createForClass(Cart);

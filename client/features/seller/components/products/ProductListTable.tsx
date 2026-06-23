@@ -4,10 +4,17 @@ import StatusBadge from "./StatusBadge";
 import EmptyProducts from "./EmptyProducts";
 import { SectionShowDataLoading } from "@/features/common/components";
 import { useManagerProductListContext } from "../../contexts/ManagerProductListContext";
+import { useEffect } from "react";
 
 export default function ProductListTable() {
-  const { isLoading, products, isEmpty, isShow } =
+  const { isLoading, products, isEmpty, isShow, deleteHandle } =
     useManagerProductListContext();
+
+  useEffect(() => {
+    console.log("table rerender", products);
+  }, [products]);
+
+  console.log("components", products);
 
   return (
     <div className="w-full overflow-x-auto my-3 border border-(--border) rounded">
@@ -21,6 +28,7 @@ export default function ProductListTable() {
             <th className="px-4 py-3 font-medium">Sale</th>
             <th className="px-4 py-3 font-medium">Status</th>
             <th className="px-4 py-3 font-medium">Created At</th>
+            <th className="px-4 py-3 font-medium">Options</th>
           </tr>
         </thead>
         {isShow && (
@@ -81,14 +89,30 @@ export default function ProductListTable() {
                 <td className="px-4 py-3">
                   <StatusBadge status={product.status} />
                 </td>
-
                 {/* Created At */}
                 <td className="px-4 py-3 text-gray-400 text-xs whitespace-nowrap">
                   dd/mm/yyyy
                 </td>
+                <td className="px-4  py-3">
+                  <button
+                    onClick={() => deleteHandle(product._id)}
+                    className="text-red-500 hover:underline"
+                  >
+                    delete
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
+        )}
+        {!isEmpty && (
+          <tfoot>
+            <tr className="border-t border-gray-200 bg-gray-50 text-left text-xs text-gray-500 uppercase tracking-wide">
+              <td className="px-4 py-3 font-medium">
+                <span>Tổng sản phẩm: {products.length}</span>
+              </td>
+            </tr>
+          </tfoot>
         )}
       </table>
       {isLoading ? <SectionShowDataLoading /> : isEmpty && <EmptyProducts />}

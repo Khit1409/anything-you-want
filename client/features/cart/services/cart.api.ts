@@ -7,58 +7,25 @@ import { ApiResponse } from "@/features/common/interfaces/common.interface";
 
 import { axiosClient } from "@/lib/configs/axios.config";
 
-/**
- * Thêm sản phẩm vào giỏ hàng (POST /carts).
- * @param data: CartRequest
- * @returns ApiResponse từ server
- */
-export async function addToCartService(
-  data: CartRequest,
-): Promise<ApiResponse> {
-  try {
-    const res = await axiosClient.post("/carts", {
-      ...data,
-    });
-    const api = res.data as ApiResponse;
-    return api;
-  } catch (error) {
-    console.log(error);
-    return {
-      message: error as string,
-      success: false,
-      timestamp: new Date().toDateString(),
-    };
-  }
+export async function addToCartService(data: CartRequest) {
+  const res = await axiosClient.post("/carts", {
+    ...data,
+  });
+  const api = res.data as ApiResponse;
+  return api;
 }
 
-/**
- * Cập nhật item trong giỏ hàng (PUT /carts/:id) — thay đổi số lượng hoặc classification.
- * @param data: CartUpdateRequest (gồm id, classification, quantity)
- * @returns ApiResponse
- */
-export async function updateCartService(
-  data: CartUpdateRequest,
-): Promise<ApiResponse> {
-  try {
-    const { id, variant, quantity } = data;
-    const res = await axiosClient.put(`carts/${id}`, {
-      variant,
-      quantity,
-    });
-    const result = res.data as ApiResponse;
-    return result;
-  } catch (error) {
-    return {
-      message: error as string,
-      success: false,
-      timestamp: new Date().toDateString(),
-    };
-  }
+export async function updateCartService(data: CartUpdateRequest) {
+  const { id, sku, quantity, productId } = data;
+  const res = await axiosClient.put(`carts/${id}`, {
+    sku,
+    quantity,
+    productId,
+  });
+  const result = res.data as ApiResponse;
+  return result;
 }
-/**
- * Lấy danh sách giỏ hàng của người dùng hiện tại (GET /carts).
- * Trả về mảng `CartResponse`.
- */
+
 export async function getUserCartService() {
   const res = await axiosClient.get("/carts");
   const api = res.data as CartApiResponse;
@@ -66,10 +33,6 @@ export async function getUserCartService() {
   return carts;
 }
 
-/**
- * Xóa một mục trong giỏ hàng theo `id` (DELETE /carts/:id).
- * Trả về `ApiResponse` từ server.
- */
 export async function deleteCartService(id: string) {
   const res = await axiosClient.delete(`/carts/${id}`);
   const api = res.data as ApiResponse;

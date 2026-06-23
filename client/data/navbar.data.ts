@@ -17,7 +17,7 @@ export const NAV_LIST = [
   {
     id: "4",
     title: "Shopping Now",
-    url: "/shopping-now",
+    url: "/shopping",
   },
   {
     id: "5",

@@ -11,6 +11,9 @@ import { CategoryModule } from './modules/categories/categories.module';
 import { UserModule } from './modules/users/users.module';
 import { SellerModule } from './modules/sellers/sellers.module';
 import { UploadModule } from './modules/uploads/upload.module';
+import { PayosModule } from './modules/payos/payos.module';
+import { PaymentsModule } from './modules/payments/payments.module';
+import { OrdersModule } from './modules/orders/orders.module';
 
 @Module({
   imports: [
@@ -23,6 +26,9 @@ import { UploadModule } from './modules/uploads/upload.module';
     UserModule,
     SellerModule,
     UploadModule,
+    PayosModule,
+    PaymentsModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faImage, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import useLoading from "@/features/common/hooks/useLoading";
-import { useCreateProductContext } from "../../../contexts/CreateProductContext";
+import { useCreateProductContext } from "@/features/seller/contexts/CreateProductContext";
 import { SectionCard } from "../../components";
 
 export default function ImageSection() {
@@ -71,49 +71,44 @@ export default function ImageSection() {
           Ảnh chi tiết
         </label>
         <div className="flex flex-wrap gap-2">
-          {details.length > 0 ? (
-            details.map((image, index) => (
-              <div
-                key={index}
-                className="relative w-20 h-20 border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 overflow-hidden shrink-0"
-              >
-                <Image
-                  src={image}
-                  alt={`detail ${index + 1}`}
-                  width={80}
-                  height={80}
-                  className="w-full h-full object-cover"
-                />
-                <button
-                  type="button"
-                  onClick={() => {
-                    setValue(
-                      "data.images.details",
-                      details.filter((_, i) => i !== index),
-                    );
-                  }}
-                  className="absolute top-0.5 right-0.5 w-4 h-4 bg-red-500 text-white rounded-full flex items-center justify-center"
-                >
-                  <FontAwesomeIcon icon={faXmark} className="text-[9px]" />
-                </button>
-              </div>
-            ))
-          ) : (
-            <label
-              htmlFor="details-input"
-              className="cursor-pointer w-20 h-20 border border-dashed border-gray-300 dark:border-gray-600 flex flex-col items-center justify-center gap-1 bg-gray-50 dark:bg-gray-800 shrink-0"
+          {details.map((image, index) => (
+            <div
+              key={index}
+              className="relative w-20 h-20 border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 overflow-hidden shrink-0"
             >
-              <FontAwesomeIcon
-                icon={faPlus}
-                className="text-gray-400 dark:text-gray-500 text-sm"
+              <Image
+                src={image}
+                alt={`detail ${index + 1}`}
+                width={80}
+                height={80}
+                className="w-full h-full object-cover"
               />
-              <span className="text-[10px] text-gray-400 dark:text-gray-500">
-                Thêm ảnh
-              </span>
-            </label>
-          )}
-
-          {/* Add button */}
+              <button
+                type="button"
+                onClick={() => {
+                  setValue(
+                    "data.images.details",
+                    details.filter((_, i) => i !== index),
+                  );
+                }}
+                className="absolute top-0.5 right-0.5 w-4 h-4 bg-red-500 text-white rounded-full flex items-center justify-center"
+              >
+                <FontAwesomeIcon icon={faXmark} className="text-[9px]" />
+              </button>
+            </div>
+          ))}
+          <label
+            htmlFor="details-input"
+            className="cursor-pointer w-20 h-20 border border-dashed border-gray-300 dark:border-gray-600 flex flex-col items-center justify-center gap-1 bg-gray-50 dark:bg-gray-800 shrink-0"
+          >
+            <FontAwesomeIcon
+              icon={faPlus}
+              className="text-gray-400 dark:text-gray-500 text-sm"
+            />
+            <span className="text-[10px] text-gray-400 dark:text-gray-500">
+              Thêm ảnh
+            </span>
+          </label>
 
           <input
             type="file"

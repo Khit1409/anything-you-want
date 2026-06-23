@@ -14,37 +14,23 @@ export class CreateCartService {
   ) {}
 
   async create(dto: CreateCartDto, userId: string) {
-    const { productId, quantity, optionIds } = dto;
+    const { productId, quantity, sku } = dto;
 
-    const [productInfo, productOwner, variant] = await Promise.all([
-      this.sharedProductService.getInfo(productId),
-      this.sharedProductService.getOwner(productId),
-      this.sharedProductService.getVariantByOptionIds(productId, optionIds),
-    ]);
-    const { extraPrice, sku } = variant;
-    const { price, sale } = productInfo;
-    const discountPrice = price - (price * sale) / 100;
-    const totalPrice = discountPrice * quantity + extraPrice;
+    const productOwner = await this.sharedProductService.getOwner(productId);
+
     const existing = await this.repository.findOneByProductId(
       productId,
       userId,
     );
     if (existing) {
-      return await this.updateCartService.update(
-        existing,
-        totalPrice,
-        quantity,
-        sku,
-      );
+      return await this.updateCartService.update(existing, quantity, sku);
     }
-
-    const owner = { ...productOwner, userId };
+    const { sellerId, storeId } = productOwner;
+    const owner = { sellerId, storeId, userId };
+    const product = { quantity, sku, productId };
     await this.repository.create({
-      productId,
+      product,
       owner,
-      quantity,
-      totalPrice,
-      sku,
     });
     return { message: 'Đã thêm mới giỏ hàng', success: true };
   }

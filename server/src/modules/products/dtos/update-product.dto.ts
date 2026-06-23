@@ -44,10 +44,10 @@ export class UpdateProductInfoDto {
 export class UpdateProductClassificationValueDto {
   @IsOptional()
   @IsString()
-  id: string | undefined;
+  id?: string;
   @IsOptional()
   @IsString()
-  img: string | undefined;
+  img?: string;
   @IsString()
   name: string;
 }
@@ -119,9 +119,11 @@ export class UpdateProductPhysical implements ProductPhysical {
   dimensions: UpdateProductDimensions;
 }
 
-export class UpdateVariantDto {
+export class UpdateProductVariantDto {
   @IsString()
-  id: string;
+  _id: string;
+  @IsString()
+  optionName: string;
   @IsString()
   sku: string;
   @IsOptional()
@@ -132,8 +134,9 @@ export class UpdateVariantDto {
   @IsNumber()
   @Min(0)
   extraPrice: number;
-  @IsString()
-  options: string;
+  @IsArray()
+  @IsString({ each: true })
+  optionIds: string[];
 }
 
 export class UpdateProductDto {
@@ -153,4 +156,8 @@ export class UpdateProductDto {
   @ValidateNested()
   @Type(() => UpdateProductPhysical)
   physical: UpdateProductPhysical;
+  @ValidateNested()
+  @IsArray()
+  @Type(() => UpdateProductVariantDto)
+  variants: UpdateProductVariantDto[];
 }

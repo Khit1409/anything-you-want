@@ -1,5 +1,7 @@
-import ProductListContextProvider from "../../contexts/ProductListContext";
-import ProductFilterSidebar from "../common/ProductFilterSidebar";
+"use client";
+
+import ProductListContextProvider from "@/productContexts/ProductListContext";
+import ProductFilterSidebar from "./ProductFilterSidebar";
 import ProductList from "./ProductList";
 import ProductPanigation from "./ProductPanigation";
 

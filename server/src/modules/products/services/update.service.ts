@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ProductRepository } from '../repositories/products.repository';
 import { HelperService } from '../../helpers/helper.service';
 import {
@@ -6,6 +6,7 @@ import {
   UpdateProductClassificationValueDto,
   UpdateProductDto,
   UpdateProductInfoDto,
+  UpdateProductVariantDto,
 } from '../dtos';
 
 import { CreateProductService } from './create.service';
@@ -14,6 +15,7 @@ import { ProductClassification } from '../schemas/product-classification.schema'
 import { ProductVariant } from '../schemas/product-variant.schema';
 import { ReadCategoryService } from '../../categories/services/read.service';
 import { ProductInfo } from '../schemas/product-info.schema';
+import { HelperProductService } from './helper.service';
 
 @Injectable()
 export class UpdateProductService {
@@ -22,12 +24,13 @@ export class UpdateProductService {
     private readonly createService: CreateProductService,
     private readonly readCategoryService: ReadCategoryService,
     private readonly helperService: HelperService,
+    private readonly helperProductService: HelperProductService,
   ) {}
 
   updateClassificationValues(values: UpdateProductClassificationValueDto[]) {
     return values.map((value) => ({
       ...value,
-      id: value.id ?? String(new mongoose.Types.ObjectId()),
+      id: value.id || String(new mongoose.Types.ObjectId()),
     }));
   }
 
@@ -36,7 +39,7 @@ export class UpdateProductService {
   ): ProductClassification[] {
     return classifications.map((classification) => ({
       ...classification,
-      id: classification.id ?? String(new mongoose.Types.ObjectId()),
+      id: classification.id || String(new mongoose.Types.ObjectId()),
       values: this.updateClassificationValues(classification.values),
     }));
   }
@@ -51,7 +54,7 @@ export class UpdateProductService {
   updateVariants(
     productCode: string,
     classifications: ProductClassification[],
-    oldVariants: ProductVariant[],
+    oldVariants: UpdateProductVariantDto[],
   ): ProductVariant[] {
     const newVariants = this.createService.createVariants(
       productCode,
@@ -66,10 +69,12 @@ export class UpdateProductService {
       const key = [...newVari.optionIds].sort().join('-');
       const old = oldVariantMap.get(key);
       if (!old) {
+        console.log('variant key', key, 'compared', oldVariantMap.get(key));
         return { ...newVari, _id: new mongoose.Types.ObjectId() };
       }
       return {
         ...old,
+        _id: new mongoose.Types.ObjectId(old._id),
         sku: newVari.sku,
         optionIds: newVari.optionIds,
       };
@@ -85,16 +90,15 @@ export class UpdateProductService {
     return { brand, description, name, origin, category, price, sale };
   }
 
-  async update(dto: UpdateProductDto, id: string) {
-    const product = await this.repository.findOne({ id });
-    if (!product) {
-      throw new BadRequestException(
-        this.helperService.errorResponse({
-          message: 'Không tìm thấy sản phẩm!',
-        }),
-      );
-    }
-    const { physical, classifications, images, info, shipping } = dto;
+  async update(dto: UpdateProductDto, id: string, sellerId: string) {
+    const search = this.helperProductService.formatSearchDetail(id, sellerId);
+    const productDoc = await this.repository.findOne(search);
+    const product = this.helperProductService.checkExistingValue(
+      productDoc,
+      'Sản phẩm không tồn tại!',
+    );
+
+    const { physical, classifications, images, info, shipping, variants } = dto;
 
     const newInfo = await this.updateInfo(info);
     const newClassifications = this.updateClassifications(classifications);
@@ -102,7 +106,7 @@ export class UpdateProductService {
     const newVariants = this.updateVariants(
       productCode,
       newClassifications,
-      product.variants,
+      variants,
     );
     product.info = newInfo;
     product.classifications = newClassifications;

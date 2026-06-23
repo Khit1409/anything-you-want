@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["jest", "mocha"],
+    "types": ["jest", "mocha", "node"],
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "resolvePackageJsonExports": true,

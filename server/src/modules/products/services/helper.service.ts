@@ -5,6 +5,7 @@ import { ProductVariant } from '../schemas/product-variant.schema';
 import { ProductClassification } from '../schemas/product-classification.schema';
 import { HelperService } from '../../helpers/helper.service';
 import {
+  ProductFindOneOptions,
   SearchProducts,
   SortProducts,
 } from '../repositories/interfaces/products.repository.interface';
@@ -12,6 +13,24 @@ import {
 @Injectable()
 export class HelperProductService {
   constructor(private helperService: HelperService) {}
+
+  checkExistingValue<T>(
+    value?: T | null,
+    message: string = 'Dữ liệu không tồn tại',
+  ): T {
+    if (!value) {
+      throw new BadRequestException(
+        this.helperService.errorResponse({ message }),
+      );
+    }
+    return value;
+  }
+
+  formatSearchDetail(id: string, sellerId?: string) {
+    const search: ProductFindOneOptions = { _id: id };
+    if (sellerId) search['owner.sellerId'] = sellerId;
+    return search;
+  }
 
   formatQuery(query: ProductQueryDto, select: string, sellerId?: string) {
     const { category, page, priceMax, priceMin, saleMax, saleMin } = query;

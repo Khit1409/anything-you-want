@@ -1,5 +1,8 @@
 import { ApiResponse } from "@/features/common/interfaces/common.interface";
 import {
+  CreateProductApiResponse,
+  CreateProductRequest,
+  EditProductRequest,
   GetProductTableQuery,
   ProductDetail,
   ProductPreviews,
@@ -42,18 +45,10 @@ export async function getSellerProductListService(query: GetProductTableQuery) {
 }
 
 export async function getSellerProductDetailService(id: string) {
-  try {
-    const res = await axiosClient.get(`/sellers/products/${id}`);
-    const api = res.data as ApiResponse;
-    const { data } = api;
-    return data as ProductDetail;
-  } catch (error) {
-    if (isAxiosError(error)) {
-      console.error(error?.response?.data?.message as string);
-      return null;
-    }
-    throw error;
-  }
+  const res = await axiosClient.get(`/sellers/products/${id}`);
+  const api = res.data as ApiResponse;
+  const { data } = api;
+  return data as ProductDetail;
 }
 
 export async function deleteProductService(id: string) {
@@ -85,5 +80,60 @@ export async function registerSellerService(data: RegisterSellerAccount) {
     }
 
     return { message: "Unknow error!", success: false };
+  }
+}
+
+export async function createProductService(payload: CreateProductRequest) {
+  const res = await axiosClient.post("/sellers/products", payload);
+  const result = res.data as CreateProductApiResponse;
+  return result;
+}
+
+export async function uploadProductImageService(images: {
+  thumbnail: File;
+  details: File[];
+}) {
+  try {
+    const formData = new FormData();
+
+    const { thumbnail, details } = images;
+    formData.append("thumbnail", thumbnail);
+    details.forEach((file) => formData.append("details", file));
+    const res = await axiosClient.post("/products/upload-image", formData);
+    const result = res.data as ApiResponse;
+    const { message, success } = result;
+    return {
+      message,
+      success,
+      data: result.data as {
+        thumbnail: { url: string; public_id: string };
+        details: Array<{ url: string; public_id: string }>;
+      },
+    };
+  } catch (error) {
+    if (isAxiosError(error)) {
+      const { message, success } = error.response?.data as ApiResponse;
+      return { message, success };
+    }
+    throw error;
+  }
+}
+
+export async function updateProductService(
+  productId: string,
+  payload: EditProductRequest,
+) {
+  try {
+    const res = await axiosClient.put(`/sellers/products/${productId}`, {
+      ...payload,
+    });
+    const { message, success } = res.data as ApiResponse;
+    return { message, success };
+  } catch (error) {
+    if (isAxiosError(error)) {
+      const { message, success } = error.response?.data as ApiResponse;
+      return { message, success };
+    }
+    return { message: "unknow error" + error, success: false };
   }
 }

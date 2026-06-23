@@ -1,47 +1,43 @@
 import { ApiResponse } from "@/features/common/interfaces/common.interface";
-import { ProductInfo } from "@/features/product/interfaces/product.interface";
 
 /**
  * Request thêm sản phẩm vào giỏ hàng.
  */
 export interface CartRequest {
   productId: string;
-  optionIds: string[];
+  sku: string;
   quantity: number;
 }
 
-/**
- * Request cập nhật cart.
- *
- * NOTE:
- * - classification và quantity đều optional
- * - chỉ update field được gửi lên
- */
 export interface CartUpdateRequest {
   id: string;
-  variant?: string;
-  quantity?: number;
-}
-
-export interface CartResponse {
-  _id: string;
-  thumbnail: string;
   productId: string;
-  products: ProductInfo;
-  quantity: number;
-  totalPrice: number;
   sku: string;
-  createdAt: string;
-  updatedAt: string;
+  quantity: number;
 }
 
 /* -------------------------------------------------------------------------- */
 /*                                 API RESPONSE                               */
 /* -------------------------------------------------------------------------- */
+export interface CartItem {
+  productId: string;
+  quantity: number;
+  totalPrice: number;
+  discounted: number;
+  name: string;
+  sale: number;
+  price: number;
+  thumbnail: string;
+  sku: string;
+}
 
-/**
- * Response trả về danh sách cart.
- */
+export interface CartResponse {
+  _id: string;
+  product: CartItem;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface CartApiResponse extends ApiResponse {
   status: number;
   data: Array<CartResponse>;
@@ -55,3 +51,5 @@ export interface CartUpdateResponse extends ApiResponse {
     updateCount: number;
   };
 }
+
+export type Carts = CartResponse[];

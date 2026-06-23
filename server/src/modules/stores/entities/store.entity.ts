@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { Seller } from '../../sellers/entities/seller.entity';
 import { StoreInfo } from './store-info.entity';
+import { Order } from '../../orders/entities/order.entity';
 
 @Entity('stores')
 export class Store {
@@ -45,4 +46,9 @@ export class Store {
     cascade: true,
   })
   info: StoreInfo;
+
+  @OneToOne(() => Order, (orderOrder) => orderOrder.store, {
+    onDelete: 'CASCADE',
+  })
+  orders: Order[];
 }

@@ -2,19 +2,20 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { HydratedDocument, Model } from 'mongoose';
 import { Cart } from '../schemas/carts.schema';
+import { CartValueSave } from './interfaces/cart.repository.interface';
 
 @Injectable()
 export class CartRepository {
   constructor(@InjectModel('Cart') private readonly cartModel: Model<Cart>) {}
 
-  async create(cartData: Cart) {
+  async create(cartData: CartValueSave) {
     return await this.cartModel.create({ ...cartData });
   }
 
   async getOneByProductId(productId: string, userId: string) {
     return await this.cartModel
       .findOne({
-        productId,
+        'product.productId': productId,
         'owner.userId': userId,
       })
       .lean();
@@ -25,7 +26,7 @@ export class CartRepository {
     userId: string,
   ): Promise<HydratedDocument<Cart> | null> {
     return await this.cartModel.findOne({
-      productId,
+      'product.productId': productId,
       'owner.userId': userId,
     });
   }
@@ -60,7 +61,7 @@ export class CartRepository {
     return await this.cartModel.updateOne(
       { _id: id },
       {
-        quantity,
+        'product.quantity': quantity,
       },
     );
   }

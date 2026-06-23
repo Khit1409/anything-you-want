@@ -27,6 +27,7 @@ export enum ShippingMethod {
 export interface ProductCategory {
   id: string;
   name: string;
+  slug: string;
 }
 
 export interface ProductRating {
@@ -94,11 +95,12 @@ export type ProductClassifications = ProductClassification[];
 /* -------------------------------------------------------------------------- */
 
 export interface ProductVariant {
-  id: string;
+  _id: string;
   sku: string;
+  optionName: string;
   stock: number;
   extraPrice: number;
-  options: string;
+  optionIds: string[];
 }
 
 export type ProductVariants = ProductVariant[];
@@ -217,9 +219,10 @@ export interface ProductDetailApiResponse extends ApiResponse {
 }
 
 export interface CreateProductApiResponse extends ApiResponse {
-  data: {
-    id?: string;
-  };
+  data: { id: string };
+}
+export interface DeleteProductResponse extends ApiResponse {
+  data: { isDeleted: boolean };
 }
 /* -------------------------------------------------------------------------- */
 /*                              CREATE PRODUCT                                */

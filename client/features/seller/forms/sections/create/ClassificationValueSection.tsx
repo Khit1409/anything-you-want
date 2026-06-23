@@ -2,7 +2,7 @@ import { useFieldArray } from "react-hook-form";
 
 import { uploadOneImage } from "@/features/common/services/upload.api";
 import useLoading from "@/features/common/hooks/useLoading";
-import { useCreateProductContext } from "../../../contexts/CreateProductContext";
+import { useCreateProductContext } from "@/features/seller/contexts/CreateProductContext";
 import { FormField } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";

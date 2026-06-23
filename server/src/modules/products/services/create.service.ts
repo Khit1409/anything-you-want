@@ -35,24 +35,6 @@ export class CreateProductService {
     return `${strKey}-${randomNum}`;
   }
 
-  createSku(productCode: string, valueFirst: string): string {
-    if (!productCode?.trim() || !valueFirst?.trim()) {
-      throw new BadRequestException(
-        this.helperService.errorResponse({
-          message: 'Lỗi khi tạo mã sản phẩm!',
-        }),
-      );
-    }
-
-    const formatValue = (value: string): string => {
-      return this.helperService.strToSlug(value).toUpperCase();
-    };
-
-    const sku = `${productCode}-${formatValue(valueFirst)}`;
-
-    return sku;
-  }
-
   createHashtags(name: string, brand?: string): string[] {
     let result: string[] = [];
 
@@ -97,6 +79,7 @@ export class CreateProductService {
 
     const generate = (
       current: VariantBasic = {
+        optionName: '',
         extraPrice: 0,
         optionIds: [],
         sku: productCode,
@@ -113,7 +96,10 @@ export class CreateProductService {
         generate(
           {
             ...current,
-            sku: this.createSku(productCode, value.name),
+            optionName: current.optionName + `/${value.name}`,
+            sku:
+              current.sku +
+              `-${this.helperService.replaceVietnameseStr(value.name).toUpperCase()}`,
             optionIds: [...current.optionIds, value.id],
           },
           clsIndex + 1,

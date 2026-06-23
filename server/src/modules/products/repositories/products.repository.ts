@@ -9,12 +9,11 @@ import { ProductImages } from '../schemas/product-images.schema';
 import { ProductInfo } from '../schemas/product-info.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { ProductVariant } from '../schemas/product-variant.schema';
-import { FilterProducts } from './interfaces/products.repository.interface';
-
-type FindOneOptions = {
-  id: string;
-  sellerId?: string;
-};
+import {
+  FilterProducts,
+  ProductFindOneOptions,
+  SortProducts,
+} from './interfaces/products.repository.interface';
 
 type RelatedsOptions = {
   neId: string;
@@ -36,15 +35,10 @@ export class ProductRepository {
     return await this.model.find({ 'info.category.id': categoryId }).lean();
   }
 
-  async findOne({
-    id,
-    sellerId,
-  }: FindOneOptions): Promise<HydratedDocument<Product> | null> {
-    const query: Record<string, any> = { _id: id };
-    if (sellerId) {
-      query['owner.sellerId'] = sellerId;
-    }
-    return await this.model.findOne(query);
+  async findOne(
+    search: ProductFindOneOptions,
+  ): Promise<HydratedDocument<Product> | null> {
+    return await this.model.findOne(search);
   }
 
   async findMany(filter: FilterProducts): Promise<HydratedDocument<Product>[]> {
@@ -65,20 +59,18 @@ export class ProductRepository {
       .select(select)
       .lean<Product[]>();
   }
-  async getOneById({
-    id,
-    sellerId,
-  }: {
-    id: string;
-    sellerId?: string;
-  }): Promise<Product | null> {
-    if (sellerId)
-      return await this.model
-        .findOne({
-          _id: id,
-          ...(sellerId ? { 'owner.sellerId': sellerId } : {}),
-        })
-        .lean();
+
+  async getBestSeller(sort: SortProducts) {
+    const { skip, limit, select } = sort;
+    return await this.model
+      .find({ 'info.sale': { $gt: 0 } })
+      .limit(limit)
+      .skip(skip)
+      .select(select)
+      .lean();
+  }
+
+  async getOneById(id: string): Promise<Product | null> {
     return await this.model.findById(id).lean();
   }
 
@@ -92,10 +84,8 @@ export class ProductRepository {
       .lean();
   }
 
-  async getOneBySeller(id: string, sellerId: string): Promise<Product | null> {
-    return await this.model
-      .findOne({ _id: id, 'owner.sellerId': sellerId })
-      .lean();
+  async getOneBySeller(search: ProductFindOneOptions) {
+    return await this.model.findOne(search).lean();
   }
 
   async getOneVariantById(id: string, variantId: string, sellerId?: string) {
@@ -120,12 +110,15 @@ export class ProductRepository {
     return doc?.variants;
   }
 
-  async getOnVariantByOptionIds(id: string, optionIds: string[]) {
-    console.log(optionIds);
-    const doc = await this.model.findById(id);
+  async getOneVariantByOptionIds(productId: string, optionIds: string[]) {
+    const doc = await this.model.findById(productId);
     return doc?.variants.find((v) =>
       optionIds.every((id) => v.optionIds.includes(id)),
     );
+  }
+  async getOneVariantBySku(productId: string, sku: string) {
+    const doc = await this.model.findById(productId);
+    return doc?.variants.find((v) => v.sku === sku);
   }
 
   async getOwnerById(id: string): Promise<ProductOwner | null> {

@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import useManagerProductList from "../../hooks/useManagerProductList";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { useManagerProductListContext } from "../../contexts/ManagerProductListContext";
 
 export default function Pagination() {
-  const { onchangeFilter, setFilter, filter } = useManagerProductList();
+  const { onchangeFilter, setFilter, filter } = useManagerProductListContext();
 
   return (
     <div className="flex justify-center items-center py-3 px-4 bg-white border border-gray-200 rounded-xl shadow-sm">

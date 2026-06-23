@@ -2,7 +2,7 @@
 
 import { ProductPreviews } from "../../interfaces/product.interface";
 import NotFoundProduct from "../common/NotFoundProduct";
-import ProductCard from "../detail/ProductCard";
+import ProductCard from "../common/ProductCard";
 
 interface Props {
   products: ProductPreviews;

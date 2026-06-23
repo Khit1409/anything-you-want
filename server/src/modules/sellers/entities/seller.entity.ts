@@ -13,6 +13,7 @@ import { SellerInfo } from './seller-info.entity';
 import { SellerPhone } from './seller-phone.entity';
 import { SellerAddress } from './seller-address.entity';
 import { Store } from '../../stores/entities/store.entity';
+import { Order } from '../../orders/entities/order.entity';
 
 /* ============================
    ENUM: SELLER STATUS
@@ -85,4 +86,9 @@ export class Seller {
 
   @OneToOne(() => Store, (store) => store.seller, { cascade: true })
   store: Store;
+
+  @OneToOne(() => Order, (orderOrder) => orderOrder.seller, {
+    onDelete: 'CASCADE',
+  })
+  orders: Order[];
 }

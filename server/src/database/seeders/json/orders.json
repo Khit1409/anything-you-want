@@ -1,45 +1,55 @@
 {
-  "_id": {
-    "$obj": "68abcdijelz8293k014hf0sfmnaabb89ab"
-  },
-  "info": {
-    "quantity": 1,
-    "totalPrice": 1000000,
-    "originPrice": 100000,
-    "sale": 0
-  },
-  "snapshot": {
-    "productId": "68abcdijelz8293k014hf0sfmnaabb89ab",
-    "info": {
-      "name": "Product name",
-      "description": "product description",
-      "price": 100000,
-      "sale": 0,
-      "brand": "dior",
-      "origin": "Vietnam"
-    },
-    "images": {
-      "thumbnai": "https://cloudinary.com/kidnine/image/abc.jpg"
-    }
-  },
-  "variant": {
-    "id": "68abcdijelz8293k014hf0sfmnaabb89ab",
-    "sku": "ST-234-TRANG-39",
-    "stock": 100,
-    "extraPrice": 0,
-    "options": {
-      "mau_sac": "trắng",
-      "size": "39"
-    }
-  },
-  "shipping":{
-    "normal":""
-  },
-  "owner": {
-    "userId": "",
+  "order": {
+    "id": "order id",
+    "orderId": "",
+    "userId": "id người dùng",
     "sellerId": "",
-    "storeId": ""
-  },
-  "createdAt": "30/5/2026",
-  "updatedAt": "30/5/2026"
+    "storeId": "",
+    "items": [
+      {
+        "orderId": "",
+        "id": "",
+        "name": "ten san pham",
+        "totalPrice": 0,
+        "quantity": 0,
+        "sale": 0,
+        "price": 0,
+        "sku": "AO-DEN-39",
+        "productId": "id sản pham",
+        "status": "PENDING, CANCELED, SUCCESSED , RECIVED , FAILED-SHIPPING , SHIPPING",
+        "contacts": {
+          "itemId": "itemId",
+          "id": "",
+          "phone": "",
+          "email": "",
+          "userName": ""
+        },
+        "address": {
+          "itemId": "itemId",
+          "id": "",
+          "province": "",
+          "ward": "",
+          "detail": ""
+        },
+        "payment": {
+          "itemId": "itemId",
+          "id": "",
+          "type": "PAYMENT TYPE",
+          "status": "PAID, UNPAID",
+          "createdAt": "DD-MM-YYYY",
+          "updatedAt": "DD-MM-YYYY"
+        },
+        "shipping": {
+          "itemId": "itemId",
+          "id": "",
+          "type": "SHIPPING TYPE",
+          "startedAt": "dd-mm-yyyy",
+          "finishedAt": "dd-mm-yyyy"
+        }
+      }
+    ],
+
+    "createdAt": "DD-MM-YYYY",
+    "updatedAt": "DD-MM-YYYY"
+  }
 }
