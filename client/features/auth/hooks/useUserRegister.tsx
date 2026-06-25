@@ -1,4 +1,7 @@
-import { getProvinces, getWards } from "@/features/address.feature";
+import {
+  getProvinces,
+  getWards,
+} from "@/features/common/services/address.service";
 import useLoading from "@/features/common/hooks/useLoading";
 import { RegisterUserAccountRequest } from "@/features/user/interfaces/user.interface";
 import { registerService } from "@/features/user/services/user.service";

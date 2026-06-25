@@ -20,7 +20,6 @@ export enum PaymentStatus {
 export enum PaymentType {
   BANKING = 'banking',
   MOMO = 'momo',
-  QRCODE = 'qrCode',
   DELIVERED = 'delivered',
 }
 

@@ -40,7 +40,7 @@
       "@/authRedux/*": ["./features/auth/redux/*"],
       "@/authInterfaces/*": ["./features/auth/interfaces/*"],
       "@/authHelpers/*": ["./features/auth/helpers/*"],
-      "@/authForms/*": ["./features/auth/forms/*"],
+      "@/authForms/*": ["./features/auth/components/forms/*"],
       //user
       "@/userComponents/*": ["./features/user/components/*"],
       "@/userContexts/*": ["./features/user/contexts/*"],
@@ -59,7 +59,7 @@
       "@/sellerRedux/*": ["./features/seller/redux/*"],
       "@/sellerInterfaces/*": ["./features/seller/interfaces/*"],
       "@/sellerHelpers/*": ["./features/seller/helpers/*"],
-      "@/sellerForms/*": ["./features/seller/forms/*"],
+      "@/sellerForms/*": ["./features/seller/components/forms/*"],
       //product
       "@/productComponents/*": ["./features/product/components/*"],
       "@/productContexts/*": ["./features/product/contexts/*"],
@@ -69,7 +69,7 @@
       "@/productRedux/*": ["./features/product/redux/*"],
       "@/productInterfaces/*": ["./features/product/interfaces/*"],
       "@/productHelpers/*": ["./features/product/helpers/*"],
-      "@/productForms/*": ["./features/product/forms/*"],
+      "@/productForms/*": ["./features/product/components/forms/*"],
       //customer
       "@/customerComponents/*": ["./features/customer/components/*"],
       "@/customerContexts/*": ["./features/customer/contexts/*"],

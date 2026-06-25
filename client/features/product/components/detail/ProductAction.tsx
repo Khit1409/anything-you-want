@@ -1,7 +1,7 @@
 import { useProductDetailContext } from "../../contexts/ProductDetailContext";
 
 export default function ProductAction() {
-  const { sendCart } = useProductDetailContext();
+  const { sendCart, redirectToOrder } = useProductDetailContext();
   return (
     <div className="flex gap-3 mt-4">
       <button
@@ -12,7 +12,10 @@ export default function ProductAction() {
         <span className="uppercase tracking-wide">Thêm vào giỏ</span>
       </button>
 
-      <button className="flex-1 py-3 px-4 bg-transparent border border-(--border) rounded-md text-(--title) font-semibold hover:bg-(--surface-muted)">
+      <button
+        onClick={() => redirectToOrder()}
+        className="flex-1 py-3 px-4 bg-transparent border border-(--border) rounded-md text-(--title) font-semibold hover:bg-(--surface-muted)"
+      >
         <span className="uppercase tracking-wide">Mua ngay</span>
       </button>
     </div>

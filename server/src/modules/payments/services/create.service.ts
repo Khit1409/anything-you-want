@@ -10,7 +10,7 @@ export class CreatePaymentService {
     @Inject(ConfigService) private readonly configService: ConfigService,
   ) {}
 
-  async createPaymentLink(order: Order) {
+  async create(order: Order) {
     const sercetKey = this.configService.get<string>('PRIVATE_KEY')!;
     const { user, id, orderCode, contact, totalPrice, address } = order;
     const signatureData = {

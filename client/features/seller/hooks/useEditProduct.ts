@@ -1,7 +1,7 @@
-import { getProvinces } from "@/features/address.feature";
+import { getProvinces } from "@/features/common/services/address.service";
 import useAppModal from "@/features/common/hooks/useAppModal";
 import useLoading from "@/features/common/hooks/useLoading";
-import { EditProductRequest } from "@/features/product/interfaces/product.interface";
+import { EditProductRequest } from "@/features/product/interfaces/update.interface";
 import { getCategoryService } from "@/features/product/services/category.service";
 import { updateProductService } from "@/features/seller/services/seller.service";
 import { useQuery } from "@tanstack/react-query";

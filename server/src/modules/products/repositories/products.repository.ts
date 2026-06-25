@@ -14,6 +14,7 @@ import {
   ProductFindOneOptions,
   SortProducts,
 } from './interfaces/products.repository.interface';
+import { UpdateStockPayload } from '../interfaces/update.interface';
 
 type RelatedsOptions = {
   neId: string;
@@ -177,6 +178,28 @@ export class ProductRepository {
 
   async delete(id: string, sellerId: string) {
     return await this.model.deleteOne({ _id: id, 'owner.sellerId': sellerId });
+  }
+
+  async updateStock(payload: UpdateStockPayload) {
+    const { quantity, productId, variantId } = payload;
+    return await this.model.updateOne(
+      {
+        _id: productId,
+        variants: {
+          $elemtMatch: {
+            _id: variantId,
+            stock: { $gte: quantity },
+          },
+        },
+      },
+      {
+        'variants.$.stock': {
+          $inc: {
+            stock: quantity,
+          },
+        },
+      },
+    );
   }
 
   getModel(): Model<Product> {

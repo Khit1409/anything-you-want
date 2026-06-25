@@ -16,6 +16,7 @@ import { ProductVariant } from '../schemas/product-variant.schema';
 import { ReadCategoryService } from '../../categories/services/read.service';
 import { ProductInfo } from '../schemas/product-info.schema';
 import { HelperProductService } from './helper.service';
+import { UpdateStockPayload } from '../interfaces/update.interface';
 
 @Injectable()
 export class UpdateProductService {
@@ -117,5 +118,9 @@ export class UpdateProductService {
     await product.save();
 
     return { id };
+  }
+
+  async updateStock(payload: UpdateStockPayload) {
+    return await this.repository.updateStock(payload);
   }
 }

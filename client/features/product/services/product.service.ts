@@ -1,11 +1,12 @@
 import { axiosClient } from "@/lib/configs/axios.config";
-import {
-  ProductDetailDataApiResponse,
-  ProductPreviews,
-  GetProductTableQuery,
-  DeleteProductResponse,
-} from "../interfaces/product.interface";
+
 import { ApiResponse } from "@/features/common/interfaces/common.interface";
+import { GetProductTableQuery } from "../interfaces/request.interface";
+import { ProductPreviews } from "../interfaces/read.interface";
+import {
+  DeleteProductResponse,
+  ProductDetailDataApiResponse,
+} from "../interfaces/response.interface";
 
 export async function getProductService({
   page,

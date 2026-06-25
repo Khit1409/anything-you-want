@@ -1,7 +1,5 @@
 import { ApiResponse } from "@/features/common/interfaces/common.interface";
-import {
-  Categories,
-} from "@/features/product/interfaces/category.interface";
+import { Categories } from "@/features/product/interfaces/read.interface";
 import { axiosClient } from "@/lib/configs/axios.config";
 
 /**

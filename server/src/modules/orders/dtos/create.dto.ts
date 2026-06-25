@@ -2,6 +2,7 @@ import {
   IsEmail,
   IsEnum,
   IsNumber,
+  IsOptional,
   IsString,
   Min,
   ValidateNested,
@@ -44,6 +45,9 @@ export class CreateOrderDto {
   @IsString()
   @IsEnum(PaymentType)
   paymentType: PaymentType;
+  @IsOptional()
+  @IsString()
+  bankingId?: string;
   @ValidateNested()
   @Type(() => CreateOrderAddressDto)
   address: CreateOrderAddressDto;

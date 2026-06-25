@@ -1,4 +1,4 @@
-import { ProductStatus } from "@/features/product/interfaces/product.interface";
+import { ProductStatus } from "@/features/product/interfaces/read.interface";
 
 export default function StatusBadge({ status }: { status: string }) {
   if (status === ProductStatus.ZERO) {

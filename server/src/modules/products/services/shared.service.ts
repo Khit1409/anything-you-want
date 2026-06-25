@@ -1,14 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProductRepository } from '../repositories/products.repository';
 import { ProductVariant } from '../schemas/product-variant.schema';
 import { HelperProductService } from './helper.service';
 import { SharedOrderPartParams } from '../interfaces/shared.interface';
+import { HelperService } from '../../helpers/helper.service';
 
 @Injectable()
 export class SharedProductService {
   constructor(
     private readonly repository: ProductRepository,
     private readonly helperProductService: HelperProductService,
+    private readonly helperService: HelperService,
   ) {}
 
   async getImages(productId: string) {
@@ -124,13 +126,18 @@ export class SharedProductService {
     return { name, price, sale, thumbnail };
   }
 
-  async getOrderPart({
-    paymentType,
+  /**
+   * Trả về các trường cần thiết cho order kèm theo kiểm tra khu vực hộ trợ vận chuyển, phương phức vận chuyển
+   * hợp lệ!
+   * @param param0
+   * @returns
+   */
+  async getOrderParts({
     productId,
     shippingType,
     variantId,
+    provinceCode,
   }: SharedOrderPartParams) {
-    console.log(paymentType);
     const productDoc = await this.repository.getOneById(productId);
     const product = this.helperProductService.checkExistingValue(productDoc);
     const { info, images, variants, shipping, owner } = product;
@@ -139,11 +146,20 @@ export class SharedProductService {
       existShipping,
       'Phương thức vận chuyển không tồn tại trong sản phẩm này!',
     );
+    const isSupportProvince = supportedProvinces.includes(provinceCode);
+
+    if (!isSupportProvince) {
+      throw new BadRequestException(
+        this.helperService.errorResponse({
+          message: `Sản phẩm này không hộ trợ phương thức vận chuyển ${shippingType} ở vùng này!`,
+        }),
+      );
+    }
     const { sellerId, storeId } = owner;
     const { name, price, sale } = info;
     const { thumbnail } = images;
     const variant = variants.find((f) => f._id.equals(variantId));
-    const { extraPrice, sku, optionName, stock } =
+    const { extraPrice, sku, optionName } =
       this.helperProductService.checkExistingValue(
         variant,
         'Không tìm thấy biến thể!',
@@ -156,7 +172,6 @@ export class SharedProductService {
       extraPrice,
       optionName,
       sku,
-      stock,
       supportedProvinces,
       sellerId,
       storeId,

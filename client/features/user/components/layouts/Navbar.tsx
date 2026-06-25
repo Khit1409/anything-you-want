@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Logo from "@/features/common/components/Logo";
-import { NAV_LIST } from "@/data/navbar.data";
+import { NAV_LIST } from "@/shared/data/navbar.data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRightFromBracket,
@@ -78,7 +78,10 @@ export default function Navbar() {
               title="Đăng xuất"
               className="w-9 h-9 flex items-center justify-center rounded-md text-(--text) hover:bg-(--border)/40 transition-colors duration-150"
             >
-              <FontAwesomeIcon className="text-[16px]" icon={faArrowRightFromBracket} />
+              <FontAwesomeIcon
+                className="text-[16px]"
+                icon={faArrowRightFromBracket}
+              />
             </button>
           ) : (
             <Link

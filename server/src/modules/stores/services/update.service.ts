@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { StoreRepository } from '../stores.repository';
+import { StoreRepository } from '../repositories/stores.repository';
 
 @Injectable()
 export class UpdateStoreService {

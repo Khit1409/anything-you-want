@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { GetProductTableQuery } from "../interfaces/product.interface";
+import { GetProductTableQuery } from "../interfaces/request.interface";
 import { useQuery } from "@tanstack/react-query";
 import { getProductBestSellerService } from "../services/product.service";
 import { getCategoryService } from "../services/category.service";

@@ -8,10 +8,13 @@ import {
   UpdateDateColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { Seller } from '../../sellers/entities/seller.entity';
 import { StoreInfo } from './store-info.entity';
 import { Order } from '../../orders/entities/order.entity';
+import { StoreBankingPayment } from './store-banking.entity';
+import { StoreMomoPayment } from './store-momo.entity';
 
 @Entity('stores')
 export class Store {
@@ -47,8 +50,16 @@ export class Store {
   })
   info: StoreInfo;
 
-  @OneToOne(() => Order, (orderOrder) => orderOrder.store, {
+  @OneToMany(() => Order, (orderOrder) => orderOrder.store, {
     onDelete: 'CASCADE',
   })
   orders: Order[];
+  @OneToMany(() => StoreBankingPayment, (bank) => bank.store, {
+    onDelete: 'CASCADE',
+  })
+  bankPayments: StoreBankingPayment[];
+  @OneToMany(() => StoreMomoPayment, (momo) => momo.store, {
+    onDelete: 'CASCADE',
+  })
+  momoPayment: StoreMomoPayment;
 }

@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getProductDetailService } from "../services/product.service";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import useLoading from "@/features/common/hooks/useLoading";
-import { addToCartService } from "@/features/cart/services/cart.api";
+import { addToCartService } from "@/features/cart/services/cart.service";
 import useAppModal from "@/features/common/hooks/useAppModal";
 
 export type SelectedClassifications = {
@@ -14,6 +14,7 @@ export type SelectedClassifications = {
 export default function useProductDetail() {
   const params: { id: string } = useParams();
   const id = params.id;
+  const router = useRouter();
 
   const { data = { product: null, relateds: [] }, isLoading } = useQuery({
     queryKey: ["product", id],
@@ -44,41 +45,39 @@ export default function useProductDetail() {
     return setOptionIds((prev) => [...prev, { name, id }]);
   };
 
-  const maxQuantity = () => {
+  const getVariant = () => {
     if (!product) return;
-    if (optionIds.length !== product?.classifications.length) return;
+    if (optionIds.length !== product.classifications.length) return;
     const variants = product.variants;
     const variant = variants.find((f) =>
       f.optionIds.every((id) => optionIds.find((fo) => fo.id === id)),
     );
-    if (!variant) return;
-    return variant.stock;
+    return variant;
   };
 
-  const getSku = (optionIds: string[]) => {
-    if (!product) return;
-    const variants = product.variants;
-    const variant = variants.find((f) =>
-      f.optionIds.every((id) => optionIds.find((fo) => fo === id)),
-    );
-    return variant?.sku;
+  const maxQuantity = () => {
+    const variant = getVariant();
+    if (!variant) return;
+    const { stock } = variant;
+    return stock;
   };
 
   async function sendCart() {
     if (!product) return;
     const productId = id;
     const correctLengt = product.classifications.length;
-    const optionIdSelected = optionIds.map((o) => o.id);
-    if (correctLengt !== optionIdSelected.length) {
+    if (correctLengt !== optionIds.length) {
       return open({ message: "Vui lòng chọn đủ lựa chọn!" });
     }
     if (quantity <= 0) {
       return open({ message: "Vui lòng chọn số lượng phù hợp" });
     }
-    const sku = getSku(optionIdSelected);
-    if (!sku) {
+    const variant = getVariant();
+    if (!variant) {
       return open({ message: "Không tìm thấy biến thể đã lựa chọn!" });
     }
+    const { sku } = variant;
+
     const res = await handleLoading(addToCartService, {
       sku,
       productId,
@@ -86,6 +85,12 @@ export default function useProductDetail() {
     });
     const { message, success } = res;
     return open({ message, success });
+  }
+
+  function redirectToOrder() {
+    if (!product) return;
+    const { _id } = product;
+    router.replace(`/orders/buy-now/${_id}`);
   }
 
   return {
@@ -101,5 +106,7 @@ export default function useProductDetail() {
     setImagePreview,
     sendCart,
     maxQuantity,
+    redirectToOrder,
+    getVariant,
   };
 }

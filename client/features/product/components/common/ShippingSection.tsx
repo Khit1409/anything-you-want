@@ -1,7 +1,7 @@
 import {
   ProductShipping,
   ShippingMethod,
-} from "../../interfaces/product.interface";
+} from "../../interfaces/read.interface";
 import {
   faBolt,
   faCalendarCheck,

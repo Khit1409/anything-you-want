@@ -12,6 +12,9 @@ import { OrderPayment } from './entities/order-payment.entity';
 import { PaymentsModule } from '../payments/payments.module';
 import { OrderRepository } from './repositories/order.repository';
 import { HelperModule } from '../helpers/helper.module';
+import { StoreModule } from '../stores/stores.module';
+import { SharedOrderService } from './services/shared.service';
+import { HelperOrderService } from './services/helper.service';
 
 @Module({
   imports: [
@@ -26,9 +29,21 @@ import { HelperModule } from '../helpers/helper.module';
     ]),
     PaymentsModule,
     HelperModule,
+    StoreModule,
   ],
   controllers: [OrdersController],
-  providers: [CreateOrderService, OrderRepository],
-  exports: [TypeOrmModule, CreateOrderService, OrderRepository],
+  providers: [
+    CreateOrderService,
+    OrderRepository,
+    SharedOrderService,
+    HelperOrderService,
+  ],
+  exports: [
+    TypeOrmModule,
+    CreateOrderService,
+    OrderRepository,
+    SharedOrderService,
+    HelperOrderService,
+  ],
 })
 export class OrdersModule {}

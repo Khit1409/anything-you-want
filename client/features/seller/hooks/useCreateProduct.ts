@@ -1,16 +1,16 @@
-import { getProvinces } from "@/features/address.feature";
+import { getProvinces } from "@/features/common/services/address.service";
 import useAppModal from "@/features/common/hooks/useAppModal";
 import useLoading from "@/features/common/hooks/useLoading";
 import {
   CreateProductInfo,
   CreateProductRequest,
-  ShippingMethod,
-} from "@/features/product/interfaces/product.interface";
+} from "@/features/product/interfaces/create.interface";
 import { getCategoryService } from "@/features/product/services/category.service";
 import { createProductService } from "@/features/seller/services/seller.service";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { ShippingMethod } from "@/features/product/interfaces/read.interface";
 
 export default function useCreateProduct() {
   const { handleLoading } = useLoading();

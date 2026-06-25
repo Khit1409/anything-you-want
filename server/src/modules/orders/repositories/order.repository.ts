@@ -26,4 +26,8 @@ export class OrderRepository {
   async create(data: OrderRepositorySave) {
     return await this.ormRepo.save(data);
   }
+
+  async findOneById(id: string) {
+    return await this.ormRepo.findOneBy({ id });
+  }
 }

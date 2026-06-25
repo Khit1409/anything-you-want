@@ -1,4 +1,5 @@
 import { ShippingMethod } from '../../products/schemas/product-shipping.schema';
+import { CreateOrderDto } from '../dtos/create.dto';
 import { PaymentStatus, PaymentType } from '../entities/order-payment.entity';
 import { OrderStatus } from '../entities/order.entity';
 
@@ -45,4 +46,30 @@ export interface OrderRepositorySave {
   contact: OrderContactRepositorySave;
   payment: OrderPaymentRepositorySave;
   shipping: OrderShippingRepositorySave;
+}
+
+export interface UpdateVariantStockBeforeCreateOrderParams {
+  productId: string;
+  quantity: number;
+  variantId: string;
+}
+export interface GenerateOrderInfoColumnParam {
+  price: number;
+  name: string;
+  thumbnail: string;
+  sku: string;
+  sale: number;
+}
+
+export interface GenerateOwnerColumnParam {
+  sellerId: string;
+  userId: string;
+  storeId: string;
+}
+
+export interface GenerateColumnParams {
+  payload: CreateOrderDto;
+  info: GenerateOrderInfoColumnParam;
+  variantExtraPrice: number;
+  owner: GenerateOwnerColumnParam;
 }

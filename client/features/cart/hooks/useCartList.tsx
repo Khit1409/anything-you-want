@@ -1,4 +1,7 @@
-import { deleteCartService, getUserCartService } from "../services/cart.api";
+import {
+  deleteCartService,
+  getUserCartService,
+} from "../services/cart.service";
 import { useQuery } from "@tanstack/react-query";
 
 import useLoading from "@/features/common/hooks/useLoading";
@@ -51,5 +54,5 @@ export default function useCartList() {
     router.replace(`/products/${productId}#add-cart-button`);
   }
 
-  return { carts: data, isLoading, deleteCart,redirectToUpdate };
+  return { carts: data, isLoading, deleteCart, redirectToUpdate };
 }

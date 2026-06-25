@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { CartResponse } from "../interfaces/cart.interface";
+import { Cart } from "../interfaces/read.interface";
 
-export default function CartInfoSection({ cart }: { cart: CartResponse }) {
+export default function CartInfoSection({ cart }: { cart: Cart }) {
   const { product, createdAt, updatedAt } = cart;
   const {
     quantity,
