@@ -9,18 +9,13 @@ import {
   Put,
   Query,
   Req,
-  UseGuards,
 } from '@nestjs/common';
 import { ReadStoreService } from '../../stores/services/read.service';
-import { RolesGuard } from '@/src/guards/role.guard';
-import { Role } from '@/src/common/enums/roles.enum';
-import { Roles } from '@/src/common/decorators/roles.decorator';
 import {
   CreateProductDto,
   ProductQueryDto,
   UpdateProductDto,
 } from '../../products/dtos';
-import { AuthGuard } from '@/src/guards/auth.guard';
 import type { Request } from 'express';
 import { ReadProductService } from '../../products/services/read.service';
 import { DeleteProductService } from '../../products/services/delete.service';
@@ -28,7 +23,9 @@ import { UpdateProductService } from '../../products/services/update.service';
 import { CreateProductService } from '../../products/services/create.service';
 import { HelperService } from '../../helpers/helper.service';
 import { HelperSellerService } from '../services/helper.service';
+import { IsSeller } from '@/src/common/decorators/roles.decorator';
 
+@IsSeller()
 @Controller('sellers/products')
 export class SellerProductController {
   constructor(
@@ -41,8 +38,6 @@ export class SellerProductController {
     private readonly helperSellerService: HelperSellerService,
   ) {}
 
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles(Role.SELLER)
   @Get('')
   async getProductList(@Query() query: ProductQueryDto, @Req() req: Request) {
     const sellerId = req.userId;
@@ -55,8 +50,6 @@ export class SellerProductController {
     });
   }
 
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles(Role.SELLER)
   @Get(':productId')
   async getProductDetail(
     @Param('productId') productId: string,
@@ -73,8 +66,6 @@ export class SellerProductController {
     });
   }
 
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles(Role.SELLER)
   @Delete(':productId')
   async deleteProduct(
     @Param('productId') productId: string,
@@ -92,8 +83,6 @@ export class SellerProductController {
     });
   }
 
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles(Role.SELLER)
   @Post('')
   async createProduct(@Body() dto: CreateProductDto, @Req() req: Request) {
     try {
@@ -114,11 +103,7 @@ export class SellerProductController {
       });
     }
   }
-  /**
-   *
-   */
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles(Role.SELLER)
+
   @Put(':productId')
   async updateProduct(
     @Param('productId') productId: string,

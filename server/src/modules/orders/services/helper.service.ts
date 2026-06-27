@@ -13,18 +13,13 @@ export class HelperOrderService {
     private readonly helperService: HelperService,
   ) {}
 
-  async checkPaymethod({
-    paymentType,
-    storeId,
-    bankingId,
-  }: CheckPaymethodParams) {
+  async checkPaymethod({ paymentType, storeId }: CheckPaymethodParams) {
     let isAcceptedPaymethod = true;
     if (paymentType !== PaymentType.DELIVERED) {
       isAcceptedPaymethod = await this.helperStoreService.acceptedPaymentMethod(
         {
           storeId,
           paymentMethod: paymentType,
-          bankingId,
         },
       );
     }

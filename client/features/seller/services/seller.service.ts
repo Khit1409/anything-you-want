@@ -4,7 +4,10 @@ import { axiosClient } from "@/lib/configs/axios.config";
 import { isAxiosError } from "axios";
 import { RegisterSellerAccount } from "../interfaces/seller.interface";
 import { GetProductTableQuery } from "@/features/product/interfaces/request.interface";
-import { ProductDetail, ProductPreviews } from "@/features/product/interfaces/read.interface";
+import {
+  ProductDetail,
+  ProductPreviews,
+} from "@/features/product/interfaces/read.interface";
 import { CreateProductRequest } from "@/features/product/interfaces/create.interface";
 import { CreateProductApiResponse } from "@/features/product/interfaces/response.interface";
 import { EditProductRequest } from "@/features/product/interfaces/update.interface";
@@ -68,7 +71,7 @@ export async function deleteProductService(id: string) {
 
 export async function registerSellerService(data: RegisterSellerAccount) {
   try {
-    const res = await axiosClient.post("/sellers/register", { ...data });
+    const res = await axiosClient.post("/auth/register/seller", { ...data });
     const { message, success } = res.data as ApiResponse;
     return { message, success };
   } catch (error) {

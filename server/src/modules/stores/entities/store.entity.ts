@@ -54,11 +54,11 @@ export class Store {
     onDelete: 'CASCADE',
   })
   orders: Order[];
-  @OneToMany(() => StoreBankingPayment, (bank) => bank.store, {
+  @OneToOne(() => StoreBankingPayment, (bank) => bank.store, {
     onDelete: 'CASCADE',
   })
-  bankPayments: StoreBankingPayment[];
-  @OneToMany(() => StoreMomoPayment, (momo) => momo.store, {
+  bankPayment: StoreBankingPayment;
+  @OneToOne(() => StoreMomoPayment, (momo) => momo.store, {
     onDelete: 'CASCADE',
   })
   momoPayment: StoreMomoPayment;

@@ -1,7 +1,9 @@
-
 import { axiosClient } from "@/lib/configs/axios.config";
 import { isAxiosError } from "axios";
-import { Profile, RegisterUserAccountRequest } from "../interfaces/user.interface";
+import {
+  Profile,
+  RegisterUserAccountRequest,
+} from "../interfaces/user.interface";
 import { ApiResponse } from "@/features/common/interfaces/common.interface";
 
 /**
@@ -27,10 +29,10 @@ export async function getInfoService(): Promise<Profile> {
  * @returns
  */
 export async function registerService(
-  data: RegisterUserAccountRequest
+  data: RegisterUserAccountRequest,
 ): Promise<ApiResponse> {
   try {
-    const res = await axiosClient.post("/users/register", { ...data });
+    const res = await axiosClient.post("/auth/register/user", { ...data });
     const result = res.data as ApiResponse;
     return result;
   } catch (error) {

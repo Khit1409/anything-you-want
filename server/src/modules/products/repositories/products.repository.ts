@@ -12,15 +12,10 @@ import { ProductVariant } from '../schemas/product-variant.schema';
 import {
   FilterProducts,
   ProductFindOneOptions,
+  RelatedsOptions,
   SortProducts,
 } from './interfaces/products.repository.interface';
 import { UpdateStockPayload } from '../interfaces/update.interface';
-
-type RelatedsOptions = {
-  neId: string;
-  categoryId: string;
-  select: string;
-};
 
 @Injectable()
 export class ProductRepository {
@@ -68,6 +63,13 @@ export class ProductRepository {
       .limit(limit)
       .skip(skip)
       .select(select)
+      .lean();
+  }
+
+  async getOne(search: ProductFindOneOptions, select: string) {
+    return await this.model
+      .findOne({ ...search })
+      .select(select ?? {})
       .lean();
   }
 
@@ -165,11 +167,8 @@ export class ProductRepository {
     return doc?.info ?? null;
   }
 
-  async getRelateds({
-    neId,
-    categoryId,
-    select,
-  }: RelatedsOptions): Promise<Product[]> {
+  async getRelateds(options: RelatedsOptions): Promise<Product[]> {
+    const { categoryId, neId, select } = options;
     return await this.model
       .find({ 'info.category.id': categoryId, _id: { $ne: neId } })
       .select(select)
@@ -186,17 +185,15 @@ export class ProductRepository {
       {
         _id: productId,
         variants: {
-          $elemtMatch: {
+          $elemMatch: {
             _id: variantId,
             stock: { $gte: quantity },
           },
         },
       },
       {
-        'variants.$.stock': {
-          $inc: {
-            stock: quantity,
-          },
+        $inc: {
+          'variants.$.stock': quantity,
         },
       },
     );

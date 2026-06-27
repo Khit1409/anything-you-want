@@ -114,7 +114,25 @@
       "@/storePages/*": ["./features/store/pages/*"],
       "@/storeRedux/*": ["./features/store/redux/*"],
       "@/storeInterfaces/*": ["./features/store/interfaces/*"],
-      "@/storeHelpers/*": ["./features/store/helpers/*"]
+      "@/storeHelpers/*": ["./features/store/helpers/*"],
+      //order
+      "@/orderHelpers/*": ["./features/order/helpers/*"],
+      "@/orderComponents/*": ["./features/order/components/*"],
+      "@/orderContexts/*": ["./features/order/contexts/*"],
+      "@/orderHooks/*": ["./features/order/hooks/*"],
+      "@/orderServices/*": ["./features/order/services/*"],
+      "@/orderPages/*": ["./features/order/pages/*"],
+      "@/orderRedux/*": ["./features/order/redux/*"],
+      "@/orderInterfaces/*": ["./features/order/interfaces/*"],
+      //checkout
+      "@/checkoutHelpers/*": ["./features/checkout/helpers/*"],
+      "@/checkoutComponents/*": ["./features/checkout/components/*"],
+      "@/checkoutContexts/*": ["./features/checkout/contexts/*"],
+      "@/checkoutHooks/*": ["./features/checkout/hooks/*"],
+      "@/checkoutServices/*": ["./features/checkout/services/*"],
+      "@/checkoutPages/*": ["./features/checkout/pages/*"],
+      "@/checkoutRedux/*": ["./features/checkout/redux/*"],
+      "@/checkoutInterfaces/*": ["./features/checkout/interfaces/*"]
     }
   },
   "include": [

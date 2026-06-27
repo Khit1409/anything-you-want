@@ -4,6 +4,7 @@ import { ProductVariant } from '../schemas/product-variant.schema';
 import { HelperProductService } from './helper.service';
 import { SharedOrderPartParams } from '../interfaces/shared.interface';
 import { HelperService } from '../../helpers/helper.service';
+import { ShippingMethod } from '../schemas/product-shipping.schema';
 
 @Injectable()
 export class SharedProductService {
@@ -146,7 +147,12 @@ export class SharedProductService {
       existShipping,
       'Phương thức vận chuyển không tồn tại trong sản phẩm này!',
     );
-    const isSupportProvince = supportedProvinces.includes(provinceCode);
+    const unNeedCheckShipping =
+      shippingType === ShippingMethod.STANDARD ||
+      shippingType === ShippingMethod.PICKUP;
+    const isSupportProvince = unNeedCheckShipping
+      ? true
+      : supportedProvinces.includes(provinceCode);
 
     if (!isSupportProvince) {
       throw new BadRequestException(

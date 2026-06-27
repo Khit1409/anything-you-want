@@ -1,9 +1,7 @@
 import { createContext, useContext } from "react";
-import useCreateOrder from "../hooks/useCreateOrder";
-import useProductDetail from "@/features/product/hooks/useProductDetail";
+import useCreateOrder from "@/orderHooks/useCreateOrder";
 
-export type CreateOrderContextType = ReturnType<typeof useCreateOrder> &
-  ReturnType<typeof useProductDetail>;
+export type CreateOrderContextType = ReturnType<typeof useCreateOrder>;
 export const CreateOrderContext = createContext<CreateOrderContextType | null>(
   null,
 );
@@ -19,9 +17,7 @@ export default function CreateOrderContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const api = useProductDetail();
-  const handle = useCreateOrder();
-  const value = { ...api, ...handle };
+  const value = useCreateOrder();
   return (
     <CreateOrderContext.Provider value={value}>
       {children}

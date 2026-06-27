@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Store } from '../entities/store.entity';
 import { Repository } from 'typeorm';
+import { GetOneStoreOptions } from './interfaces/store-repository.interface';
 
 @Injectable()
 export class StoreRepository {
@@ -57,5 +58,16 @@ export class StoreRepository {
 
   async findOnById(id: string) {
     return await this.ormRepo.findOneBy({ id });
+  }
+  async findOneByOptions(options: GetOneStoreOptions) {
+    const { search, select } = options;
+    return await this.ormRepo.findOne({
+      where: { ...search },
+      select: select,
+      relations: {
+        bankPayment: true,
+        momoPayment: true,
+      },
+    });
   }
 }

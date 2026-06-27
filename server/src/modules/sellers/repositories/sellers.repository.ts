@@ -1,40 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Seller, SellerStatus } from '../entities/seller.entity';
-import {
-  FindOptionsWhere,
-  ObjectId,
-  QueryDeepPartialEntity,
-  Repository,
-} from 'typeorm';
-import {
-  CreateSellerAddressDto,
-  CreateSellerInfoDto,
-  CreateSellerPhoneDto,
-} from '../dtos';
+import { Seller } from '../entities/seller.entity';
+import { QueryDeepPartialEntity, Repository } from 'typeorm';
 import { UpdateResult } from 'typeorm/browser';
-import { CreateStoreDto } from '../../stores/dtos/create-store.dto';
-type FilterUpdatetype =
-  | string
-  | string[]
-  | number
-  | number[]
-  | Date
-  | Date[]
-  | ObjectId
-  | ObjectId[]
-  | FindOptionsWhere<Seller>
-  | FindOptionsWhere<Seller>[];
-
-type CreateSellerType = {
-  addresses: CreateSellerAddressDto[];
-  status: SellerStatus;
-  emailAddress: string;
-  hashPassword: string;
-  info: CreateSellerInfoDto;
-  phones: CreateSellerPhoneDto[];
-  store: CreateStoreDto;
-};
+import {
+  CreateSellerType,
+  FilterUpdatetype,
+} from './interfaces/seller-repository.interface';
 
 @Injectable()
 export class SellerRepository {

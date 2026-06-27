@@ -5,6 +5,7 @@ import { GetProductTableQuery } from "../interfaces/request.interface";
 import { ProductPreviews } from "../interfaces/read.interface";
 import {
   DeleteProductResponse,
+  GetDetailForOrderResponse,
   ProductDetailDataApiResponse,
 } from "../interfaces/response.interface";
 
@@ -67,4 +68,12 @@ export async function getProductBestSellerService(
   const api = res.data;
   const products = api.data as ProductPreviews;
   return products;
+}
+
+export async function getDetailForOrderService(productId: string) {
+  const res = await axiosClient.get<GetDetailForOrderResponse>(
+    `/products/order/${productId}`,
+  );
+  const { data } = res.data;
+  return data;
 }

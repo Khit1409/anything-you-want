@@ -21,7 +21,7 @@ export class ReadUserService {
   }
 
   async getProfileById(id: string) {
-    const profile = await this.repository.getInfo(id);
+    const profile = await this.repository.getProfile(id);
     const { info, phones, addresses } = this.checkValue(profile);
     return { info, phones, addresses };
   }

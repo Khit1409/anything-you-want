@@ -59,7 +59,7 @@ export class UserRepository {
     return created;
   }
 
-  async getInfo(id: string) {
+  async getProfile(id: string) {
     return await this.ormRepo.findOne({
       where: { id },
       select: ['id', 'emailAddress', 'lastLoginAt', 'status', 'createdAt'],

@@ -7,9 +7,9 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
-import { Role } from '../common/enums/roles.enum';
-import { ROLES_KEY } from '../common/decorators/roles.decorator';
 import { Request } from 'express';
+import { ROLES_KEY } from '../common/decorators/roles.decorator';
+import { Role } from '../common/enums/roles.enum';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -17,7 +17,7 @@ export class RolesGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
+    const requiredRoles = this.reflector.getAllAndOverride<Role>(ROLES_KEY, [
       context.getHandler(),
       context.getClass(),
     ]);
@@ -33,13 +33,14 @@ export class RolesGuard implements CanActivate {
         timestamp: new Date().toDateString(),
       });
     }
-    if (!requiredRoles.includes(role)) {
+
+    if (role !== requiredRoles) {
       throw new ForbiddenException({
         success: false,
         message: 'Process just for seller!',
         timestamp: new Date().toDateString(),
       });
     }
-    return requiredRoles.includes(role);
+    return true;
   }
 }

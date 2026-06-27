@@ -1,6 +1,10 @@
 import { ApiResponse } from "@/features/common/interfaces/common.interface";
 import { GetProductPreviewRequest } from "./request.interface";
-import { ProductDetail, ProductPreviews } from "./read.interface";
+import {
+  ProductDetail,
+  ProductDetailForOrder,
+  ProductPreviews,
+} from "./read.interface";
 
 export interface ProductPreviewDataResponse {
   products: ProductPreviews;
@@ -25,4 +29,7 @@ export interface CreateProductApiResponse extends ApiResponse {
 }
 export interface DeleteProductResponse extends ApiResponse {
   data: { isDeleted: boolean };
+}
+export interface GetDetailForOrderResponse extends ApiResponse {
+  data: ProductDetailForOrder | null;
 }

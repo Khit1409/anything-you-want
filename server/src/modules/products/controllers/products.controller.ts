@@ -1,43 +1,17 @@
-import {
-  Controller,
-  Get,
-  Query,
-  Param,
-  HttpCode,
-  HttpStatus,
-  Post,
-  UseGuards,
-  UseInterceptors,
-  UploadedFiles,
-  BadRequestException,
-} from '@nestjs/common';
-
-import { Roles } from '@/src/common/decorators/roles.decorator';
-import { Role } from '@/src/common/enums/roles.enum';
-import { RolesGuard } from '@/src/guards/role.guard';
-import { AuthGuard } from '@/src/guards/auth.guard';
-
-import { UploadService } from '../../uploads/upload.service';
-import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { Controller, Get, Query, Param, HttpCode } from '@nestjs/common';
 import { ProductQueryDto } from '../dtos';
-
-import { UploadImageResponse } from '@/src/interfaces/upload.interface';
 import { ReadProductService } from '../services/read.service';
 import { HelperService } from '../../helpers/helper.service';
+import { Public } from '@/src/common/decorators/public-api-url.decorator';
 
+@Public()
 @Controller('products')
 export class ProductController {
   constructor(
     private readonly readService: ReadProductService,
-    private readonly uploadService: UploadService,
     private readonly helperService: HelperService,
   ) {}
 
-  /**
-   *
-   * @param dto
-   * @returns
-   */
   @HttpCode(200)
   @Get()
   async getProductPreviews(@Query() query: ProductQueryDto) {
@@ -56,11 +30,7 @@ export class ProductController {
       data: api,
     });
   }
-  /**
-   *
-   * @param id
-   * @returns
-   */
+
   @HttpCode(200)
   @Get(':productId')
   async getProductDetail(@Param('productId') productId: string) {
@@ -79,51 +49,13 @@ export class ProductController {
       data: api,
     });
   }
-  /**
-   *
-   */
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles(Role.SELLER)
-  @HttpCode(HttpStatus.CREATED)
-  @UseInterceptors(
-    FileFieldsInterceptor([
-      { name: 'thumbnail', maxCount: 1 },
-      { name: 'details', maxCount: 10 },
-    ]),
-  )
-  @Post('upload-image')
-  async uploadImage(
-    @UploadedFiles()
-    files: {
-      thumbnail: Express.Multer.File[];
-      details: Express.Multer.File[];
-    },
-  ) {
-    const { details, thumbnail } = files;
-    const [thumbnailUploaded, detailsUploaded] = await Promise.all([
-      this.uploadService.uploadImg(thumbnail[0]),
-      this.uploadService.uploadManyImg(details),
-    ]);
-    const message =
-      thumbnailUploaded.success && detailsUploaded.success
-        ? 'Tải ảnh lên đám mây thành công'
-        : !thumbnailUploaded.success
-          ? thumbnailUploaded.message
-          : detailsUploaded.message;
 
-    const success = thumbnailUploaded.success && detailsUploaded.success;
-    const timestamp = new Date().toLocaleDateString('vi-VN');
-
-    if (!success) {
-      throw new BadRequestException(
-        this.helperService.errorResponse({ message }),
-      );
-    }
-    const data = {
-      thumbnail: thumbnailUploaded.data as UploadImageResponse,
-      details: detailsUploaded.data as Array<UploadImageResponse>,
-    };
-
-    return { success, message, timestamp, data };
+  @Get('order/:id')
+  async getProductDetailForOrder(@Param('id') productId: string) {
+    const product = await this.readService.getForOrder(productId);
+    return this.helperService.successResponse({
+      message: 'Dữ liệu sản phẩm!',
+      data: product,
+    });
   }
 }

@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  Param,
   Post,
   Req,
   Res,
@@ -10,21 +11,57 @@ import {
 } from '@nestjs/common';
 import type { Request, Response } from 'express';
 
-import { CookieMap } from '@/src/interfaces/cookies.interface';
 import { authCookieConfig } from '@/src/lib/cookie.config';
 
 import { LoginService } from '../services/login.service';
 import { LoginRequestDto } from '../dtos/auth.request.dto';
 import { HelperService } from '../../helpers/helper.service';
 import { AuthService } from '../services/auth.service';
+import { CreateUserService } from '../../users/services/create.service';
+import { CreateSellerService } from '../../sellers/services/create.service';
+import { RegisterUserAccountRequestDto } from '../../users/dtos/register.dto';
+import { CreateSellerDto } from '../../sellers/dtos';
+import { Role } from '@/src/common/enums/roles.enum';
+import { CookieMap } from '@/src/interfaces/cookies.interface';
+import { Public } from '@/src/common/decorators/public-api-url.decorator';
 
+@Public()
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly loginService: LoginService,
     private readonly authService: AuthService,
     private readonly helperService: HelperService,
+    private readonly createUserService: CreateUserService,
+    private readonly createSellerService: CreateSellerService,
   ) {}
+
+  @HttpCode(200)
+  @Post('register/:role')
+  async register(
+    @Body() dto: RegisterUserAccountRequestDto | CreateSellerDto,
+    @Param('role') role: Role,
+  ) {
+    if (role === Role.USER) {
+      const data = dto as RegisterUserAccountRequestDto;
+      const result = await this.createUserService.create(data);
+
+      return this.helperService.responseConfig({
+        message: result
+          ? 'Đăng ký tài khoản người dùng thành công!'
+          : 'Đăng ký tài khoản người dùng thất bại!',
+        success: result,
+      });
+    }
+    const data = dto as CreateSellerDto;
+    const result = await this.createSellerService.create(data);
+    return this.helperService.responseConfig({
+      message: result
+        ? 'Đăng ký tài khoản bán hàng thành công!'
+        : 'Đăng ký tài khoản bán hàng thất bại!',
+      success: result,
+    });
+  }
 
   @HttpCode(200)
   @Post('login')
@@ -44,15 +81,9 @@ export class AuthController {
   @Get('me')
   async auth(@Req() req: Request) {
     const result = await this.authService.authentication(req);
-    const { email, role, uid } = result;
-
     return this.helperService.successResponse({
       message: 'Xác thực người dùng thành công!',
-      data: {
-        email,
-        role,
-        uid,
-      },
+      data: result,
     });
   }
 
@@ -66,9 +97,7 @@ export class AuthController {
   @Post('logout')
   logout(
     @Req()
-    req: {
-      cookies: { access_token: string };
-    },
+    req: Request,
     @Res({ passthrough: true }) res: Response,
   ) {
     const cookies = req.cookies as CookieMap;

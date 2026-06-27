@@ -102,15 +102,8 @@ export class CreateOrderService {
   }
 
   async createOrder(dto: CreateOrderDto, userId: string) {
-    const {
-      paymentType,
-      productId,
-      quantity,
-      shipMethod,
-      address,
-      variantId,
-      bankingId,
-    } = dto;
+    const { paymentType, productId, quantity, shipMethod, address, variantId } =
+      dto;
     const { provinceCode } = address;
 
     await this.updateVariantStockBeforeCreateOrder({
@@ -132,7 +125,6 @@ export class CreateOrderService {
     await this.helperOrderService.checkPaymethod({
       paymentType,
       storeId,
-      bankingId,
     });
 
     const info: GenerateOrderInfoColumnParam = {

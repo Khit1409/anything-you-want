@@ -3,6 +3,11 @@ import { HelperService } from '../../helpers/helper.service';
 import { AcceptedPaymentMethodParams } from '../interfaces/helper.interface';
 import { PaymentType } from '../../orders/entities/order-payment.entity';
 import { StoreRepository } from '../repositories/stores.repository';
+import {
+  GetOneStoreRelations,
+  GetOneStoreSelects,
+  SearchOneStore,
+} from '../repositories/interfaces/store-repository.interface';
 
 @Injectable()
 export class HelperStoreService {
@@ -26,24 +31,22 @@ export class HelperStoreService {
   async acceptedPaymentMethod({
     storeId,
     paymentMethod,
-    bankingId,
   }: AcceptedPaymentMethodParams) {
-    const storeDoc = await this.repository.findOnById(storeId);
+    const search: SearchOneStore = { id: storeId };
+    const select: GetOneStoreSelects = ['bankPayment', 'momoPayment'];
+    const relations: GetOneStoreRelations = {
+      bankPayment: true,
+      momoPayment: true,
+    };
+    const storeDoc = await this.repository.findOneByOptions({
+      search,
+      select,
+      relations,
+    });
     const store = this.checkValue(storeDoc);
-    const { momoPayment, bankPayments } = store;
+    const { momoPayment, bankPayment } = store;
+    console.log(store, momoPayment, bankPayment);
     if (paymentMethod === PaymentType.BANKING) {
-      if (!bankingId) {
-        throw new BadRequestException(
-          this.helperService.errorResponse({
-            message: 'Id bank not found while payment method is banking!',
-          }),
-        );
-      }
-      const bank = bankPayments.find((f) => f.id === bankingId);
-      const bankPayment = this.checkValue(
-        bank,
-        'Ngân hàng thụ hưởng không tồn tại!',
-      );
       return bankPayment.enabled;
     }
     return momoPayment.enabled;

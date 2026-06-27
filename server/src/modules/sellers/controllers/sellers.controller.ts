@@ -1,23 +1,12 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Post,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
-import { CreateSellerDto } from '../dtos';
+import { Body, Controller, Get, Req } from '@nestjs/common';
 import type { Request } from 'express';
-import { Role } from '@/src/common/enums/roles.enum';
-import { Roles } from '@/src/common/decorators/roles.decorator';
-import { RolesGuard } from '@/src/guards/role.guard';
-import { AuthGuard } from '@/src/guards/auth.guard';
+
 import { HelperService } from '../../helpers/helper.service';
 import { CreateSellerService } from '../services/create.service';
 import { ReadSellerService } from '../services/read.service';
+import { IsSeller } from '@/src/common/decorators/roles.decorator';
 
+@IsSeller()
 @Controller('sellers')
 export class SellerController {
   constructor(
@@ -27,35 +16,6 @@ export class SellerController {
     private readonly helperService: HelperService,
   ) {}
 
-  // ============================================================================
-  // CREATE ENDPOINTS
-  // ============================================================================
-
-  /**
-   * Đăng ký người bán mới
-   * @param dto - Dữ liệu đăng ký (thông tin cá nhân, cửa hàng, mật khẩu)
-   * @returns Response thông báo đăng ký thành công
-   */
-  @HttpCode(HttpStatus.CREATED)
-  @Post('register')
-  async register(@Body() dto: CreateSellerDto) {
-    await this.createService.create(dto);
-    return this.helperService.successResponse({
-      message: 'Đăng ký thành công!',
-    });
-  }
-
-  // ============================================================================
-  // READ ENDPOINTS
-  // ============================================================================
-
-  /**
-   * Lấy hồ sơ người bán hiện tại (yêu cầu xác thực)
-   * @param req - Request object chứa userId
-   * @returns Response chứa thông tin hồ sơ người bán
-   */
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles(Role.SELLER)
   @Get('profile')
   async getProfile(@Req() req: Request) {
     const id = req.userId;

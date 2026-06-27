@@ -1,3 +1,5 @@
+import { PaymentSupports } from "@/features/payments/interfaces/read.interface";
+
 export interface Category {
   id: string;
   name: string;
@@ -140,4 +142,13 @@ export interface ProductDetail extends ProductPreview {
 export interface ProductOwner {
   sellerId: string;
   storeId: string;
+}
+
+export interface ProductDetailForOrder {
+  _id: string;
+  classifications: ProductClassifications;
+  variants: ProductVariants;
+  info: ProductInfo;
+  shipping: ProductShipping;
+  paymentSupports: PaymentSupports;
 }

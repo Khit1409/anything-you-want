@@ -1,5 +1,6 @@
-import React from "react";
-import RegisterSellerForm from "../forms/RegisterSellerForm";
+"use client";
+
+import RegisterSellerForm from "@/authForms/RegisterSellerForm";
 
 export default function RegisterSellerPage() {
   return (

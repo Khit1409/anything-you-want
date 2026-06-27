@@ -4,7 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -24,7 +24,7 @@ import { Store } from './store.entity';
 export class StoreBankingPayment {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  @ManyToOne(() => Store, (store) => store.bankPayments, {
+  @OneToOne(() => Store, (store) => store.bankPayment, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'store_id' })

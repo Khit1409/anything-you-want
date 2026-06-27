@@ -1,5 +1,4 @@
-import { Body, Controller, Post, HttpCode, Get, Req } from '@nestjs/common';
-import { RegisterUserAccountRequestDto } from '../dtos/register.dto';
+import { Body, Controller, HttpCode, Get, Req } from '@nestjs/common';
 import type { Request } from 'express';
 import { CreateUserService } from '../services/create.service';
 import { HelperService } from '../../helpers/helper.service';
@@ -13,20 +12,12 @@ export class UserController {
     private readonly helperService: HelperService,
   ) {}
 
-  @HttpCode(201)
-  @Post('register')
-  async register(@Body() dto: RegisterUserAccountRequestDto) {
-    const success = await this.createUserService.create(dto);
-    return this.helperService.successResponse({
-      message: 'Đăng ký thành công',
-      data: { ok: success },
-    });
-  }
-
   @HttpCode(200)
   @Get('profile')
   async getProfile(@Req() req: Request) {
     const uid = req.userId;
+    console.log('user get profile: ', uid);
+    //
     const profile = await this.readUserService.getProfileById(uid);
     return this.helperService.successResponse({
       message: 'Profile người dùng!',

@@ -30,3 +30,9 @@ export interface ProductFindOneOptions {
   'owner.sellerId'?: string;
   _id: string;
 }
+
+export type RelatedsOptions = {
+  neId: string;
+  categoryId: string;
+  select: string;
+};
