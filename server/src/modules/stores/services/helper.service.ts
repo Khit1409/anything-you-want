@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { HelperService } from '../../helpers/helper.service';
+import { HelperService } from '../../common/services/helper.service';
 import { AcceptedPaymentMethodParams } from '../interfaces/helper.interface';
 import { PaymentType } from '../../orders/entities/order-payment.entity';
 import { StoreRepository } from '../repositories/stores.repository';

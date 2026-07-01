@@ -8,7 +8,7 @@ import {
 
 import { ProductStatus } from '../schemas/products.schema';
 import { ProductMapper } from '../mappers/response.mapper';
-import { HelperService } from '../../helpers/helper.service';
+import { HelperService } from '../../common/services/helper.service';
 import { ProductOwner } from '../schemas/product-owner.schema';
 import { HelperProductService } from './helper.service';
 import mongoose from 'mongoose';

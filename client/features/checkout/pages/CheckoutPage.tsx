@@ -1,9 +1,6 @@
-import React from 'react'
+"use client";
+import Checkout from "../components/Checkout";
 
 export default function CheckoutPage() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <Checkout />;
 }

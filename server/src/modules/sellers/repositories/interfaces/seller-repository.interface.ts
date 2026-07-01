@@ -5,7 +5,7 @@ import {
   CreateSellerInfoDto,
   CreateSellerPhoneDto,
 } from '../../dtos';
-import { CreateStoreDto } from '@/src/modules/stores/dtos/create-store.dto';
+import { CreateStoreDto } from '@/modules/stores/dtos/create-store.dto';
 
 export type FilterUpdatetype =
   | string

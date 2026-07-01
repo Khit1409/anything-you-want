@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ProductController } from './controllers/products.controller';
-import { DatabaseModule } from '@/src/database/database.module';
+import { DatabaseModule } from '@/database/database.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { productSchema } from './schemas/products.schema';
 import { CategoryModule } from '../categories/categories.module';
@@ -9,7 +9,6 @@ import { UploadModule } from '../uploads/upload.module';
 import { ProductMapper } from './mappers/response.mapper';
 import { ProductRepository } from './repositories/products.repository';
 import { SharedProductService } from './services/shared.service';
-import { HelperModule } from '../helpers/helper.module';
 import { CreateProductService } from './services/create.service';
 import { UpdateProductService } from './services/update.service';
 import { DeleteProductService } from './services/delete.service';
@@ -23,7 +22,6 @@ import { HelperProductService } from './services/helper.service';
     CategoryModule,
     StoreModule,
     UploadModule,
-    HelperModule,
   ],
   controllers: [ProductController],
   providers: [

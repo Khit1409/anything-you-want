@@ -1,4 +1,4 @@
-import { ResponseDto } from '@/src/modules/common/dto/response.common.dto';
+import { ResponseDto } from '@/modules/common/dto/response.common.dto';
 import { Expose, Type } from 'class-transformer';
 
 export class CartApiResponseDto extends ResponseDto {

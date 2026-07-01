@@ -21,9 +21,9 @@ import { ReadProductService } from '../../products/services/read.service';
 import { DeleteProductService } from '../../products/services/delete.service';
 import { UpdateProductService } from '../../products/services/update.service';
 import { CreateProductService } from '../../products/services/create.service';
-import { HelperService } from '../../helpers/helper.service';
+import { HelperService } from '../../common/services/helper.service';
 import { HelperSellerService } from '../services/helper.service';
-import { IsSeller } from '@/src/common/decorators/roles.decorator';
+import { IsSeller } from '@/shared/decorators/roles.decorator';
 
 @IsSeller()
 @Controller('sellers/products')

@@ -3,3 +3,9 @@ export class UpdateStockPayload {
   quantity: number;
   variantId: string;
 }
+
+export class ResetStockWhenCancelOrderParams {
+  productId: string;
+  stockDiscounted: number;
+  sku: string;
+}

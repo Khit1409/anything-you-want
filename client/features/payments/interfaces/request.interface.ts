@@ -24,3 +24,9 @@ export type CreatePaymentLinkRequest = {
   invoice?: InvoiceRequest;
   expiredAt?: number;
 };
+
+export type CancelPaymentParams = {
+  orderId: string;
+  paymentLinkId: string;
+  cancellationReason?: string;
+};

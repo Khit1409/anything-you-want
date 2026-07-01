@@ -1,7 +1,7 @@
 import { Body, Controller, HttpCode, Get, Req } from '@nestjs/common';
 import type { Request } from 'express';
 import { CreateUserService } from '../services/create.service';
-import { HelperService } from '../../helpers/helper.service';
+import { HelperService } from '../../common/services/helper.service';
 import { ReadUserService } from '../services/read.service';
 
 @Controller('users')

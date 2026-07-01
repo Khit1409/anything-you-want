@@ -1,45 +1,47 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
+import { Injectable, NestMiddleware, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
-import { AuthenticationDataDto } from '../modules/auth/dtos/auth.response.dto';
-import { CookieMap } from '../interfaces/cookies.interface';
+import { AuthenticationData } from '../modules/auth/interfaces/response.interface';
+import { HelperService } from '../modules/common/services/helper.service';
+import { CookieMap } from '../types/express';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
-  constructor(private readonly jwtService: JwtService) {}
-  /**
-   * Gắn thông tin bảo mật khi đăng nhập của người dùng vào request
-   * @param req
-   * @param res
-   * @param next
-   * @returns
-   */
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly helperService: HelperService,
+  ) {}
+
   use(req: Request, res: Response, next: () => void) {
     const cookies = req.cookies as CookieMap;
     const accessToken = cookies.access_token;
-
-    if (!accessToken) {
+    const refreshToken = cookies.refresh_token;
+    if (!accessToken && !refreshToken) {
       return next();
     }
 
-    try {
-      const decoded: AuthenticationDataDto =
-        this.jwtService.verify(accessToken);
+    let decoded: AuthenticationData | undefined;
 
+    if (accessToken) {
+      decoded = this.jwtService.verify<AuthenticationData>(accessToken);
+    } else if (!accessToken && refreshToken) {
+      decoded = this.jwtService.verify<AuthenticationData>(refreshToken);
+    }
+
+    if (!decoded) return next();
+
+    try {
       const { uid, email, role } = decoded;
-      /**
-       * assign user data encode to request
-       */
       req.userId = uid;
       req.role = role;
       req.email = email;
-      req.user = {
-        userId: uid,
-        role,
-        email,
-      };
+      req.user = decoded;
     } catch (error) {
-      console.log('Auth middleware error: ', error);
+      throw new NotFoundException(
+        this.helperService.errorResponse({
+          message: error ? (error as string) : 'Unknow exception!',
+        }),
+      );
     }
 
     return next();

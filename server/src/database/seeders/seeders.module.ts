@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DatabaseSeeder } from './database.seeder';
-import { productSchema } from '@/src/modules/products/schemas/products.schema';
+import { productSchema } from '@/modules/products/schemas/products.schema';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Seller } from '@/src/modules/sellers/entities/seller.entity';
-import { User } from '@/src/modules/users/entities/user.entity';
+import { Seller } from '@/modules/sellers/entities/seller.entity';
+import { User } from '@/modules/users/entities/user.entity';
 import { DatabaseModule } from '../database.module';
 import { ConfigModule } from '@nestjs/config';
-import { categorySchema } from '@/src/modules/categories/schemas/categories.schema';
+import { categorySchema } from '@/modules/categories/schemas/categories.schema';
 
 @Module({
   imports: [

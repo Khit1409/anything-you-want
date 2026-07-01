@@ -11,19 +11,18 @@ import {
 } from '@nestjs/common';
 import type { Request, Response } from 'express';
 
-import { authCookieConfig } from '@/src/lib/cookie.config';
-
 import { LoginService } from '../services/login.service';
 import { LoginRequestDto } from '../dtos/auth.request.dto';
-import { HelperService } from '../../helpers/helper.service';
+import { HelperService } from '@/common/services/helper.service';
 import { AuthService } from '../services/auth.service';
 import { CreateUserService } from '../../users/services/create.service';
 import { CreateSellerService } from '../../sellers/services/create.service';
 import { RegisterUserAccountRequestDto } from '../../users/dtos/register.dto';
 import { CreateSellerDto } from '../../sellers/dtos';
-import { Role } from '@/src/common/enums/roles.enum';
-import { CookieMap } from '@/src/interfaces/cookies.interface';
-import { Public } from '@/src/common/decorators/public-api-url.decorator';
+import { Public } from '@/shared/decorators/public-api-url.decorator';
+import { Role } from '@/shared/enums/roles.enum';
+import { CookieMap } from '@/types/express';
+import { authCookieConfig } from '@/configs/cookie.config';
 
 @Public()
 @Controller('auth')
@@ -69,8 +68,10 @@ export class AuthController {
     @Body() dto: LoginRequestDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { token, role } = await this.loginService.login(dto);
-    res.cookie('access_token', token, authCookieConfig);
+    const { refreshToken, accessToken, role } =
+      await this.loginService.login(dto);
+    res.cookie('access_token', accessToken, authCookieConfig);
+    res.cookie('refresh_token', refreshToken, authCookieConfig);
     return this.helperService.successResponse({
       message: 'Đăng nhập thành công!',
       data: { role },
@@ -79,11 +80,12 @@ export class AuthController {
 
   @HttpCode(200)
   @Get('me')
-  async auth(@Req() req: Request) {
-    const result = await this.authService.authentication(req);
+  auth(@Req() req: Request) {
+    const { access_token, refresh_token } = req.cookies as CookieMap;
+    const data = this.authService.authentication(access_token, refresh_token);
     return this.helperService.successResponse({
       message: 'Xác thực người dùng thành công!',
-      data: result,
+      data,
     });
   }
 
@@ -112,6 +114,7 @@ export class AuthController {
     }
 
     res.clearCookie('access_token', authCookieConfig);
+    res.clearCookie('refresh_token', authCookieConfig);
 
     return this.helperService.successResponse({
       message: 'Đăng xuất thành công!',

@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CartRepository } from '../repositories/carts.repository';
-import { HelperService } from '../../helpers/helper.service';
+import { HelperService } from '../../common/services/helper.service';
 import { SharedProductService } from '../../products/services/shared.service';
 
 @Injectable()

@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Req } from '@nestjs/common';
 import type { Request } from 'express';
 
-import { HelperService } from '../../helpers/helper.service';
+import { HelperService } from '../../common/services/helper.service';
 import { CreateSellerService } from '../services/create.service';
 import { ReadSellerService } from '../services/read.service';
-import { IsSeller } from '@/src/common/decorators/roles.decorator';
+import { IsSeller } from '@/shared/decorators/roles.decorator';
 
 @IsSeller()
 @Controller('sellers')

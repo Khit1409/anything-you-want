@@ -22,21 +22,16 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "strictPropertyInitialization": false,
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@/modules/*": ["./src/modules/*"],
-      "@/database": ["./src/database/*"],
-      "@/lib/*": ["./src/lib/*"],
-      "@/migration/*": ["./src/database/migrations/*"],
-      "@/common/*": ["./src/common/*"],
-      "@/read-services": ["./src/modules/*/services/read.service.ts"],
-      "@/delete-services": ["./src/modules/*/services/delete.service.ts"],
-      "@/update-services": ["./src/modules/*/services/update.service.ts"],
-      "@/shared-services": ["./src/modules/*/services/shared.service.ts"],
-      "@/create-services": ["./src/modules/*/services/create.service.ts"],
-      "@/helper-services": ["./src/modules/*/services/helper.service.ts"],
-      "@/entities": ["./src/modules/*/entities"],
-      "@/schemas": ["./src/modules/*/schemas"]
+      "@/modules/*": ["src/modules/*"],
+      "@/database/*": ["src/database/*"],
+      "@/migration/*": ["src/database/migrations/*"],
+      "@/configs/*": ["src/configs/*"],
+      "@/guards/*": ["src/guards/*"],
+      "@/common/*": ["src/modules/common/*"],
+      "@/shared/*": ["src/shared/*"],
+      "@/types/*": ["src/types/*"]
     }
   }
 }

@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ProductRepository } from '../repositories/products.repository';
-import { HelperService } from '../../helpers/helper.service';
+import { HelperService } from '../../common/services/helper.service';
 import {
   UpdateProductClassificationDto,
   UpdateProductClassificationValueDto,
@@ -16,7 +16,10 @@ import { ProductVariant } from '../schemas/product-variant.schema';
 import { ReadCategoryService } from '../../categories/services/read.service';
 import { ProductInfo } from '../schemas/product-info.schema';
 import { HelperProductService } from './helper.service';
-import { UpdateStockPayload } from '../interfaces/update.interface';
+import {
+  ResetStockWhenCancelOrderParams,
+  UpdateStockPayload,
+} from '../interfaces/update.interface';
 
 @Injectable()
 export class UpdateProductService {
@@ -122,5 +125,14 @@ export class UpdateProductService {
 
   async updateStock(payload: UpdateStockPayload) {
     return await this.repository.updateStock(payload);
+  }
+
+  async resetStockWhenCancelOrder(params: ResetStockWhenCancelOrderParams) {
+    const { modifiedCount } = await this.repository.resetStock(params);
+    if (modifiedCount == 0) {
+      throw new NotFoundException(
+        this.helperService.errorResponse({ message: 'Cập nhật thất bại!' }),
+      );
+    }
   }
 }

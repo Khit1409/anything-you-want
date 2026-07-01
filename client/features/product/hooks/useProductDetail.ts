@@ -5,6 +5,7 @@ import { useState } from "react";
 import useLoading from "@/features/common/hooks/useLoading";
 import { addToCartService } from "@/features/cart/services/cart.service";
 import useAppModal from "@/features/common/hooks/useAppModal";
+import useAuth from "@/features/auth/hooks/useAuth";
 
 export type SelectedClassifications = {
   name: string;
@@ -15,6 +16,7 @@ export default function useProductDetail() {
   const params: { id: string } = useParams();
   const id = params.id;
   const router = useRouter();
+  const { isLoggedIn, initialized } = useAuth();
 
   const { data = { product: null, relateds: [] }, isLoading } = useQuery({
     queryKey: ["product", id],
@@ -88,9 +90,14 @@ export default function useProductDetail() {
   }
 
   function redirectToOrder() {
+    console.log("initialized", initialized, "isLoggedIn", isLoggedIn);
+    if (initialized && !isLoggedIn) {
+      console.log("go to login!");
+      return router.replace("/login");
+    }
     if (!product) return;
     const { _id } = product;
-    router.replace(`/orders/buy-now/${_id}`);
+    return router.replace(`/orders/buy-now/${_id}`);
   }
 
   return {

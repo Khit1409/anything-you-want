@@ -37,6 +37,16 @@ export class OrderPayment {
     default: PaymentType.DELIVERED,
   })
   type: PaymentType;
+  @Column({ name: 'payment_id', type: 'varchar', nullable: true })
+  paymentLinkId: string;
+  @Column({ name: 'description', nullable: true, type: 'varchar' })
+  description: string | null;
+  @Column({ name: 'qr_code', nullable: true, type: 'varchar' })
+  qrCode: string | null;
+  @Column({ name: 'checkout_url', nullable: true, type: 'varchar' })
+  checkoutUrl: string | null;
+  @Column({ name: 'expired_at', type: 'numeric', nullable: true })
+  expiredAt: number | null;
   @Column({ name: 'status', enum: PaymentStatus, type: 'enum' })
   status: PaymentStatus;
   @CreateDateColumn({

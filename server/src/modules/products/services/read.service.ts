@@ -5,7 +5,7 @@ import { HelperProductService } from './helper.service';
 import {
   ProductFindOneOptions,
   RelatedsOptions,
-} from '../repositories/interfaces/products.repository.interface';
+} from '../repositories/interfaces/query.interface';
 import { SharedStoreService } from '../../stores/services/shared.service';
 
 @Injectable()

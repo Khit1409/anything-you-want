@@ -1,6 +1,6 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { StoreRepository } from '../repositories/stores.repository';
-import { HelperService } from '../../helpers/helper.service';
+import { HelperService } from '../../common/services/helper.service';
 
 @Injectable()
 export class ReadStoreService {
@@ -9,39 +9,28 @@ export class ReadStoreService {
     private readonly helperService: HelperService,
   ) {}
 
-  checkValue<T>(value?: T | null) {
-    if (!value) {
-      throw new BadRequestException(
-        this.helperService.errorResponse({
-          message: 'Không tìm thấy cửa hàng!',
-        }),
-      );
-    }
-    return value;
-  }
-
   async getBySellerEmail(sellerEmail: string) {
     const store = await this.repository.getOneBySellerEmail(sellerEmail);
-    return this.checkValue(store);
+    return this.helperService.checkValue(store);
   }
 
   async getBySellerId(sellerId: string) {
     const store = await this.repository.getOneBySellerId(sellerId);
-    return this.checkValue(store);
+    return this.helperService.checkValue(store);
   }
 
   async getBySlugName(slug: string) {
     const store = await this.repository.getOneBySlugName(slug);
-    return this.checkValue(store);
+    return this.helperService.checkValue(store);
   }
 
   async getByEmail(storeEmail: string) {
     const store = await this.repository.getOneStoreEmail(storeEmail);
-    return this.checkValue(store);
+    return this.helperService.checkValue(store);
   }
 
   async getInfoById(id: string) {
     const info = await this.repository.getInfoById(id);
-    return this.checkValue(info);
+    return this.helperService.checkValue(info);
   }
 }

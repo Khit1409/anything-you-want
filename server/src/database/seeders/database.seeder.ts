@@ -1,11 +1,8 @@
-import { Category } from '@/src/modules/categories/schemas/categories.schema';
-import { Product } from '@/src/modules/products/schemas/products.schema';
-import { SellerPhoneType } from '@/src/modules/sellers/entities/seller-phone.entity';
-import {
-  Seller,
-  SellerStatus,
-} from '@/src/modules/sellers/entities/seller.entity';
-import { User, UserStatus } from '@/src/modules/users/entities/user.entity';
+import { Category } from '@/modules/categories/schemas/categories.schema';
+import { Product } from '@/modules/products/schemas/products.schema';
+import { SellerPhoneType } from '@/modules/sellers/entities/seller-phone.entity';
+import { Seller, SellerStatus } from '@/modules/sellers/entities/seller.entity';
+import { User, UserStatus } from '@/modules/users/entities/user.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { InjectRepository } from '@nestjs/typeorm';

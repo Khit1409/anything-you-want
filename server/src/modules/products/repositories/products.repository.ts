@@ -14,8 +14,11 @@ import {
   ProductFindOneOptions,
   RelatedsOptions,
   SortProducts,
-} from './interfaces/products.repository.interface';
-import { UpdateStockPayload } from '../interfaces/update.interface';
+} from './interfaces/query.interface';
+import {
+  ResetStockWhenCancelOrderParams,
+  UpdateStockPayload,
+} from '../interfaces/update.interface';
 
 @Injectable()
 export class ProductRepository {
@@ -193,8 +196,21 @@ export class ProductRepository {
       },
       {
         $inc: {
-          'variants.$.stock': quantity,
+          'variants.$.stock': -quantity,
         },
+      },
+    );
+  }
+
+  async resetStock(params: ResetStockWhenCancelOrderParams) {
+    const { productId, stockDiscounted, sku } = params;
+    return await this.model.updateOne(
+      {
+        _id: productId,
+        variants: { $elemMatch: { sku } },
+      },
+      {
+        $inc: { 'variants.$.stock': stockDiscounted },
       },
     );
   }

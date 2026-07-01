@@ -1,8 +1,8 @@
 import { Controller, Get, Query, Param, HttpCode } from '@nestjs/common';
 import { ProductQueryDto } from '../dtos';
 import { ReadProductService } from '../services/read.service';
-import { HelperService } from '../../helpers/helper.service';
-import { Public } from '@/src/common/decorators/public-api-url.decorator';
+import { HelperService } from '../../common/services/helper.service';
+import { Public } from '@/shared/decorators/public-api-url.decorator';
 
 @Public()
 @Controller('products')

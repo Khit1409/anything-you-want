@@ -1,4 +1,4 @@
-import { DatabaseModule } from '@/src/database/database.module';
+import { DatabaseModule } from '@/database/database.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserAddress } from './entities/user-address.entity';
@@ -10,13 +10,11 @@ import { UserRepository } from './repositories/users.repository';
 import { ReadUserService } from './services/read.service';
 import { SharedUserService } from './services/shared.service';
 import { CreateUserService } from './services/create.service';
-import { HelperModule } from '../helpers/helper.module';
 
 @Module({
   imports: [
     DatabaseModule,
     TypeOrmModule.forFeature([User, UserInfo, UserPhone, UserAddress]),
-    HelperModule,
   ],
   controllers: [UserController],
   providers: [

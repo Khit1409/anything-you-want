@@ -3,7 +3,7 @@ import { ProductRepository } from '../repositories/products.repository';
 import { ProductVariant } from '../schemas/product-variant.schema';
 import { HelperProductService } from './helper.service';
 import { SharedOrderPartParams } from '../interfaces/shared.interface';
-import { HelperService } from '../../helpers/helper.service';
+import { HelperService } from '../../common/services/helper.service';
 import { ShippingMethod } from '../schemas/product-shipping.schema';
 
 @Injectable()
@@ -127,18 +127,8 @@ export class SharedProductService {
     return { name, price, sale, thumbnail };
   }
 
-  /**
-   * Trả về các trường cần thiết cho order kèm theo kiểm tra khu vực hộ trợ vận chuyển, phương phức vận chuyển
-   * hợp lệ!
-   * @param param0
-   * @returns
-   */
-  async getOrderParts({
-    productId,
-    shippingType,
-    variantId,
-    provinceCode,
-  }: SharedOrderPartParams) {
+  async getOrderParts(params: SharedOrderPartParams) {
+    const { productId, shippingType, variantId, provinceCode } = params;
     const productDoc = await this.repository.getOneById(productId);
     const product = this.helperProductService.checkExistingValue(productDoc);
     const { info, images, variants, shipping, owner } = product;
@@ -153,7 +143,6 @@ export class SharedProductService {
     const isSupportProvince = unNeedCheckShipping
       ? true
       : supportedProvinces.includes(provinceCode);
-
     if (!isSupportProvince) {
       throw new BadRequestException(
         this.helperService.errorResponse({

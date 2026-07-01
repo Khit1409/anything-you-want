@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { SellerRepository } from '../repositories/sellers.repository';
-import { HelperService } from '../../helpers/helper.service';
+import { HelperService } from '../../common/services/helper.service';
 import { CreateSellerDto, CreateSellerInfoDto } from '../dtos';
 import { SellerStatus } from '../entities/seller.entity';
 import * as bcrypt from 'bcrypt';

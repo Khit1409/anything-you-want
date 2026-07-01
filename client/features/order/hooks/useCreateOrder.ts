@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { CreateOrderRequest } from "../interfaces/request.interface";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import {
   getProvinces,
@@ -11,11 +11,19 @@ import { createOrderService } from "../services/order.service";
 import { getDetailForOrderService } from "@/productServices/product.service";
 import { PaymentType } from "@/features/payments/interfaces/read.interface";
 import { ShippingMethod } from "@/features/product/interfaces/read.interface";
+import useAppModal from "@/features/common/hooks/useAppModal";
+import {
+  OnChangeSelectOptionParams,
+  OrderUseForm,
+  SelectOptionIdType,
+} from "../interfaces/read.interface";
+import useLoading from "@/features/common/hooks/useLoading";
 
-type SelectOptionIdType = { name: string; id: string };
-type OnChangeSelectOptionParams = { clsName: string; valueId: string };
 export default function useCreateOrder() {
   const params: { id: string } = useParams();
+  const modalHook = useAppModal();
+  const { handleLoading } = useLoading();
+  const router = useRouter();
   const productId = params.id;
   const {
     data = {
@@ -35,38 +43,35 @@ export default function useCreateOrder() {
       return { wards, provinces, product };
     },
   });
-  const { control, register, watch, setValue, handleSubmit, formState } =
-    useForm<{
-      data: CreateOrderRequest;
-    }>({
-      defaultValues: {
-        data: {
-          address: {
-            detail: "",
-            province: "",
-            provinceCode: "",
-            ward: "",
-          },
-          contact: {
-            phone: "",
-            userName: "",
-            email: "",
-          },
-          productId,
-          quantity: 1,
-          variantId: "",
-          paymentType: PaymentType.DELIVERED,
-          shipMethod: ShippingMethod.STANDARD,
+  const useFormDefaultValues = {
+    defaultValues: {
+      data: {
+        address: {
+          detail: "",
+          province: "",
+          provinceCode: "",
+          ward: "",
         },
+        contact: {
+          phone: "",
+          userName: "",
+          email: "",
+        },
+        productId,
+        quantity: 1,
+        variantId: "",
+        paymentType: PaymentType.DELIVERED,
+        shipMethod: ShippingMethod.STANDARD,
       },
-    });
-  const [provinceCode, setProvinceCode] = useState<number>();
+    },
+  };
+  const { control, register, watch, setValue, handleSubmit, formState } =
+    useForm<OrderUseForm>(useFormDefaultValues);
+
   const [optionIds, setOptionIds] = useState<SelectOptionIdType[]>([]);
 
-  const onChangeSelectOptions = ({
-    clsName,
-    valueId,
-  }: OnChangeSelectOptionParams) => {
+  const onChangeSelectOptions = (params: OnChangeSelectOptionParams) => {
+    const { clsName, valueId } = params;
     const existing = optionIds.find((opt) => opt.name === clsName);
     if (existing) {
       return setOptionIds((prev) =>
@@ -77,22 +82,21 @@ export default function useCreateOrder() {
   };
 
   const onChangeProvinceCode = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log("is changing...");
     const { dataset } = e.target.selectedOptions[0];
     const code = dataset.code;
+    console.log(code);
     if (!code) return;
-    setProvinceCode(Number(code));
+    setValue("data.address.provinceCode", code);
   };
 
   const wardListByProvinceCode = () => {
+    const provinceCode = watch("data.address.provinceCode");
+    console.log(provinceCode);
     if (!provinceCode) return [];
-    return wards.filter((ft) => ft.province_code === provinceCode);
+    return wards.filter((ft) => ft.province_code === Number(provinceCode));
   };
   const { provinces, wards, product } = data;
-
-  async function sendOrder(data: CreateOrderRequest) {
-    const res = await createOrderService(data);
-    console.log(res);
-  }
 
   const getVariant = () => {
     if (!product) return;
@@ -106,6 +110,16 @@ export default function useCreateOrder() {
     if (!variant) return 0;
     return variant.stock;
   };
+
+  async function sendOrder(payload: CreateOrderRequest) {
+    const res = await handleLoading(createOrderService, payload);
+    const { message, success, data } = res;
+    const { orderId, paymentType } = data;
+    if (paymentType !== PaymentType.DELIVERED) {
+      return router.replace(`/orders/buy-now/checkout/${orderId}`);
+    }
+    return modalHook.open({ message, success });
+  }
 
   return {
     control,

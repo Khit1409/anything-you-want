@@ -3,12 +3,12 @@ import { CreateProductShippingMethodDto, ProductQueryDto } from '../dtos';
 import { ShippingMethod } from '../schemas/product-shipping.schema';
 import { ProductVariant } from '../schemas/product-variant.schema';
 import { ProductClassification } from '../schemas/product-classification.schema';
-import { HelperService } from '../../helpers/helper.service';
+import { HelperService } from '../../common/services/helper.service';
 import {
   ProductFindOneOptions,
   SearchProducts,
   SortProducts,
-} from '../repositories/interfaces/products.repository.interface';
+} from '../repositories/interfaces/query.interface';
 
 @Injectable()
 export class HelperProductService {

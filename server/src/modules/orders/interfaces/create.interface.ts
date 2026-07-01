@@ -12,6 +12,10 @@ export interface OrderContactRepositorySave {
 export interface OrderPaymentRepositorySave {
   status: PaymentStatus;
   type: PaymentType;
+  description: string | null;
+  qrCode: string | null;
+  checkoutUrl: string | null;
+  expiredAt: number | null;
 }
 
 export interface OrderShippingRepositorySave {

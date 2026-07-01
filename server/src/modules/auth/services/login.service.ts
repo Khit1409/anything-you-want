@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { SharedSellerService } from '../../sellers/services/shared.service';
 import * as bcryt from 'bcrypt';
-import { HelperService } from '../../helpers/helper.service';
-import { TokenService } from './token.service';
-import { Role } from '@/src/common/enums/roles.enum';
+import { HelperService } from '../../common/services/helper.service';
+import { TokenService } from '../../common/services/token.service';
+import { Role } from '@/shared/enums/roles.enum';
 import { SharedUserService } from '../../users/services/shared.service';
 import { LoginRequestDto } from '../dtos/auth.request.dto';
 import { RoleDto } from '../../common/dto/response.common.dto';
@@ -30,12 +30,16 @@ export class LoginService {
         }),
       );
     }
-    const payload = { email, uid: user.id, role: Role.USER };
-    const token = await this.tokenService.createLoginToken(payload, '1d');
+    const role = Role.USER;
+    const uid = user.id;
+    const payload = { email, uid, role: Role.USER };
+    const { accessToken, refreshToken } =
+      await this.tokenService.createLoginToken(payload);
 
     return {
-      role: Role.USER,
-      token,
+      role,
+      accessToken,
+      refreshToken,
     };
   }
 
@@ -52,12 +56,16 @@ export class LoginService {
         }),
       );
     }
-    const payload = { email, uid: seller.id, role: Role.SELLER };
-    const token = await this.tokenService.createLoginToken(payload, '1d');
+    const role = Role.SELLER;
+    const uid = seller.id;
+    const payload = { email, uid, role };
+    const { accessToken, refreshToken } =
+      await this.tokenService.createLoginToken(payload);
 
     return {
-      role: Role.SELLER,
-      token,
+      role,
+      accessToken,
+      refreshToken,
     };
   }
 

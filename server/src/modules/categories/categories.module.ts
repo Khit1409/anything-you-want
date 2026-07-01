@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { DatabaseModule } from '@/src/database/database.module';
+import { DatabaseModule } from '@/database/database.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { categorySchema } from './schemas/categories.schema';
 
 import { CategoryController } from './controllers/categories.controller';
 import { ReadCategoryService } from './services/read.service';
 import { HelperCategoryService } from './services/helper.service';
-import { HelperService } from '../helpers/helper.service';
+import { HelperService } from '../common/services/helper.service';
 import { CategoryRepository } from './repositories/categories.repository';
 
 @Module({

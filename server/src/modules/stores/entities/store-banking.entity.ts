@@ -29,6 +29,8 @@ export class StoreBankingPayment {
   })
   @JoinColumn({ name: 'store_id' })
   store: Store;
+  @Column({ name: 'bin', type: 'varchar', nullable: false })
+  bin: string;
   @Column({
     name: 'account_number',
     type: 'varchar',

@@ -48,18 +48,22 @@ export class Order {
   orderCode: number;
   @OneToOne(() => OrderContact, (contact) => contact.order, {
     onDelete: 'CASCADE',
+    cascade: ['insert'],
   })
   contact: OrderContact;
   @OneToOne(() => OrderPayment, (payment) => payment.order, {
     onDelete: 'CASCADE',
+    cascade: ['insert'],
   })
   payment: OrderPayment;
   @OneToOne(() => OrderShipping, (shipping) => shipping.order, {
     onDelete: 'CASCADE',
+    cascade: ['insert'],
   })
   shipping: OrderShipping;
   @OneToOne(() => OrderAddress, (address) => address.order, {
     onDelete: 'CASCADE',
+    cascade: ['insert'],
   })
   address: OrderAddress;
   @Column({

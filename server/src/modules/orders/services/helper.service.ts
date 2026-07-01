@@ -3,7 +3,7 @@ import { OrderRepository } from '../repositories/order.repository';
 import { PaymentType } from '../entities/order-payment.entity';
 import { HelperStoreService } from '../../stores/services/helper.service';
 import { CheckPaymethodParams } from '../interfaces/helper.interface';
-import { HelperService } from '../../helpers/helper.service';
+import { HelperService } from '../../common/services/helper.service';
 
 @Injectable()
 export class HelperOrderService {

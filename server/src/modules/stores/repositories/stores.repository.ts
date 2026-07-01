@@ -59,15 +59,13 @@ export class StoreRepository {
   async findOnById(id: string) {
     return await this.ormRepo.findOneBy({ id });
   }
+
   async findOneByOptions(options: GetOneStoreOptions) {
-    const { search, select } = options;
+    const { search, select, relations } = options;
     return await this.ormRepo.findOne({
       where: { ...search },
-      select: select,
-      relations: {
-        bankPayment: true,
-        momoPayment: true,
-      },
+      select,
+      relations,
     });
   }
 }

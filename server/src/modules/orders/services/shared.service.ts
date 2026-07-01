@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { OrderRepository } from '../repositories/order.repository';
-import { HelperService } from '../../helpers/helper.service';
+import { HelperService } from '../../common/services/helper.service';
 
 @Injectable()
 export class SharedOrderService {
@@ -19,5 +19,8 @@ export class SharedOrderService {
     return value;
   }
 
-  async findOne() {}
+  async findOne(id: string) {
+    const orderDoc = await this.repository.findOne(id);
+    return this.checkValue(orderDoc, 'Không tìm thấy đơn hàng!');
+  }
 }

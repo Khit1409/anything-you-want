@@ -1,5 +1,5 @@
-import React from "react";
+import CheckoutPage from "@/features/checkout/pages/CheckoutPage";
 
 export default function page() {
-  return <div>checkout order id</div>;
+  return <CheckoutPage />;
 }

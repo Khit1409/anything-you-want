@@ -70,21 +70,24 @@ export class Seller {
   ============================ */
 
   @OneToOne(() => SellerInfo, (info) => info.seller, {
-    cascade: true,
+    cascade: ['insert'],
   })
   info: SellerInfo;
 
   @OneToMany(() => SellerAddress, (address) => address.seller, {
-    cascade: true,
+    cascade: ['insert'],
   })
   addresses: SellerAddress[];
 
   @OneToMany(() => SellerPhone, (phone) => phone.seller, {
-    cascade: true,
+    cascade: ['insert'],
   })
   phones: SellerPhone[];
 
-  @OneToOne(() => Store, (store) => store.seller, { cascade: true })
+  @OneToOne(() => Store, (store) => store.seller, {
+    cascade: ['insert'],
+    onDelete: 'CASCADE',
+  })
   store: Store;
 
   @OneToOne(() => Order, (orderOrder) => orderOrder.seller, {

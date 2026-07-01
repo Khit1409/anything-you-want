@@ -60,17 +60,20 @@ export class User {
   updatedAt: Date;
 
   @OneToOne(() => UserInfo, (info) => info.user, {
-    cascade: true,
+    onDelete: 'CASCADE',
+    cascade: ['insert'],
   })
   info: UserInfo;
 
   @OneToMany(() => UserAddress, (address) => address.user, {
-    cascade: true,
+    onDelete: 'CASCADE',
+    cascade: ['insert'],
   })
   addresses: UserAddress[];
 
   @OneToMany(() => UserPhone, (phone) => phone.user, {
-    cascade: true,
+    onDelete: 'CASCADE',
+    cascade: ['insert'],
   })
   phones: UserPhone[];
 

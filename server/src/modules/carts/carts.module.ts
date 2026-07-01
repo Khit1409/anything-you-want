@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CartController } from './controllers/carts.controller';
-import { DatabaseModule } from '@/src/database/database.module';
+import { DatabaseModule } from '@/database/database.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { cartSchema } from './schemas/carts.schema';
 
@@ -12,7 +12,6 @@ import { ReadCartService } from './services/read.service';
 import { UpdateCartService } from './services/update.service';
 import { CreateCartService } from './services/create.service';
 import { DeleteCartService } from './services/delete.service';
-import { HelperModule } from '../helpers/helper.module';
 import { CartMapper } from './mappers/response.mapper';
 
 @Module({
@@ -21,7 +20,6 @@ import { CartMapper } from './mappers/response.mapper';
     MongooseModule.forFeature([{ name: 'Cart', schema: cartSchema }]),
     ProductModule,
     CategoryModule,
-    HelperModule,
   ],
   controllers: [CartController],
   providers: [

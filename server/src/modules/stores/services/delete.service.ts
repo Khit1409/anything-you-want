@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { HelperService } from '../../helpers/helper.service';
+import { HelperService } from '../../common/services/helper.service';
 import { StoreRepository } from '../repositories/stores.repository';
 import { DeleteResult } from 'typeorm';
 

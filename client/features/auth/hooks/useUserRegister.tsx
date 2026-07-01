@@ -5,9 +5,8 @@ import {
 import useLoading from "@/features/common/hooks/useLoading";
 import { RegisterUserAccountRequest } from "@/features/user/interfaces/user.interface";
 import { registerService } from "@/features/user/services/user.service";
-import { AppDispatch, ModalState, openModal } from "@/redux";
 import { useQuery } from "@tanstack/react-query";
-import { useDispatch } from "react-redux";
+import useAppModal from "@/features/common/hooks/useAppModal";
 
 export default function useUserRegister() {
   const { data = { provinces: [], wards: [] } } = useQuery({
@@ -21,18 +20,15 @@ export default function useUserRegister() {
     },
   });
 
-  const dispatch = useDispatch<AppDispatch>();
-
   const { handleLoading } = useLoading();
+  const { open } = useAppModal();
 
   async function submitRegister(data: RegisterUserAccountRequest) {
     const res = await handleLoading(registerService, data);
 
     const { message, success } = res;
-    if (!success) {
-      return dispatch(openModal({ message, state: ModalState.ERROR }));
-    }
-    return dispatch(openModal({ message, state: ModalState.SUCCESS }));
+
+    return open({ message, success });
   }
 
   return { addressApi: data, submitRegister };
