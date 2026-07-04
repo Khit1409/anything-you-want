@@ -1,5 +1,5 @@
-import React from "react";
+import OrderListPage from "@/features/order/pages/OrderListPage";
 
 export default function page() {
-  return <div>order list</div>;
+  return <OrderListPage />;
 }

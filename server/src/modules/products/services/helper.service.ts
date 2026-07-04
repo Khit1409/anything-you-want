@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateProductShippingMethodDto, ProductQueryDto } from '../dtos';
+import { CreateProductShippingMethodDto } from '../dtos';
 import { ShippingMethod } from '../schemas/product-shipping.schema';
 import { ProductVariant } from '../schemas/product-variant.schema';
 import { ProductClassification } from '../schemas/product-classification.schema';
@@ -9,6 +9,7 @@ import {
   SearchProducts,
   SortProducts,
 } from '../repositories/interfaces/query.interface';
+import { FormatQueryParams } from '../repositories/interfaces/helper.interface';
 
 @Injectable()
 export class HelperProductService {
@@ -32,12 +33,14 @@ export class HelperProductService {
     return search;
   }
 
-  formatQuery(query: ProductQueryDto, select: string, sellerId?: string) {
+  formatQuery(params: FormatQueryParams) {
+    const { query, select, sellerId, status } = params;
     const { category, page, priceMax, priceMin, saleMax, saleMin } = query;
     const limit = 30;
     const skip = limit * (page ?? 1) - limit;
     const sort: SortProducts = { limit, skip, select };
     const search: SearchProducts = {};
+    if (status) search['status'] = status;
     if (sellerId) search['owner.sellerId'] = sellerId;
     if (category) search['info.category.id'] = category;
     if (priceMax)

@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OrderRepositorySave } from '../interfaces/create.interface';
-import { FindOneByOwner } from '../interfaces/find.interface';
+import {
+  FindManyByOptions,
+  FindOneByOwner,
+} from '../interfaces/find.interface';
 import { Order, OrderStatus } from '../entities/order.entity';
 
 @Injectable()
@@ -75,6 +78,12 @@ export class OrderRepository {
       },
     });
   }
+
+  async findMany(find: FindManyByOptions) {
+    const { search, select, relations } = find;
+    return await this.ormRepo.find({ where: search, select, relations });
+  }
+
   async delete(id: string) {
     return await this.ormRepo.delete({ id });
   }

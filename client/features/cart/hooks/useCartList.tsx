@@ -5,11 +5,12 @@ import {
 import { useQuery } from "@tanstack/react-query";
 
 import useLoading from "@/features/common/hooks/useLoading";
-import { useAppDispatch, useAppSelector } from "@/shared/redux/selector";
+import { useAppDispatch } from "@/shared/redux/selector";
 import { openModal } from "@/features/common/redux/common.slice";
 import { ModalState } from "@/features/common/redux/common.state";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import useAuth from "@/features/auth/hooks/useAuth";
 
 export default function useCartList() {
   const {
@@ -24,15 +25,12 @@ export default function useCartList() {
   });
   const dispatch = useAppDispatch();
   const { handleLoading } = useLoading();
-  const authStatus = useAppSelector((state) => state.auth);
+  const auth = useAuth();
   const router = useRouter();
+
   useEffect(() => {
-    const { initialized, isLoading, isLoggedIn } = authStatus;
-    if (!isLoading && initialized && !isLoggedIn) {
-      console.log("Chưa đăng nhập");
-      router.replace("login");
-    }
-  }, [authStatus, router]);
+    auth.needLogin();
+  }, [auth]);
 
   async function deleteCart(id: string) {
     const res = await handleLoading(deleteCartService, id);

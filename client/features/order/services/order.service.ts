@@ -3,6 +3,7 @@ import { CreateOrderRequest } from "../interfaces/request.interface";
 import {
   CreateOrderResponse,
   GetOrderPaymentResponse,
+  GetUserOrderResponse,
 } from "../interfaces/response.interface";
 
 export async function createOrderService(params: CreateOrderRequest) {
@@ -17,8 +18,12 @@ export async function getOrderPaymentService(orderId: string) {
   const res = await axiosClient.get<GetOrderPaymentResponse>(
     `/orders/payment/${orderId}`,
   );
-
-  const {data} = res.data;
+  const { data } = res.data;
   return data;
+}
 
+export async function getUserOrdersService() {
+  const res = await axiosClient.get<GetUserOrderResponse>("/orders");
+  const { data } = res.data;
+  return data;
 }

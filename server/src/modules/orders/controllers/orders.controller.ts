@@ -13,6 +13,17 @@ export class OrdersController {
     private readonly helperService: HelperService,
     private readonly readService: ReadOrderService,
   ) {}
+
+  @Get('')
+  async getUserOrders(@Req() req: Request) {
+    const { userId } = req;
+    const orders = await this.readService.getOrderList(userId);
+    return this.helperService.successResponse({
+      message: 'Danh sách đơn hàng',
+      data: orders,
+    });
+  }
+
   @Get('payment/:id')
   async getPayment(@Param('id') id: string) {
     const data = await this.readService.getPaymentBanking(id);

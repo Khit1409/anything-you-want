@@ -1,6 +1,5 @@
-import ProductListContent from "@/features/product/components/list/ProductListContent";
-
+import ShoppingNowPage from "@/features/shopping/pages/ShoppingNowPage";
 
 export default function page() {
-  return <ProductListContent />;
+  return <ShoppingNowPage />;
 }

@@ -12,6 +12,33 @@ export class ReadOrderService {
     private readonly paymentService: PaymentService,
   ) {}
 
+  async getOrderList(userId: string) {
+    const search = { user: { id: userId } };
+
+    const orders = await this.repository.findMany({
+      search,
+      select: {
+        address: { detail: true, province: true, ward: true },
+        contact: { userName: true, email: true, phone: true },
+        shipping: { startedAt: true, finishedAt: true, type: true },
+        payment: { status: true, type: true },
+        store: {
+          id: true,
+          info: { name: true },
+        },
+      },
+      relations: {
+        address: true,
+        contact: true,
+        shipping: true,
+        payment: true,
+        store: { info: true },
+      },
+    });
+
+    return orders;
+  }
+
   async getPaymentBanking(orderId: string) {
     const orderDoc = await this.repository.findOne(orderId);
     const order = this.helperService.checkValue(

@@ -41,22 +41,20 @@ export class ProductRepository {
   }
 
   async findMany(filter: FilterProducts): Promise<HydratedDocument<Product>[]> {
-    const { limit, skip, select } = filter.sort;
-    return await this.model
-      .find(filter.search)
-      .limit(limit)
-      .skip(skip)
-      .select(select);
+    const { search, sort } = filter;
+    const { skip, limit, select } = sort;
+    return await this.model.find(search).limit(limit).skip(skip).select(select);
   }
 
   async getMany(filter: FilterProducts): Promise<Product[]> {
-    const { skip, limit, select } = filter.sort;
+    const { search, sort } = filter;
+    const { skip, limit, select } = sort;
     return await this.model
-      .find(filter.search)
+      .find(search)
       .limit(limit)
       .skip(skip)
       .select(select)
-      .lean<Product[]>();
+      .lean();
   }
 
   async getBestSeller(sort: SortProducts) {

@@ -1,5 +1,4 @@
 import {
-  ProductClassifications,
   ProductImages,
   ProductPhysical,
   ProductShipping,
@@ -7,7 +6,17 @@ import {
 } from "./read.interface";
 
 export type UpdateProductPhysical = ProductPhysical;
-export type UpdateProductClassifications = ProductClassifications;
+export interface UpdateProductClassificationValue {
+  id?: string;
+  name: string;
+  img?: string;
+}
+export interface UpdateProductClassification {
+  id?: string;
+  name: string;
+  values: UpdateProductClassificationValue[];
+}
+export type UpdateProductClassifications = UpdateProductClassification[];
 export type UpdateProductImage = ProductImages;
 export type UpdateProductShipping = ProductShipping;
 

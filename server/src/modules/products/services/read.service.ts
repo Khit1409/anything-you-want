@@ -7,6 +7,8 @@ import {
   RelatedsOptions,
 } from '../repositories/interfaces/query.interface';
 import { SharedStoreService } from '../../stores/services/shared.service';
+import { FormatQueryParams } from '../repositories/interfaces/helper.interface';
+import { ProductStatus } from '../schemas/products.schema';
 
 @Injectable()
 export class ReadProductService {
@@ -17,22 +19,39 @@ export class ReadProductService {
   ) {}
 
   async previews(query: ProductQueryDto) {
-    const select = 'info ratingSumary shipping images tags status';
-    const filter = this.productHelper.formatQuery(query, select);
+    const select =
+      'info.name info.price info.sale ratingSumary images.thumbnail status';
+
+    const queryParams: FormatQueryParams = {
+      query,
+      select,
+      status: ProductStatus.ACTIVE,
+    };
+    const filter = this.productHelper.formatQuery(queryParams);
     const products = await this.repository.getMany(filter);
     return products;
   }
 
   async previewForSeller(query: ProductQueryDto, sellerId: string) {
     const select = 'info ratingSumary shipping images tags status';
-    const filter = this.productHelper.formatQuery(query, select, sellerId);
+    const queryParams: FormatQueryParams = {
+      query,
+      select,
+      sellerId,
+    };
+    const filter = this.productHelper.formatQuery(queryParams);
     const products = await this.repository.getManyBySeller(filter);
     return products;
   }
 
   async bestSeller(query: ProductQueryDto) {
     const select = 'info ratingSumary shipping images tags status';
-    const { sort } = this.productHelper.formatQuery(query, select);
+    const queryParams: FormatQueryParams = {
+      query,
+      select,
+      status: ProductStatus.ACTIVE,
+    };
+    const { sort } = this.productHelper.formatQuery(queryParams);
     const products = await this.repository.getBestSeller(sort);
     return products;
   }

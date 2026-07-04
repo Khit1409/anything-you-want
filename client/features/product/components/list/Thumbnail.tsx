@@ -14,7 +14,7 @@ export default function Thumbnail({
       <Image
         src={thumbnail}
         alt={name}
-        className="p-2 w-124 h-75 object-cover"
+        className="w-124 h-75 object-cover"
         objectFit="cover"
         width={500}
         height={300}

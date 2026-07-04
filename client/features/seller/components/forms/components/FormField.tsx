@@ -14,7 +14,7 @@ export default function FormField({
   children,
 }: FormFieldProps) {
   return (
-    <div className="mb-4">
+    <div className="">
       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}

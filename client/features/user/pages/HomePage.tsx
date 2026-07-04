@@ -7,7 +7,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <ProductListContent />
+      <ProductListContent isShowFilter={false} />
     </>
   );
 }

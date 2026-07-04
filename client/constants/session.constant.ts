@@ -1,3 +1,3 @@
-export const SESION_KEY = {
-  PAYMENT: "paymentInfo",
+export const SESSION_KEY = {
+  BACK_URL: "back_url",
 };

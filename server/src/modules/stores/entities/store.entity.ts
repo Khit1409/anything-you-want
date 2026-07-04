@@ -45,13 +45,11 @@ export class Store {
   })
   @JoinColumn({ name: 'seller_id' })
   seller: Seller;
-
   @OneToOne(() => StoreInfo, (info) => info.store, {
     onDelete: 'CASCADE',
     cascade: ['insert'],
   })
   info: StoreInfo;
-
   @OneToMany(() => Order, (order) => order.store, {
     onDelete: 'CASCADE',
   })

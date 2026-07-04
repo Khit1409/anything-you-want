@@ -43,9 +43,7 @@ export interface ProductInfo {
   price: number;
   sale: number;
   description: string;
-
   category: ProductCategory;
-
   brand?: string;
   origin?: string;
 }
@@ -96,28 +94,33 @@ export interface ProductVariant {
 export type ProductVariants = ProductVariant[];
 
 export type ProductDimensions = {
-  length: number; //cm
-  width: number; //cm
-  height: number; //cm
+  length: number;
+  width: number;
+  height: number;
 };
 export interface ProductPhysical {
-  weight: number; //gam
+  weight: number;
   dimensions: ProductDimensions;
 }
 
+export type HiddenProductInfoPreview =
+  | "brand"
+  | "category"
+  | "origin"
+  | "description";
+
+export type ProductInfoPreview = Omit<ProductInfo, HiddenProductInfoPreview>;
+export type HiddenProductImagePreview = "detail";
+export type ProductImagePreview = Omit<
+  ProductImages,
+  HiddenProductImagePreview
+>;
+
 export interface ProductPreview {
   _id: string;
-
-  info: ProductInfo;
-
-  tags: string[];
-
+  info: ProductInfoPreview;
   ratingSumary: ProductRating;
-
-  shipping: ProductShipping;
-
   images: ProductImages;
-
   status: ProductStatus;
 }
 
@@ -127,15 +130,18 @@ export interface SellerProductPreview {
 
 export type ProductPreviews = ProductPreview[];
 
-export interface ProductDetail extends ProductPreview {
+export interface ProductDetail {
+  _id: string;
+  info: ProductInfo;
+  tags: string[];
+  ratingSumary: ProductRating;
+  shipping: ProductShipping;
+  images: ProductImages;
+  status: ProductStatus;
   classifications: ProductClassifications;
-
   variants: ProductVariants;
-
   physical: ProductPhysical;
-
   createdAt: string;
-
   updatedAt: string;
 }
 

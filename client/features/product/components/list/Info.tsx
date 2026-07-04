@@ -1,44 +1,17 @@
 import Link from "next/link";
 import Price from "./Price";
-import { ProductInfo } from "../../interfaces/product.interface";
-import { strToSlug } from "@/features/common/helpers/str.helper";
+import { ProductInfoPreview } from "@/productInterfaces/read.interface";
 
-export default function Info({ info, id }: { info: ProductInfo; id: string }) {
-  const { brand, name, price, sale, origin, category } = info;
+export default function Info({ info, id }: { info: ProductInfoPreview; id: string }) {
+  const { name, price, sale } = info;
   return (
-    <div className="flex flex-col gap-3">
-      {/* Brand */}
-      {brand && (
-        <Link
-          href={`/search?brand=${strToSlug(brand)}`}
-          className="text-xs text-(--muted) hover:text-orange-600 dark:hover:text-orange-400 hover:underline mb-1 block"
-        >
-          {brand}
-        </Link>
-      )}
-      {origin && (
-        <Link
-          href={`/search?origin=${strToSlug(origin)}`}
-          className="text-xs text-(--muted) hover:text-orange-600 dark:hover:text-orange-400 hover:underline mb-1 block"
-        >
-          {origin}
-        </Link>
-      )}
-      <Link
-        href={`/search?category=${category.slug}`}
-        className="text-xs text-(--muted) hover:text-orange-600 dark:hover:text-orange-400 hover:underline mb-1 block"
-      >
-        {category.name}
-      </Link>
-      {/* Product Name */}
+    <div className="flex flex-col gap-3 p-1">
       <Link
         href={`/products/${id}`}
-        className="text-xl leading-tight text-(--title) dark:text-(--text) line-clamp-4 hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer min-h-10"
+        className="text-sm leading-tight text-(--title) dark:text-(--text) line-clamp-4 hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer min-h-10"
       >
         {name}
       </Link>
-
-      {/* Price Section */}
       <Price price={price} sale={sale} />
     </div>
   );
