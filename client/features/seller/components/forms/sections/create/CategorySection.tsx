@@ -1,9 +1,8 @@
-
 import { useCreateProductContext } from "@/features/seller/contexts/CreateProductContext";
 import { SectionCard, FormField } from "../../components";
 
 export default function CategorySection() {
-  const { categories, register } = useCreateProductContext();
+  const { register, categories } = useCreateProductContext();
   return (
     <SectionCard title="Danh mục sản phẩm">
       <FormField label="Chọn danh mục" required>

@@ -11,7 +11,7 @@ export default function ProductInformation() {
   const savedPrice = price - discounted;
 
   return (
-    <div className="bg-(--surface) p-6 rounded-md">
+    <div className="bg-(--surface) rounded-md">
       <h2 className="text-2xl font-bold text-(--title) mb-2">{name}</h2>
 
       <div className="flex items-center gap-3 text-sm text-(--muted) mb-4">

@@ -29,7 +29,9 @@ export class PaymentService {
   async checkExistingPaymentLink(params: CheckExistingPaymentParams) {
     const existing = await this.payosService.getInfo(params);
     if (existing) {
-      const { payment } = await this.sharedOrderService.findOne(params.orderId);
+      const { payment } = await this.sharedOrderService.findOneByOptionConfig(
+        params.orderId,
+      );
       const { checkoutUrl, expiredAt, qrCode, description, paymentLinkId } =
         payment;
       const { accountName, accountNumber, bin } = params;
@@ -139,7 +141,7 @@ export class PaymentService {
     };
   }
   async getPaymentInfo(orderId: string, paymentLinkId: string) {
-    const order = await this.sharedOrderService.findOne(orderId);
+    const order = await this.sharedOrderService.findOneByOptionConfig(orderId);
     const storeId = order.store.id;
     const store = await this.sharedStoreService.getBankingConfig(storeId);
     return await this.payosService.getInfo({
@@ -152,7 +154,7 @@ export class PaymentService {
 
   async cancelPayment(dto: CancelPaymentDto) {
     const { orderId, paymentLinkId, cancellationReason } = dto;
-    const order = await this.sharedOrderService.findOne(orderId);
+    const order = await this.sharedOrderService.findOneByOptionConfig(orderId);
     const { store, quantity, productId, sku } = order;
     const { id } = store;
     const { apiKey, checkSumKey, clientId } =

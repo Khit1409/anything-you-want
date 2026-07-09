@@ -12,6 +12,7 @@ import { FormLayout } from "./components";
 
 export default function CreateProductForm() {
   const { handleSubmit, submitCreate } = useCreateProductContext();
+
   return (
     <FormLayout
       title="Tạo sản phẩm mới"
@@ -23,8 +24,8 @@ export default function CreateProductForm() {
           <InfoSection />
           <ImageSection />
           <PhysicalSection />
-          <ShippingSection />
           <ClassificationSection />
+          <ShippingSection />
           <ActionSection />
         </div>
       </form>

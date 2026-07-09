@@ -1,11 +1,10 @@
 import { createContext, useContext } from "react";
-import useCreateProduct from "../hooks/useCreateProduct";
+import useCreateProduct from "../hooks/products/create/useCreateProduct";
 
-type CreateProductContextType = ReturnType<typeof useCreateProduct>;
+export type CreateProductContextType = ReturnType<typeof useCreateProduct>;
 
-const CreateProductContext = createContext<CreateProductContextType | null>(
-  null,
-);
+export const CreateProductContext =
+  createContext<CreateProductContextType | null>(null);
 
 export default function CreateProductContentProvider({
   children,

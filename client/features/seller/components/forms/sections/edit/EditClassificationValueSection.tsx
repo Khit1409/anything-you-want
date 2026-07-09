@@ -3,8 +3,6 @@ import { uploadOneImage } from "@/features/common/services/upload.service";
 import useLoading from "@/features/common/hooks/useLoading";
 import { useEditProductConext } from "@/features/seller/contexts/EditProductContext";
 import Image from "next/image";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage, faCameraAlt } from "@fortawesome/free-solid-svg-icons";
 import { FormField } from "../../components";
 
 export default function EditClassificationValuesSection({
@@ -26,62 +24,49 @@ export default function EditClassificationValuesSection({
   }
 
   return (
-    <div className="">
-      {fields.length === 0 ? (
-        <div className="text-center bg-gray-100 dark:bg-gray-900/50 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg">
-          <FontAwesomeIcon
-            icon={faImage}
-            className="text-gray-400 text-3xl mb-2"
-          />
-          <p className="text-gray-600 dark:text-gray-400 text-sm">
-            Chưa có giá trị nào, hãy thêm mới
-          </p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-5 gap-3 mb-5">
-          {fields.map((value, index) => {
-            const imgValue = watch(
-              `data.classifications.${clsIndex}.values.${index}.img`,
-            );
-            return (
-              <div
-                key={value.id}
-                className="bg-white relative dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded p-4 flex flex-col gap-2 items-center justify-center"
+    <div className="grid grid-cols-2 gap-3">
+      {fields.map((value, index) => {
+        const imgValue = watch(
+          `data.classifications.${clsIndex}.values.${index}.img`,
+        );
+        return (
+          <div
+            key={value.id}
+            className="p-3 bg-white dark:bg-gray-600/30 border border-gray-200 dark:border-gray-700 rounded-lg"
+          >
+            <div className="flex flex-col gap-3 mb-3 relative">
+              <button
+                type="button"
+                onClick={() => remove(index)}
+                className="absolute text-sm text-red-600  flex items-center justify-center gap-2 transition-colors right-2"
               >
-                {/* Image Preview */}
-                <div className="mb-4">
-                  <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    Ảnh minh họa
-                  </label>
-                  <label
-                    htmlFor={`img-index-${index}`}
-                    className="block cursor-pointer mb-2"
-                  >
-                    <div className="relative w-20 h-20 border-2 border-dashed border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 overflow-hidden rounded flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors group">
-                      {imgValue ? (
-                        <>
-                          <Image
-                            src={imgValue}
-                            alt="value-img"
-                            width={200}
-                            height={200}
-                            className="object-cover w-full h-full"
-                          />
-                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-                            <FontAwesomeIcon
-                              icon={faCameraAlt}
-                              className="text-white text-xl opacity-0 group-hover:opacity-100 transition-opacity"
-                            />
-                          </div>
-                        </>
-                      ) : (
-                        <FontAwesomeIcon
-                          icon={faImage}
-                          className="text-gray-400 text-3xl"
-                        />
-                      )}
+                Xóa
+              </button>
+              <FormField label="Tên giá trị">
+                <input
+                  type="text"
+                  id={`name-index-${index}`}
+                  {...register(
+                    `data.classifications.${clsIndex}.values.${index}.name`,
+                  )}
+                  placeholder="Đỏ, M, L..."
+                  className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-blue-400 transition-colors"
+                />
+              </FormField>
+
+              <FormField label="Ảnh minh họa">
+                <div className="flex items-center gap-2">
+                  {imgValue && (
+                    <div className="shrink-0 w-10 h-10 border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 overflow-hidden flex items-center justify-center rounded-lg">
+                      <Image
+                        src={imgValue}
+                        alt="value-img"
+                        width={40}
+                        height={40}
+                        className="object-cover w-full h-full"
+                      />
                     </div>
-                  </label>
+                  )}
                   <input
                     type="file"
                     accept="image/*"
@@ -95,40 +80,21 @@ export default function EditClassificationValuesSection({
                         imgUrl,
                       );
                     }}
-                    className="hidden"
+                    className="flex-1 text-xs file:mr-2 file:py-1.5 file:px-3 file:rounded file:border file:border-gray-300 file:text-xs file:font-medium file:text-gray-600 dark:file:text-gray-400 file:bg-gray-50 dark:file:bg-gray-700 file:transition-colors file:duration-150 file:cursor-pointer outline-none"
                   />
                 </div>
-                <FormField label="Tên giá trị">
-                  <input
-                    type="text"
-                    id={`name-index-${index}`}
-                    {...register(
-                      `data.classifications.${clsIndex}.values.${index}.name`,
-                    )}
-                    placeholder="Đỏ, M, L, Lụa..."
-                    className="px-3 w-30 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:focus:ring-blue-400 transition-all"
-                  />
-                </FormField>
-                <button
-                  type="button"
-                  onClick={() => remove(index)}
-                  className="absolute top-2 right-3 text-red-500"
-                >
-                  x
-                </button>
-              </div>
-            );
-          })}
-        </div>
-      )}
+              </FormField>
+            </div>
+          </div>
+        );
+      })}
 
-      {/* Add Value Button */}
       <button
         type="button"
         onClick={() => append({ name: "", img: "" })}
-        className="text-blue-500 text-sm hover:underline"
+        className="w-full py-2 px-3 text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-700 rounded-lg transition-colors"
       >
-        Thêm giá trị
+        + Thêm giá trị
       </button>
     </div>
   );

@@ -1,11 +1,9 @@
 import { createContext, useContext } from "react";
-import useManagerProductList from "../hooks/useManagerProductList";
-import useDeleteProduct from "../hooks/useDeleteProduct";
+import useManagerProductList from "@/sellerHooks/products/list/useManagerProductList";
 
 export type ManagerProductListContextType = ReturnType<
   typeof useManagerProductList
-> &
-  ReturnType<typeof useDeleteProduct>;
+>;
 export const ManagerProductListContext =
   createContext<ManagerProductListContextType | null>(null);
 
@@ -22,15 +20,7 @@ export default function ManagerProductListContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const manager = useManagerProductList();
-  const del = useDeleteProduct();
-
-  console.log("PROVIDER", manager.products);
-
-  const value = {
-    ...manager,
-    ...del,
-  };
+  const value = useManagerProductList();
   return (
     <ManagerProductListContext.Provider value={value}>
       {children}

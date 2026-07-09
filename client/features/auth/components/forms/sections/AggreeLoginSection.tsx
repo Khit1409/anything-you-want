@@ -1,5 +1,5 @@
-import { LoginData } from "@/api";
-import { Role } from "@/interfaces";
+import { LoginRequest } from "@/features/auth/interfaces/auth.interface";
+import { Role } from "@/features/common/interfaces/common.interface";
 import React from "react";
 import { UseFormSetValue } from "react-hook-form";
 
@@ -8,7 +8,7 @@ interface SectionProps {
   setIsAggree: React.Dispatch<React.SetStateAction<boolean>>;
   isAggree: boolean;
   setValue: UseFormSetValue<{
-    data: LoginData;
+    data: LoginRequest;
   }>;
 }
 
@@ -48,7 +48,7 @@ export default function AggreeLoginSection({
           className="w-4 h-4 text-green-500 border-(--border) rounded focus:ring-green-500 cursor-pointer"
         />
         <label
-          htmlFor="is_seller"
+          htmlFor="isSeller"
           className="ml-2 text-sm text-(--muted) cursor-pointer"
         >
           Đăng nhập với tư cách người bán

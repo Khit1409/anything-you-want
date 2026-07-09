@@ -8,8 +8,8 @@ import {
   ProductFindOneOptions,
   SearchProducts,
   SortProducts,
-} from '../repositories/interfaces/query.interface';
-import { FormatQueryParams } from '../repositories/interfaces/helper.interface';
+} from '../interfaces/query.interface';
+import { FormatQueryParams } from '../interfaces/helper.interface';
 
 @Injectable()
 export class HelperProductService {

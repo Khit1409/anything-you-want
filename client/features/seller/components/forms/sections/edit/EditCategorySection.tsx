@@ -1,13 +1,11 @@
 import { useEditProductConext } from "@/features/seller/contexts/EditProductContext";
 import { SectionCard, FormField } from "../../components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faList } from "@fortawesome/free-solid-svg-icons";
 
 export default function EditCategorySection() {
   const { categories, register, product } = useEditProductConext();
 
   return (
-    <SectionCard title="Danh mục sản phẩm" icon={faList}>
+    <SectionCard title="Danh mục sản phẩm">
       <FormField label="Chọn danh mục" required>
         <select
           id="category"

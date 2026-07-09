@@ -7,10 +7,13 @@ import { GetProductTableQuery } from "@/features/product/interfaces/request.inte
 import {
   ProductDetail,
   ProductPreviews,
+  ProductStatus,
 } from "@/features/product/interfaces/read.interface";
 import { CreateProductRequest } from "@/features/product/interfaces/create.interface";
 import { CreateProductApiResponse } from "@/features/product/interfaces/response.interface";
 import { EditProductRequest } from "@/features/product/interfaces/update.interface";
+import { GetSellerOrderTableResponse } from "@/features/order/interfaces/response.interface";
+import { GetOrderTableParams } from "@/features/order/interfaces/read.interface";
 
 export async function getSellerProfileService() {
   try {
@@ -120,6 +123,19 @@ export async function uploadProductImageService(images: {
   }
 }
 
+export async function updateProductStatusService(
+  id: string,
+  status: ProductStatus,
+) {
+  const res = await axiosClient.patch<ApiResponse>(
+    `/sellers/products/status/${id}`,
+    {
+      status,
+    },
+  );
+  return res.data;
+}
+
 export async function updateProductService(
   productId: string,
   payload: EditProductRequest,
@@ -137,4 +153,13 @@ export async function updateProductService(
     }
     return { message: "unknow error" + error, success: false };
   }
+}
+
+export async function getSellerOrderService(params: GetOrderTableParams) {
+  const res = await axiosClient.get<GetSellerOrderTableResponse>(
+    "/sellers/orders",
+    { params },
+  );
+  const orders = res.data.data;
+  return orders;
 }

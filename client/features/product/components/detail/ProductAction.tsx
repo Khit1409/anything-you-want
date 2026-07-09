@@ -5,7 +5,7 @@ export default function ProductAction() {
   return (
     <div className="flex gap-3 mt-4">
       <button
-        onClick={() => sendCart()}
+        onClick={sendCart}
         id="add-cart-button"
         className="flex-1 py-3 px-4 bg-green-600 hover:bg-green-700 text-white rounded-md font-semibold shadow"
       >
@@ -13,7 +13,7 @@ export default function ProductAction() {
       </button>
 
       <button
-        onClick={() => redirectToOrder()}
+        onClick={redirectToOrder}
         className="flex-1 py-3 px-4 bg-transparent border border-(--border) rounded-md text-(--title) font-semibold hover:bg-(--surface-muted)"
       >
         <span className="uppercase tracking-wide">Mua ngay</span>

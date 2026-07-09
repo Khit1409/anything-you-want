@@ -63,7 +63,7 @@ export default async function Layout({
       <Header />
       <main className="flex gap-2 border-t border-(--border)">
         <Navbar />
-        <div className="flex-1 h-(--h-seller) overflow-y-auto">
+        <div className="flex-1 h-(--h-seller) overflow-y-auto overflow-x-hidden">
           <div className="p-2 w-full">{children}</div>
         </div>
       </main>

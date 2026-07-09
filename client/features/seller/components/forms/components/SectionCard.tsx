@@ -16,12 +16,12 @@ export default function SectionCard({
   children,
 }: SectionCardProps) {
   return (
-    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded p-6 sm:p-8">
+    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded p-6">
       {title && (
         <div className="mb-6 pb-4 border-b border-gray-200 dark:border-gray-800">
           <div className="flex items-center gap-3 mb-2">
             {icon && (
-              <div className="flex-shrink-0 w-8 h-8 bg-blue-50 dark:bg-blue-900/20 rounded flex items-center justify-center">
+              <div className="shrink-0 w-8 h-8 bg-blue-50 dark:bg-blue-900/20 rounded flex items-center justify-center">
                 <FontAwesomeIcon
                   icon={icon}
                   className="text-blue-600 dark:text-blue-400 text-sm"
@@ -33,7 +33,7 @@ export default function SectionCard({
             </h2>
           </div>
           {description && (
-            <p className="text-sm text-gray-600 dark:text-gray-400 ml-11">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               {description}
             </p>
           )}

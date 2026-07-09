@@ -1,12 +1,7 @@
 "use client";
 
-import EditProductContextProvider from "../contexts/EditProductContext";
-import EditProductForm from "@/sellerForms/EditProductForm";
+import EditProductContent from "../components/forms/sections/edit/EditProductContent";
 
 export default function EditProductPage() {
-  return (
-    <EditProductContextProvider>
-      <EditProductForm />
-    </EditProductContextProvider>
-  );
+  return <EditProductContent />;
 }

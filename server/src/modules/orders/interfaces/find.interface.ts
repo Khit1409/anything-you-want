@@ -17,3 +17,9 @@ export interface FindManyByOptions {
   select?: FindOptionsSelect<Order> | FindOptionsSelectByString<Order>;
   relations?: FindOptionsRelations<Order>;
 }
+
+export interface FindOneByOptions {
+  search?: FindOptionsWhere<Order>;
+  select?: FindOptionsSelect<Order> | FindOptionsSelectByString<Order>;
+  relations?: FindOptionsRelations<Order>;
+}

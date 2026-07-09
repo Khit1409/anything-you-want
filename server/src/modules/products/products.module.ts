@@ -6,7 +6,6 @@ import { productSchema } from './schemas/products.schema';
 import { CategoryModule } from '../categories/categories.module';
 import { StoreModule } from '../stores/stores.module';
 import { UploadModule } from '../uploads/upload.module';
-import { ProductMapper } from './mappers/response.mapper';
 import { ProductRepository } from './repositories/products.repository';
 import { SharedProductService } from './services/shared.service';
 import { CreateProductService } from './services/create.service';
@@ -26,7 +25,6 @@ import { HelperProductService } from './services/helper.service';
   controllers: [ProductController],
   providers: [
     ProductRepository,
-    ProductMapper,
     SharedProductService,
     CreateProductService,
     UpdateProductService,
@@ -38,7 +36,6 @@ import { HelperProductService } from './services/helper.service';
     ProductRepository,
     HelperProductService,
     MongooseModule,
-    ProductMapper,
     SharedProductService,
     CreateProductService,
     UpdateProductService,

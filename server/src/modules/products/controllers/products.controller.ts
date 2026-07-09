@@ -34,19 +34,19 @@ export class ProductController {
   @HttpCode(200)
   @Get(':productId')
   async getProductDetail(@Param('productId') productId: string) {
-    const select = 'info ratingSumary shipping images tags';
-    const product = await this.readService.detail(productId);
-    const categoryId = product.info.category.id;
-    const filterRelateds = {
-      neId: productId,
-      categoryId,
-      select,
-    };
-    const relateds = await this.readService.relateds(filterRelateds);
-    const api = { product, relateds };
+    const data = await this.readService.detail(productId);
     return this.helperService.successResponse({
       message: 'Dữ liệu chi tiết sản phẩm!',
-      data: api,
+      data,
+    });
+  }
+
+  @Get(':productId/related')
+  async getProductRelated(@Param('productId') neId: string) {
+    const data = await this.readService.relateds(neId);
+    return this.helperService.successResponse({
+      message: 'Các sản phẩm liên quan!',
+      data,
     });
   }
 

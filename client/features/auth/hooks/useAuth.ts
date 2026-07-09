@@ -7,13 +7,18 @@ export default function useAuth() {
   const pathName = usePathname();
   const { initialized, isLoggedIn, authData, error, isLoading } =
     useAppSelector((state) => state.auth);
-  const router = useRouter();
+  const { replace } = useRouter();
 
-  function needLogin() {
-    if (!isLoading && initialized && !isLoggedIn) {
+  function needLoginHandle(): { needLogin: boolean; fn?: () => void } {
+    const toLogin = () => {
+      console.log("need login");
       setSessionItem(SESSION_KEY.BACK_URL, pathName);
-      router.replace("/login");
+      return replace("/login");
+    };
+    if (!isLoading && initialized && !isLoggedIn) {
+      return { needLogin: true, fn: toLogin };
     }
+    return { needLogin: false };
   }
-  return { initialized, isLoggedIn, authData, error, needLogin };
+  return { initialized, isLoggedIn, authData, error, needLoginHandle };
 }

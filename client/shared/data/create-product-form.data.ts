@@ -15,14 +15,6 @@ type CreateProductInfoForms = Array<CreateProductInfoForm>;
 
 export const createProductInfoFormData: CreateProductInfoForms = [
   {
-    id: "name",
-    name: "name",
-    title: "Tên sản phẩm",
-    required: true,
-    message: "Tên sản phẩm",
-    type: "text",
-  },
-  {
     id: "price",
     name: "price",
     title: "Giá",
@@ -37,14 +29,6 @@ export const createProductInfoFormData: CreateProductInfoForms = [
     required: true,
     message: "Khuyến mãi",
     type: "text",
-  },
-  {
-    id: "description",
-    name: "description",
-    title: "Mô tả",
-    type: "text",
-    message: "Mô tả sản phẩm của bạn",
-    required: true,
   },
   {
     id: "brand",

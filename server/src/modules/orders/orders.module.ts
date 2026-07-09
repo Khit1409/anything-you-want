@@ -39,6 +39,7 @@ import { DeleteOrderService } from './services/delete.service';
     ReadOrderService,
     OrderPaymentRepository,
     DeleteOrderService,
+    ReadOrderService,
   ],
   exports: [
     TypeOrmModule,
@@ -49,6 +50,7 @@ import { DeleteOrderService } from './services/delete.service';
     ReadOrderService,
     OrderPaymentRepository,
     DeleteOrderService,
+    ReadOrderService,
   ],
 })
 export class OrdersModule {}

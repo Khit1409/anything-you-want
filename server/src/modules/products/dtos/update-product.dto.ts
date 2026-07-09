@@ -20,6 +20,7 @@ import {
   ProductShippingMethodTimes,
   ShippingMethod,
 } from '../schemas/product-shipping.schema';
+import { ProductStatus } from '../schemas/products.schema';
 
 export class UpdateProductInfoDto {
   @IsOptional()
@@ -137,6 +138,11 @@ export class UpdateProductVariantDto {
   @IsArray()
   @IsString({ each: true })
   optionIds: string[];
+}
+
+export class UpdateProductStatusDto {
+  @IsEnum(ProductStatus)
+  status: ProductStatus;
 }
 
 export class UpdateProductDto {

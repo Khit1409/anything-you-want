@@ -19,7 +19,7 @@ export default function ProductList() {
       ) : (
         <div
           id="product-list"
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 max-w-375 mx-auto mb-4"
+          className="grid grid-cols-5 gap-3 mx-auto mb-4"
         >
           {products.map((product) => (
             <ProductCard product={product} key={product._id} />

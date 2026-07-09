@@ -5,11 +5,10 @@ import ClassificationValueForm from "./ClassificationValueSection";
 import { useCreateProductContext } from "@/features/seller/contexts/CreateProductContext";
 import { SectionCard, FormField } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPlus, faSave } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 export default function ClassificationSection() {
   const { register, control } = useCreateProductContext();
-
   const { fields, remove, append } = useFieldArray({
     control,
     name: "data.classifications",
@@ -26,7 +25,7 @@ export default function ClassificationSection() {
             className="p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg"
             key={cls.id}
           >
-            <div className="flex justify-between items-start mb-4">
+            <div className="flex justify-between items-start mb-4 relative">
               <FormField label="Tên phân loại">
                 <input
                   type="text"
@@ -38,9 +37,9 @@ export default function ClassificationSection() {
               <button
                 type="button"
                 onClick={() => remove(clsIndex)}
-                className="mt-7 p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                className="absolute text-red-600 transition-colors right-2"
               >
-                <FontAwesomeIcon icon={faTrash} />
+                xóa
               </button>
             </div>
 
@@ -57,7 +56,6 @@ export default function ClassificationSection() {
         <FontAwesomeIcon icon={faPlus} />
         Thêm phân loại
       </button>
-  
     </SectionCard>
   );
 }

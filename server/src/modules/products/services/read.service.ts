@@ -5,16 +5,18 @@ import { HelperProductService } from './helper.service';
 import {
   ProductFindOneOptions,
   RelatedsOptions,
-} from '../repositories/interfaces/query.interface';
+} from '../interfaces/query.interface';
 import { SharedStoreService } from '../../stores/services/shared.service';
-import { FormatQueryParams } from '../repositories/interfaces/helper.interface';
+import { FormatQueryParams } from '../interfaces/helper.interface';
 import { ProductStatus } from '../schemas/products.schema';
+import { HelperService } from '@/modules/common/services/helper.service';
 
 @Injectable()
 export class ReadProductService {
   constructor(
     private readonly repository: ProductRepository,
     private readonly productHelper: HelperProductService,
+    private readonly helperService: HelperService,
     private readonly sharedStoreService: SharedStoreService,
   ) {}
 
@@ -58,13 +60,18 @@ export class ReadProductService {
 
   async detail(productId: string) {
     const product = await this.repository.getOneById(productId);
-    return this.productHelper.checkExistingValue(
-      product,
-      'Sản phẩm không tồn tại!',
-    );
+    return this.helperService.checkValue(product, 'Sản phẩm không tồn tại!');
   }
 
-  async relateds(options: RelatedsOptions) {
+  async relateds(neId: string) {
+    const select = 'info ratingSumary shipping images tags';
+    const productDoc = await this.repository.getOneById(neId);
+    const product = this.helperService.checkValue(
+      productDoc,
+      'Sản phẩm không tồn tại!',
+    );
+    const categoryId = product.info.category.id;
+    const options: RelatedsOptions = { neId, select, categoryId };
     const relateds = await this.repository.getRelateds(options);
     return relateds;
   }
@@ -72,7 +79,7 @@ export class ReadProductService {
   async detailForSeller(productId: string, sellerId: string) {
     const search = this.productHelper.formatSearchDetail(productId, sellerId);
     const productDoc = await this.repository.getOneBySeller(search);
-    const product = this.productHelper.checkExistingValue(
+    const product = this.helperService.checkValue(
       productDoc,
       'Sản phẩm không tồn tại!',
     );
@@ -81,7 +88,7 @@ export class ReadProductService {
 
   async variantForEdit(productId: string, sellerId: string) {
     const variantDocs = await this.repository.getVariants(productId, sellerId);
-    const variants = this.productHelper.checkExistingValue(
+    const variants = this.helperService.checkValue(
       variantDocs,
       'Danh sách biến thể không tồn tại!',
     );
@@ -92,7 +99,7 @@ export class ReadProductService {
     const select = 'info variants classifications shipping owner';
     const search: ProductFindOneOptions = { _id: productId };
     const productDoc = await this.repository.getOne(search, select);
-    const product = this.productHelper.checkExistingValue(
+    const product = this.helperService.checkValue(
       productDoc,
       'Sản phẩm không tồn tại!',
     );

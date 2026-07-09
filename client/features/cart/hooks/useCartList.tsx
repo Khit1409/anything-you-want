@@ -29,7 +29,8 @@ export default function useCartList() {
   const router = useRouter();
 
   useEffect(() => {
-    auth.needLogin();
+    const { needLogin, fn } = auth.needLoginHandle();
+    if (needLogin && fn) fn();
   }, [auth]);
 
   async function deleteCart(id: string) {

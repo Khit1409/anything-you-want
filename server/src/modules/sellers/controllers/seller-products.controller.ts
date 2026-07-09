@@ -5,6 +5,7 @@ import {
   Get,
   NotFoundException,
   Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -15,6 +16,7 @@ import {
   CreateProductDto,
   ProductQueryDto,
   UpdateProductDto,
+  UpdateProductStatusDto,
 } from '../../products/dtos';
 import type { Request } from 'express';
 import { ReadProductService } from '../../products/services/read.service';
@@ -56,13 +58,13 @@ export class SellerProductController {
     @Req() req: Request,
   ) {
     const sellerId = req.userId;
-    const api = await this.readProductService.detailForSeller(
+    const data = await this.readProductService.detailForSeller(
       productId,
       sellerId,
     );
     return this.helperService.successResponse({
       message: 'Chi tiết sản phẩm của seller!',
-      data: api,
+      data,
     });
   }
 
@@ -116,5 +118,23 @@ export class SellerProductController {
       message:
         'Cập nhật sản phẩm thành công, vui lòng kiểm tra lại dữ liệu mới!',
     });
+  }
+
+  @Patch('status/:productId')
+  async updateStatus(
+    @Param('productId') productId: string,
+    @Body() dto: UpdateProductStatusDto,
+    @Req() req: Request,
+  ) {
+    const userId = req.userId;
+    const success = await this.updateProductService.updateStatus(
+      userId,
+      productId,
+      dto.status,
+    );
+    const message = success
+      ? 'Cập nhật trạng thái thành công'
+      : 'Cập nhật trạng thái thất bại!';
+    return this.helperService.responseConfig({ success, message });
   }
 }

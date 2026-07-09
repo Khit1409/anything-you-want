@@ -1,27 +1,15 @@
 import { ApiResponse } from "@/features/common/interfaces/common.interface";
-import { GetProductPreviewRequest } from "./request.interface";
 import {
   ProductDetail,
   ProductDetailForOrder,
   ProductPreviews,
 } from "./read.interface";
 
-export interface ProductPreviewDataResponse {
-  products: ProductPreviews;
-  request: GetProductPreviewRequest;
+export interface ProductDetailResponse extends ApiResponse {
+  data: ProductDetail | null;
 }
-
-export interface ProductDetailDataApiResponse {
-  product: ProductDetail | null;
-  relateds: ProductPreviews;
-}
-
-export interface ProductPreviewApiResponse extends ApiResponse {
-  data: ProductPreviewDataResponse;
-}
-
-export interface ProductDetailApiResponse extends ApiResponse {
-  data: ProductDetailDataApiResponse;
+export interface ProductRelatedResponse extends ApiResponse {
+  data: ProductPreviews;
 }
 
 export interface CreateProductApiResponse extends ApiResponse {
@@ -32,4 +20,7 @@ export interface DeleteProductResponse extends ApiResponse {
 }
 export interface GetDetailForOrderResponse extends ApiResponse {
   data: ProductDetailForOrder | null;
+}
+export interface GetProductPreviewResponse extends ApiResponse {
+  data: ProductPreviews;
 }

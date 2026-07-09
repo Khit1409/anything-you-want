@@ -2,17 +2,19 @@ import { useEditProductConext } from "@/features/seller/contexts/EditProductCont
 import { FormActions } from "../../components";
 
 export default function EditActionSection() {
-  const { deleteHandle, id } = useEditProductConext();
+  const { deleteHandle, id, updateStatus, product } = useEditProductConext();
 
   return (
-    <FormActions
-      submitLabel="Cập nhật sản phẩm"
-      actionLabel="Thay đổi trạng thái"
-      deleteLabel="Xóa sản phẩm"
-      deleteAction={() => deleteHandle(id)}
-      onAction={() => {
-        console.log("change status");
-      }}
-    />
+    product && (
+      <FormActions
+        submitLabel="Cập nhật sản phẩm"
+        actionLabel="Thay đổi trạng thái"
+        deleteLabel="Xóa sản phẩm"
+        deleteAction={() => deleteHandle(id)}
+        onAction={() =>
+          updateStatus({ productId: id, currentStatus: product.status })
+        }
+      />
+    )
   );
 }

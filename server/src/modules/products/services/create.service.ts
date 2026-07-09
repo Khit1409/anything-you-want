@@ -6,8 +6,7 @@ import {
   CreateProductInfoDto,
 } from '../dtos';
 
-import { ProductStatus } from '../schemas/products.schema';
-import { ProductMapper } from '../mappers/response.mapper';
+import { Product, ProductStatus } from '../schemas/products.schema';
 import { HelperService } from '../../common/services/helper.service';
 import { ProductOwner } from '../schemas/product-owner.schema';
 import { HelperProductService } from './helper.service';
@@ -23,7 +22,6 @@ export class CreateProductService {
     private readonly helperService: HelperService,
     private readonly readCategoryService: ReadCategoryService,
     private readonly helperProductService: HelperProductService,
-    private readonly mapper: ProductMapper,
   ) {}
 
   createCode(name: string): string {
@@ -96,7 +94,10 @@ export class CreateProductService {
         generate(
           {
             ...current,
-            optionName: current.optionName + `/${value.name}`,
+            optionName:
+              current.optionName === ''
+                ? value.name
+                : current.optionName + `-${value.name}`,
             sku:
               current.sku +
               `-${this.helperService.replaceVietnameseStr(value.name).toUpperCase()}`,
@@ -111,7 +112,6 @@ export class CreateProductService {
     return varaints;
   }
   async create(data: CreateProductDto, owner: ProductOwner) {
-    const model = this.repository.getModel();
     const { shipping, images, physical } = data;
 
     const tags = this.createHashtags(data.info.name, data.info.brand);
@@ -124,7 +124,7 @@ export class CreateProductService {
 
     this.helperProductService.checkingShippingMethod(shipping.methods);
 
-    const payload = {
+    const payload: Product = {
       info,
       owner,
       status,
@@ -137,7 +137,7 @@ export class CreateProductService {
       variants: [],
     };
 
-    const newProduct = await model.create(payload);
+    const newProduct = await this.repository.create(payload);
     if (!newProduct) {
       throw new BadRequestException('Không thể tạo sản phẩm!');
     }

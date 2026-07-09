@@ -12,3 +12,6 @@ export interface GetOrderPaymentResponse extends ApiResponse {
 export interface GetUserOrderResponse extends ApiResponse {
   data: Orders;
 }
+export interface GetSellerOrderTableResponse extends ApiResponse {
+  data: Orders;
+}

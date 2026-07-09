@@ -36,7 +36,7 @@ export interface Order {
   productId: string;
   thumbnail: string;
   sku: string;
-  totalPrice: string;
+  totalPrice: number;
   quantity: number;
   price: string;
   sale: number;
@@ -50,10 +50,23 @@ export interface Order {
   createdAt: string;
   updatedAt: string;
 }
+export enum PaymentStatus {
+  PAID = "paid",
+  UNPAID = "unpaid",
+  FAILED = "failed",
+  CANCELLED = "cancelled",
+  EXPIRED = "expired",
+}
+
+export enum PaymentType {
+  BANKING = "banking",
+  MOMO = "momo",
+  DELIVERED = "delivered",
+}
 
 export interface OrderPayment {
-  type: string;
-  status: string;
+  type: PaymentType;
+  status: PaymentStatus;
 }
 
 export interface OrderShipping {
@@ -69,4 +82,10 @@ export interface OrderStore {
 
 export interface OrderInfo {
   name: string;
+}
+
+export interface GetOrderTableParams {
+  status: OrderStatus;
+  paymentStatus: PaymentStatus;
+  page?: number;
 }

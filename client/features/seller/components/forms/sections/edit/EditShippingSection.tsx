@@ -2,7 +2,7 @@ import { SHIPPING_INPUT_LIST } from "@/shared/data/shiping-input";
 import { useEditProductConext } from "@/features/seller/contexts/EditProductContext";
 import { SectionCard, FormField } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTruck, faCheck } from "@fortawesome/free-solid-svg-icons";
+import {  faCheck } from "@fortawesome/free-solid-svg-icons";
 
 export default function EditShippingSection() {
   const { setValue, watch, provinces, register } = useEditProductConext();
@@ -12,22 +12,21 @@ export default function EditShippingSection() {
     <SectionCard
       title="Vận chuyển"
       description="Cập nhật cách thức vận chuyển và chi phí"
-      icon={faTruck}
     >
       <div className="space-y-5">
         {methods?.map((method, index) => (
           <div
-            className={`border-2 rounded-lg transition-all ${
+            className={`border rounded-lg transition-all ${
               method.enabled
-                ? "bg-gradient-to-br from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-blue-900/10 border-blue-300 dark:border-blue-700"
-                : "bg-gradient-to-br from-gray-50 to-gray-100/50 dark:from-gray-800/30 dark:to-gray-800/20 border-gray-300 dark:border-gray-700"
+                ? "bg-linear-to-br from-blue-50 to-blue-100/50 dark:from-blue-900/20 dark:to-blue-900/10 border-blue-300 dark:border-blue-700"
+                : "bg-linear-to-br from-gray-50 to-gray-100/50 dark:from-gray-800/30 dark:to-gray-800/20 border-gray-300 dark:border-gray-700"
             }`}
             key={index}
           >
             {/* Header */}
             <div className="p-5 border-b border-gray-200 dark:border-gray-700">
               <div className="flex items-center gap-4">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <input
                     type="checkbox"
                     id={`edit-shipping-${index}`}
@@ -46,7 +45,6 @@ export default function EditShippingSection() {
                   htmlFor={`edit-shipping-${index}`}
                   className="flex-1 text-sm font-bold text-gray-900 dark:text-gray-100 cursor-pointer flex items-center gap-2"
                 >
-                  <FontAwesomeIcon icon={faTruck} className="text-blue-600" />
                   {method.type}
                 </label>
                 {method.enabled && (

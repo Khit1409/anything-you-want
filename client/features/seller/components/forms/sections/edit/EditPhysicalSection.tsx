@@ -1,13 +1,11 @@
 import { useEditProductConext } from "@/features/seller/contexts/EditProductContext";
 import { SectionCard, FormField } from "../../components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRuler } from "@fortawesome/free-solid-svg-icons";
 
 export default function EditPhysicalSection() {
   const { register } = useEditProductConext();
 
   return (
-    <SectionCard title="Kích thước và trọng lượng" icon={faRuler}>
+    <SectionCard title="Kích thước và trọng lượng">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <FormField label="Cân nặng (kg)">
           <input

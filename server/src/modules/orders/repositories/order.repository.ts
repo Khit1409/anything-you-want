@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { OrderRepositorySave } from '../interfaces/create.interface';
 import {
   FindManyByOptions,
+  FindOneByOptions,
   FindOneByOwner,
 } from '../interfaces/find.interface';
 import { Order, OrderStatus } from '../entities/order.entity';
@@ -34,12 +35,16 @@ export class OrderRepository {
     return await this.ormRepo.findOneBy({ id });
   }
 
-  /**
-   * Lấy 1 order với toàn bộ relationship
-   */
-  async findOne(id: string) {
-    return await this.ormRepo.findOne({
-      where: { id },
+  async findOneByOption(
+    options: FindOneByOptions = {
+      search: {},
+      select: {
+        store: {
+          id: true,
+          bankPayment: true,
+          bankPaymentConfig: true,
+        },
+      },
       relations: {
         seller: true,
         store: true,
@@ -48,8 +53,28 @@ export class OrderRepository {
         address: true,
         contact: true,
       },
+    },
+  ) {
+    return await this.ormRepo.findOne({
+      where: options.search,
+      select: options.select,
+      relations: options.relations,
     });
   }
+
+  // async findOne(id: string) {
+  //   return await this.ormRepo.findOne({
+  //     where: { id },
+  //     relations: {
+  //       seller: true,
+  //       store: true,
+  //       user: true,
+  //       payment: true,
+  //       address: true,
+  //       contact: true,
+  //     },
+  //   });
+  // }
 
   async findOneByOrderCode(orderCode: number) {
     return await this.ormRepo.findOne({

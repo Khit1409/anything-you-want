@@ -1,11 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { ProductRepository } from '../repositories/products.repository';
 import { HelperService } from '../../common/services/helper.service';
 import {
   UpdateProductClassificationDto,
   UpdateProductClassificationValueDto,
   UpdateProductDto,
+  UpdateProductImageDto,
   UpdateProductInfoDto,
+  UpdateProductShippingDto,
   UpdateProductVariantDto,
 } from '../dtos';
 
@@ -20,6 +26,8 @@ import {
   ResetStockWhenCancelOrderParams,
   UpdateStockPayload,
 } from '../interfaces/update.interface';
+import { ShippingMethod } from '../schemas/product-shipping.schema';
+import { ProductStatus } from '../schemas/products.schema';
 
 @Injectable()
 export class UpdateProductService {
@@ -47,13 +55,6 @@ export class UpdateProductService {
       values: this.updateClassificationValues(classification.values),
     }));
   }
-
-  /**
-   * Variants phụ thuộc vào classifications nên việc update sẽ gần như là tạo mới variants
-   * @param productCode
-   * @param classifications
-   * @returns
-   */
 
   updateVariants(
     productCode: string,
@@ -94,6 +95,64 @@ export class UpdateProductService {
     return { brand, description, name, origin, category, price, sale };
   }
 
+  updateShipping(shippingDto: UpdateProductShippingDto) {
+    const method = shippingDto.methods;
+    const isInCorrect = method.find(
+      (f) => f.type === ShippingMethod.STANDARD && !f.enabled,
+    );
+    if (isInCorrect)
+      throw new BadRequestException(
+        this.helperService.errorResponse({
+          message: 'Cấu hình vận chuyển tiêu chuẩn mặc định phải có!',
+        }),
+      );
+    return shippingDto;
+  }
+
+  updateImages(imageDto: UpdateProductImageDto) {
+    const { thumbnail, details } = imageDto;
+    if (thumbnail === '' || !thumbnail) {
+      throw new BadRequestException(
+        this.helperService.errorResponse({
+          message: 'Ảnh bìa không được để trống!',
+        }),
+      );
+    }
+
+    const checkedImgDetails = details.filter(
+      (ft) => ft !== '' && ft !== undefined && ft !== null,
+    );
+
+    if (checkedImgDetails.length == 0) {
+      throw new BadRequestException(
+        this.helperService.errorResponse({ message: 'Ảnh chi tiết bị trống!' }),
+      );
+    }
+
+    return { thumbnail, details: checkedImgDetails };
+  }
+
+  async updateStatus(
+    sellerId: string,
+    productId: string,
+    status: ProductStatus,
+  ) {
+    const search = this.helperProductService.formatSearchDetail(
+      productId,
+      sellerId,
+    );
+    const productDoc = await this.repository.findOne(search);
+    const product = this.helperService.checkValue(productDoc);
+    const isZero = product.variants.every((vari) => vari.stock === 0);
+    product.status = status;
+    if (isZero) product.status = ProductStatus.ZERO;
+    const updated = await product.save();
+    const isNew = updated.status === status;
+    console.log(isNew, updated.status, status);
+    if (isNew) return true;
+    return false;
+  }
+
   async update(dto: UpdateProductDto, id: string, sellerId: string) {
     const search = this.helperProductService.formatSearchDetail(id, sellerId);
     const productDoc = await this.repository.findOne(search);
@@ -107,16 +166,19 @@ export class UpdateProductService {
     const newInfo = await this.updateInfo(info);
     const newClassifications = this.updateClassifications(classifications);
     const productCode = this.createService.createCode(info.name);
+    const newShipping = this.updateShipping(shipping);
+    const newImgs = this.updateImages(images);
     const newVariants = this.updateVariants(
       productCode,
       newClassifications,
       variants,
     );
+
     product.info = newInfo;
     product.classifications = newClassifications;
     product.physical = physical;
-    product.images = images;
-    product.shipping = shipping;
+    product.images = newImgs;
+    product.shipping = newShipping;
     product.variants = newVariants;
     await product.save();
 

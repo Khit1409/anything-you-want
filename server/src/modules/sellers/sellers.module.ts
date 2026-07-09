@@ -17,6 +17,8 @@ import { HelperSellerService } from './services/helper.service';
 import { ReadSellerService } from './services/read.service';
 import { UserModule } from '../users/users.module';
 import { SellerStoreController } from './controllers/seller-store.controller';
+import { SellerOrderController } from './controllers/seller-order.controller';
+import { OrdersModule } from '../orders/orders.module';
 
 @Module({
   imports: [
@@ -25,11 +27,13 @@ import { SellerStoreController } from './controllers/seller-store.controller';
     TypeOrmModule.forFeature([Seller, SellerPhone, SellerInfo, SellerAddress]),
     ProductModule,
     UserModule,
+    OrdersModule,
   ],
   controllers: [
     SellerController,
     SellerProductController,
     SellerStoreController,
+    SellerOrderController,
   ],
   providers: [
     SellerRepository,

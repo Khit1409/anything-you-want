@@ -7,13 +7,11 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faImage, faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import useLoading from "@/features/common/hooks/useLoading";
 import { useCreateProductContext } from "@/features/seller/contexts/CreateProductContext";
 import { SectionCard } from "../../components";
 
 export default function ImageSection() {
-  const { handleLoading } = useLoading();
-  const { setValue, watch } = useCreateProductContext();
+  const { watch, setValue, handleLoading } = useCreateProductContext();
   const thumbnail = watch("data.images.thumbnail");
   const details = watch("data.images.details") ?? ["ok"];
 

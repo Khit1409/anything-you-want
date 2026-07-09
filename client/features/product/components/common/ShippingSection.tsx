@@ -1,3 +1,4 @@
+import { generagetShipping } from "@/features/common/helpers/shipping.helper";
 import {
   ProductShipping,
   ShippingMethod,
@@ -96,7 +97,7 @@ function Item({
   return (
     <div className="w-max flex gap-1">
       <FontAwesomeIcon icon={shippingConfig[type].icon} />
-      {forElement !== "list" && <small>{shippingConfig[type].label}</small>}
+      {forElement !== "list" && <small>{generagetShipping(type)}</small>}
     </div>
   );
 }

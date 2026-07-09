@@ -3,7 +3,7 @@ import { useCreateProductContext } from "@/features/seller/contexts/CreateProduc
 import { SectionCard, FormField } from "../../components";
 
 export default function ShippingSection() {
-  const { setValue, watch, provinces } = useCreateProductContext();
+  const { watch, provinces, setValue } = useCreateProductContext();
   const methods = watch("data.shipping.methods");
 
   return (

@@ -4,8 +4,6 @@ import { uploadOneImage } from "@/features/common/services/upload.service";
 import useLoading from "@/features/common/hooks/useLoading";
 import { useCreateProductContext } from "@/features/seller/contexts/CreateProductContext";
 import { FormField } from "../../components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
 export default function ClassificationValuesSection({
@@ -37,7 +35,14 @@ export default function ClassificationValuesSection({
             key={value.id}
             className="p-3 bg-white dark:bg-gray-600/30 border border-gray-200 dark:border-gray-700 rounded-lg"
           >
-            <div className="flex flex-col gap-3 mb-3">
+            <div className="flex flex-col gap-3 mb-3 relative">
+              <button
+                type="button"
+                onClick={() => remove(index)}
+                className="absolute text-sm text-red-600  flex items-center justify-center gap-2 transition-colors right-2"
+              >
+                Xóa
+              </button>
               <FormField label="Tên giá trị">
                 <input
                   type="text"
@@ -52,8 +57,8 @@ export default function ClassificationValuesSection({
 
               <FormField label="Ảnh minh họa">
                 <div className="flex items-center gap-2">
-                  <div className="shrink-0 w-10 h-10 border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 overflow-hidden flex items-center justify-center rounded-lg">
-                    {imgValue ? (
+                  {imgValue && (
+                    <div className="shrink-0 w-10 h-10 border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 overflow-hidden flex items-center justify-center rounded-lg">
                       <Image
                         src={imgValue}
                         alt="value-img"
@@ -61,10 +66,8 @@ export default function ClassificationValuesSection({
                         height={40}
                         className="object-cover w-full h-full"
                       />
-                    ) : (
-                      <span className="text-gray-300 text-xs">—</span>
-                    )}
-                  </div>
+                    </div>
+                  )}
                   <input
                     type="file"
                     accept="image/*"
@@ -83,15 +86,6 @@ export default function ClassificationValuesSection({
                 </div>
               </FormField>
             </div>
-
-            <button
-              type="button"
-              onClick={() => remove(index)}
-              className="w-full py-2 px-3 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/40 border border-red-200 dark:border-red-900/40 rounded-lg flex items-center justify-center gap-2 transition-colors"
-            >
-              <FontAwesomeIcon icon={faTrash} className="text-sm" />
-              Xóa
-            </button>
           </div>
         );
       })}

@@ -1,5 +1,5 @@
-import SellerDashboard from "@/features/seller/components/Dashboard";
+import DashboardPage from "@/features/seller/pages/DashboardPage";
 
 export default function page() {
-  return <SellerDashboard />;
+  return <DashboardPage />;
 }

@@ -5,12 +5,7 @@ import {
   uploadOneImage,
 } from "@/features/common/services/upload.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faXmark,
-  faImage,
-  faPlus,
-  faImages,
-} from "@fortawesome/free-solid-svg-icons";
+import { faXmark, faImage, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import useLoading from "@/features/common/hooks/useLoading";
 import { useEditProductConext } from "@/features/seller/contexts/EditProductContext";
@@ -23,47 +18,30 @@ export default function EditImageSection() {
   const details = watch("data.images.details") ?? [];
 
   return (
-    <SectionCard
-      title="Ảnh sản phẩm"
-      description="Cập nhật ảnh bìa và ảnh chi tiết"
-      icon={faImages}
-    >
+    <SectionCard title="Ảnh sản phẩm" description="Tải ảnh bìa và ảnh chi tiết">
       {/* Thumbnail */}
-      <div className="mb-8 pb-8 border-b border-gray-200 dark:border-gray-800">
-        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
-          Ảnh bìa (thumbnail)
+      <div className="mb-8">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+          Ảnh bìa
         </label>
-        <div className="flex items-start gap-6">
+        <div className="flex items-center gap-4">
           <label
             htmlFor="thumbnail-input"
-            className="cursor-pointer flex-shrink-0 w-24 h-24 border-2 border-dashed border-blue-300 dark:border-blue-800 flex items-center justify-center bg-blue-50 dark:bg-blue-900/10 rounded overflow-hidden relative hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-colors group"
+            className="cursor-pointer shrink-0 w-24 h-24 border-2 border-dashed border-gray-300 dark:border-gray-700 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-lg overflow-hidden relative hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
           >
             {thumbnail ? (
-              <>
-                <Image
-                  src={thumbnail}
-                  alt="thumbnail"
-                  width={128}
-                  height={128}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                  <FontAwesomeIcon
-                    icon={faImage}
-                    className="text-white text-2xl opacity-0 group-hover:opacity-100 transition-opacity"
-                  />
-                </div>
-              </>
+              <Image
+                src={thumbnail}
+                alt="thumbnail"
+                width={96}
+                height={96}
+                className="w-full h-full object-cover"
+              />
             ) : (
-              <div className="text-center">
-                <FontAwesomeIcon
-                  icon={faImage}
-                  className="text-blue-400 text-4xl mb-2"
-                />
-                <p className="text-xs text-blue-600 dark:text-blue-400 font-medium">
-                  Chọn ảnh
-                </p>
-              </div>
+              <FontAwesomeIcon
+                icon={faImage}
+                className="text-gray-400 dark:text-gray-600 text-3xl"
+              />
             )}
           </label>
           <input
@@ -78,13 +56,10 @@ export default function EditImageSection() {
             className="hidden"
             accept="image/*"
           />
-          <div className="flex-1 pt-2">
-            <p className="font-medium text-sm text-gray-900 dark:text-gray-50 mb-2">
-              Tải ảnh bìa
-            </p>
-            <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-              Đây sẽ là ảnh đại diện của sản phẩm. Khuyến nghị: 400x400px hoặc
-              lớn hơn, PNG hoặc JPG (Tối đa 5MB)
+          <div className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="font-medium mb-1">Nhấn để tải ảnh bìa</p>
+            <p className="text-xs text-gray-500 dark:text-gray-500">
+              PNG, JPG (Tối đa 5MB)
             </p>
           </div>
         </div>
@@ -92,21 +67,21 @@ export default function EditImageSection() {
 
       {/* Detail Images */}
       <div>
-        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
+        <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">
           Ảnh chi tiết
         </label>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+        <div className="flex flex-wrap gap-2">
           {details.map((image, index) => (
             <div
               key={index}
-              className="relative group rounded overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 transition-colors"
+              className="relative w-20 h-20 border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 overflow-hidden shrink-0"
             >
               <Image
                 src={image}
-                alt={`detail-${index}`}
-                width={200}
-                height={200}
-                className="w-full h-auto aspect-square object-cover"
+                alt={`detail ${index + 1}`}
+                width={80}
+                height={80}
+                className="w-full h-full object-cover"
               />
               <button
                 type="button"
@@ -116,28 +91,25 @@ export default function EditImageSection() {
                     details.filter((_, i) => i !== index),
                   );
                 }}
-                className="absolute top-1 right-1 w-6 h-6 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute top-0.5 right-0.5 w-4 h-4 bg-red-500 text-white rounded-full flex items-center justify-center"
               >
-                <FontAwesomeIcon icon={faXmark} className="text-sm" />
+                <FontAwesomeIcon icon={faXmark} className="text-[9px]" />
               </button>
             </div>
           ))}
-
-          {/* Add button */}
           <label
             htmlFor="details-input"
-            className="cursor-pointer flex items-center justify-center aspect-square border-2 border-dashed border-green-300 dark:border-green-800 bg-green-50 dark:bg-green-900/10 rounded hover:bg-green-100 dark:hover:bg-green-900/20 transition-colors group"
+            className="cursor-pointer w-20 h-20 border border-dashed border-gray-300 dark:border-gray-600 flex flex-col items-center justify-center gap-1 bg-gray-50 dark:bg-gray-800 shrink-0"
           >
-            <div className="text-center">
-              <FontAwesomeIcon
-                icon={faPlus}
-                className="text-green-500 text-2xl mb-2"
-              />
-              <p className="text-xs text-green-600 dark:text-green-400 font-medium">
-                Thêm
-              </p>
-            </div>
+            <FontAwesomeIcon
+              icon={faPlus}
+              className="text-gray-400 dark:text-gray-500 text-sm"
+            />
+            <span className="text-[10px] text-gray-400 dark:text-gray-500">
+              Thêm ảnh
+            </span>
           </label>
+
           <input
             type="file"
             id="details-input"
@@ -153,10 +125,6 @@ export default function EditImageSection() {
             className="hidden"
           />
         </div>
-        <p className="text-xs text-gray-600 dark:text-gray-400 mt-4">
-          Bạn có thể thêm nhiều ảnh để hiển thị chi tiết sản phẩm từ các góc độ
-          khác nhau
-        </p>
       </div>
     </SectionCard>
   );

@@ -14,7 +14,7 @@ import {
   ProductFindOneOptions,
   RelatedsOptions,
   SortProducts,
-} from './interfaces/query.interface';
+} from '../interfaces/query.interface';
 import {
   ResetStockWhenCancelOrderParams,
   UpdateStockPayload,
@@ -23,6 +23,10 @@ import {
 @Injectable()
 export class ProductRepository {
   constructor(@InjectModel('Product') private readonly model: Model<Product>) {}
+
+  async create(payload: Product) {
+    return await this.model.create(payload);
+  }
 
   async findManyByCategory(
     categoryId: string,
@@ -211,9 +215,5 @@ export class ProductRepository {
         $inc: { 'variants.$.stock': stockDiscounted },
       },
     );
-  }
-
-  getModel(): Model<Product> {
-    return this.model;
   }
 }
