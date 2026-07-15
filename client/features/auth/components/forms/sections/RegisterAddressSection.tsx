@@ -1,166 +1,129 @@
-import React from "react";
+import { Provinces, Wards } from "@/features/common/services/address.service";
+import { CreateUserAddress } from "@/features/user/interfaces/create.interface";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  UseFieldArrayReturn,
-  UseFormSetValue,
+  FieldArrayWithId,
+  UseFieldArrayAppend,
+  UseFieldArrayRemove,
+  UseFormRegister,
   UseFormWatch,
 } from "react-hook-form";
-import { RegisterUserAccountRequest } from "@/interfaces";
-import { Provinces, Wards } from "@/features/common/services/address.service";
 
 interface SectionProps {
-  addressFields: UseFieldArrayReturn<
+  fields: FieldArrayWithId<
     {
-      data: RegisterUserAccountRequest;
+      data: CreateUserAddress[];
     },
-    "data.address",
+    "data",
     "id"
+  >[];
+  register: UseFormRegister<{ data: CreateUserAddress[] }>;
+  append: UseFieldArrayAppend<
+    {
+      data: CreateUserAddress[];
+    },
+    "data"
   >;
-  addressApi: {
-    wards: Wards;
-    provinces: Provinces;
-  };
-  setValue: UseFormSetValue<{ data: RegisterUserAccountRequest }>;
-  watch: UseFormWatch<{ data: RegisterUserAccountRequest }>;
+  remove: UseFieldArrayRemove;
+  provinces: Provinces;
+  wards: Wards;
+  watch: UseFormWatch<{
+    data: CreateUserAddress[];
+  }>;
 }
 
 export default function RegisterAddressSection({
-  addressFields,
-  addressApi,
-  setValue,
+  register,
+  fields,
+  append,
+  remove,
+  wards,
+  provinces,
   watch,
 }: SectionProps) {
-  const { provinces, wards } = addressApi;
-  const { fields, remove, append } = addressFields;
+  const wardListByProvinceName = (name: string) => {
+    const province = provinces.find((f) => f.name === name);
+    console.log(name);
+    if (!province) return [];
+    const provinceCode = province.code;
+    return wards.filter((ft) => ft.province_code == provinceCode);
+  };
   return (
     <div>
       <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-        <span className="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
-          3
-        </span>
-        Địa Chỉ
+        Thông Tin Địa Chỉ
       </h2>
-      <div className="space-y-4">
-        {fields.map((address, index) => (
-          <div
-            key={address.id}
-            className="p-4 border border-gray-200 rounded-lg space-y-4"
-          >
-            <div className="flex justify-between items-center mb-2">
-              <label className="text-sm font-medium text-gray-700">
-                Địa Chỉ {index + 1}
+      <div className="space-y-4 flex flex-col gap-3">
+        {fields.map((field, index) => (
+          <div key={field.id} className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 text-(--muted)">
+              <label
+                htmlFor={`provinces${index}`}
+                className="font-semibold text-sm"
+              >
+                Tỉnh / Thành Phố
               </label>
-              {index > 0 && (
-                <button
-                  onClick={() => remove(index)}
-                  type="button"
-                  className="text-red-500 hover:text-red-600 flex items-center gap-1"
-                  title="Xóa địa chỉ"
-                >
-                  <i className="fas fa-trash text-sm"></i>
-                  Xóa
-                </button>
-              )}
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label
-                  className="text-sm font-medium text-gray-600 mb-2"
-                  htmlFor={`province-${index}`}
-                >
-                  Tỉnh/Thành Phố <span className="text-red-500">*</span>
-                </label>
-                <select
-                  name="province"
-                  id={`province-${index}`}
-                  value={watch(`data.address.${index}.province`)}
-                  onChange={(e) =>
-                    setValue(`data.address.${index}.province`, e.target.value)
-                  }
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition bg-white cursor-pointer"
-                >
-                  <option value="">-- Chọn Tỉnh/Thành Phố --</option>
-                  {provinces.map((province) => (
-                    <option key={province.code} value={province.name}>
-                      {province.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="flex flex-col">
-                <label
-                  className="text-sm font-medium text-gray-600 mb-2"
-                  htmlFor={`ward-${index}`}
-                >
-                  Quận/Huyện <span className="text-red-500">*</span>
-                </label>
-                <select
-                  name="ward"
-                  value={watch(`data.address.${index}.ward`)}
-                  id={`ward-${index}`}
-                  onChange={(e) =>
-                    setValue(`data.address.${index}.ward`, e.target.value)
-                  }
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition bg-white cursor-pointer"
-                >
-                  <option value="">
-                    {watch(`data.address.${index}.province`)
-                      ? "--Chọn Quận/Huyện--"
-                      : "--Vui lòng chọn Tỉnh/Thành phố trước"}
+              <select
+                id={`provinces${index}`}
+                {...register(`data.${index}.province`)}
+                className="border-(--border) p-2 rounded outline-0 text-center border"
+              >
+                <option value="">--- Tỉnh/Thành Phố---</option>
+                {provinces.map((province) => (
+                  <option value={province.name} key={province.code}>
+                    {province.name}
                   </option>
-                  {watch(`data.address.${index}.province`) &&
-                    wards
-                      .filter(
-                        (w) =>
-                          w.province_code ===
-                          provinces.find(
-                            (f) =>
-                              f.name ===
-                              watch(`data.address.${index}.province`),
-                          )!.code,
-                      )
-                      .map((ward) => (
-                        <option key={ward.code} value={ward.name}>
-                          {ward.name}
-                        </option>
-                      ))}
-                </select>
-              </div>
+                ))}
+              </select>
             </div>
-
-            <div className="flex flex-col">
-              <label className="text-sm font-medium text-gray-600 mb-2">
-                Địa Chỉ Chi Tiết <span className="text-red-500">*</span>
+            <div className="flex flex-col gap-3 text-(--muted)">
+              <label
+                htmlFor={`wards${index}`}
+                className="font-semibold text-sm"
+              >
+                Quận / Huyện
+              </label>
+              <select
+                {...register(`data.${index}.ward`)}
+                id={`wards${index}`}
+                className="border-(--border) p-2 rounded outline-0 text-center border"
+              >
+                <option value="">--- Quận / Huyện---</option>
+                {wardListByProvinceName(watch(`data.${index}.province`)).map(
+                  (ward) => (
+                    <option value={ward.name} key={ward.code}>
+                      {ward.name}
+                    </option>
+                  ),
+                )}
+              </select>
+            </div>
+            <div className="flex flex-col gap-3 text-(--muted)">
+              <label className="font-semibold text-sm" htmlFor="addressDetail">
+                Địa chỉ chi tiết
               </label>
               <input
+                id="addressDetail"
+                className="border border-(--border) rounded p-2 text-(--muted)"
                 type="text"
-                onChange={(e) =>
-                  setValue(
-                    `data.address.${index}.addressDetail`,
-                    e.target.value,
-                  )
-                }
-                name="addressDetail"
-                value={watch(`data.address.${index}.addressDetail`)}
-                placeholder="VD: 123 Đường Abc, Phường Xyz"
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition"
+                {...register(`data.${index}.addressDetail`)}
               />
             </div>
           </div>
         ))}
-
-        {fields.length < 3 && (
+        <div className="">
           <button
+            className="flex items-center gap-3"
             type="button"
             onClick={() =>
-              append({ province: "", ward: "", addressDetail: "" })
+              append({ addressDetail: "", province: "", ward: "" })
             }
-            className="flex items-center gap-2 text-orange-500 hover:text-orange-600 font-medium py-2 px-3 rounded-lg hover:bg-orange-50 transition"
           >
-            <i className="fas fa-plus text-lg"></i>
-            Thêm Địa Chỉ
+            Thêm địa chỉ
+            <FontAwesomeIcon icon={faPlus} />
           </button>
-        )}
+        </div>
       </div>
     </div>
   );

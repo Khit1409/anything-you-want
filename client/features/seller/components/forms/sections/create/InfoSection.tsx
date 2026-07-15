@@ -7,7 +7,7 @@ export default function InfoSection() {
 
   return (
     <SectionCard title="Thông tin sản phẩm">
-      <FormField label={"Tên sản phẩm"}>
+      <FormField label={"Tên sản phẩm"} required>
         <textarea
           {...register(`data.info.name`)}
           id={"name"}
@@ -17,7 +17,7 @@ export default function InfoSection() {
       </FormField>
       <div className="grid grid-cols-2 gap-3 my-5">
         {createProductInfoFormData.map((form) => (
-          <FormField key={form.id} label={form.title}>
+          <FormField key={form.id} label={form.title} required={form.required}>
             <input
               {...register(`data.info.${form.name}`)}
               list={`${form.id}-list`}
@@ -36,7 +36,7 @@ export default function InfoSection() {
           </FormField>
         ))}
       </div>
-      <FormField label={"Mô tả sản phẩm"}>
+      <FormField label={"Mô tả sản phẩm"} required>
         <textarea
           {...register(`data.info.description`)}
           id={"description"}

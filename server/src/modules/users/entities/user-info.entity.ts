@@ -22,7 +22,7 @@ export class UserInfo {
   fullName: string;
 
   @Column({ type: 'text', nullable: true })
-  avatar: string;
+  avatar: string | null;
 
   @Column({
     name: 'date_of_birth',

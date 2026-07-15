@@ -13,7 +13,7 @@ import { SectionCard } from "../../components";
 export default function ImageSection() {
   const { watch, setValue, handleLoading } = useCreateProductContext();
   const thumbnail = watch("data.images.thumbnail");
-  const details = watch("data.images.details") ?? ["ok"];
+  const details = watch("data.images.details") ?? [];
 
   return (
     <SectionCard title="Ảnh sản phẩm" description="Tải ảnh bìa và ảnh chi tiết">

@@ -10,6 +10,10 @@ import { UserRepository } from './repositories/users.repository';
 import { ReadUserService } from './services/read.service';
 import { SharedUserService } from './services/shared.service';
 import { CreateUserService } from './services/create.service';
+import { HelperUserService } from './services/helper.service';
+import { UserInfoRepository } from './repositories/user-info.repository';
+import { UserPhoneRepository } from './repositories/user-phone.repository';
+import { UserAddressRepository } from './repositories/user-address.repository';
 
 @Module({
   imports: [
@@ -22,12 +26,20 @@ import { CreateUserService } from './services/create.service';
     SharedUserService,
     CreateUserService,
     UserRepository,
+    HelperUserService,
+    UserInfoRepository,
+    UserPhoneRepository,
+    UserAddressRepository,
   ],
   exports: [
     TypeOrmModule,
     ReadUserService,
     SharedUserService,
     CreateUserService,
+    HelperUserService,
+    UserInfoRepository,
+    UserPhoneRepository,
+    UserAddressRepository,
   ],
 })
 export class UserModule {}

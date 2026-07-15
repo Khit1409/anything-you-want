@@ -2,10 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ProductRepository } from '../repositories/products.repository';
 import { ProductQueryDto } from '../dtos';
 import { HelperProductService } from './helper.service';
-import {
-  ProductFindOneOptions,
-  RelatedsOptions,
-} from '../interfaces/query.interface';
+import { RelatedsOptions, SearchProducts } from '../interfaces/query.interface';
 import { SharedStoreService } from '../../stores/services/shared.service';
 import { FormatQueryParams } from '../interfaces/helper.interface';
 import { ProductStatus } from '../schemas/products.schema';
@@ -59,7 +56,9 @@ export class ReadProductService {
   }
 
   async detail(productId: string) {
-    const product = await this.repository.getOneById(productId);
+    const search = { _id: productId };
+    const select = '-owner';
+    const product = await this.repository.getOne(search, select);
     return this.helperService.checkValue(product, 'Sản phẩm không tồn tại!');
   }
 
@@ -77,7 +76,10 @@ export class ReadProductService {
   }
 
   async detailForSeller(productId: string, sellerId: string) {
-    const search = this.productHelper.formatSearchDetail(productId, sellerId);
+    const search: SearchProducts = {
+      _id: productId,
+      'owner.sellerId': sellerId,
+    };
     const productDoc = await this.repository.getOneBySeller(search);
     const product = this.helperService.checkValue(
       productDoc,
@@ -97,7 +99,7 @@ export class ReadProductService {
 
   async getForOrder(productId: string) {
     const select = 'info variants classifications shipping owner';
-    const search: ProductFindOneOptions = { _id: productId };
+    const search: SearchProducts = { _id: productId };
     const productDoc = await this.repository.getOne(search, select);
     const product = this.helperService.checkValue(
       productDoc,

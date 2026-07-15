@@ -1,6 +1,7 @@
 import { SHIPPING_INPUT_LIST } from "@/shared/data/shiping-input";
 import { useCreateProductContext } from "@/features/seller/contexts/CreateProductContext";
 import { SectionCard, FormField } from "../../components";
+import { generagetShipping } from "@/features/common/helpers/enum-type.helper";
 
 export default function ShippingSection() {
   const { watch, provinces, setValue } = useCreateProductContext();
@@ -21,7 +22,10 @@ export default function ShippingSection() {
             }`}
             key={index}
           >
-            <div className="flex items-center gap-3 mb-4">
+            <FormField
+              label={generagetShipping(method.type)}
+              required={method.enabled}
+            >
               <input
                 type="checkbox"
                 id={`shipping-${index}`}
@@ -35,13 +39,7 @@ export default function ShippingSection() {
                 className="w-5 h-5 cursor-pointer"
                 checked={method.enabled}
               />
-              <label
-                htmlFor={`shipping-${index}`}
-                className="text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer"
-              >
-                {method.type}
-              </label>
-            </div>
+            </FormField>
 
             {method.enabled && (
               <div className="space-y-4 pl-8 border-l-2 border-blue-200 dark:border-blue-800">
@@ -53,6 +51,7 @@ export default function ShippingSection() {
                       <FormField
                         key={inputChild.id}
                         label={`${inputChild.label} (${inputChild.min}-${inputChild.max})`}
+                        required
                       >
                         <input
                           type={inputChild.type}

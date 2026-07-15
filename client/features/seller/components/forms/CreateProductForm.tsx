@@ -9,10 +9,15 @@ import ClassificationSection from "./sections/create/ClassificationSection";
 import ActionSection from "./sections/create/ActionSection";
 import { useCreateProductContext } from "@/sellerContexts/CreateProductContext";
 import { FormLayout } from "./components";
+import { SectionShowDataLoading } from "@/features/common/components";
 
 export default function CreateProductForm() {
-  const { handleSubmit, submitCreate } = useCreateProductContext();
+  const { handleSubmit, submitCreate, isLoading } = useCreateProductContext();
 
+  if (isLoading) {
+    return <SectionShowDataLoading />;
+  }
+  
   return (
     <FormLayout
       title="Tạo sản phẩm mới"

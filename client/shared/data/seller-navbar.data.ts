@@ -83,11 +83,6 @@ export const SELLER_NAV: SellerNavType = [
     icon: "cartShopping",
     childs: [
       {
-        name: "Đơn hàng mới",
-        url: "new",
-        icon: "bagShopping",
-      },
-      {
         name: "Danh sách đơn hàng",
         url: "",
         icon: "receipt",
@@ -98,17 +93,17 @@ export const SELLER_NAV: SellerNavType = [
   {
     id: "6",
     category: "Giao Dịch",
-    url: "",
+    url: "payments",
     icon: "moneyBill",
     childs: [
       {
         name: "Ngân hàng",
-        url: "/seller/setting/security",
+        url: "bank",
         icon: "buildingColumns",
       },
       {
         name: "Momo",
-        url: "/seller/setting/security",
+        url: "momo",
         img: "/assets/images/momo.png",
       },
     ],
@@ -121,7 +116,7 @@ export const SELLER_NAV: SellerNavType = [
     childs: [
       {
         name: "Bảo mật",
-        url: "/seller/setting/security",
+        url: "/setting/security",
         icon: "shieldHalved",
       },
     ],

@@ -26,7 +26,7 @@ export default function ClassificationSection() {
             key={cls.id}
           >
             <div className="flex justify-between items-start mb-4 relative">
-              <FormField label="Tên phân loại">
+              <FormField label="Tên phân loại" required>
                 <input
                   type="text"
                   {...register(`data.classifications.${clsIndex}.name`)}

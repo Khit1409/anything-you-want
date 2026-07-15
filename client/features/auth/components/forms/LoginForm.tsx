@@ -47,10 +47,10 @@ export default function LoginForm() {
             setValue,
           }}
           classNameConfig={{
-            divClass: "w-full mb-5",
+            divClass: "w-full mb-5 flex flex-col gap-3",
             inputClass:
               "border border-(--border) p-3 rounded-full w-full outline-none bg-(--surface) focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all duration-200",
-            labelClass: "",
+            labelClass: "text-(--muted)",
           }}
           name="data.emailAddress"
           type="email"
@@ -64,10 +64,10 @@ export default function LoginForm() {
             setValue,
           }}
           classNameConfig={{
-            divClass: "w-full mb-5",
+            divClass: "w-full mb-5 flex flex-col gap-3",
             inputClass:
               "border border-(--border) p-3 rounded-full w-full outline-none bg-(--surface) focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all duration-200",
-            labelClass: "",
+            labelClass: "text-(--muted)",
           }}
           name="data.currentPassword"
           type="password"

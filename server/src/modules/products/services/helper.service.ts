@@ -4,11 +4,7 @@ import { ShippingMethod } from '../schemas/product-shipping.schema';
 import { ProductVariant } from '../schemas/product-variant.schema';
 import { ProductClassification } from '../schemas/product-classification.schema';
 import { HelperService } from '../../common/services/helper.service';
-import {
-  ProductFindOneOptions,
-  SearchProducts,
-  SortProducts,
-} from '../interfaces/query.interface';
+import { SearchProducts, SortProducts } from '../interfaces/query.interface';
 import { FormatQueryParams } from '../interfaces/helper.interface';
 
 @Injectable()
@@ -25,12 +21,6 @@ export class HelperProductService {
       );
     }
     return value;
-  }
-
-  formatSearchDetail(id: string, sellerId?: string) {
-    const search: ProductFindOneOptions = { _id: id };
-    if (sellerId) search['owner.sellerId'] = sellerId;
-    return search;
   }
 
   formatQuery(params: FormatQueryParams) {

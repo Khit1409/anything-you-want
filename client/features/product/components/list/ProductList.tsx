@@ -1,7 +1,7 @@
 "use client";
 import NotFoundProduct from "../common/NotFoundProduct";
 import { SectionShowDataLoading } from "@/features/common/components";
-import ProductCard from "../common/ProductCard";
+import ProductCard from "./ProductCard";
 import { useProductListContext } from "../../contexts/ProductListContext";
 
 export default function ProductList() {
@@ -19,7 +19,7 @@ export default function ProductList() {
       ) : (
         <div
           id="product-list"
-          className="grid grid-cols-5 gap-3 mx-auto mb-4"
+          className="grid lg:grid-cols-5 grid-cols-2  gap-3 mx-auto mb-4"
         >
           {products.map((product) => (
             <ProductCard product={product} key={product._id} />

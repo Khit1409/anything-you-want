@@ -1,11 +1,9 @@
-import ProductDescription from "./ProductDescription";
 import { useProductDetailContext } from "../../contexts/ProductDetailContext";
 
 export default function ProductInformation() {
   const { product } = useProductDetailContext();
   if (!product) return null;
-  const { category, description, name, price, sale, brand, origin } =
-    product?.info;
+  const { category, name, price, sale, brand, origin } = product?.info;
 
   const discounted = price - (price * sale) / 100;
   const savedPrice = price - discounted;
@@ -34,12 +32,8 @@ export default function ProductInformation() {
         </div>
       </div>
 
-      <div className="mb-4 text-sm text-(--muted)">
+      <div className="text-sm text-(--muted)">
         Tiết kiệm: {savedPrice.toLocaleString("vi-VN")}₫
-      </div>
-
-      <div className="pt-4 border-t border-(--border)">
-        <ProductDescription description={description} />
       </div>
     </div>
   );

@@ -43,7 +43,7 @@ export default function ClassificationValuesSection({
               >
                 Xóa
               </button>
-              <FormField label="Tên giá trị">
+              <FormField label="Tên giá trị" required>
                 <input
                   type="text"
                   id={`name-index-${index}`}

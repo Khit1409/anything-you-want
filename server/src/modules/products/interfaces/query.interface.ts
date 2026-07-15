@@ -1,19 +1,7 @@
-export interface SearchProducts {
-  'owner.sellerId'?: string;
-  'info.category.id'?: string | undefined;
-  'info.price'?:
-    | {
-        $lte: number;
-        $gte: number;
-      }
-    | undefined;
-  'info.sale'?:
-    | {
-        $lte: number;
-        $gte: number;
-      }
-    | undefined;
-}
+import { RootFilterQuery } from 'mongoose';
+import { Product } from '../schemas/products.schema';
+
+export type SearchProducts = RootFilterQuery<Product>;
 
 export type SortProducts = {
   limit: number;
@@ -24,11 +12,6 @@ export type SortProducts = {
 export interface FilterProducts {
   sort: SortProducts;
   search: SearchProducts;
-}
-
-export interface ProductFindOneOptions {
-  'owner.sellerId'?: string;
-  _id: string;
 }
 
 export type RelatedsOptions = {

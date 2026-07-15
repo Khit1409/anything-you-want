@@ -1,7 +1,7 @@
 import { useProductBestSellerContext } from "../../contexts/ProductBestSellerContext";
 import { SectionShowDataLoading } from "@/features/common/components";
 import NotFoundProduct from "../common/NotFoundProduct";
-import ProductCard from "../common/ProductCard";
+import ProductCard from "./ProductCard";
 
 export default function BestSellerList() {
   const { products, isLoading } = useProductBestSellerContext();

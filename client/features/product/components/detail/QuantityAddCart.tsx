@@ -9,7 +9,7 @@ export default function QuantityAddCart() {
       <small className="text-(--text)">
         {maxQuantity() && `Giới hạn : ${maxQuantity()}`}
       </small>
-      <div className="flex items-center border border-(--border) rounded">
+      <div className="flex items-center border border-(--border) rounded text-(--muted)">
         <button
           className="px-3 py-2 hover:bg-(--surface-muted)"
           onClick={() => setQuantity(Math.max(1, quantity - 1))}

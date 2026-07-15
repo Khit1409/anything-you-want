@@ -1,4 +1,4 @@
-import { ProductClassificationValue as ValueType } from "@/features/product/interfaces/product.interface";
+import { ProductClassificationValue as ValueType } from "@/productInterfaces/read.interface";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";

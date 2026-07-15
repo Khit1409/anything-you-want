@@ -1,35 +1,25 @@
 import { axiosClient } from "@/lib/configs/axios.config";
 import { AuthenticationResponse } from "@/features/auth/interfaces/auth.interface";
-import axios from "axios";
-import { Role } from "@/features/common/interfaces/common.interface";
+import axios, { isAxiosError } from "axios";
+import {
+  ApiResponse,
+  Role,
+} from "@/features/common/interfaces/common.interface";
+import { CreateUserSecurity } from "@/features/user/interfaces/create.interface";
 
-/**
- * API liên quan tới xác thực (login / logout / kiểm tra token)
- * Các hàm ở đây gọi `axiosClient` tới các endpoint tương ứng trên server.
- */
-
-/**
- * Dữ liệu gửi lên khi đăng nhập.
- */
 export interface LoginRequest {
   emailAddress: string;
   currentPassword: string;
   loginRole: Role;
 }
 export type LoginDataResponse = { role: Role };
-/**
- * Kiểu dữ liệu phản hồi khi gọi API login.
- */
+
 export interface LoginResponse {
   message: string;
   success: boolean;
   data?: LoginDataResponse;
 }
 
-/**
- * Gọi API `POST /auth/login` để xác thực user.
- * Trả về `LoginResponse` chứa thông tin kết quả và role nếu thành công.
- */
 export async function loginService({
   currentPassword,
   emailAddress,
@@ -53,10 +43,7 @@ export async function loginService({
     };
   }
 }
-/**
- * Kiểm tra token hiện tại, gọi `GET /auth/me` để lấy thông tin xác thực.
- * Trả về `AuthenticationResponse` từ server (bao gồm `data` nếu token hợp lệ).
- */
+
 export async function authService(): Promise<AuthenticationResponse> {
   try {
     const res = await axiosClient.get(`/auth/me`);
@@ -67,30 +54,23 @@ export async function authService(): Promise<AuthenticationResponse> {
       return {
         message: error.response?.data.message,
         success: false,
-        data: null,
         timestamp: new Date().toLocaleDateString("vi-VN"),
       };
     }
     return {
       message: "SERVER_ERROR",
       success: false,
-      data: null,
       timestamp: new Date().toLocaleDateString("vi-VN"),
     };
   }
 }
-/**
- * Phản hồi từ API khi logout.
- */
+
 export interface LogoutResponse {
   message: string;
   success: boolean;
   timestamp: string | Date;
 }
-/**
- * Gọi API `POST /auth/logout` để đăng xuất.
- * Nếu server trả về success=false sẽ ném lỗi, hàm luôn trả về `LogoutResponse`.
- */
+
 export async function logoutService(): Promise<LogoutResponse> {
   try {
     const res = await axiosClient.post("/auth/logout");
@@ -115,6 +95,25 @@ export async function logoutService(): Promise<LogoutResponse> {
       message: "Unknow error",
       success: false,
       timestamp: new Date().toLocaleDateString(),
+    };
+  }
+}
+
+export async function registerUserService(body: CreateUserSecurity) {
+  try {
+    const res = await axiosClient.post<ApiResponse>("/auth/register/user", {
+      ...body,
+    });
+    const result = res.data;
+    return result;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return error.response?.data as ApiResponse;
+    }
+    return {
+      message: "Lỗi không xác định!",
+      success: false,
+      timestamp: Date.now().toLocaleString("vi-VN"),
     };
   }
 }

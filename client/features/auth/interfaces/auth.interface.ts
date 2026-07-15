@@ -8,7 +8,6 @@ export interface AuthenticationData {
   role: Role;
   email: string;
 }
-
 /**
  * Kiểu phản hồi chung cho các API xác thực (auth).
  */

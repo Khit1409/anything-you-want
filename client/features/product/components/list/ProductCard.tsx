@@ -6,7 +6,7 @@ import Info from "../list/Info";
 
 export default function ProductCard({ product }: { product: ProductPreview }) {
   return (
-    <div className="flex flex-col gap-3 border border-(--border)">
+    <div className="flex flex-col gap-1 border border-(--border)">
       <Thumbnail
         name={product.info.name}
         thumbnail={product.images.thumbnail}

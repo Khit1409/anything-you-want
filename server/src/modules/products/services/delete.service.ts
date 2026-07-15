@@ -5,21 +5,20 @@ import {
 } from '@nestjs/common';
 import { ProductRepository } from '../repositories/products.repository';
 import { HelperService } from '../../common/services/helper.service';
-import { HelperProductService } from './helper.service';
+import { SearchProducts } from '../interfaces/query.interface';
 
 @Injectable()
 export class DeleteProductService {
   constructor(
     private readonly repository: ProductRepository,
     private readonly helperService: HelperService,
-    private readonly helperProductService: HelperProductService,
   ) {}
 
   async deleteById(productId: string, sellerId: string) {
-    const search = this.helperProductService.formatSearchDetail(
-      productId,
-      sellerId,
-    );
+    const search: SearchProducts = {
+      _id: productId,
+      'owner.sellerId': sellerId,
+    };
     const existing = await this.repository.findOne(search);
     if (!existing) {
       throw new BadRequestException(

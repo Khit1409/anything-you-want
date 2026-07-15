@@ -17,7 +17,7 @@ import { HelperService } from '@/common/services/helper.service';
 import { AuthService } from '../services/auth.service';
 import { CreateUserService } from '../../users/services/create.service';
 import { CreateSellerService } from '../../sellers/services/create.service';
-import { RegisterUserAccountRequestDto } from '../../users/dtos/register.dto';
+import { CreateUserDto } from '../../users/dtos/register.dto';
 import { CreateSellerDto } from '../../sellers/dtos';
 import { Public } from '@/shared/decorators/public-api-url.decorator';
 import { Role } from '@/shared/enums/roles.enum';
@@ -38,18 +38,18 @@ export class AuthController {
   @HttpCode(200)
   @Post('register/:role')
   async register(
-    @Body() dto: RegisterUserAccountRequestDto | CreateSellerDto,
+    @Body() dto: CreateUserDto | CreateSellerDto,
     @Param('role') role: Role,
+    @Res({ passthrough: true }) res: Response,
   ) {
     if (role === Role.USER) {
-      const data = dto as RegisterUserAccountRequestDto;
-      const result = await this.createUserService.create(data);
-
-      return this.helperService.responseConfig({
-        message: result
-          ? 'Đăng ký tài khoản người dùng thành công!'
-          : 'Đăng ký tài khoản người dùng thất bại!',
-        success: result,
+      const data = dto as CreateUserDto;
+      const { accessToken, refreshToken } =
+        await this.createUserService.createUser(role, data);
+      res.cookie('access_token', accessToken, authCookieConfig);
+      res.cookie('refresh_token', refreshToken, authCookieConfig);
+      return this.helperService.successResponse({
+        message: 'Đăng ký tài thành công, vui lòng thực hiện bước tiếp theo!',
       });
     }
     const data = dto as CreateSellerDto;

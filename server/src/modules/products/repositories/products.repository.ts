@@ -11,8 +11,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ProductVariant } from '../schemas/product-variant.schema';
 import {
   FilterProducts,
-  ProductFindOneOptions,
   RelatedsOptions,
+  SearchProducts,
   SortProducts,
 } from '../interfaces/query.interface';
 import {
@@ -39,7 +39,7 @@ export class ProductRepository {
   }
 
   async findOne(
-    search: ProductFindOneOptions,
+    search: SearchProducts,
   ): Promise<HydratedDocument<Product> | null> {
     return await this.model.findOne(search);
   }
@@ -71,9 +71,9 @@ export class ProductRepository {
       .lean();
   }
 
-  async getOne(search: ProductFindOneOptions, select: string) {
+  async getOne(search: SearchProducts, select?: string) {
     return await this.model
-      .findOne({ ...search })
+      .findOne(search)
       .select(select ?? {})
       .lean();
   }
@@ -92,7 +92,7 @@ export class ProductRepository {
       .lean();
   }
 
-  async getOneBySeller(search: ProductFindOneOptions) {
+  async getOneBySeller(search: SearchProducts) {
     return await this.model.findOne(search).lean();
   }
 

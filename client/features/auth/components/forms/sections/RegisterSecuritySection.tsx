@@ -1,31 +1,37 @@
-import RegisterInput from "../../ui/RegisterInput";
+import { CreateUserSecurity } from "@/features/user/interfaces/create.interface";
+import { UseFormRegister } from "react-hook-form";
 
-export default function RegisterSecuritySection() {
+export default function RegisterSecuritySection({
+  register,
+}: {
+  register: UseFormRegister<{ data: CreateUserSecurity }>;
+}) {
   return (
     <div>
       <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-        <span className="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
-          4
-        </span>
         Bảo mật
       </h2>
       <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <RegisterInput
-            elementProps={{
-              label: "Mật khẩu",
-              type: "password",
-              name: "data.currentPassword",
-              value: "",
-            }}
+        <div className="flex flex-col gap-3 text-(--muted)">
+          <label className="font-semibold text-sm" htmlFor="emailAddress">
+            Địa chỉ email
+          </label>
+          <input
+            id="emailAddress"
+            className="border border-(--border) rounded p-2 text-(--muted)"
+            type="email"
+            {...register("data.emailAddress")}
           />
-          <RegisterInput
-            elementProps={{
-              label: "Nhập lại mật khẩu",
-              type: "password",
-              name: "data.currentPassword",
-              value: "",
-            }}
+        </div>
+        <div className="flex flex-col gap-3 text-(--muted)">
+          <label className="font-semibold text-sm" htmlFor="currentPassword">
+            Mật khẩu
+          </label>
+          <input
+            id="currentPassword"
+            className="border border-(--border) rounded p-2 text-(--muted)"
+            type="password"
+            {...register("data.currentPassword")}
           />
         </div>
       </div>

@@ -9,7 +9,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { closeModal } from "../redux/common.slice";
 
-
 export default function AppModal() {
   const { modalState } = useAppSelector((state) => state.common);
   const dispatch = useAppDispatch();
@@ -72,7 +71,7 @@ export default function AppModal() {
             onClick={() => dispatch(closeModal())}
             className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
           >
-            Hủy
+            Xác nhận
           </button>
           {handle && (
             <button

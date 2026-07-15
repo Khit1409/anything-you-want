@@ -1,14 +1,13 @@
-import { Type } from 'class-transformer';
 import {
-  IsArray,
   IsDateString,
+  IsEmail,
   IsNotEmpty,
   IsString,
   Length,
-  ValidateNested,
+  ValidateIf,
 } from 'class-validator';
 
-export class RegisterUserAccountAddress {
+export class CreateUserAddressDto {
   @IsString()
   province!: string;
   @IsString()
@@ -17,19 +16,20 @@ export class RegisterUserAccountAddress {
   addressDetail!: string;
 }
 
-export class RegisterUserAccountPhone {
+export class CreateUserPhoneDto {
   @IsString()
   @Length(10)
   phoneNumber!: string;
 }
 
-export class RegisterUserAccountRequestDto {
+export class CreateUserDto {
+  @IsEmail()
+  emailAddress: string;
   @IsString()
-  @IsNotEmpty()
-  emailAddress!: string;
-  @IsString()
-  @IsNotEmpty()
-  currentPassword!: string;
+  currentPassword: string;
+}
+
+export class CreateUserInfoDto {
   @IsString()
   @IsNotEmpty()
   lastName!: string;
@@ -42,12 +42,7 @@ export class RegisterUserAccountRequestDto {
   @IsDateString()
   @IsNotEmpty()
   dateOfBirth!: string;
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => RegisterUserAccountAddress)
-  address!: Array<RegisterUserAccountAddress>;
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => RegisterUserAccountPhone)
-  phones!: Array<RegisterUserAccountPhone>;
+  @ValidateIf((_, value) => value !== null)
+  @IsString()
+  avatar: string | null = null;
 }

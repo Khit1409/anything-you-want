@@ -4,17 +4,10 @@ import StatusBadge from "./StatusBadge";
 import EmptyProducts from "./EmptyProducts";
 import { SectionShowDataLoading } from "@/features/common/components";
 import { useManagerProductListContext } from "../../contexts/ManagerProductListContext";
-import { useEffect } from "react";
 
 export default function ProductListTable() {
   const { isLoading, products, isEmpty, isShow, deleteHandle } =
     useManagerProductListContext();
-
-  useEffect(() => {
-    console.log("table rerender", products);
-  }, [products]);
-
-  console.log("components", products);
 
   return (
     <div className="w-full overflow-x-auto my-3 border border-(--border) rounded">
@@ -108,8 +101,8 @@ export default function ProductListTable() {
         {!isEmpty && (
           <tfoot>
             <tr className="border-t border-gray-200 bg-gray-50 text-left text-xs text-gray-500 uppercase tracking-wide">
-              <td className="px-4 py-3 font-medium">
-                <span>Tổng sản phẩm: {products.length}</span>
+              <td className="px-4 py-3 w-full font-medium">
+                Tổng sản phẩm: {products.length}
               </td>
             </tr>
           </tfoot>

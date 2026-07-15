@@ -50,3 +50,8 @@ export async function getWards(): Promise<Wards> {
     throw error;
   }
 }
+
+export async function getAddressApi() {
+  const [provinces, wards] = await Promise.all([getProvinces(), getWards()]);
+  return { provinces, wards };
+}

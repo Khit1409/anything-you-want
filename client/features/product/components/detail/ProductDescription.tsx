@@ -13,7 +13,7 @@ export default function ProductDescription({ description }: Props) {
         <h3 className="text-(--title) font-semibold">Mô tả sản phẩm</h3>
       </div>
 
-      <div className="text-(--text) leading-relaxed prose prose-sm max-w-none">
+      <div className="text-(--text) leading-relaxed prose prose-sm max-w-none text-sm">
         <p>{description}</p>
       </div>
     </section>

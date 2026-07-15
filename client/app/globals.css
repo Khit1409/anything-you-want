@@ -37,6 +37,10 @@
   /* softer purple */
 }
 
+::-webkit-scrollbar {
+  width: 8px;
+}
+
 body {
   font-family: var(--font-family);
   font-optical-sizing: auto;

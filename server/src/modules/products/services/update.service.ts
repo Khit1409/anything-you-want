@@ -28,6 +28,7 @@ import {
 } from '../interfaces/update.interface';
 import { ShippingMethod } from '../schemas/product-shipping.schema';
 import { ProductStatus } from '../schemas/products.schema';
+import { SearchProducts } from '../interfaces/query.interface';
 
 @Injectable()
 export class UpdateProductService {
@@ -137,10 +138,10 @@ export class UpdateProductService {
     productId: string,
     status: ProductStatus,
   ) {
-    const search = this.helperProductService.formatSearchDetail(
-      productId,
-      sellerId,
-    );
+    const search: SearchProducts = {
+      _id: productId,
+      'owner.sellerId': sellerId,
+    };
     const productDoc = await this.repository.findOne(search);
     const product = this.helperService.checkValue(productDoc);
     const isZero = product.variants.every((vari) => vari.stock === 0);
@@ -154,7 +155,10 @@ export class UpdateProductService {
   }
 
   async update(dto: UpdateProductDto, id: string, sellerId: string) {
-    const search = this.helperProductService.formatSearchDetail(id, sellerId);
+    const search: SearchProducts = {
+      _id: id,
+      'owner.sellerId': sellerId,
+    };
     const productDoc = await this.repository.findOne(search);
     const product = this.helperProductService.checkExistingValue(
       productDoc,

@@ -13,16 +13,19 @@ import {
   faUser,
   faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import useLogout from "@/features/auth/hooks/useLogout";
-import useTheme from "@/features/common/hooks/useTheme";
-import { useAppSelector } from "@/shared/redux/selector";
+import useNavbar from "../../hooks/useNavbar";
 
 export default function Navbar() {
-  const { isLoggedIn, authData } = useAppSelector((state) => state.auth);
-  const { handleLogout } = useLogout();
-  const { changeTheme, themeButtonIcon, themeButtonTitle } = useTheme();
-
-  console.log(authData);
+  const {
+    isLoggedIn,
+    authData,
+    handleLogout,
+    changeTheme,
+    themeButtonTitle,
+    themeButtonIcon,
+    openResponsive,
+    openResponsiveNav,
+  } = useNavbar();
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-(--border) bg-(--surface)">
@@ -103,11 +106,27 @@ export default function Navbar() {
             </Link>
           )}
 
-          <button className="lg:hidden w-9 h-9 flex items-center justify-center rounded-md text-(--text) hover:bg-(--border)/40 transition-colors duration-150">
+          <button
+            onClick={() => openResponsive()}
+            className="lg:hidden w-9 h-9 flex items-center justify-center rounded-md text-(--text) hover:bg-(--border)/40 transition-colors duration-150"
+          >
             <FontAwesomeIcon className="text-[16px]" icon={faBars} />
           </button>
         </div>
       </div>
+      {openResponsiveNav && (
+        <div className="flex flex-col gap-3 p-2 lg:hidden">
+          {NAV_LIST.map((nav) => (
+            <Link
+              key={nav.id}
+              href={nav.url}
+              className="px-4 py-2 rounded-md text-sm font-medium text-(--text) hover:bg-(--border)/40 transition-colors duration-150"
+            >
+              {nav.title}
+            </Link>
+          ))}
+        </div>
+      )}
     </nav>
   );
 }

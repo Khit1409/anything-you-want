@@ -1,14 +1,8 @@
-import { Role } from '@/shared/enums/roles.enum';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthenticationData } from '../../auth/interfaces/response.interface';
 import { HelperService } from './helper.service';
-
-type TokenPayloadType = {
-  uid: string;
-  role: Role;
-  email: string;
-};
+import { TokenPayloadType } from '@/modules/auth/interfaces/token.interface';
 
 @Injectable()
 export class TokenService {
